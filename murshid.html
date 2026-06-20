@@ -1211,22 +1211,6 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   </div>
 </div>
 
-<!-- ═══════════════ API KEY SETUP MODAL ═══════════════ -->
-<div class="api-setup-overlay" id="api-setup-overlay">
-  <div class="api-setup-box">
-    <div class="api-setup-icon">🔑</div>
-    <div class="api-setup-title">فعّل الذكاء الاصطناعي</div>
-    <div class="api-setup-sub">المنصة تستخدم OpenAI API — كل مستخدم يحتاج مفتاحه الخاص لتفعيل ميزات الذكاء الاصطناعي. المفتاح يُحفظ محلياً فقط في متصفحك.</div>
-    <div class="api-setup-steps">
-      <div class="api-step">١. اذهب إلى <span class="api-link" onclick="window.open('https://platform.openai.com/api-keys','_blank')">platform.openai.com/api-keys</span></div>
-      <div class="api-step">٢. أنشئ مفتاحاً جديداً (New secret key)</div>
-      <div class="api-step">٣. الصقه في الحقل أدناه واضغط حفظ</div>
-    </div>
-    <input class="api-setup-inp" id="api-setup-key" type="password" placeholder="sk-proj-..." dir="ltr" autocomplete="off" onkeydown="if(event.key==='Enter')saveApiSetup()">
-    <button class="api-setup-btn" onclick="saveApiSetup()">✅ حفظ وابدأ</button>
-    <button class="api-setup-skip" onclick="skipApiSetup()">تخطّ الآن · يمكنك الإضافة لاحقاً من الإعدادات</button>
-  </div>
-</div>
 
 <!-- NAVBAR -->
 <nav class="navbar" id="main-navbar" style="display:none;">
@@ -1732,14 +1716,6 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   </div>
   <div class="sec-lbl">المظهر</div>
   <div class="setting-group"><div class="setting-row"><span class="setting-lbl">الوضع الليلي</span><button class="theme-toggle" onclick="toggleTheme()" id="theme-btn2" style="margin-right:auto;">🌙</button></div></div>
-  <div class="sec-lbl">مفتاح OpenAI API</div>
-  <div class="setting-group">
-    <div class="setting-row"><span class="setting-lbl">مفتاح API</span><input class="setting-inp" id="set-apikey" type="password" placeholder="sk-proj-..." dir="ltr" autocomplete="off"></div>
-    <div class="setting-row" style="padding:10px 18px;">
-      <span style="font-size:12px;color:var(--muted);flex:1;line-height:1.5;">يُستخدم المفتاح محلياً فقط في متصفحك ولا يُرسل لأي خادم غير OpenAI. احصل عليه من <span style="color:var(--orange);">platform.openai.com</span></span>
-      <button class="btn btn-primary" style="margin-right:10px;padding:8px 16px;font-size:13px;" onclick="saveApiKey()">حفظ</button>
-    </div>
-  </div>
   <div class="sec-lbl">الحساب</div>
   <button class="admin-open-btn" onclick="logoutUser()" style="background:var(--bg2);color:var(--text);border:1.5px solid var(--sep);box-shadow:var(--sh);">👋 تسجيل الخروج</button>
   <div class="sec-lbl">إعادة ضبط</div>
@@ -2172,7 +2148,6 @@ function showApp(){
   // LinkedIn badge shown on all pages (landing + app)
   renderDevBadge();
   closeAuth();
-  setTimeout(showApiSetup,900);
 }
 function openAuth(mode){authMode=mode;applyAuthMode();document.getElementById('auth-overlay').classList.add('show');setTimeout(()=>document.getElementById('auth-email').focus(),200);}
 function closeAuth(){document.getElementById('auth-overlay').classList.remove('show');const e=document.getElementById('auth-err');if(e)e.classList.remove('show');}
@@ -2221,31 +2196,17 @@ async function checkAuthSession(){
   return !!sess;
 }
 
-let API_KEY = window._OPENAI_KEY || localStorage.getItem('mrshd_apikey') || '';
-function getApiKey(){return API_KEY||localStorage.getItem('mrshd_apikey')||'';}
-function saveApiKey(){const k=(document.getElementById('set-apikey')?.value||'').trim();if(k){localStorage.setItem('mrshd_apikey',k);API_KEY=k;showToast('✅ تم حفظ مفتاح API');} else{localStorage.removeItem('mrshd_apikey');API_KEY='';showToast('🗑️ تم حذف مفتاح API');}}
-
-// ═══════════ API HELPER + RATE LIMIT ═══════════
-const DAILY_AI_LIMIT=40; // حد نداءات AI اليومية لحماية الرصيد
-function checkAILimit(){
-  const today=new Date().toDateString();
-  let d=JSON.parse(localStorage.getItem('mrshd_ailimit')||'{}');
-  if(d.date!==today){d={date:today,count:0};}
-  if(d.count>=DAILY_AI_LIMIT){return false;}
-  d.count++;localStorage.setItem('mrshd_ailimit',JSON.stringify(d));return true;
-}
+// ═══════════ AI PROXY (Supabase Edge Function) ═══════════
 async function callAI(body,opts={}){
-  const key=getApiKey();
-  if(!key){throw new Error('⚠️ لم يتم تعيين مفتاح OpenAI API. يرجى إضافته في الإعدادات ← «مفتاح API».');}
-  if(!opts.skipLimit&&!checkAILimit()){
-    throw new Error('وصلت للحد اليومي ('+DAILY_AI_LIMIT+' طلب). جرّب غداً أو ترقّى لحساب مميز.');
-  }
+  if(!sb||!currentUser)throw new Error('يجب تسجيل الدخول لاستخدام الذكاء الاصطناعي.');
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session)throw new Error('انتهت الجلسة. يرجى تسجيل الدخول مجدداً.');
   let res;
   try{
-    res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify(body)});
+    res=await fetch(SUPABASE_URL+'/functions/v1/openai-proxy',{method:'POST',headers:{'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json'},body:JSON.stringify(body)});
   }catch(e){throw new Error('تعذّر الاتصال بالخادم. تحقق من اتصالك بالإنترنت.');}
-  if(res.status===429)throw new Error('الخادم مشغول الآن. انتظر لحظات وحاول مجدداً.');
-  if(res.status===401)throw new Error('مفتاح API غير صحيح. تحقق منه في الإعدادات ← «مفتاح API».');
+  if(res.status===429){const e=await res.json();throw new Error(e.error||'وصلت للحد اليومي. جرّب غداً.');}
+  if(res.status===401)throw new Error('انتهت الجلسة. يرجى تسجيل الدخول مجدداً.');
   if(!res.ok)throw new Error('حدث خطأ ('+res.status+'). حاول مرة أخرى.');
   const data=await res.json();
   if(!data.choices||!data.choices[0])throw new Error('استجابة غير متوقعة من الخادم.');
@@ -2253,13 +2214,13 @@ async function callAI(body,opts={}){
 }
 let S={msgs:[],mode:'free',sessions:0,streak:0,bestStreak:0,correctTotal:0,wrongTotal:0,lastDate:null,weaknesses:{},strengths:{},examHistory:[],completedDays:{},dayStarted:{},weeklyTestDone:{},xp:0,dailyGoal:3,todayQs:0,lastGoalDate:null,notes:[],profile:{name:'',factory:'',speciality:'HSE'},warmupHistory:[],photoHistory:[],kwHistory:[],flashStats:{total:0,know:0,rev:0}};
 function save(){try{localStorage.setItem('mrshd_v4',JSON.stringify(S));}catch(e){}cloudSyncProgress();}
-// Debounced cloud sync of user progress (Supabase) — no-op until Supabase configured + logged in
+// Debounced cloud sync of user progress (excludes photoHistory — stored in photo_history table)
 let _cloudSyncTimer=null;
 function cloudSyncProgress(){
   if(!sb||!currentUser||!currentUser.id)return;
   clearTimeout(_cloudSyncTimer);
   _cloudSyncTimer=setTimeout(async()=>{
-    try{await sb.from('user_progress').upsert({user_id:currentUser.id,data:S,updated_at:new Date().toISOString()});}catch(e){}
+    try{const{photoHistory,...syncData}=S;await sb.from('user_progress').upsert({user_id:currentUser.id,data:syncData,updated_at:new Date().toISOString()});}catch(e){}
   },2000);
 }
 async function loadCloudProgress(){
@@ -2267,6 +2228,34 @@ async function loadCloudProgress(){
   try{
     const{data}=await sb.from('user_progress').select('data').eq('user_id',currentUser.id).single();
     if(data&&data.data){const p=data.data;S={...S,...p};if(p.profile)S.profile={...S.profile,...p.profile};if(p.flashStats)S.flashStats={...S.flashStats,...p.flashStats};localStorage.setItem('mrshd_v4',JSON.stringify(S));}
+  }catch(e){}
+  await loadPhotoHistory();
+}
+
+// ═══════════ HSE IMAGE STORAGE (Supabase Storage) ═══════════
+async function uploadHseImage(b64,mimeType){
+  if(!sb||!currentUser)return null;
+  const ext=mimeType==='image/png'?'png':mimeType==='image/webp'?'webp':'jpg';
+  const path=currentUser.id+'/'+Date.now()+'.'+ext;
+  const bytes=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
+  const{error}=await sb.storage.from('hse-images').upload(path,bytes,{contentType:mimeType});
+  return error?null:path;
+}
+async function getHseImageUrl(path){
+  if(!sb||!path)return null;
+  const{data}=await sb.storage.from('hse-images').createSignedUrl(path,3600);
+  return data?.signedUrl||null;
+}
+async function savePhotoHistoryCloud(imagePath,p){
+  if(!sb||!currentUser)return;
+  try{await sb.from('photo_history').insert({user_id:currentUser.id,image_path:imagePath,score:p.risk_probability*p.risk_severity,violations_count:(p.additional_violations?.length||0)+1,summary:p.title,hse_data:p,report_ref:hseReportRef});}catch(e){}
+}
+async function loadPhotoHistory(){
+  if(!sb||!currentUser)return;
+  try{
+    const{data}=await sb.from('photo_history').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false}).limit(10);
+    if(!data)return;
+    S.photoHistory=await Promise.all(data.map(async r=>({date:new Date(r.created_at).toLocaleDateString('ar-SA'),thumbFull:await getHseImageUrl(r.image_path),score:r.score,count:r.violations_count,summary:r.summary,hseData:r.hse_data,ref:r.report_ref,id:r.id})));
   }catch(e){}
 }
 function load(){try{const d=localStorage.getItem('mrshd_v4');if(d){const p=JSON.parse(d);S={...S,...p};if(p.profile)S.profile={...S.profile,...p.profile};if(p.flashStats)S.flashStats={...S.flashStats,...p.flashStats};}}catch(e){}}
@@ -2755,6 +2744,13 @@ async function hseAnalyze(){
     ['standards','immediate_actions','corrective_actions','engineering_controls','administrative_controls','ppe_required','additional_violations','five_why'].forEach(k=>{if(!Array.isArray(p[k]))p[k]=[];});
     if(!p.bowtie)p.bowtie={threats:[],event:'',prevention_barriers:[],recovery_barriers:[],consequences:[]};
     hseResult=p;hseRenderResult();
+    // رفع الصورة إلى Supabase Storage وحفظ البيانات الوصفية
+    uploadHseImage(hseImgB64,hseImgType).then(async imgPath=>{
+      await savePhotoHistoryCloud(imgPath||'',p);
+      await loadPhotoHistory();
+      renderPhotoHist();
+    });
+    // fallback محلي للعرض الفوري قبل اكتمال الرفع
     if(!S.photoHistory)S.photoHistory=[];
     S.photoHistory.unshift({date:new Date().toLocaleDateString('ar-SA'),thumbFull:'data:'+hseImgType+';base64,'+hseImgB64,score:p.risk_probability*p.risk_severity,count:(p.additional_violations.length+1),summary:p.title,hseData:p,ref:hseReportRef});
     if(S.photoHistory.length>10)S.photoHistory=S.photoHistory.slice(0,10);
@@ -2952,7 +2948,6 @@ async function generateReport(){
 function loadProfile(){
   const flds={'prf-name':S.profile.name||'','prf-factory':S.profile.factory||'','prf-spec':S.profile.speciality||'HSE','prf-goal':String(S.dailyGoal||3)};
   Object.entries(flds).forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.value=v;});
-  const keyEl=document.getElementById('set-apikey');if(keyEl&&localStorage.getItem('mrshd_apikey'))keyEl.placeholder='●●●●●●●●●●●● (محفوظ)';
   const ss=document.getElementById('settings-stats');
   const svXp=document.getElementById('sv-xp');const svC=document.getElementById('sv-correct');const svS=document.getElementById('sv-streak');const svP=document.getElementById('sv-plan');
   if(svXp)svXp.textContent=ar(S.xp);if(svC)svC.textContent=ar(S.correctTotal);if(svS)svS.textContent=ar(S.streak);if(svP)svP.textContent=ar(Object.keys(S.completedDays||{}).length)+'/٤٠';
@@ -3232,26 +3227,6 @@ function renderAdminPanel(){
   if(actEl){const acts=[];if(S.profile.name)acts.push({dot:'blue',text:'👤 المستخدم: '+S.profile.name});if(S.xp>0)acts.push({dot:'orange',text:'⚡ إجمالي XP: '+ar(S.xp)+' نقطة'});if(S.streak>0)acts.push({dot:'gold',text:'🔥 Streak: '+ar(S.streak)+' | أفضل: '+ar(S.bestStreak)});if(S.notes?.length)acts.push({dot:'blue',text:'📝 ملاحظات محفوظة: '+ar(S.notes.length)});if(S.photoHistory?.length)acts.push({dot:'green',text:'📸 تحليلات صور: '+ar(S.photoHistory.length)});if(!acts.length)acts.push({dot:'',text:'لا يوجد نشاط مسجل بعد'});actEl.innerHTML=acts.map(a=>`<div class="act-row"><div class="act-dot ${a.dot}"></div><div class="act-text">${a.text}</div></div>`).join('');}
 }
 
-// ═══════════ API KEY ONBOARDING ═══════════
-function showApiSetup(){
-  if(!getApiKey()&&!localStorage.getItem('mrshd_api_prompted')){
-    const overlay=document.getElementById('api-setup-overlay');
-    if(overlay)overlay.style.display='flex';
-  }
-}
-function saveApiSetup(){
-  const k=(document.getElementById('api-setup-key')?.value||'').trim();
-  if(k){localStorage.setItem('mrshd_apikey',k);API_KEY=k;}
-  localStorage.setItem('mrshd_api_prompted','1');
-  const overlay=document.getElementById('api-setup-overlay');
-  if(overlay)overlay.style.display='none';
-  if(k)showToast('✅ تم تفعيل الذكاء الاصطناعي!');
-}
-function skipApiSetup(){
-  localStorage.setItem('mrshd_api_prompted','1');
-  const overlay=document.getElementById('api-setup-overlay');
-  if(overlay)overlay.style.display='none';
-}
 
 // ═══════════ DEV BADGE + PW TOGGLE ═══════════
 function togglePwVis(){
