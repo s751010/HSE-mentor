@@ -30,7 +30,7 @@ Deno.serve(async (req: Request) => {
     .select("value")
     .eq("key", "openai_api_key")
     .single();
-  const OPENAI_KEY = secretData?.value ?? "";
+  const OPENAI_KEY = (secretData?.value ?? "").trim();
   if (!OPENAI_KEY) {
     return new Response(JSON.stringify({ error: "لم يتم تكوين مفتاح AI" }), { status: 503, headers: cors });
   }
