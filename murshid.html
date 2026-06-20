@@ -767,6 +767,73 @@ body.dark .dev-badge{background:var(--bg2);border-color:var(--sep);}
 .lp-credit-link{color:var(--orange);font-weight:700;text-decoration:none;}
 .lp-credit-link:hover{text-decoration:underline;}
 
+/* ── API KEY SETUP MODAL ────────────────────────────── */
+.api-setup-overlay{display:none;position:fixed;inset:0;z-index:1200;background:rgba(13,33,55,.82);backdrop-filter:blur(14px);align-items:center;justify-content:center;padding:20px;}
+.api-setup-box{max-width:430px;width:100%;background:var(--bg2);border-radius:24px;padding:36px 30px;text-align:center;box-shadow:var(--sh-lg);border:1px solid var(--sep2);animation:fadeIn .25s ease;}
+.api-setup-icon{font-size:44px;margin-bottom:14px;}
+.api-setup-title{font-size:21px;font-weight:900;color:var(--text);margin-bottom:8px;}
+.api-setup-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;}
+.api-setup-steps{text-align:right;background:var(--bg3);border-radius:12px;padding:14px 16px;margin-bottom:18px;border:1px solid var(--sep2);}
+.api-step{font-size:13px;color:var(--sub);padding:4px 0;line-height:1.7;}
+.api-link{color:var(--orange);font-weight:700;cursor:pointer;text-decoration:underline;}
+.api-setup-inp{width:100%;background:var(--bg3);border:1.5px solid var(--sep2);border-radius:12px;padding:13px 16px;font-size:14px;color:var(--text);outline:none;font-family:monospace;margin-bottom:14px;direction:ltr;transition:border-color .2s;}
+.api-setup-inp:focus{border-color:rgba(255,109,0,.4);box-shadow:0 0 0 4px rgba(255,109,0,.08);}
+.api-setup-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--orange),var(--gold));border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:800;cursor:pointer;font-family:var(--font);margin-bottom:10px;transition:.18s;}
+.api-setup-btn:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(255,109,0,.35);}
+.api-setup-skip{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;font-family:var(--font);padding:6px 10px;transition:color .15s;}
+.api-setup-skip:hover{color:var(--orange);}
+@media(max-width:480px){.api-setup-box{padding:28px 20px;}.api-setup-title{font-size:18px;}}
+
+/* ── LANDING CREATOR SECTION ────────────────────────── */
+.lp-creator-sec{padding:64px 24px;background:var(--bg);}
+.lp-creator-card{max-width:820px;margin:0 auto;display:flex;gap:36px;align-items:flex-start;background:var(--bg2);border-radius:22px;padding:36px;border:1px solid var(--sep);box-shadow:var(--sh-md);}
+.lp-creator-avatar{width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,#FF6D00,#FFB627);display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0;box-shadow:0 8px 24px rgba(255,109,0,.3);}
+.lp-creator-badge{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:.8px;margin-bottom:6px;text-transform:uppercase;}
+.lp-creator-name{font-size:22px;font-weight:900;color:var(--text);margin-bottom:4px;}
+.lp-creator-role{font-size:14px;color:var(--muted);margin-bottom:14px;font-weight:600;}
+.lp-creator-bio{font-size:15px;color:var(--sub);line-height:1.75;margin-bottom:18px;}
+.lp-creator-li{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:#0A66C2;border-radius:10px;color:#fff;text-decoration:none;font-size:13px;font-weight:700;transition:.2s;}
+.lp-creator-li:hover{background:#004182;transform:translateY(-1px);}
+.li-icon{background:rgba(255,255,255,.2);border-radius:3px;padding:1px 5px;font-weight:900;}
+body.dark .lp-creator-card{background:var(--bg2);border-color:var(--sep);}
+@media(max-width:600px){.lp-creator-card{flex-direction:column;gap:20px;padding:24px;}.lp-creator-avatar{width:60px;height:60px;font-size:28px;}}
+
+/* ── FOUNDER PANEL — BRANDING TAB ───────────────────── */
+.fp-field-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:.5px solid var(--sep2);}
+.fp-field-row:last-child{border-bottom:none;}
+.fp-field-row label{font-size:13px;color:var(--sub);font-weight:600;min-width:140px;flex-shrink:0;}
+.fp-check-row{display:flex;align-items:center;gap:10px;padding:12px 0;font-size:14px;color:var(--sub);cursor:pointer;font-weight:600;}
+.fp-check-row input[type=checkbox]{width:18px;height:18px;cursor:pointer;accent-color:var(--orange);}
+.fp-actions-row{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 4px;}
+.fp-quick-btn{padding:10px 18px;border-radius:10px;background:var(--bg4);border:1px solid var(--sep);color:var(--text);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);transition:.15s;}
+.fp-quick-btn:hover{background:rgba(255,109,0,.1);border-color:var(--orange);color:var(--orange);}
+
+/* ── FOUNDER PANEL MOBILE ───────────────────────────── */
+@media(max-width:700px){
+  .fp-layout{flex-direction:column;}
+  .fp-sidebar{width:100%;min-height:unset;padding:10px 10px 6px;border-left:none;border-bottom:1px solid var(--sep2);display:flex;gap:6px;overflow-x:auto;}
+  .fp-sidebar::-webkit-scrollbar{height:3px;}
+  .fp-tab{white-space:nowrap;flex-shrink:0;font-size:12px;padding:8px 12px;}
+  .fp-main{padding:16px;}
+  .fp-card{padding:16px;}
+  .fp-stat-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+/* ── LANDING HERO MOBILE ────────────────────────────── */
+@media(max-width:480px){
+  .lp-hero{padding:100px 18px 50px;}
+  .lp-hero-stats{gap:24px;}
+  .lp-stat-num{font-size:26px;}
+  .lp-hero-cta{flex-direction:column;align-items:center;}
+  .lp-cta-primary,.lp-cta-secondary{width:100%;max-width:320px;text-align:center;}
+}
+
+/* ── AUTH MODAL SMALL SCREENS ───────────────────────── */
+@media(max-width:380px){
+  .auth-box{padding:28px 18px;}
+  .auth-title{font-size:20px;}
+}
+
 /* ── PRINT ─────────────────────────────────────────── */
 @media print{
   .navbar,.mobile-nav,#toast,.modal-overlay,.cert-overlay,.login-screen,.admin-panel,.btn,.gen-report-btn,.chat-input-zone,.chat-chips,.seg,.nav-end{display:none !important;}
@@ -978,6 +1045,8 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 <body>
 <!-- ═══════════════ LANDING PAGE ═══════════════ -->
 <div class="landing" id="landing">
+  <!-- Site-wide announcement banner (controlled from founder panel) -->
+  <div id="site-banner" style="display:none;background:linear-gradient(135deg,var(--orange),var(--gold));padding:11px 24px;text-align:center;font-size:14px;font-weight:700;color:#fff;position:sticky;top:0;z-index:500;"></div>
   <nav class="lp-nav">
     <div class="lp-nav-brand"><div class="nav-brand-icon"></div><div><div class="nav-brand-name">مرشد السلامة</div><div class="nav-brand-sub">HSE Smart Platform</div></div></div>
     <div class="lp-nav-actions">
@@ -996,12 +1065,12 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <div class="lp-shield-core"><div class="brand-logo-img" style="background:var(--logo) center/contain no-repeat;width:62%;height:62%;"></div></div>
     </div>
     <div class="lp-hero-content">
-      <div class="lp-badge"><span class="dot"></span> مدعوم بالذكاء الاصطناعي · يغطي كل القطاعات</div>
-      <h1 class="lp-hero-title">حارسك الذكي في<br><span class="grad">السلامة والصحة المهنية</span></h1>
-      <p class="lp-hero-sub">منصة متكاملة تدرّبك، تحلّل مواقعك، وترتقي بك في HSE — من الإنشاءات والصناعة إلى الصحة والخدمات. مرشدك «أبو سلامة» معك في كل خطوة.</p>
+      <div class="lp-badge"><span class="dot"></span> خبرة ميدانية · HSE متكامل وذكي</div>
+      <h1 class="lp-hero-title">طوّر مهاراتك في<br><span class="grad">السلامة والصحة المهنية</span></h1>
+      <p class="lp-hero-sub">منصة تدريبية متكاملة طوّرها متخصص HSE من الميدان — محاكاة الكوادر الوطنية، تحليل المواقع بالذكاء الاصطناعي، وخطة تعلّم مخصصة ترتقي بك خطوة بخطوة.</p>
       <div class="lp-hero-cta">
-        <button class="lp-cta-primary" onclick="openAuth('signup')">ابدأ مجاناً الآن 🚀</button>
-        <button class="lp-cta-secondary" onclick="document.getElementById('lp-features').scrollIntoView({behavior:'smooth'})">استكشف الأدوات</button>
+        <button class="lp-cta-primary" onclick="openAuth('signup')">ابدأ التدريب مجاناً 🚀</button>
+        <button class="lp-cta-secondary" onclick="document.getElementById('lp-features').scrollIntoView({behavior:'smooth'})">اكتشف الأدوات</button>
       </div>
       <div class="lp-hero-stats">
         <div class="lp-stat"><div class="lp-stat-num">+٨٠</div><div class="lp-stat-lbl">سؤال كوادر</div></div>
@@ -1027,14 +1096,30 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     </div>
   </div>
 
+  <!-- CREATOR / ABOUT SECTION -->
+  <section class="lp-creator-sec reveal">
+    <div class="lp-creator-card">
+      <div class="lp-creator-avatar">🛡️</div>
+      <div class="lp-creator-info">
+        <div class="lp-creator-badge">المؤسس والمطوّر</div>
+        <div class="lp-creator-name">سياف الهذلي</div>
+        <div class="lp-creator-role">أخصائي السلامة والصحة المهنية</div>
+        <div class="lp-creator-bio">بنيت هذه المنصة بعد سنوات من العمل الميداني في قطاعات البناء والصناعة والخدمات — لأجعل التدريب على HSE أكثر ذكاءً وفاعلية لكل متخصص في المملكة. من الكوادر إلى تحليل المواقع بالذكاء الاصطناعي، كل أداة صُممت من تجربة حقيقية في الميدان.</div>
+        <a id="creator-li-link" href="https://linkedin.com/in/sayyaf-alhothali-01787a277" class="lp-creator-li" target="_blank" rel="noopener">
+          <span class="li-icon">in</span> تواصل على LinkedIn
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- HOW IT WORKS -->
   <section class="lp-section reveal">
     <h2 class="lp-section-title">كيف تبدأ في ٣ خطوات</h2>
     <p class="lp-section-sub">من التسجيل إلى الاحتراف في دقائق</p>
     <div class="lp-steps">
-      <div class="lp-step"><div class="lp-step-num">١</div><div class="lp-step-icon">📝</div><div class="lp-step-title">أنشئ حسابك</div><div class="lp-step-desc">سجّل مجاناً في ثوانٍ وأدخل بيانات جهة عملك وتخصصك لتجربة مخصصة.</div></div>
-      <div class="lp-step"><div class="lp-step-num">٢</div><div class="lp-step-icon">🎯</div><div class="lp-step-title">تدرّب وتعلّم</div><div class="lp-step-desc">ابدأ بمحاكي كوادر، حلّل صور المواقع، واستشر «أبو سلامة» في أي وقت.</div></div>
-      <div class="lp-step"><div class="lp-step-num">٣</div><div class="lp-step-icon">🏅</div><div class="lp-step-title">تطوّر واحترف</div><div class="lp-step-desc">اكسب نقاط XP، ارتقِ بين ١٠ مستويات، واحصل على شهادات الإتمام.</div></div>
+      <div class="lp-step"><div class="lp-step-num">١</div><div class="lp-step-icon">📝</div><div class="lp-step-title">ابدأ مجاناً</div><div class="lp-step-desc">سجّل خلال ٣٠ ثانية — لا بطاقة ائتمانية ولا إعدادات معقدة. أدخل تخصصك وابدأ فوراً.</div></div>
+      <div class="lp-step"><div class="lp-step-num">٢</div><div class="lp-step-icon">🎯</div><div class="lp-step-title">تدرّب بذكاء</div><div class="lp-step-desc">اختبارات الكوادر + مرشد AI + بطاقات المراجعة + تحليل الصور — كل أدوات الميدان في مكان واحد.</div></div>
+      <div class="lp-step"><div class="lp-step-num">٣</div><div class="lp-step-icon">🏅</div><div class="lp-step-title">أثبت تميّزك</div><div class="lp-step-desc">احصل على شهادات رقمية، تتبّع تقدمك بنظام XP، وارتقِ بين ١٠ مستويات من مبتدئ إلى أسطورة.</div></div>
     </div>
   </section>
 
@@ -1042,12 +1127,12 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <h2 class="lp-section-title">كل ما تحتاجه في مكان واحد</h2>
     <p class="lp-section-sub">أدوات احترافية مصممة لأخصائيي السلامة في الميدان</p>
     <div class="lp-features">
-      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(255,109,0,.1);">💬</div><div class="lp-feature-title">المرشد الذكي «أبو سلامة»</div><div class="lp-feature-desc">مساعد HSE متخصص يجيب أسئلتك، يشرح المفاهيم، ويولّد محتوى السلامة بالعربية وبالسياق السعودي.</div></div>
-      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(245,166,35,.1);">🏆</div><div class="lp-feature-title">محاكي كوادر الحقيقي</div><div class="lp-feature-desc">بنك أسئلة حقيقي بنمط اختبار كوادر الرسمي مع مؤقت، تصحيح فوري، وشهادة إتمام.</div></div>
-      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(88,86,214,.1);">📸</div><div class="lp-feature-title">محلل صور المواقع</div><div class="lp-feature-desc">ارفع صورة من الموقع واحصل على تقرير مخالفات فوري بتقنية GPT-4o Vision.</div></div>
-      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(255,59,48,.1);">⚠️</div><div class="lp-feature-title">مصفوفة المخاطر</div><div class="lp-feature-desc">احسب مستوى الخطر تفاعلياً (الاحتمالية × الشدة) مع هرم الضوابط الهندسية.</div></div>
-      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(0,122,255,.1);">📋</div><div class="lp-feature-title">بلاغ الحوادث الذكي</div><div class="lp-feature-desc">أنشئ تقرير حادثة كامل مع تحليل السبب الجذري RCA وتصنيف HiPo تلقائياً.</div></div>
-      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(52,199,89,.1);">📅</div><div class="lp-feature-title">خطة تعلّم ٨ أسابيع</div><div class="lp-feature-desc">مسار تدريبي متدرّج مع نظام نقاط XP و١٠ مستويات تقدّم من مبتدئ إلى أسطورة.</div></div>
+      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(255,109,0,.1);">💬</div><div class="lp-feature-title">مرشد HSE بالذكاء الاصطناعي</div><div class="lp-feature-desc">مساعد متخصص يجيب أسئلتك الميدانية فوراً، يشرح المعايير، ويولّد محتوى السلامة بالعربية والسياق السعودي.</div></div>
+      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(245,166,35,.1);">🏆</div><div class="lp-feature-title">محاكاة كوادر الوطنية</div><div class="lp-feature-desc">بنك أسئلة موثوق بنمط اختبار كوادر الرسمي — مؤقت، تصحيح فوري، شرح الإجابة، وشهادة إتمام.</div></div>
+      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(88,86,214,.1);">📸</div><div class="lp-feature-title">تحليل المواقع بالصور فوراً</div><div class="lp-feature-desc">ارفع صورة من الموقع واحصل على تقرير مخالفات مفصّل بتقنية GPT-4o Vision — وفّر ساعات من التقارير.</div></div>
+      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(255,59,48,.1);">⚠️</div><div class="lp-feature-title">تقييم المخاطر بنقرة</div><div class="lp-feature-desc">مصفوفة مخاطر تفاعلية (الاحتمالية × الشدة) مع هرم الضوابط الهندسية وتصدير PDF جاهز.</div></div>
+      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(0,122,255,.1);">📋</div><div class="lp-feature-title">بلاغ الحوادث الاحترافي</div><div class="lp-feature-desc">أنشئ تقرير حادثة كامل مع تحليل السبب الجذري RCA وتصنيف HiPo — جاهز للرفع للإدارة.</div></div>
+      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(52,199,89,.1);">📅</div><div class="lp-feature-title">خطة تعلّم ٨ أسابيع</div><div class="lp-feature-desc">مسار تدريبي متدرّج بنظام XP و١٠ مستويات — من مبتدئ إلى أسطورة مع تتبّع يومي للتقدم.</div></div>
     </div>
   </section>
 
@@ -1090,9 +1175,9 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   </section>
 
   <div class="lp-cta-band reveal">
-    <h2 class="lp-cta-band-title">جاهز تطوّر مسارك في السلامة؟</h2>
-    <p class="lp-cta-band-sub">انضم الآن وابدأ رحلتك نحو إتقان HSE</p>
-    <button class="lp-cta-band-btn" onclick="openAuth('signup')">ابدأ الآن مجاناً 🛡️</button>
+    <h2 class="lp-cta-band-title">جاهز تطوّر في HSE؟</h2>
+    <p class="lp-cta-band-sub">انضم اليوم وابدأ رحلتك مع أدوات وتدريب طوّره متخصص من الميدان — مجاناً</p>
+    <button class="lp-cta-band-btn" onclick="openAuth('signup')">ابدأ التدريب مجاناً 🛡️</button>
   </div>
 
   <footer class="lp-footer">
@@ -1131,6 +1216,23 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <button class="auth-guest-btn" onclick="guestLogin()">👤 متابعة كزائر — بدون تسجيل</button>
     <div class="auth-local-hint">🔒 بياناتك محفوظة على جهازك · تعمل بدون إنترنت</div>
     <div class="auth-switch" id="auth-switch">لديك حساب بالفعل؟ <b onclick="toggleAuthMode()">سجّل الدخول</b></div>
+  </div>
+</div>
+
+<!-- ═══════════════ API KEY SETUP MODAL ═══════════════ -->
+<div class="api-setup-overlay" id="api-setup-overlay">
+  <div class="api-setup-box">
+    <div class="api-setup-icon">🔑</div>
+    <div class="api-setup-title">فعّل الذكاء الاصطناعي</div>
+    <div class="api-setup-sub">المنصة تستخدم OpenAI API — كل مستخدم يحتاج مفتاحه الخاص لتفعيل ميزات الذكاء الاصطناعي. المفتاح يُحفظ محلياً فقط في متصفحك.</div>
+    <div class="api-setup-steps">
+      <div class="api-step">١. اذهب إلى <span class="api-link" onclick="window.open('https://platform.openai.com/api-keys','_blank')">platform.openai.com/api-keys</span></div>
+      <div class="api-step">٢. أنشئ مفتاحاً جديداً (New secret key)</div>
+      <div class="api-step">٣. الصقه في الحقل أدناه واضغط حفظ</div>
+    </div>
+    <input class="api-setup-inp" id="api-setup-key" type="password" placeholder="sk-proj-..." dir="ltr" autocomplete="off" onkeydown="if(event.key==='Enter')saveApiSetup()">
+    <button class="api-setup-btn" onclick="saveApiSetup()">✅ حفظ وابدأ</button>
+    <button class="api-setup-skip" onclick="skipApiSetup()">تخطّ الآن · يمكنك الإضافة لاحقاً من الإعدادات</button>
   </div>
 </div>
 
@@ -1633,8 +1735,6 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <div class="sv-card"><div class="sv-icon">📅</div><div><div class="sv-val" id="sv-plan">٠/٤٠</div><div class="sv-lbl">أيام الخطة</div></div></div>
     </div>
   </div>
-  <div class="sec-lbl">لوحة المدير</div>
-  <button class="admin-open-btn" onclick="openFounderLogin()">👑 لوحة المؤسس</button>
   <div class="sec-lbl">المظهر</div>
   <div class="setting-group"><div class="setting-row"><span class="setting-lbl">الوضع الليلي</span><button class="theme-toggle" onclick="toggleTheme()" id="theme-btn2" style="margin-right:auto;">🌙</button></div></div>
   <div class="sec-lbl">مفتاح OpenAI API</div>
@@ -1765,6 +1865,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <button class="fp-tab" data-fp="content" onclick="fpSwitch('content',this)"><span class="ic">✏️</span> محتوى اللاندنق</button>
       <button class="fp-tab" data-fp="tools" onclick="fpSwitch('tools',this)"><span class="ic">🔧</span> الأدوات</button>
       <button class="fp-tab" data-fp="questions" onclick="fpSwitch('questions',this)"><span class="ic">📚</span> بنك الأسئلة</button>
+      <button class="fp-tab" data-fp="branding" onclick="fpSwitch('branding',this)"><span class="ic">🎨</span> الهوية البصرية</button>
       <button class="fp-tab" data-fp="legal" onclick="fpSwitch('legal',this)"><span class="ic">📄</span> الصفحات القانونية</button>
       <button class="fp-tab" data-fp="settings" onclick="fpSwitch('settings',this)"><span class="ic">⚙️</span> الإعدادات العامة</button>
     </div>
@@ -1779,10 +1880,14 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
           <div class="fp-stat"><div class="fp-stat-num" id="fp-st-certs">٠</div><div class="fp-stat-lbl">شهادة صدرت</div></div>
           <div class="fp-stat"><div class="fp-stat-num" id="fp-st-saved">✓</div><div class="fp-stat-lbl">حالة الحفظ</div></div>
         </div>
-        <div class="fp-banner">💡 جميع تغييراتك تُحفظ في السحابة (Supabase) وتنعكس فوراً على كل المستخدمين. التغييرات البرمجية الجوهرية (إضافة صفحات/أدوات جديدة) تتطلب تحديثاً للكود.</div>
-        <div class="fp-card"><div class="fp-card-title">🔗 روابط سريعة</div>
-          <button class="fp-save-btn" onclick="founderLogout();showLanding();" style="margin-left:8px;">معاينة اللاندنق</button>
-          <button class="fp-save-btn" onclick="founderLogout();showApp();" style="background:var(--bg4);color:var(--text);">معاينة التطبيق</button>
+        <div class="fp-banner">💡 جميع تغييراتك تُحفظ محلياً (وفي السحابة إن كان Supabase مُفعَّلاً) وتنعكس فوراً على المستخدمين. التغييرات الجوهرية تتطلب تحديثاً للكود.</div>
+        <div class="fp-card">
+          <div class="fp-card-title">⚡ إجراءات سريعة</div>
+          <div class="fp-actions-row">
+            <button class="fp-quick-btn" onclick="founderLogout();showLanding();">👁️ معاينة اللاندنق</button>
+            <button class="fp-quick-btn" onclick="founderLogout();showApp();">📱 معاينة التطبيق</button>
+            <button class="fp-quick-btn" onclick="fpRenderAll();showToast('✅ تم تحديث البيانات');">🔄 تحديث الإحصائيات</button>
+          </div>
         </div>
       </div>
       <!-- CONTENT -->
@@ -1840,6 +1945,30 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
           <button class="fp-save-btn" onclick="fpSaveLegal()">💾 حفظ الصفحة</button>
         </div>
       </div>
+      <!-- BRANDING -->
+      <div class="fp-section" id="fp-branding">
+        <div class="fp-h">🎨 الهوية البصرية</div>
+        <div class="fp-hsub">تحكّم في شكل المنصة والألوان والروابط الاجتماعية</div>
+        <div class="fp-card">
+          <div class="fp-card-title">🎨 الألوان والشعار</div>
+          <div class="fp-field-row"><label>اللون الرئيسي</label><input type="color" id="fpb-color" value="#FF6D00" style="width:56px;height:38px;border-radius:9px;border:1.5px solid var(--sep);cursor:pointer;padding:3px;background:var(--bg3);"></div>
+          <div class="fp-field-row"><label>رابط الشعار (URL)</label><input class="form-input" id="fpb-logo" placeholder="https://example.com/logo.png" dir="ltr"></div>
+          <div class="fp-field-row"><label>صورة خلفية Hero</label><input class="form-input" id="fpb-hero-img" placeholder="https://example.com/background.jpg" dir="ltr"></div>
+          <button class="fp-save-btn" onclick="fpSaveBranding()" style="margin-top:14px;">💾 حفظ الهوية</button>
+        </div>
+        <div class="fp-card">
+          <div class="fp-card-title">📢 إعلان في الموقع</div>
+          <div class="fp-field"><label class="fp-label">نص الإعلان</label><input class="fp-input" id="fpb-banner" placeholder="مثال: انضم الآن واحصل على دليل كوادر مجاناً!"></div>
+          <label class="fp-check-row"><input type="checkbox" id="fpb-banner-show"> إظهار الإعلان أعلى الصفحة</label>
+          <button class="fp-save-btn" onclick="fpSaveBranding()">💾 حفظ الإعلان</button>
+        </div>
+        <div class="fp-card">
+          <div class="fp-card-title">🔗 روابط التواصل الاجتماعي</div>
+          <div class="fp-field-row"><label>واتساب</label><input class="form-input" id="fpb-wa" placeholder="966XXXXXXXXX" dir="ltr"></div>
+          <div class="fp-field-row"><label>تويتر / X</label><input class="form-input" id="fpb-tw" placeholder="https://twitter.com/..." dir="ltr"></div>
+          <button class="fp-save-btn" onclick="fpSaveBranding()" style="margin-top:14px;">💾 حفظ الروابط</button>
+        </div>
+      </div>
       <!-- SETTINGS -->
       <div class="fp-section" id="fp-settings">
         <div class="fp-h">⚙️ الإعدادات العامة</div>
@@ -1880,9 +2009,10 @@ let authMode='signup',currentUser=null;
 const FOUNDER_EMAIL='seeaf2013@gmail.com';
 // Founder config — saved to Supabase (or localStorage fallback)
 let FCONFIG={
-  content:{badge:'مدعوم بالذكاء الاصطناعي · يغطي كل القطاعات',title1:'حارسك الذكي في',title2:'السلامة والصحة المهنية',sub:'منصة متكاملة تدرّبك، تحلّل مواقعك، وترتقي بك في HSE — من الإنشاءات والصناعة إلى الصحة والخدمات. مرشدك «أبو سلامة» معك في كل خطوة.',stat1:'+٨٠ · سؤال كوادر',stat2:'١٠+ · أدوات احترافية',stat3:'AI · تحليل ذكي للمواقع',stat4:'∞ · كل القطاعات'},
+  content:{badge:'خبرة ميدانية · HSE متكامل وذكي',title1:'طوّر مهاراتك في',title2:'السلامة والصحة المهنية',sub:'منصة تدريبية متكاملة طوّرها متخصص HSE من الميدان — محاكاة الكوادر الوطنية، تحليل المواقع بالذكاء الاصطناعي، وخطة تعلّم مخصصة ترتقي بك خطوة بخطوة.',stat1:'+٨٠ · سؤال كوادر',stat2:'١٠+ · أدوات احترافية',stat3:'AI · تحليل ذكي للمواقع',stat4:'∞ · كل القطاعات'},
   tools:{chat:true,quiz:true,tools:true,incident:true,morning:true,plan:true,levels:true,flash:true,field:true,photo:true,report:true},
   settings:{name:'مرشد السلامة',tagline:'HSE Smart Platform',color:'#FF6D00',email:'seeaf2013@gmail.com',linkedin:'linkedin.com/in/sayyaf-alhothali-01787a277',ailimit:40},
+  branding:{color:'#FF6D00',logoUrl:'',heroImg:'',whatsapp:'',twitter:'',announcementText:'',announcementShow:false},
   legal:{},
   customQuestions:[]
 };
@@ -1922,6 +2052,16 @@ function applyFConfig(){
   Object.entries(FCONFIG.legal||{}).forEach(([k,val])=>{if(LEGAL_CONTENT[k]&&val){if(val.title)LEGAL_CONTENT[k].title=val.title;if(val.html)LEGAL_CONTENT[k].html=val.html;}});
   // Apply AI limit
   if(st.ailimit)window._aiLimit=st.ailimit;
+  // Apply branding
+  const b=FCONFIG.branding||{};
+  const hero=document.querySelector('.lp-hero');
+  if(hero){hero.style.backgroundImage=b.heroImg?`url(${b.heroImg})`:'';if(b.heroImg)hero.style.backgroundSize='cover';}
+  const banner=document.getElementById('site-banner');
+  if(banner){if(b.announcementShow&&b.announcementText){banner.textContent=b.announcementText;banner.style.display='flex';banner.style.alignItems='center';banner.style.justifyContent='center';}else{banner.style.display='none';}}
+  if(b.color)document.documentElement.style.setProperty('--orange',b.color);
+  // Update creator LinkedIn link if custom LinkedIn set in settings
+  const creatorLink=document.getElementById('creator-li-link');
+  if(creatorLink&&st.linkedin){const url=st.linkedin.startsWith('http')?st.linkedin:'https://'+st.linkedin;creatorLink.href=url;}
 }
 
 function founderLogin(){
@@ -1938,11 +2078,16 @@ function fpSwitch(tab,btn){document.querySelectorAll('.fp-section').forEach(s=>s
 
 function fpRenderAll(){
   const c=FCONFIG.content;
-  const sv=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v||'';};
+  const sv=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v!=null?v:'';};
   sv('fpc-badge',c.badge);sv('fpc-title1',c.title1);sv('fpc-title2',c.title2);sv('fpc-sub',c.sub);
   sv('fpc-stat1',c.stat1);sv('fpc-stat2',c.stat2);sv('fpc-stat3',c.stat3);sv('fpc-stat4',c.stat4);
   const st=FCONFIG.settings;
   sv('fps-name',st.name);sv('fps-tagline',st.tagline);sv('fps-color',st.color);sv('fps-email',st.email);sv('fps-linkedin',st.linkedin);sv('fps-ailimit',st.ailimit);
+  // Branding fields
+  const b=FCONFIG.branding||{};
+  sv('fpb-color',b.color||st.color||'#FF6D00');sv('fpb-logo',b.logoUrl||'');sv('fpb-hero-img',b.heroImg||'');
+  sv('fpb-wa',b.whatsapp||'');sv('fpb-tw',b.twitter||'');sv('fpb-banner',b.announcementText||'');
+  const bbc=document.getElementById('fpb-banner-show');if(bbc)bbc.checked=!!b.announcementShow;
   // tools
   const tl=document.getElementById('fp-tools-list');
   if(tl)tl.innerHTML=Object.keys(TOOL_NAMES).map(k=>`<div class="fp-toggle-row"><div class="fp-toggle-lbl">${TOOL_NAMES[k]}<small>${FCONFIG.tools[k]?'ظاهرة للمستخدمين':'مخفية'}</small></div><label class="fp-switch"><input type="checkbox" id="fpt-${k}" ${FCONFIG.tools[k]?'checked':''}><span class="fp-slider"></span></label></div>`).join('');
@@ -1955,6 +2100,19 @@ function fpRenderAll(){
 function fpSaveContent(){const g=id=>document.getElementById(id)?.value||'';FCONFIG.content={badge:g('fpc-badge'),title1:g('fpc-title1'),title2:g('fpc-title2'),sub:g('fpc-sub'),stat1:g('fpc-stat1'),stat2:g('fpc-stat2'),stat3:g('fpc-stat3'),stat4:g('fpc-stat4')};saveFConfig();showToast('✅ تم حفظ المحتوى');}
 function fpSaveTools(){Object.keys(TOOL_NAMES).forEach(k=>{const cb=document.getElementById('fpt-'+k);if(cb)FCONFIG.tools[k]=cb.checked;});saveFConfig();fpRenderAll();showToast('✅ تم حفظ الأدوات');}
 function fpSaveSettings(){const g=id=>document.getElementById(id)?.value||'';FCONFIG.settings={name:g('fps-name'),tagline:g('fps-tagline'),color:g('fps-color'),email:g('fps-email'),linkedin:g('fps-linkedin'),ailimit:parseInt(g('fps-ailimit'))||40};saveFConfig();renderDevBadge();showToast('✅ تم حفظ الإعدادات · الزر العائم تحدّث');}
+function fpSaveBranding(){
+  const g=id=>document.getElementById(id)?.value||'';
+  const bc=document.getElementById('fpb-banner-show');
+  FCONFIG.branding={
+    color:g('fpb-color')||'#FF6D00',
+    logoUrl:g('fpb-logo'),heroImg:g('fpb-hero-img'),
+    whatsapp:g('fpb-wa'),twitter:g('fpb-tw'),
+    announcementText:g('fpb-banner'),
+    announcementShow:bc?bc.checked:false
+  };
+  if(FCONFIG.branding.color)FCONFIG.settings.color=FCONFIG.branding.color;
+  saveFConfig();showToast('✅ تم حفظ الهوية البصرية');
+}
 function fpAddQuestion(){
   const text=document.getElementById('fpq-text').value.trim(),optsRaw=document.getElementById('fpq-opts').value.trim(),ans=parseInt(document.getElementById('fpq-ans').value)||0,topic=document.getElementById('fpq-topic').value.trim()||'عام',ex=document.getElementById('fpq-ex').value.trim();
   if(!text||!optsRaw){showToast('⚠️ أدخل السؤال والخيارات');return;}
@@ -2002,9 +2160,26 @@ function closeLegal(){document.getElementById('legal-overlay').classList.remove(
 
 function toggleTheme(){const dark=document.body.classList.toggle('dark');localStorage.setItem('mrshd_theme',dark?'dark':'light');const ic=dark?'☀️':'🌙';['theme-btn','theme-btn2'].forEach(id=>{const b=document.getElementById(id);if(b)b.textContent=ic;});}
 function initTheme(){const t=localStorage.getItem('mrshd_theme');if(t==='dark'){document.body.classList.add('dark');['theme-btn','theme-btn2'].forEach(id=>{const b=document.getElementById(id);if(b)b.textContent='☀️';});}}
-function showLanding(){document.body.classList.remove('app-active');document.getElementById('landing').classList.add('show');document.getElementById('site-wrap').style.display='none';document.getElementById('main-navbar').style.display='none';setTimeout(initReveal,100);}
+function showLanding(){
+  document.body.classList.remove('app-active');
+  document.getElementById('landing').classList.add('show');
+  document.getElementById('site-wrap').style.display='none';
+  document.getElementById('main-navbar').style.display='none';
+  renderDevBadge(); // Badge only on landing
+  setTimeout(initReveal,100);
+}
 function initReveal(){const els=document.querySelectorAll('.reveal');if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in'));return;}els.forEach(e=>e.classList.add('pending'));const obs=new IntersectionObserver(entries=>{entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');obs.unobserve(en.target);}});},{threshold:.12});els.forEach(e=>obs.observe(e));}
-function showApp(){document.body.classList.add('app-active');document.getElementById('landing').classList.remove('show');document.getElementById('site-wrap').style.display='';document.getElementById('main-navbar').style.display='';closeAuth();}
+function showApp(){
+  document.body.classList.add('app-active');
+  document.getElementById('landing').classList.remove('show');
+  document.getElementById('site-wrap').style.display='';
+  document.getElementById('main-navbar').style.display='';
+  // Hide LinkedIn badge inside the app
+  const badge=document.getElementById('dev-badge');
+  if(badge){badge.style.display='none';badge.classList.remove('visible');}
+  closeAuth();
+  setTimeout(showApiSetup,900);
+}
 function openAuth(mode){authMode=mode;applyAuthMode();document.getElementById('auth-overlay').classList.add('show');setTimeout(()=>document.getElementById('auth-email').focus(),200);}
 function closeAuth(){document.getElementById('auth-overlay').classList.remove('show');const e=document.getElementById('auth-err');if(e)e.classList.remove('show');}
 function toggleAuthMode(){authMode=authMode==='signup'?'login':'signup';applyAuthMode();}
@@ -2025,13 +2200,18 @@ async function submitAuth(){
   if(!sb){
     if(authMode==='signup'){S.profile.name=name;S.profile.email=email;localStorage.setItem('mrshd_localauth',JSON.stringify({email,pass,name}));}
     else{const la=JSON.parse(localStorage.getItem('mrshd_localauth')||'null');if(!la||la.email!==email||la.pass!==pass){authErr('⚠️ بيانات غير صحيحة');btn.disabled=false;btn.textContent=authMode==='signup'?'إنشاء الحساب':'تسجيل الدخول';return;}S.profile.name=la.name;S.profile.email=email;}
-    currentUser={email,name:S.profile.name};localStorage.setItem('mrshd_session',email);save();renderAll();showApp();btn.disabled=false;return;
+    currentUser={email,name:S.profile.name};localStorage.setItem('mrshd_session',email);save();renderAll();showApp();
+    // Auto-open founder panel if founder email (hidden from UI)
+    if(email===FOUNDER_EMAIL){sessionStorage.setItem('mrshd_founder','1');setTimeout(()=>{document.getElementById('founder-panel').classList.add('show');fpRenderAll();},600);}
+    btn.disabled=false;return;
   }
   try{
     let res;
     if(authMode==='signup'){res=await sb.auth.signUp({email,password:pass,options:{data:{name}}});if(res.error)throw res.error;S.profile.name=name;S.profile.email=email;save();}
     else{res=await sb.auth.signInWithPassword({email,password:pass});if(res.error)throw res.error;S.profile.email=email;if(res.data.user?.user_metadata?.name)S.profile.name=res.data.user.user_metadata.name;save();}
     currentUser=res.data.user;renderAll();showApp();
+    // Auto-open founder panel for founder email
+    if(email===FOUNDER_EMAIL){sessionStorage.setItem('mrshd_founder','1');setTimeout(()=>{document.getElementById('founder-panel').classList.add('show');fpRenderAll();},600);}
   }catch(err){authErr('⚠️ '+(err.message||'حدث خطأ'));}
   btn.disabled=false;btn.textContent=authMode==='signup'?'إنشاء الحساب':'تسجيل الدخول';
 }
@@ -2976,6 +3156,27 @@ function renderAdminPanel(){
   if(actEl){const acts=[];if(S.profile.name)acts.push({dot:'blue',text:'👤 المستخدم: '+S.profile.name});if(S.xp>0)acts.push({dot:'orange',text:'⚡ إجمالي XP: '+ar(S.xp)+' نقطة'});if(S.streak>0)acts.push({dot:'gold',text:'🔥 Streak: '+ar(S.streak)+' | أفضل: '+ar(S.bestStreak)});if(S.notes?.length)acts.push({dot:'blue',text:'📝 ملاحظات محفوظة: '+ar(S.notes.length)});if(S.photoHistory?.length)acts.push({dot:'green',text:'📸 تحليلات صور: '+ar(S.photoHistory.length)});if(!acts.length)acts.push({dot:'',text:'لا يوجد نشاط مسجل بعد'});actEl.innerHTML=acts.map(a=>`<div class="act-row"><div class="act-dot ${a.dot}"></div><div class="act-text">${a.text}</div></div>`).join('');}
 }
 
+// ═══════════ API KEY ONBOARDING ═══════════
+function showApiSetup(){
+  if(!getApiKey()&&!localStorage.getItem('mrshd_api_prompted')){
+    const overlay=document.getElementById('api-setup-overlay');
+    if(overlay)overlay.style.display='flex';
+  }
+}
+function saveApiSetup(){
+  const k=(document.getElementById('api-setup-key')?.value||'').trim();
+  if(k){localStorage.setItem('mrshd_apikey',k);API_KEY=k;}
+  localStorage.setItem('mrshd_api_prompted','1');
+  const overlay=document.getElementById('api-setup-overlay');
+  if(overlay)overlay.style.display='none';
+  if(k)showToast('✅ تم تفعيل الذكاء الاصطناعي!');
+}
+function skipApiSetup(){
+  localStorage.setItem('mrshd_api_prompted','1');
+  const overlay=document.getElementById('api-setup-overlay');
+  if(overlay)overlay.style.display='none';
+}
+
 // ═══════════ DEV BADGE + GUEST LOGIN ═══════════
 function guestLogin(){
   S.profile.name='زائر';
@@ -3002,7 +3203,7 @@ function renderDevBadge(){
 
 // INIT
 load();initTheme();
-(async()=>{await loadFConfig();if(FCONFIG.customQuestions&&FCONFIG.customQuestions.length){FCONFIG.customQuestions.forEach(q=>{if(!KWB.some(k=>k.q===q.q))KWB.push(q);});}renderKWStats();renderDevBadge();})();
+(async()=>{await loadFConfig();if(FCONFIG.customQuestions&&FCONFIG.customQuestions.length){FCONFIG.customQuestions.forEach(q=>{if(!KWB.some(k=>k.q===q.q))KWB.push(q);});}renderKWStats();})();
 renderAll();renderKWScores();renderWUHist();renderPhotoHist();renderPlan();renderLevelsPage();
 if(location.hash==='#founder'||sessionStorage.getItem('mrshd_founder')==='1'){if(sessionStorage.getItem('mrshd_founder')==='1'){document.getElementById('founder-panel').classList.add('show');setTimeout(fpRenderAll,300);}else{openFounderLogin();}}
 (async()=>{const loggedIn=await checkAuthSession();if(loggedIn){renderAll();showApp();}else{showLanding();}})();
@@ -3017,7 +3218,6 @@ if(sessionStorage.getItem('mrshd_admin')==='1')setTimeout(()=>openAdminPanel(),5
     <div class="dev-badge-title">أخصائي السلامة المهنية</div>
   </div>
 </a>
-<span id="dev-badge-link" style="display:none"></span>
 
 </body>
 </html>
