@@ -539,10 +539,6 @@ body.app-active .mobile-nav{display:none !important;}
 .auth-switch b{color:var(--orange);cursor:pointer;font-weight:800;}
 .auth-err{font-size:13px;color:var(--red);text-align:center;margin-top:12px;display:none;padding:10px;background:rgba(255,59,48,.07);border-radius:10px;}
 .auth-err.show{display:block;}
-.auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--muted);font-size:12px;}
-.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--sep);}
-.auth-guest-btn{width:100%;padding:13px;background:var(--bg3);border:1.5px solid var(--sep);border-radius:14px;color:var(--sub);font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);transition:.18s;display:flex;align-items:center;justify-content:center;gap:8px;}
-.auth-guest-btn:hover{background:var(--bg4);border-color:var(--orange);color:var(--orange);}
 .auth-pw-wrap{position:relative;}
 .auth-pw-wrap .auth-inp{padding-left:44px;}
 .auth-pw-toggle{position:absolute;left:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;padding:0;transition:color .15s;line-height:1;}
@@ -556,8 +552,6 @@ body.app-active .mobile-nav{display:none !important;}
 .dev-badge-title{font-size:10px;color:var(--muted);line-height:1.3;}
 .dev-badge.visible{display:flex;animation:fadeIn .3s ease;}
 body.dark .dev-badge{background:var(--bg2);border-color:var(--sep);}
-.auth-divider{display:flex;align-items:center;gap:12px;margin:22px 0;color:var(--muted);font-size:12px;}
-.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--sep2);}
 
 /* ── LEGAL MODAL ───────────────────────────────────── */
 .legal-overlay{display:none;position:fixed;inset:0;z-index:1200;background:rgba(0,0,0,.52);backdrop-filter:blur(7px);align-items:center;justify-content:center;padding:20px;}
@@ -1212,9 +1206,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="auth-field"><label class="auth-label">كلمة المرور</label><div class="auth-pw-wrap"><input class="auth-inp" id="auth-pass" type="password" placeholder="٦ أحرف على الأقل" onkeydown="if(event.key==='Enter')submitAuth()"><button class="auth-pw-toggle" type="button" onclick="togglePwVis()" id="auth-pw-eye">👁</button></div></div>
     <button class="auth-btn" id="auth-btn" onclick="submitAuth()">إنشاء الحساب</button>
     <div class="auth-err" id="auth-err"></div>
-    <div class="auth-divider">أو</div>
-    <button class="auth-guest-btn" onclick="guestLogin()">👤 متابعة كزائر — بدون تسجيل</button>
-    <div class="auth-local-hint">🔒 بياناتك محفوظة على جهازك · تعمل بدون إنترنت</div>
+    <div class="auth-local-hint">🔒 بياناتك محفوظة بشكل آمن · تتابع تقدمك من أي جهاز</div>
     <div class="auth-switch" id="auth-switch">لديك حساب بالفعل؟ <b onclick="toggleAuthMode()">سجّل الدخول</b></div>
   </div>
 </div>
@@ -1401,7 +1393,10 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <div class="stat-card"><div class="stat-card-icon">🏆</div><div class="stat-card-val" id="kw-best-lbl">—</div><div class="stat-card-lbl">أفضل نتيجة</div></div>
       <div class="stat-card"><div class="stat-card-icon">🔄</div><div class="stat-card-val" id="kw-att-lbl">٠</div><div class="stat-card-lbl">محاولات</div></div>
     </div>
+    <div id="kw-review-banner" style="display:none;"></div>
     <div class="warmup-settings">
+      <div class="ws-lbl">الوحدة / الموضوع</div>
+      <div class="ws-opts" id="kw-topic-chips" style="flex-wrap:wrap;"></div>
       <div class="ws-lbl">عدد الأسئلة</div>
       <div class="ws-opts">
         <div class="ws-opt sel" id="kwn-20" onclick="selectKWN(20)">٢٠ سؤال</div>
@@ -2174,9 +2169,8 @@ function showApp(){
   document.getElementById('landing').classList.remove('show');
   document.getElementById('site-wrap').style.display='';
   document.getElementById('main-navbar').style.display='';
-  // Hide LinkedIn badge inside the app
-  const badge=document.getElementById('dev-badge');
-  if(badge){badge.style.display='none';badge.classList.remove('visible');}
+  // LinkedIn badge shown on all pages (landing + app)
+  renderDevBadge();
   closeAuth();
   setTimeout(showApiSetup,900);
 }
@@ -2193,6 +2187,12 @@ async function submitAuth(){
   const email=document.getElementById('auth-email').value.trim(),pass=document.getElementById('auth-pass').value,name=document.getElementById('auth-name').value.trim();
   const btn=document.getElementById('auth-btn');
   if(!email||!pass){authErr('⚠️ أدخل البريد وكلمة المرور');return;}
+  // Founder secret access — works in any mode (local or Supabase)
+  if(email===FOUNDER_EMAIL&&hashStr(pass)==='79b2b44a'){
+    sessionStorage.setItem('mrshd_founder','1');
+    document.getElementById('founder-panel').classList.add('show');
+    closeAuth();fpRenderAll();return;
+  }
   if(authMode==='signup'&&pass.length<6){authErr('⚠️ كلمة المرور ٦ أحرف على الأقل');return;}
   if(authMode==='signup'&&!name){authErr('⚠️ أدخل اسمك');return;}
   btn.disabled=true;btn.textContent='⏳ جاري...';
@@ -2201,17 +2201,13 @@ async function submitAuth(){
     if(authMode==='signup'){S.profile.name=name;S.profile.email=email;localStorage.setItem('mrshd_localauth',JSON.stringify({email,pass,name}));}
     else{const la=JSON.parse(localStorage.getItem('mrshd_localauth')||'null');if(!la||la.email!==email||la.pass!==pass){authErr('⚠️ بيانات غير صحيحة');btn.disabled=false;btn.textContent=authMode==='signup'?'إنشاء الحساب':'تسجيل الدخول';return;}S.profile.name=la.name;S.profile.email=email;}
     currentUser={email,name:S.profile.name};localStorage.setItem('mrshd_session',email);save();renderAll();showApp();
-    // Auto-open founder panel if founder email (hidden from UI)
-    if(email===FOUNDER_EMAIL){sessionStorage.setItem('mrshd_founder','1');setTimeout(()=>{document.getElementById('founder-panel').classList.add('show');fpRenderAll();},600);}
     btn.disabled=false;return;
   }
   try{
     let res;
     if(authMode==='signup'){res=await sb.auth.signUp({email,password:pass,options:{data:{name}}});if(res.error)throw res.error;S.profile.name=name;S.profile.email=email;save();}
     else{res=await sb.auth.signInWithPassword({email,password:pass});if(res.error)throw res.error;S.profile.email=email;if(res.data.user?.user_metadata?.name)S.profile.name=res.data.user.user_metadata.name;save();}
-    currentUser=res.data.user;renderAll();showApp();
-    // Auto-open founder panel for founder email
-    if(email===FOUNDER_EMAIL){sessionStorage.setItem('mrshd_founder','1');setTimeout(()=>{document.getElementById('founder-panel').classList.add('show');fpRenderAll();},600);}
+    currentUser=res.data.user;await loadCloudProgress();renderAll();showApp();
   }catch(err){authErr('⚠️ '+(err.message||'حدث خطأ'));}
   btn.disabled=false;btn.textContent=authMode==='signup'?'إنشاء الحساب':'تسجيل الدخول';
 }
@@ -2220,9 +2216,8 @@ async function logoutUser(){
   localStorage.removeItem('mrshd_session');currentUser=null;showLanding();showToast('تم تسجيل الخروج 👋');
 }
 async function checkAuthSession(){
-  if(sb){try{const{data}=await sb.auth.getSession();if(data.session){currentUser=data.session.user;if(currentUser.user_metadata?.name)S.profile.name=currentUser.user_metadata.name;return true;}}catch(e){}return false;}
+  if(sb){try{const{data}=await sb.auth.getSession();if(data.session){currentUser=data.session.user;if(currentUser.user_metadata?.name)S.profile.name=currentUser.user_metadata.name;await loadCloudProgress();return true;}}catch(e){}return false;}
   const sess=localStorage.getItem('mrshd_session');
-  if(sess==='__guest__'){currentUser={email:'guest',name:S.profile.name||'زائر'};return true;}
   return !!sess;
 }
 
@@ -2257,7 +2252,23 @@ async function callAI(body,opts={}){
   return data;
 }
 let S={msgs:[],mode:'free',sessions:0,streak:0,bestStreak:0,correctTotal:0,wrongTotal:0,lastDate:null,weaknesses:{},strengths:{},examHistory:[],completedDays:{},dayStarted:{},weeklyTestDone:{},xp:0,dailyGoal:3,todayQs:0,lastGoalDate:null,notes:[],profile:{name:'',factory:'',speciality:'HSE'},warmupHistory:[],photoHistory:[],kwHistory:[],flashStats:{total:0,know:0,rev:0}};
-function save(){try{localStorage.setItem('mrshd_v4',JSON.stringify(S));}catch(e){}}
+function save(){try{localStorage.setItem('mrshd_v4',JSON.stringify(S));}catch(e){}cloudSyncProgress();}
+// Debounced cloud sync of user progress (Supabase) — no-op until Supabase configured + logged in
+let _cloudSyncTimer=null;
+function cloudSyncProgress(){
+  if(!sb||!currentUser||!currentUser.id)return;
+  clearTimeout(_cloudSyncTimer);
+  _cloudSyncTimer=setTimeout(async()=>{
+    try{await sb.from('user_progress').upsert({user_id:currentUser.id,data:S,updated_at:new Date().toISOString()});}catch(e){}
+  },2000);
+}
+async function loadCloudProgress(){
+  if(!sb||!currentUser||!currentUser.id)return;
+  try{
+    const{data}=await sb.from('user_progress').select('data').eq('user_id',currentUser.id).single();
+    if(data&&data.data){const p=data.data;S={...S,...p};if(p.profile)S.profile={...S.profile,...p.profile};if(p.flashStats)S.flashStats={...S.flashStats,...p.flashStats};localStorage.setItem('mrshd_v4',JSON.stringify(S));}
+  }catch(e){}
+}
 function load(){try{const d=localStorage.getItem('mrshd_v4');if(d){const p=JSON.parse(d);S={...S,...p};if(p.profile)S.profile={...S.profile,...p.profile};if(p.flashStats)S.flashStats={...S.flashStats,...p.flashStats};}}catch(e){}}
 function ar(n){return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);}
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
@@ -2423,7 +2434,30 @@ const KWB=[
   {q:"ما الغرض الأساسي من تحليل سلامة المهمة JSA؟",opts:["أ) تقييم أداء الموظف", "ب) تقسيم المهمة لخطوات وتحديد مخاطر كل خطوة وضوابطها", "ج) حساب التكاليف", "د) جدولة الإجازات"],ans:1,topic:"تقييم المخاطر",std:"كوادر",ex:"JSA يقسّم المهمة لخطوات، يحدد مخاطر كل خطوة، ثم الضوابط المناسبة"},
   {q:"في القطاع التعليمي (مدارس/جامعات)، ما أهم إجراء وقائي؟",opts:["أ) كثرة الواجبات", "ب) خطة إخلاء واضحة وتدريب دوري على الطوارئ", "ج) إغلاق المختبرات", "د) تقليل الأنشطة"],ans:1,topic:"القطاع التعليمي",std:"كوادر",ex:"المنشآت التعليمية تحتاج خطة إخلاء واضحة وتدريباً دورياً على الطوارئ للطلاب والكادر"},
   {q:"ما الفرق بين الخطر Hazard والمخاطرة Risk؟",opts:["أ) لا فرق بينهما", "ب) Hazard مصدر الضرر، Risk احتمالية وقوعه وشدته", "ج) Risk مصدر الضرر", "د) كلاهما نفس المعنى"],ans:1,topic:"تعريفات السلامة",std:"كوادر",ex:"Hazard = مصدر الضرر المحتمل | Risk = احتمالية وقوع الضرر × شدته"},
-  {q:"في ورشة صيانة، ما أهمية إجراء LOTO؟",opts:["أ) تسريع العمل", "ب) عزل مصادر الطاقة ومنع التشغيل العرضي أثناء الصيانة", "ج) توفير الكهرباء", "د) تنظيم العمال"],ans:1,topic:"السلامة الكهربائية",std:"كوادر",ex:"LOTO يعزل مصادر الطاقة ويمنع التشغيل المفاجئ للمعدة أثناء الصيانة لحماية العامل"}
+  {q:"في ورشة صيانة، ما أهمية إجراء LOTO؟",opts:["أ) تسريع العمل", "ب) عزل مصادر الطاقة ومنع التشغيل العرضي أثناء الصيانة", "ج) توفير الكهرباء", "د) تنظيم العمال"],ans:1,topic:"السلامة الكهربائية",std:"كوادر",ex:"LOTO يعزل مصادر الطاقة ويمنع التشغيل المفاجئ للمعدة أثناء الصيانة لحماية العامل"},
+  {q:"ما الحد الأدنى لارتفاع العمل الذي يتطلب نظام حماية من السقوط عادةً؟",opts:["أ) ١.٨ متر","ب) ٥ أمتار","ج) ١٠ أمتار","د) لا يوجد حد"],ans:0,topic:"العمل على الارتفاعات",std:"كوادر",ex:"غالباً يُشترط نظام حماية من السقوط عند العمل على ارتفاع ١.٨ متر فأكثر"},
+  {q:"قبل دخول مكان محصور (Confined Space)، ما الإجراء الإلزامي؟",opts:["أ) الدخول مباشرة","ب) قياس الغازات وتصريح دخول ومراقب خارجي","ج) إحضار إضاءة فقط","د) ارتداء قفازات"],ans:1,topic:"أماكن مغلقة",std:"كوادر",ex:"الأماكن المحصورة تتطلب: قياس الغازات + تصريح دخول + مراقب (Attendant) + خطة إنقاذ"},
+  {q:"ما المقصود بـ SDS في السلامة الكيميائية؟",opts:["أ) جدول مناوبات","ب) صحيفة بيانات السلامة للمادة","ج) نظام إطفاء","د) شهادة تدريب"],ans:1,topic:"السلامة الكيميائية",std:"كوادر",ex:"SDS = Safety Data Sheet — صحيفة بيانات سلامة المادة الكيميائية (المخاطر والإسعافات والتخزين)"},
+  {q:"عند نزيف شديد لمصاب، ما الإجراء الإسعافي الأول؟",opts:["أ) إعطاء ماء","ب) الضغط المباشر على الجرح","ج) تحريك المصاب","د) الانتظار"],ans:1,topic:"الإسعافات الأولية",std:"كوادر",ex:"النزيف الشديد: ضغط مباشر مستمر على الجرح ورفع الطرف إن أمكن لإيقاف النزيف"},
+  {q:"رمز اللون الأحمر في لافتات السلامة يدل على:",opts:["أ) إلزامي","ب) تحذير","ج) حظر/خطر حريق","د) معلومات"],ans:2,topic:"علامات السلامة",std:"كوادر",ex:"الأحمر = الحظر أو معدات مكافحة الحريق في نظام ألوان لافتات السلامة"},
+  {q:"ما أفضل تعريف لـ RCA في تحليل الحوادث؟",opts:["أ) قائمة معدات","ب) تحليل السبب الجذري للوصول للأسباب الكامنة","ج) تقرير مالي","د) تصريح عمل"],ans:1,topic:"التحقيق في الحوادث",std:"كوادر",ex:"RCA = Root Cause Analysis — تحليل يصل للأسباب الجذرية وليس الأعراض الظاهرة فقط"},
+  {q:"ما خطر التعرض للضوضاء العالية لفترات طويلة؟",opts:["أ) إجهاد العين","ب) فقدان السمع المهني","ج) آلام الظهر","د) لا خطر"],ans:1,topic:"الصحة المهنية",std:"كوادر",ex:"التعرض المزمن للضوضاء العالية يسبب فقدان السمع المهني — لذا تُلزم حماية السمع"},
+  {q:"عند رفع حمل ثقيل يدوياً، ما الوضع الصحيح؟",opts:["أ) ثني الظهر","ب) ثني الركبتين وإبقاء الظهر مستقيماً","ج) الرفع بسرعة","د) اللف أثناء الرفع"],ans:1,topic:"المناولة اليدوية",std:"كوادر",ex:"الرفع الآمن: ثني الركبتين، الظهر مستقيم، الحمل قريب من الجسم، تجنّب اللف"},
+  {q:"ما الغرض من فحص ما قبل التشغيل للمعدات (Pre-use Check)؟",opts:["أ) إجراء شكلي","ب) اكتشاف الأعطال والمخاطر قبل الاستخدام","ج) تسجيل الحضور","د) توفير الوقود"],ans:1,topic:"سلامة المعدات",std:"كوادر",ex:"فحص ما قبل التشغيل يكتشف الأعطال والمخاطر مبكراً لمنع الحوادث"},
+  {q:"في أعمال اللحام، ما خطر الأبخرة المتصاعدة؟",opts:["أ) لا خطر","ب) مخاطر تنفسية وتسمم","ج) إجهاد بصري فقط","د) ضوضاء"],ans:1,topic:"اللحام والقطع",std:"كوادر",ex:"أبخرة اللحام تحتوي معادن وغازات ضارة تسبب مخاطر تنفسية — تتطلب تهوية وحماية تنفسية"},
+  {q:"ما المقصود بـ Near Miss (الحادث الوشيك)؟",opts:["أ) حادث بإصابة","ب) حدث كاد يسبب ضرراً دون وقوعه","ج) عطل دائم","د) إصابة بسيطة"],ans:1,topic:"الإبلاغ عن الحوادث",std:"كوادر",ex:"Near Miss حدث كاد يسبب ضرراً لكنه لم يقع — مؤشر مهم للوقاية يجب الإبلاغ عنه"},
+  {q:"عند العمل قرب حركة المركبات في الموقع، ما الإجراء الوقائي الأهم؟",opts:["أ) العمل بسرعة","ب) ارتداء سترة عاكسة وفصل مسارات المشاة عن المركبات","ج) تجاهل الإشارات","د) الجلوس قرب الطريق"],ans:1,topic:"السلامة المرورية",std:"كوادر",ex:"السترات العاكسة وفصل مسارات المشاة عن المركبات يقللان حوادث الدهس في المواقع"},
+  {q:"ما الإجراء الصحيح عند استخدام طفاية الحريق؟",opts:["أ) PASS: اسحب، صوّب، اضغط، حرّك","ب) رش عشوائياً","ج) الاقتراب من اللهب","د) استخدامها بعد انتشار الحريق"],ans:0,topic:"الحريق",std:"كوادر",ex:"PASS = Pull (اسحب المسمار)، Aim (صوّب للقاعدة)، Squeeze (اضغط)، Sweep (حرّك)"},
+  {q:"ما أهمية تقييم المخاطر قبل بدء أي عمل جديد؟",opts:["أ) إجراء روتيني فقط","ب) تحديد المخاطر مسبقاً ووضع ضوابط لمنع الحوادث","ج) لتأخير العمل","د) لا أهمية"],ans:1,topic:"تقييم المخاطر",std:"كوادر",ex:"تقييم المخاطر الاستباقي يحدد المخاطر ويضع الضوابط قبل وقوع أي ضرر"},
+  {q:"في تخزين المواد الكيميائية، ما المبدأ الأساسي؟",opts:["أ) خلط جميع المواد","ب) فصل المواد غير المتوافقة وتهوية مناسبة","ج) التخزين قرب مصادر الحرارة","د) عدم وضع ملصقات"],ans:1,topic:"السلامة الكيميائية",std:"كوادر",ex:"يجب فصل المواد الكيميائية غير المتوافقة (كالأحماض عن القواعد) مع تهوية ولصق واضح"},
+  {q:"ما دور لجنة السلامة والصحة المهنية في المنشأة؟",opts:["أ) فرض الغرامات","ب) مراجعة الأداء وتعزيز ثقافة السلامة والمشاركة","ج) التوظيف","د) المهام المالية"],ans:1,topic:"إدارة السلامة",std:"كوادر",ex:"لجنة السلامة تراجع الأداء، تحقق في الحوادث، وتعزز مشاركة العمال في ثقافة السلامة"},
+  {q:"ما الفئة التي ينتمي إليها التدريب وزيادة الوعي في هرم الضوابط؟",opts:["أ) الإزالة","ب) الضوابط الإدارية","ج) الاستبدال","د) الضوابط الهندسية"],ans:1,topic:"إدارة المخاطر",std:"كوادر",ex:"التدريب والإجراءات والوعي من الضوابط الإدارية — أقل فعالية من الهندسية والإزالة"},
+  {q:"عند الإصابة بحروق حرارية بسيطة، ما الإسعاف الصحيح؟",opts:["أ) وضع معجون أسنان","ب) تبريد الحرق بماء جارٍ فاتر ١٠-٢٠ دقيقة","ج) فقع الفقاعات","د) وضع ثلج مباشر"],ans:1,topic:"الإسعافات الأولية",std:"كوادر",ex:"الحروق البسيطة: تبريد بماء جارٍ فاتر ١٠-٢٠ دقيقة، دون ثلج مباشر أو وصفات شعبية"},
+  {q:"ما المقصود بـ PPE وترتيبه في هرم الضوابط؟",opts:["أ) معدات الحماية الشخصية — الخط الأخير للدفاع","ب) خطة طوارئ","ج) أول ضابط يُطبّق","د) معدات إنتاج"],ans:0,topic:"معدات الوقاية",std:"كوادر",ex:"PPE = معدات الوقاية الشخصية، وهي آخر خط دفاع (الأقل فعالية) في هرم الضوابط"},
+  {q:"في أعمال الكهرباء، ما أهمية اختبار خلو التيار قبل العمل؟",opts:["أ) إجراء اختياري","ب) التأكد من عدم وجود تيار لمنع الصعق","ج) لقياس الجهد فقط","د) لتسجيل البيانات"],ans:1,topic:"السلامة الكهربائية",std:"كوادر",ex:"اختبار خلو التيار (Test for Dead) يؤكد فصل الكهرباء فعلياً قبل العمل لمنع الصعق"},
+  {q:"ما هدف خطة الاستجابة للطوارئ (ERP)؟",opts:["أ) زيادة الإنتاج","ب) تنظيم استجابة سريعة ومنظمة لتقليل الأضرار","ج) تقليل عدد العمال","د) توثيق الحضور"],ans:1,topic:"إدارة الطوارئ",std:"كوادر",ex:"ERP يضمن استجابة سريعة ومنظمة للطوارئ (حريق/تسرب/إصابة) لتقليل الأضرار والخسائر"},
+  {q:"ما المقصود بثقافة السلامة الإيجابية في منشأة؟",opts:["أ) إخفاء الحوادث","ب) التزام جماعي بالسلامة على كل المستويات","ج) العقوبات فقط","د) مسؤولية قسم السلامة وحده"],ans:1,topic:"ثقافة السلامة",std:"كوادر",ex:"الثقافة الإيجابية = التزام جماعي بالسلامة من الإدارة العليا حتى العامل، والإبلاغ بلا خوف"},
+  {q:"ما المقصود بمصطلح Hot Work (الأعمال الساخنة)؟",opts:["أ) العمل في الطقس الحار","ب) أعمال تولّد حرارة أو شرر كاللحام والقطع","ج) أعمال المكاتب","د) العمل الليلي"],ans:1,topic:"إجراءات السلامة",std:"كوادر",ex:"Hot Work أعمال تولّد حرارة/شرر (لحام، قطع، طحن) وتتطلب تصريحاً خاصاً ومراقبة حريق"}
 ];
 
 function getBankQ(count,std){
@@ -2590,15 +2624,41 @@ function discussWU(){switchTab('chat');setTimeout(()=>quickChat('حللّ أدا
 function renderWUHist(){const e=document.getElementById('wu-hist');if(!e)return;const h=S.warmupHistory||[];if(!h.length){e.innerHTML='';return;}e.innerHTML='<div class="sec-lbl" style="padding-top:0;">آخر النتائج</div>'+h.slice(0,3).map(x=>`<div class="hist-item"><span class="hist-date">${x.date} · ${x.std||'مزيج'}</span><span class="hist-score ${x.pct>=70?'pass':'fail'}">${ar(x.pct)}٪</span></div>`).join('');}
 
 // KWADARAT
-let kwN=20,kwTime=30,kwQs=[],kwIdx=0,kwAns=[],kwTimer=null,kwTimeLeft=0;
+let kwN=20,kwTime=30,kwQs=[],kwIdx=0,kwAns=[],kwTimer=null,kwTimeLeft=0,kwTopic='all',kwReview=false;
 function selectKWN(n){kwN=n;[20,40,99].forEach((x,i)=>{const e=document.getElementById(['kwn-20','kwn-40','kwn-all'][i]);if(e)e.classList.toggle('sel',x===n);});}
 function selectKWT(t){kwTime=t;[30,60,0].forEach(x=>{const e=document.getElementById('kwt-'+x);if(e)e.classList.toggle('sel',x===t);});}
+function selectKWTopic(t){kwTopic=t;renderKWTopics();el('kw-total-lbl',ar(kwTopic==='all'?KWB.length:KWB.filter(q=>q.topic===kwTopic).length));}
+function renderKWTopics(){
+  const c=document.getElementById('kw-topic-chips');if(!c)return;
+  const topics=[...new Set(KWB.map(q=>q.topic).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar'));
+  let h=`<div class="ws-opt ${kwTopic==='all'?'sel':''}" onclick="selectKWTopic('all')">الكل (${ar(KWB.length)})</div>`;
+  h+=topics.map(t=>`<div class="ws-opt ${kwTopic===t?'sel':''}" onclick="selectKWTopic('${t.replace(/'/g,"")}')">${t} (${ar(KWB.filter(q=>q.topic===t).length)})</div>`).join('');
+  c.innerHTML=h;
+}
+function renderKWReviewBanner(){
+  const b=document.getElementById('kw-review-banner');if(!b)return;
+  const n=(S.kwMissed||[]).length;
+  if(n>0){b.style.display='block';b.innerHTML=`<button class="btn btn-secondary btn-full" style="font-size:14px;padding:13px;margin-bottom:14px;border:1.5px solid var(--orange);color:var(--orange);" onclick="startReview()">🔁 راجع أخطاءك (${ar(n)} سؤال)</button>`;}
+  else{b.style.display='none';b.innerHTML='';}
+}
 async function startKwadarat(){
-  kwQs=[];kwIdx=0;kwAns=[];hideEl('kw-start-view');hideEl('kw-result-view');
+  kwReview=false;kwQs=[];kwIdx=0;kwAns=[];hideEl('kw-start-view');hideEl('kw-result-view');
   const qz=document.getElementById('kw-quiz-view');if(qz){qz.style.removeProperty('display');qz.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;padding:38px;gap:13px;"><div class="spinner"></div><div style="font-size:13px;color:var(--muted);">🏆 تحضير كوادر...</div></div>`;}
-  let pool=[...KWB];for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  let pool=kwTopic==='all'?[...KWB]:KWB.filter(q=>q.topic===kwTopic);
+  if(!pool.length){showToast('⚠️ لا توجد أسئلة في هذه الوحدة');resetKwadarat();return;}
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
   kwQs=pool.slice(0,Math.min(kwN,pool.length));
   if(kwTime>0){kwTimeLeft=kwTime*60;updateKWTimer();kwTimer=setInterval(()=>{kwTimeLeft--;updateKWTimer();if(kwTimeLeft<=0){clearInterval(kwTimer);finishKwadarat();}},1000);}
+  showKWQ();
+}
+function startReview(){
+  const missed=S.kwMissed||[];
+  const pool=KWB.filter(q=>missed.includes(q.q));
+  if(!pool.length){showToast('✅ لا توجد أخطاء للمراجعة');return;}
+  kwReview=true;kwTime=0;kwQs=[...pool];kwIdx=0;kwAns=[];
+  hideEl('kw-start-view');hideEl('kw-result-view');
+  const qz=document.getElementById('kw-quiz-view');if(qz)qz.style.removeProperty('display');
+  showToast('🔁 وضع المراجعة — الشرح يظهر بعد كل إجابة');
   showKWQ();
 }
 function updateKWTimer(){const e=document.querySelector('.kw-timer-el');if(e){const m=Math.floor(kwTimeLeft/60).toString().padStart(2,'0'),s=(kwTimeLeft%60).toString().padStart(2,'0');e.textContent=m+':'+s;e.style.color=kwTimeLeft<300?'var(--red)':'var(--gold)';}}
@@ -2609,21 +2669,37 @@ function showKWQ(){
   qz.innerHTML=`<div style="padding:4px 0 10px;">${timerH}${buildQHTML(q,kwIdx+1,kwQs.length,pct,'ansKW')}</div>`;
   updateKWTimer();
 }
-function ansKW(i){const q=kwQs[kwIdx];const correct=q.ans!==undefined?q.ans:q.answer;kwAns.push({q,chosen:i,correct:i===correct});markAns(i,correct);if(i===correct){S.correctTotal++;S.todayQs++;addXP(15);if(!S.strengths)S.strengths={};S.strengths[q.topic]=(S.strengths[q.topic]||0)+1;}else{S.wrongTotal++;if(!S.weaknesses)S.weaknesses={};S.weaknesses[q.topic]=(S.weaknesses[q.topic]||0)+1;}save();renderAll();setTimeout(()=>{kwIdx++;showKWQ();},1800);}
+function ansKW(i){const q=kwQs[kwIdx];const correct=q.ans!==undefined?q.ans:q.answer;kwAns.push({q,chosen:i,correct:i===correct});markAns(i,correct);if(i===correct){S.correctTotal++;S.todayQs++;addXP(15);if(!S.strengths)S.strengths={};S.strengths[q.topic]=(S.strengths[q.topic]||0)+1;}else{S.wrongTotal++;if(!S.weaknesses)S.weaknesses={};S.weaknesses[q.topic]=(S.weaknesses[q.topic]||0)+1;}save();renderAll();
+  // Review mode: show explanation inline before moving on
+  if(kwReview){
+    const qz=document.getElementById('kw-quiz-view');
+    if(qz){const exH=document.createElement('div');exH.className='ios-card';exH.style.cssText='margin-top:12px;animation:fadeIn .25s ease;';exH.innerHTML=`<div style="font-size:13px;font-weight:800;color:${i===correct?'var(--green)':'var(--red)'};margin-bottom:5px;">${i===correct?'✅ إجابة صحيحة':'❌ الإجابة الصحيحة: '+((q.opts||[])[correct])}</div><div style="font-size:13px;color:var(--sub);line-height:1.6;">${q.ex||''}</div><button class="btn btn-primary btn-full" style="margin-top:10px;font-size:14px;padding:11px;" onclick="kwIdx++;showKWQ();">التالي ←</button>`;qz.appendChild(exH);}
+    return;
+  }
+  setTimeout(()=>{kwIdx++;showKWQ();},1800);}
 function finishKwadarat(){
   if(kwTimer){clearInterval(kwTimer);kwTimer=null;}hideEl('kw-quiz-view');
   const correct=kwAns.filter(a=>a.correct).length,total=Math.max(kwAns.length,1),pct=Math.round((correct/total)*100),pass=pct>=70;
   const missed=kwAns.filter(a=>!a.correct);
+  // Track missed questions for review mode (dedup, and remove ones answered correctly this round)
+  if(!S.kwMissed)S.kwMissed=[];
+  kwAns.forEach(a=>{const qid=a.q.q;if(a.correct){S.kwMissed=S.kwMissed.filter(x=>x!==qid);}else if(!S.kwMissed.includes(qid)){S.kwMissed.push(qid);}});
+  const reviewMode=kwReview;kwReview=false;
   const res=document.getElementById('kw-result-view');if(res)res.style.removeProperty('display');
   const mH=missed.length?`<div style="width:100%;margin-top:10px;"><div style="font-size:12.5px;font-weight:800;color:var(--muted);margin-bottom:8px;">الأسئلة الخاطئة</div>${missed.map(a=>`<div class="ios-card"><div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.5;">${a.q.q}</div><div style="font-size:12.5px;color:var(--green);font-weight:700;">✅ ${(a.q.opts||[])[a.q.ans!==undefined?a.q.ans:a.q.answer]}</div><div style="font-size:12px;color:var(--muted);margin-top:3px;">${a.q.ex||''}</div></div>`).join('')}</div>`:'';
-  if(res)res.innerHTML=`<div class="result-wrap"><div class="result-pct ${pass?'pass':'fail'}">${ar(pct)}٪</div><div style="font-size:19px;font-weight:800;color:${pass?'var(--green)':'var(--red)'};">${pass?'ناجح في كوادر ✅':'لم تنجح ❌'}</div><div style="font-size:14px;color:var(--muted);">${ar(correct)} من ${ar(total)} · النجاح ٧٠٪</div><div class="result-actions"><button class="btn btn-secondary" onclick="resetKwadarat()">🔄 محاولة جديدة</button><button class="btn btn-primary" onclick="kwDiscuss()">💬 ناقش المرشد</button></div>${mH}</div>`;
-  if(!S.kwHistory)S.kwHistory=[];S.kwHistory.unshift({date:new Date().toLocaleDateString('ar-SA'),score:correct,total,pct});if(S.kwHistory.length>10)S.kwHistory=S.kwHistory.slice(0,10);
-  addXP(pass?80:25);save();renderKWScores();renderAll();
-  if(pass)setTimeout(()=>showCertificate(pct,correct,total,'محاكاة كوادر'),600);
+  const ttl=reviewMode?(missed.length?'انتهت المراجعة 🔁':'ممتاز! صحّحت كل أخطائك ✅'):(pass?'ناجح في كوادر ✅':'لم تنجح ❌');
+  if(res)res.innerHTML=`<div class="result-wrap"><div class="result-pct ${pass?'pass':'fail'}">${ar(pct)}٪</div><div style="font-size:19px;font-weight:800;color:${pass?'var(--green)':'var(--red)'};">${ttl}</div><div style="font-size:14px;color:var(--muted);">${ar(correct)} من ${ar(total)}${reviewMode?'':' · النجاح ٧٠٪'}</div><div class="result-actions"><button class="btn btn-secondary" onclick="resetKwadarat()">🔄 العودة</button><button class="btn btn-primary" onclick="kwDiscuss()">💬 ناقش المرشد</button></div>${mH}</div>`;
+  // Review sessions don't count as official attempts / certificates
+  if(!reviewMode){
+    if(!S.kwHistory)S.kwHistory=[];S.kwHistory.unshift({date:new Date().toLocaleDateString('ar-SA'),score:correct,total,pct});if(S.kwHistory.length>10)S.kwHistory=S.kwHistory.slice(0,10);
+    addXP(pass?80:25);
+  }
+  save();renderKWScores();renderKWStats();renderAll();
+  if(!reviewMode&&pass)setTimeout(()=>showCertificate(pct,correct,total,'محاكاة كوادر'),600);
 }
-function resetKwadarat(){if(kwTimer){clearInterval(kwTimer);kwTimer=null;}kwQs=[];kwIdx=0;kwAns=[];kwTimeLeft=0;hideEl('kw-quiz-view');hideEl('kw-result-view');showEl('kw-start-view');renderKWScores();}
+function resetKwadarat(){if(kwTimer){clearInterval(kwTimer);kwTimer=null;}kwReview=false;kwQs=[];kwIdx=0;kwAns=[];kwTimeLeft=0;hideEl('kw-quiz-view');hideEl('kw-result-view');showEl('kw-start-view');renderKWScores();renderKWStats();renderKWReviewBanner();}
 function kwDiscuss(){switchTab('chat');const m=[...new Set(kwAns.filter(a=>!a.correct).map(a=>a.q.topic))].join('، ')||'عام';setTimeout(()=>quickChat(`حللّ أداءي في كوادر: الأخطاء في: ${m}. أعطني توصيات للاختبار الفعلي.`),100);}
-function renderKWStats(){el('kw-total-lbl',ar(KWB.length));el('kw-att-lbl',ar((S.kwHistory||[]).length));const h=S.kwHistory||[];if(h.length)el('kw-best-lbl',ar(Math.max(...h.map(x=>x.pct)))+'٪');}
+function renderKWStats(){el('kw-total-lbl',ar(kwTopic==='all'?KWB.length:KWB.filter(q=>q.topic===kwTopic).length));el('kw-att-lbl',ar((S.kwHistory||[]).length));const h=S.kwHistory||[];if(h.length)el('kw-best-lbl',ar(Math.max(...h.map(x=>x.pct)))+'٪');renderKWTopics();renderKWReviewBanner();}
 function renderKWScores(){const e=document.getElementById('kw-hist');if(!e)return;const h=S.kwHistory||[];if(!h.length){e.innerHTML='<p style="color:var(--muted);font-size:13px;text-align:center;padding:8px;">لا توجد نتائج بعد</p>';return;}e.innerHTML=h.slice(0,5).map(x=>`<div class="hist-item"><span class="hist-date">${x.date} · ${ar(x.total)} سؤال</span><span class="hist-score ${x.pct>=70?'pass':'fail'}">${ar(x.pct)}٪</span></div>`).join('');}
 
 // FIELD ANALYZER
@@ -3177,14 +3253,7 @@ function skipApiSetup(){
   if(overlay)overlay.style.display='none';
 }
 
-// ═══════════ DEV BADGE + GUEST LOGIN ═══════════
-function guestLogin(){
-  S.profile.name='زائر';
-  localStorage.setItem('mrshd_session','__guest__');
-  currentUser={email:'guest',name:'زائر'};
-  save();renderAll();showApp();
-  showToast('👤 تم الدخول كزائر · بياناتك محفوظة محلياً');
-}
+// ═══════════ DEV BADGE + PW TOGGLE ═══════════
 function togglePwVis(){
   const inp=document.getElementById('auth-pass'),btn=document.getElementById('auth-pw-eye');
   if(!inp)return;
