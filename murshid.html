@@ -1379,8 +1379,6 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     </div>
     <div id="kw-review-banner" style="display:none;"></div>
     <div class="warmup-settings">
-      <div class="ws-lbl">الوحدة / الموضوع</div>
-      <div class="ws-opts" id="kw-topic-chips" style="flex-wrap:wrap;"></div>
       <div class="ws-lbl">عدد الأسئلة</div>
       <div class="ws-opts">
         <div class="ws-opt sel" id="kwn-20" onclick="selectKWN(20)">٢٠ سؤال</div>
@@ -1420,7 +1418,8 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
                 <td class="rm-header">١<br><small>بسيط</small></td>
                 <td class="rm-header">٢<br><small>طفيف</small></td>
                 <td class="rm-header">٣<br><small>متوسط</small></td>
-                <td class="rm-header">٤<br><small>خطير</small></td>
+                <td class="rm-header">٤<br><small>كبير</small></td>
+                <td class="rm-header">٥<br><small>كارثي</small></td>
               </tr>
             </thead>
             <tbody id="risk-matrix-body"></tbody>
@@ -1647,7 +1646,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 <!-- ═══════════════ PHOTO ═══════════════ -->
 <div class="page" id="page-photo">
 <div class="container">
-  <div class="ph"><div class="ph-eyebrow">GPT-4o Vision · تحليل احترافي</div><div class="ph-title">محلل صور المواقع</div><div class="ph-sub">تقرير سلامة شامل: Bow-Tie · 5-Why · مصفوفة 4×4 · معايير دولية</div></div>
+  <div class="ph"><div class="ph-eyebrow">GPT-4o Vision · تحليل احترافي</div><div class="ph-title">محلل صور المواقع</div><div class="ph-sub">تقرير سلامة شامل: Bow-Tie · 5-Why · مصفوفة 5×5 · معايير دولية</div></div>
   <div class="photo-drop" id="hse-dropzone" onclick="document.getElementById('hse-file').click()" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="event.preventDefault();this.classList.remove('drag-over');if(event.dataTransfer.files[0])hseLoadFile(event.dataTransfer.files[0])">
     <input type="file" id="hse-file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="hseLoadFile(event.target.files[0])">
     <div id="hse-placeholder"><div style="font-size:40px;margin-bottom:10px;">📸</div><div style="font-size:15px;font-weight:700;color:var(--text);">ارفع صورة من الموقع</div><div style="font-size:12px;color:var(--muted);margin-top:4px;">JPG / PNG / WEBP · حتى 10MB</div></div>
@@ -2523,12 +2522,12 @@ async function _loadFlashCard(ids,setFlip){
 function _updateFS(a,b,c){const fs=S.flashStats||{total:0,know:0,rev:0};el(a,ar(fs.total));el(b,ar(fs.know));el(c,ar(fs.rev));}
 
 function loadFlashCard(){_loadFlashCard(['flash-card','fc-topic','fc-front','fc-back','fc-hint','flash-acts','fs-total','fs-know','fs-rev'],v=>{flashFlipped=v;});}
-function flipCard(){if(flashFlipped)return;flashFlipped=true;const fb=document.getElementById('fc-back'),fh=document.getElementById('fc-hint'),fa=document.getElementById('flash-acts');if(fb)fb.style.display='';if(fh)fh.style.display='none';if(fa)fa.style.display='flex';}
+function flipCard(){if(flashFlipped)return;flashFlipped=true;const fb=document.getElementById('fc-back'),fh=document.getElementById('fc-hint'),fa=document.getElementById('flash-acts');if(fb)fb.style.display='block';if(fh)fh.style.display='none';if(fa)fa.style.display='flex';}
 function flashAns(know){if(!S.flashStats)S.flashStats={total:0,know:0,rev:0};S.flashStats.total++;if(know)S.flashStats.know++;else S.flashStats.rev++;if(know)addXP(5);_updateFS('fs-total','fs-know','fs-rev');save();setTimeout(loadFlashCard,300);}
 function askAboutFlash(){if(!curFlash)return;switchTab('chat');setTimeout(()=>quickChat(`اشرح بالتفصيل مفهوم "${curFlash.front}" في ${curFlash.topic} مع أمثلة عملية`),100);}
 
 function loadFlashCard2(){_loadFlashCard(['flash-card-t','fc-topic-t','fc-front-t','fc-back-t','fc-hint-t','flash-acts-t','fs-total-t','fs-know-t','fs-rev-t'],v=>{flashFlipped2=v;});}
-function flipCard2(){if(flashFlipped2)return;flashFlipped2=true;const fb=document.getElementById('fc-back-t'),fh=document.getElementById('fc-hint-t'),fa=document.getElementById('flash-acts-t');if(fb)fb.style.display='';if(fh)fh.style.display='none';if(fa)fa.style.display='flex';}
+function flipCard2(){if(flashFlipped2)return;flashFlipped2=true;const fb=document.getElementById('fc-back-t'),fh=document.getElementById('fc-hint-t'),fa=document.getElementById('flash-acts-t');if(fb)fb.style.display='block';if(fh)fh.style.display='none';if(fa)fa.style.display='flex';}
 function flashAns2(know){if(!S.flashStats)S.flashStats={total:0,know:0,rev:0};S.flashStats.total++;if(know)S.flashStats.know++;else S.flashStats.rev++;if(know)addXP(5);_updateFS('fs-total-t','fs-know-t','fs-rev-t');save();setTimeout(loadFlashCard2,300);}
 function askAboutFlash2(){if(!curFlash2)return;switchTab('chat');setTimeout(()=>quickChat(`اشرح مفهوم "${curFlash2.front}"`),100);}
 
@@ -2580,9 +2579,10 @@ function esc(t){return String(t??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 function renderNotes(){const e=document.getElementById('notes-list');if(!e)return;e.innerHTML=(S.notes||[]).map((n,i)=>`<div class="note-item"><div class="note-text"><span style="font-size:11px;color:var(--muted);">${esc(n.date)}</span><br>${esc(n.text)}</div><span class="note-del" onclick="delNote(${i})">🗑</span></div>`).join('')||'<p style="color:var(--muted);font-size:13px;text-align:center;padding:10px;">لا توجد ملاحظات</p>';}
 
 // QUIZ HELPERS
-function buildQHTML(q,num,total,pct,fn){
+function buildQHTML(q,num,total,pct,fn,hideMeta){
   const opts=q.opts||[];
-  return`<div class="ios-card" style="margin-bottom:11px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap;"><span class="bdg bdg-gold">${q.std||'HSE'}</span><span style="font-size:12px;color:var(--muted);">${ar(num)}/${ar(total)}</span><span style="font-size:11px;color:var(--muted);margin-right:auto;">${q.topic||''}</span></div><div class="prog-track" style="margin-bottom:12px;"><div class="prog-fill" style="width:${pct}%;"></div></div><div style="font-size:15.5px;font-weight:700;color:var(--text);line-height:1.6;">${q.q}</div></div>${opts.map((o,i)=>`<button class="quiz-opt" id="qopt-${i}" onclick="${fn}(${i})">${o}</button>`).join('')}<div class="quiz-explain" id="quiz-exp">${q.ex||''}</div>`;
+  const meta=hideMeta?`<span style="font-size:12px;color:var(--muted);">${ar(num)}/${ar(total)}</span>`:`<span class="bdg bdg-gold">${q.std||'HSE'}</span><span style="font-size:12px;color:var(--muted);">${ar(num)}/${ar(total)}</span><span style="font-size:11px;color:var(--muted);margin-right:auto;">${q.topic||''}</span>`;
+  return`<div class="ios-card" style="margin-bottom:11px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap;">${meta}</div><div class="prog-track" style="margin-bottom:12px;"><div class="prog-fill" style="width:${pct}%;"></div></div><div style="font-size:15.5px;font-weight:700;color:var(--text);line-height:1.6;">${q.q}</div></div>${opts.map((o,i)=>`<button class="quiz-opt" id="qopt-${i}" onclick="${fn}(${i})">${o}</button>`).join('')}<div class="quiz-explain" id="quiz-exp">${q.ex||''}</div>`;
 }
 function markAns(chosen,correct){for(let i=0;i<4;i++){const o=document.getElementById('qopt-'+i);if(!o)continue;o.classList.add('locked');o.disabled=true;if(i===correct)o.classList.add('correct');else if(i===chosen&&chosen!==correct)o.classList.add('wrong');}const exp=document.getElementById('quiz-exp');if(exp)exp.classList.add('show');}
 function buildResultHTML(pct,correct,total,rFn,dFn){return`<div class="result-wrap"><div class="result-pct ${pct>=70?'pass':'fail'}">${ar(pct)}٪</div><div style="font-size:19px;font-weight:800;color:${pct>=70?'var(--green)':'var(--red)'};">${pct>=70?'ممتاز! 🎉':'يحتاج مراجعة 📚'}</div><div style="font-size:14px;color:var(--muted);">${ar(correct)} صحيح من ${ar(total)} سؤال</div><div class="result-actions"><button class="btn btn-secondary" onclick="${rFn}()">🔄 جولة جديدة</button><button class="btn btn-primary" onclick="${dFn}()">💬 ناقش المرشد</button></div></div>`;}
@@ -2651,7 +2651,7 @@ function showKWQ(){
   const qz=document.getElementById('kw-quiz-view');if(!qz)return;if(kwIdx>=kwQs.length){finishKwadarat();return;}
   const q=kwQs[kwIdx],pct=Math.round((kwIdx/kwQs.length)*100);
   const timerH=kwTime>0?`<div class="kw-timer-el" style="font-family:monospace;font-size:13px;font-weight:700;color:var(--gold);background:rgba(245,166,35,.08);border:1.5px solid rgba(245,166,35,.2);border-radius:9px;padding:4px 13px;margin-bottom:10px;display:inline-block;">00:00</div>`:'';
-  qz.innerHTML=`<div style="padding:4px 0 10px;">${timerH}${buildQHTML(q,kwIdx+1,kwQs.length,pct,'ansKW')}</div>`;
+  qz.innerHTML=`<div style="padding:4px 0 10px;">${timerH}${buildQHTML(q,kwIdx+1,kwQs.length,pct,'ansKW',true)}</div>`;
   updateKWTimer();
 }
 function ansKW(i){const q=kwQs[kwIdx];const correct=q.ans!==undefined?q.ans:q.answer;kwAns.push({q,chosen:i,correct:i===correct});markAns(i,correct);if(i===correct){S.correctTotal++;S.todayQs++;addXP(15);if(!S.strengths)S.strengths={};S.strengths[q.topic]=(S.strengths[q.topic]||0)+1;}else{S.wrongTotal++;if(!S.weaknesses)S.weaknesses={};S.weaknesses[q.topic]=(S.weaknesses[q.topic]||0)+1;}save();renderAll();
@@ -2713,14 +2713,14 @@ async function hseAnalyze(){
   hseReportRef=hseGenRef();
   const btn=document.getElementById('hse-analyze-btn'),res=document.getElementById('hse-result');
   if(btn){btn.disabled=true;btn.textContent='⏳ جاري التحليل العميق...';}
-  if(res)res.innerHTML='<div class="ios-card" style="text-align:center;padding:34px;"><div class="spinner"></div><div style="font-size:13px;color:var(--muted);margin-top:12px;">المحلل الخبير يفحص الصورة بعمق...<br>Bow-Tie · 5-Why · مصفوفة 4×4</div></div>';
+  if(res)res.innerHTML='<div class="ios-card" style="text-align:center;padding:34px;"><div class="spinner"></div><div style="font-size:13px;color:var(--muted);margin-top:12px;">المحلل الخبير يفحص الصورة بعمق...<br>Bow-Tie · 5-Why · مصفوفة 5×5</div></div>';
   const g=id=>document.getElementById(id)?.value.trim()||'';
   const sector=g('hse-sector'),loc=g('hse-location'),inspector=g('hse-inspector'),company=g('hse-company'),notes=g('hse-notes');
   const systemPrompt=`أنت خبير سلامة مهنية معتمد دولياً (NEBOSH IGC, CSP) متخصص في تحليل مخالفات السلامة وفق معايير ISO 45001 وOSHA 29 CFR وGSO وILO.
 مهمتك: تحليل الصورة الميدانية وإصدار تقرير سلامة شامل ومتعدد الأبعاد.
 قواعد التحليل الإلزامية:
 ١. حدد الأسباب الجذرية بمنهجية دقيقة
-٢. قيّم المخاطر باحتمالية وشدة (1-4) وفق مصفوفة 4×4
+٢. قيّم المخاطر باحتمالية وشدة (1-5) وفق مصفوفة 5×5
 ٣. اربط كل مخالفة بمعيار دولي محدد مع رقم البند
 ٤. صنّف الضوابط هرمياً (هندسية → إدارية → PPE)
 ٥. ضع تحليل Bow-Tie: الأسباب → الحدث الرئيسي → العواقب + الحواجز
@@ -2733,9 +2733,16 @@ async function hseAnalyze(){
   try{
     const data=await callAI({model:'gpt-4o',max_tokens:3500,temperature:0.3,messages:[{role:'system',content:systemPrompt},{role:'user',content:[{type:'image_url',image_url:{url:'data:'+hseImgType+';base64,'+hseImgB64,detail:'high'}},{type:'text',text:userText}]}]});
     let raw=data.choices?.[0]?.message?.content||'{}';raw=raw.replace(/```json|```/g,'').trim();
-    const p=JSON.parse(raw);
-    p.risk_probability=Math.min(4,Math.max(1,p.risk_probability||2));
-    p.risk_severity=Math.min(4,Math.max(1,p.risk_severity||2));
+    // المحلل قد يعيد نصاً (اعتذار/رفض) بدل JSON — نستخرج كائن JSON إن وُجد، وإلا نعرض رسالة واضحة
+    let p;
+    try{p=JSON.parse(raw);}
+    catch(_e){
+      const m=raw.match(/\{[\s\S]*\}/);
+      if(m){try{p=JSON.parse(m[0]);}catch(_e2){p=null;}}
+    }
+    if(!p||typeof p!=='object'){throw new Error('تعذّر تحليل الصورة. تأكد أنها صورة واضحة لموقع عمل وحاول مرة أخرى.');}
+    p.risk_probability=Math.min(5,Math.max(1,p.risk_probability||2));
+    p.risk_severity=Math.min(5,Math.max(1,p.risk_severity||2));
     if(!p.follow_up_days)p.follow_up_days=14;
     ['standards','immediate_actions','corrective_actions','engineering_controls','administrative_controls','ppe_required','additional_violations','five_why'].forEach(k=>{if(!Array.isArray(p[k]))p[k]=[];});
     if(!p.bowtie)p.bowtie={threats:[],event:'',prevention_barriers:[],recovery_barriers:[],consequences:[]};
@@ -2759,8 +2766,8 @@ function hseRenderResult(){
   const r=hseResult,res=document.getElementById('hse-result');if(!res)return;
   const sv=HSE_SEV[r.severity]||HSE_SEV.medium;
   const score=r.risk_probability*r.risk_severity;
-  const scoreLbl=score<=4?'منخفض':score<=8?'متوسط':score<=12?'عالي':'حرج';
-  const scoreColor=score<=4?'#1a7a3a':score<=8?'#8a6000':score<=12?'#c2410c':'#b91c1c';
+  const scoreLbl=score<=4?'منخفض':score<=9?'متوسط':score<=15?'عالي':'حرج';
+  const scoreColor=score<=4?'#1a7a3a':score<=9?'#8a6000':score<=15?'#c2410c':'#b91c1c';
   const dateStr=new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'});
   const chip=(t,c)=>`<span style="display:inline-block;padding:3px 10px;border-radius:7px;font-size:11px;font-weight:700;background:${c}15;color:${c};border:1px solid ${c}35;margin:2px;font-family:monospace;">${t}</span>`;
   const listBlock=(title,icon,arr,color)=>arr&&arr.length?`<div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:800;margin-bottom:6px;">${icon} ${title}</div>${arr.map((x,i)=>`<div style="padding:7px 11px;background:${color}0d;border-radius:8px;font-size:13px;margin-bottom:4px;line-height:1.6;">${typeof x==='string'?(arr.length>1?(i+1)+'. ':'')+x:x}</div>`).join('')}</div>`:'';
@@ -2773,7 +2780,7 @@ function hseRenderResult(){
     <div class="grid-3" style="margin-bottom:14px;">
       <div style="text-align:center;background:var(--bg3);border-radius:12px;padding:11px;"><div style="font-size:22px;font-weight:900;color:#1a7a3a;">${r.additional_violations.length+1}</div><div style="font-size:11px;color:var(--muted);">مخالفة</div></div>
       <div style="text-align:center;background:var(--bg3);border-radius:12px;padding:11px;"><div style="font-size:22px;font-weight:900;color:${sv.color};">${r.confidence_score||'—'}%</div><div style="font-size:11px;color:var(--muted);">دقة التحليل</div></div>
-      <div style="text-align:center;background:var(--bg3);border-radius:12px;padding:11px;"><div style="font-size:22px;font-weight:900;color:${scoreColor};">${score}/16</div><div style="font-size:11px;color:var(--muted);">درجة الخطر</div></div>
+      <div style="text-align:center;background:var(--bg3);border-radius:12px;padding:11px;"><div style="font-size:22px;font-weight:900;color:${scoreColor};">${score}/25</div><div style="font-size:11px;color:var(--muted);">درجة الخطر</div></div>
     </div>
     <div style="background:${sv.bg};border:1.5px solid ${sv.border};border-radius:14px;padding:15px;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;"><span style="padding:3px 11px;border-radius:20px;font-size:12px;font-weight:900;background:${sv.color};color:#fff;">${sv.label} · ${sv.en}</span><span style="font-size:12px;color:var(--muted);">${r.violation_type||''}</span></div>
@@ -2784,10 +2791,10 @@ function hseRenderResult(){
   </div>`;
 
   // Risk matrix mini
-  html+=`<div class="ios-card" style="margin-bottom:11px;"><div style="font-size:14px;font-weight:800;margin-bottom:10px;">🎯 مصفوفة المخاطر 4×4</div><div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center;">
-    <div style="text-align:center;"><div style="font-size:11px;color:var(--muted);">الاحتمالية</div><div style="font-size:26px;font-weight:900;color:var(--text);">${r.risk_probability}<span style="font-size:14px;color:var(--muted);">/4</span></div></div>
+  html+=`<div class="ios-card" style="margin-bottom:11px;"><div style="font-size:14px;font-weight:800;margin-bottom:10px;">🎯 مصفوفة المخاطر 5×5</div><div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center;">
+    <div style="text-align:center;"><div style="font-size:11px;color:var(--muted);">الاحتمالية</div><div style="font-size:26px;font-weight:900;color:var(--text);">${r.risk_probability}<span style="font-size:14px;color:var(--muted);">/5</span></div></div>
     <div style="font-size:20px;color:var(--muted);">×</div>
-    <div style="text-align:center;"><div style="font-size:11px;color:var(--muted);">الشدة</div><div style="font-size:26px;font-weight:900;color:var(--text);">${r.risk_severity}<span style="font-size:14px;color:var(--muted);">/4</span></div></div>
+    <div style="text-align:center;"><div style="font-size:11px;color:var(--muted);">الشدة</div><div style="font-size:26px;font-weight:900;color:var(--text);">${r.risk_severity}<span style="font-size:14px;color:var(--muted);">/5</span></div></div>
     <div style="font-size:20px;color:var(--muted);">=</div>
     <div style="text-align:center;background:${scoreColor}15;border-radius:12px;padding:10px 18px;"><div style="font-size:11px;color:${scoreColor};font-weight:700;">${scoreLbl}</div><div style="font-size:32px;font-weight:900;color:${scoreColor};">${score}</div></div>
   </div></div>`;
@@ -2845,32 +2852,32 @@ function hseRenderResult(){
 
 function hseReset(){hseImgB64=hseImgType=hseImgPrev=null;const fi=document.getElementById('hse-file');if(fi)fi.value='';const ph=document.getElementById('hse-placeholder'),pv=document.getElementById('hse-preview'),ctx=document.getElementById('hse-ctx-wrap'),res=document.getElementById('hse-result');if(ph)ph.style.display='';if(pv){pv.style.display='none';pv.src='';}if(ctx)ctx.style.display='none';if(res)res.innerHTML='';}
 function hseLoadFile(f){if(!f)return;if(!['image/jpeg','image/png','image/webp'].includes(f.type)){showToast('⚠️ JPG/PNG/WEBP فقط');return;}if(f.size>10*1024*1024){showToast('⚠️ أكبر من 10MB');return;}hseImgType=f.type;const r=new FileReader();r.onload=e=>{hseImgPrev=e.target.result;hseImgB64=e.target.result.split(',')[1];const pv=document.getElementById('hse-preview'),ph=document.getElementById('hse-placeholder'),ctx=document.getElementById('hse-ctx-wrap');if(pv){pv.src=hseImgPrev;pv.style.display='block';}if(ph)ph.style.display='none';if(ctx)ctx.style.display='block';const res=document.getElementById('hse-result');if(res)res.innerHTML='';};r.readAsDataURL(f);}
-function hseCopy(){if(!hseResult)return;const r=hseResult,score=r.risk_probability*r.risk_severity,sv=HSE_SEV[r.severity]||HSE_SEV.medium;const txt=`محلل السلامة المهنية — مرشد السلامة\nرقم التقرير: ${hseReportRef}\nمستوى الخطورة: ${sv.label} — ${score}/16\n\n📋 ${r.title}\n${r.description}\n\n🔎 السبب الجذري: ${r.root_cause||'—'}\n\n📏 المعايير: ${(r.standards||[]).join(' | ')}\n\n🚨 إجراءات عاجلة:\n${(r.immediate_actions||[]).map((a,i)=>(i+1)+'. '+a).join('\n')}\n\n✅ إجراءات تصحيحية:\n${(r.corrective_actions||[]).map((a,i)=>(i+1)+'. '+a).join('\n')}\n\n📅 متابعة: ${r.follow_up_days} يوم`;navigator.clipboard?.writeText(txt).then(()=>showToast('✅ تم النسخ'));}
+function hseCopy(){if(!hseResult)return;const r=hseResult,score=r.risk_probability*r.risk_severity,sv=HSE_SEV[r.severity]||HSE_SEV.medium;const txt=`محلل السلامة المهنية — مرشد السلامة\nرقم التقرير: ${hseReportRef}\nمستوى الخطورة: ${sv.label} — ${score}/25\n\n📋 ${r.title}\n${r.description}\n\n🔎 السبب الجذري: ${r.root_cause||'—'}\n\n📏 المعايير: ${(r.standards||[]).join(' | ')}\n\n🚨 إجراءات عاجلة:\n${(r.immediate_actions||[]).map((a,i)=>(i+1)+'. '+a).join('\n')}\n\n✅ إجراءات تصحيحية:\n${(r.corrective_actions||[]).map((a,i)=>(i+1)+'. '+a).join('\n')}\n\n📅 متابعة: ${r.follow_up_days} يوم`;navigator.clipboard?.writeText(txt).then(()=>showToast('✅ تم النسخ'));}
 function hseExportWord(){if(!hseResult)return;const r=hseResult,score=r.risk_probability*r.risk_severity,sv=HSE_SEV[r.severity]||HSE_SEV.medium;const dateStr=new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'});
   const esc2=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const P=(t,sz,col,b)=>`<w:p><w:pPr><w:bidi/><w:jc w:val="right"/><w:spacing w:after="120"/></w:pPr><w:r><w:rPr>${b?'<w:b/>':''}<w:color w:val="${col||'000000'}"/><w:sz w:val="${sz||'22'}"/><w:rtl/></w:rPr><w:t xml:space="preserve">${esc2(t)}</w:t></w:r></w:p>`;
-  const body=[P('تقرير تحليل السلامة المهنية','36','FF6D00',1),P('رقم التقرير: '+hseReportRef+' | '+dateStr,'18','666666'),P('مستوى الخطورة: '+sv.label+' — '+score+'/16','24',sv.color.replace('#',''),1),P('',''),P('المخالفة الرئيسية','26','0d2137',1),P(r.title,'22','000000',1),P(r.description,'20'),P('السبب الجذري: '+(r.root_cause||'—'),'20'),P('',''),P('المعايير المنتهكة','24','0d2137',1),P((r.standards||[]).join(' | '),'18'),P('',''),P('الإجراءات العاجلة','24','b91c1c',1),...(r.immediate_actions||[]).map((a,i)=>P((i+1)+'. '+a,'20')),P('',''),P('الإجراءات التصحيحية','24','1a7a3a',1),...(r.corrective_actions||[]).map((a,i)=>P((i+1)+'. '+a,'20')),P('',''),P('موعد المتابعة: '+r.follow_up_days+' يوم','20','FF6D00',1),P('',''),P('منصة مرشد السلامة | '+hseReportRef,'16','999999')].join('');
+  const body=[P('تقرير تحليل السلامة المهنية','36','FF6D00',1),P('رقم التقرير: '+hseReportRef+' | '+dateStr,'18','666666'),P('مستوى الخطورة: '+sv.label+' — '+score+'/25','24',sv.color.replace('#',''),1),P('',''),P('المخالفة الرئيسية','26','0d2137',1),P(r.title,'22','000000',1),P(r.description,'20'),P('السبب الجذري: '+(r.root_cause||'—'),'20'),P('',''),P('المعايير المنتهكة','24','0d2137',1),P((r.standards||[]).join(' | '),'18'),P('',''),P('الإجراءات العاجلة','24','b91c1c',1),...(r.immediate_actions||[]).map((a,i)=>P((i+1)+'. '+a,'20')),P('',''),P('الإجراءات التصحيحية','24','1a7a3a',1),...(r.corrective_actions||[]).map((a,i)=>P((i+1)+'. '+a,'20')),P('',''),P('موعد المتابعة: '+r.follow_up_days+' يوم','20','FF6D00',1),P('',''),P('منصة مرشد السلامة | '+hseReportRef,'16','999999')].join('');
   const xml=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>${body}<w:sectPr><w:bidi/></w:sectPr></w:body></w:document>`;
   const blob=new Blob(['\ufeff',xml],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=hseReportRef+'.doc';a.click();URL.revokeObjectURL(url);showToast('📄 تم تصدير Word');}
 
 // RISK MATRIX
 function buildRiskMatrix(){
   const tbody=document.getElementById('risk-matrix-body');if(!tbody)return;
-  const likelihoods=['١ نادر','٢ ممكن','٣ محتمل','٤ مرجح'];
-  const getClass=s=>s<=2?'rm-low':s<=6?'rm-med':s<=9?'rm-high':'rm-crit';
+  const likelihoods=['١ نادر','٢ ممكن','٣ محتمل','٤ مرجح','٥ مؤكد'];
+  const getClass=s=>s<=4?'rm-low':s<=9?'rm-med':s<=15?'rm-high':'rm-crit';
   let h='';
   likelihoods.forEach((l,li)=>{
     h+=`<tr><td class="rm-header" style="text-align:right;white-space:nowrap;font-size:10.5px;">${l}</td>`;
-    [1,2,3,4].forEach(s=>{const score=(li+1)*s;h+=`<td><div class="rm-cell ${getClass(score)}" onclick="showRiskLevel(${li+1},${s},${score})">${score}</div></td>`;});
+    [1,2,3,4,5].forEach(s=>{const score=(li+1)*s;h+=`<td><div class="rm-cell ${getClass(score)}" onclick="showRiskLevel(${li+1},${s},${score})">${score}</div></td>`;});
     h+='</tr>';
   });
   tbody.innerHTML=h;
 }
 function showRiskLevel(l,s,score){
   const res=document.getElementById('risk-result');if(!res)return;
-  const level=score<=2?'منخفض 🟢':score<=6?'متوسط 🟡':score<=9?'عالي 🔴':'حرج 🚨';
-  const action=score<=2?'مقبول — رصد دوري':score<=6?'تخفيض ALARP':score<=9?'إجراء تصحيحي فوري':'إيقاف العمل فوراً';
-  const color=score<=2?'var(--green)':score<=6?'var(--gold)':score<=9?'var(--red)':'#8b0000';
+  const level=score<=4?'منخفض 🟢':score<=9?'متوسط 🟡':score<=15?'عالي 🔴':'حرج 🚨';
+  const action=score<=4?'مقبول — رصد دوري':score<=9?'تخفيض ALARP':score<=15?'إجراء تصحيحي فوري':'إيقاف العمل فوراً';
+  const color=score<=4?'var(--green)':score<=9?'var(--gold)':score<=15?'var(--red)':'#8b0000';
   res.style.display='block';res.innerHTML=`<div style="display:flex;align-items:center;gap:12px;"><div style="font-size:28px;font-weight:900;color:${color};">${score}</div><div><div style="font-size:15px;font-weight:900;color:${color};">${level}</div><div style="font-size:13px;color:var(--sub);margin-top:2px;">${action}</div><div style="font-size:11.5px;color:var(--muted);margin-top:1px;">احتمالية ${l} × شدة ${s}</div></div></div>`;
 }
 
@@ -2880,13 +2887,14 @@ async function generateIncidentReport(){
   if(!desc||desc.trim().length<10){showToast('يرجى ملء وصف الحادثة');return;}
   const res=document.getElementById('inc-result');if(res)res.innerHTML=`<div class="ios-card"><div class="spinner"></div> جاري التحليل...</div>`;
   try{
-    const data=await callAI({model:'gpt-4o-mini',max_tokens:1200,temperature:0.7,messages:[{role:'system',content:'أنت خبير تحقيق حوادث HSE محترف.'},{role:'user',content:`تحليل حادثة:\nالنوع: ${type||'غير محدد'}\nالموقع: ${loc||'غير محدد'}\nالتاريخ: ${date||'غير محدد'}\nالمصاب: ${person||'غير محدد'} - ${job||''}\nشدة الإصابة: ${sev||'غير محدد'}\nالوصف: ${desc}\n\nأجب بـ JSON فقط:\n{"hipo":"critical|high|low","root_causes":["..."],"immediate_causes":["..."],"corrective_actions":["..."],"preventive_measures":["..."],"regulatory_violations":["..."],"risk_score":1,"recommendations":"..."}`}]});let raw=data.choices?.[0]?.message?.content||'{}';raw=raw.replace(/```json|```/g,'').trim();
-    let a;try{a=JSON.parse(raw);}catch{a=null;}
+    const data=await callAI({model:'gpt-4o-mini',max_tokens:1200,temperature:0.7,messages:[{role:'system',content:'أنت خبير تحقيق حوادث HSE محترف.'},{role:'user',content:`تحليل حادثة:\nالنوع: ${type||'غير محدد'}\nالموقع: ${loc||'غير محدد'}\nالتاريخ: ${date||'غير محدد'}\nالمصاب: ${person||'غير محدد'} - ${job||''}\nشدة الإصابة: ${sev||'غير محدد'}\nالوصف: ${desc}\n\nأجب بـ JSON فقط:\n{"hipo":"critical|high|low","root_causes":["..."],"immediate_causes":["..."],"corrective_actions":["..."],"preventive_measures":["..."],"regulatory_violations":["..."],"risk_score":1,"recommendations":"..."}\nملاحظة: risk_score رقم من 1 إلى 25 وفق مصفوفة مخاطر 5×5 (الاحتمالية 1-5 × الشدة 1-5).`}]});let raw=data.choices?.[0]?.message?.content||'{}';raw=raw.replace(/```json|```/g,'').trim();
+    let a;try{a=JSON.parse(raw);}catch{const m=raw.match(/\{[\s\S]*\}/);try{a=m?JSON.parse(m[0]):null;}catch{a=null;}}
+    if(a)a.risk_score=Math.min(25,Math.max(1,parseInt(a.risk_score)||1));
     if(a&&res){
       const hipoBadge=a.hipo==='critical'?'hipo-critical':a.hipo==='high'?'hipo-high':'hipo-low';
       const hipoLabel=a.hipo==='critical'?'🚨 HiPo حرج':a.hipo==='high'?'⚠️ HiPo عالي':'✅ Low Potential';
       res.innerHTML=`<div class="ios-card" style="margin-bottom:9px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><span class="hipo-tag ${hipoBadge}">${hipoLabel}</span><span style="font-size:21px;font-weight:900;color:${a.risk_score>=12?'var(--red)':a.risk_score>=6?'var(--gold)':'var(--green)'};">مخاطرة: ${a.risk_score}/16</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><span class="hipo-tag ${hipoBadge}">${hipoLabel}</span><span style="font-size:21px;font-weight:900;color:${a.risk_score>=16?'var(--red)':a.risk_score>=10?'var(--gold)':'var(--green)'};">مخاطرة: ${a.risk_score}/25</span></div>
         <div style="margin-bottom:10px;"><div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:5px;">🔍 الأسباب المباشرة:</div>${(a.immediate_causes||[]).map(c=>`<div style="padding:5px 9px;background:rgba(229,57,53,.06);border-radius:7px;font-size:13px;margin-bottom:4px;">• ${c}</div>`).join('')}</div>
         <div style="margin-bottom:10px;"><div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:5px;">🌳 الأسباب الجذرية RCA:</div>${(a.root_causes||[]).map(c=>`<div style="padding:5px 9px;background:rgba(245,166,35,.07);border-radius:7px;font-size:13px;margin-bottom:4px;">• ${c}</div>`).join('')}</div>
         <div style="margin-bottom:10px;"><div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:5px;">✅ الإجراءات التصحيحية:</div>${(a.corrective_actions||[]).map((c,i)=>`<div style="padding:5px 9px;background:rgba(0,185,107,.06);border-radius:7px;font-size:13px;margin-bottom:4px;">${i+1}. ${c}</div>`).join('')}</div>
