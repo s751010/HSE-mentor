@@ -1227,6 +1227,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <button class="nav-link" id="navtab-levels" onclick="switchTab('levels')">🏅 مستوياتي</button>
   </div>
   <div class="nav-end">
+    <button id="lang-btn" onclick="applyLang(currentLang==='ar'?'en':'ar')" style="background:none;border:1.5px solid var(--sep2);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:800;cursor:pointer;color:var(--text);">EN</button>
     <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="الوضع الليلي">🌙</button>
     <div class="nav-badge nav-xp">⚡ <span id="nav-xp">٠</span> XP</div>
     <div class="nav-badge nav-streak">🔥 <span id="nav-streak">٠</span></div>
@@ -1236,11 +1237,11 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 <!-- MOBILE NAV -->
 <div class="mobile-nav" id="main-mobilenav">
   <div class="mobile-nav-items">
-    <div class="mnav-item active" id="mnav-home" onclick="switchTab('home')"><span class="mi">🏠</span><span>الرئيسية</span></div>
-    <div class="mnav-item" id="mnav-chat" onclick="switchTab('chat')"><span class="mi">💬</span><span>المرشد</span></div>
-    <div class="mnav-item" id="mnav-quiz" onclick="switchTab('quiz')"><span class="mi">🏆</span><span>كوادر</span></div>
-    <div class="mnav-item" id="mnav-tools" onclick="switchTab('tools')"><span class="mi">🔧</span><span>أدوات</span></div>
-    <div class="mnav-item" id="mnav-plan" onclick="switchTab('plan')"><span class="mi">📅</span><span>الخطة</span></div>
+    <div class="mnav-item active" id="mnav-home" onclick="switchTab('home')"><span class="mi">🏠</span><span class="nav-label">الرئيسية</span></div>
+    <div class="mnav-item" id="mnav-chat" onclick="switchTab('chat')"><span class="mi">💬</span><span class="nav-label">المرشد</span></div>
+    <div class="mnav-item" id="mnav-quiz" onclick="switchTab('quiz')"><span class="mi">🏆</span><span class="nav-label">كوادر</span></div>
+    <div class="mnav-item" id="mnav-tools" onclick="switchTab('tools')"><span class="mi">🔧</span><span class="nav-label">أدوات</span></div>
+    <div class="mnav-item" id="mnav-plan" onclick="switchTab('plan')"><span class="mi">📅</span><span class="nav-label">الخطة</span></div>
   </div>
 </div>
 
@@ -1713,6 +1714,10 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <div class="sv-card"><div class="sv-icon">📅</div><div><div class="sv-val" id="sv-plan">٠/٤٠</div><div class="sv-lbl">أيام الخطة</div></div></div>
     </div>
   </div>
+  <div class="sec-lbl">الإنجازات</div>
+  <div class="setting-group" style="padding:14px 16px;">
+    <div id="badges-grid" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+  </div>
   <div class="sec-lbl">المظهر</div>
   <div class="setting-group"><div class="setting-row"><span class="setting-lbl">الوضع الليلي</span><button class="theme-toggle" onclick="toggleTheme()" id="theme-btn2" style="margin-right:auto;">🌙</button></div></div>
   <div class="sec-lbl">الحساب</div>
@@ -1838,6 +1843,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <button class="fp-tab" data-fp="branding" onclick="fpSwitch('branding',this)"><span class="ic">🎨</span> الهوية البصرية</button>
       <button class="fp-tab" data-fp="legal" onclick="fpSwitch('legal',this)"><span class="ic">📄</span> الصفحات القانونية</button>
       <button class="fp-tab" data-fp="settings" onclick="fpSwitch('settings',this)"><span class="ic">⚙️</span> الإعدادات العامة</button>
+      <button class="fp-tab" data-fp="users" onclick="fpSwitch('users',this)"><span class="ic">👥</span> المستخدمون</button>
     </div>
     <div class="fp-content">
       <!-- DASHBOARD -->
@@ -1962,6 +1968,22 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
           <button class="fp-save-btn" onclick="fpSaveSettings()">💾 حفظ</button>
         </div>
       </div>
+      <!-- USERS -->
+      <div class="fp-section" id="fp-users">
+        <div class="fp-h">👥 المستخدمون</div>
+        <div class="fp-hsub">إحصاءات المستخدمين المسجلين واستخدامهم للمنصة</div>
+        <div class="fp-stat-grid">
+          <div class="fp-stat"><div class="fp-stat-num" id="fpu-total">—</div><div class="fp-stat-lbl">مستخدم</div></div>
+          <div class="fp-stat"><div class="fp-stat-num" id="fpu-active">—</div><div class="fp-stat-lbl">نشط ٧ أيام</div></div>
+          <div class="fp-stat"><div class="fp-stat-num" id="fpu-calls-today">—</div><div class="fp-stat-lbl">طلب AI اليوم</div></div>
+          <div class="fp-stat"><div class="fp-stat-num" id="fpu-calls-week">—</div><div class="fp-stat-lbl">طلب AI الأسبوع</div></div>
+        </div>
+        <div class="fp-card">
+          <div class="fp-card-title">📋 قائمة المستخدمين</div>
+          <div id="fpu-list" style="overflow-x:auto;"></div>
+          <button class="fp-save-btn" onclick="fpLoadUsers()" style="margin-top:12px;">🔄 تحديث</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -2047,7 +2069,7 @@ async function founderLogin(){
 }
 function founderLogout(){sessionStorage.removeItem('mrshd_founder');document.getElementById('founder-panel').classList.remove('show');}
 function openFounderLogin(){document.getElementById('founder-login').classList.add('show');setTimeout(()=>document.getElementById('fl-email').focus(),200);}
-function fpSwitch(tab,btn){document.querySelectorAll('.fp-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.fp-tab').forEach(t=>t.classList.remove('active'));document.getElementById('fp-'+tab).classList.add('active');if(btn)btn.classList.add('active');}
+function fpSwitch(tab,btn){document.querySelectorAll('.fp-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.fp-tab').forEach(t=>t.classList.remove('active'));document.getElementById('fp-'+tab).classList.add('active');if(btn)btn.classList.add('active');if(tab==='users')fpLoadUsers();}
 
 function fpRenderAll(){
   const c=FCONFIG.content;
@@ -2069,6 +2091,42 @@ function fpRenderAll(){
   el('fp-st-q',ar(KWB.length));el('fp-st-tools',ar(Object.values(FCONFIG.tools).filter(Boolean).length));
   el('fp-st-certs',ar(parseInt(localStorage.getItem('mrshd_certnum')||'146')-146));
   el('fp-st-saved',FCONFIG.lastSaved?new Date(FCONFIG.lastSaved).toLocaleString('ar-SA'):'—');
+}
+async function fpLoadUsers(){
+  if(!sb||!currentUser)return;
+  ['fpu-total','fpu-active','fpu-calls-today','fpu-calls-week'].forEach(id=>el(id,'...'));
+  try{
+    const today=new Date().toISOString().split('T')[0];
+    const weekAgo=new Date(Date.now()-7*86400000).toISOString();
+    const[{data:allUsage,error:e1},{data:progData,error:e2}]=await Promise.all([
+      sb.from('ai_usage').select('user_id,created_at').order('created_at',{ascending:false}),
+      sb.from('user_progress').select('user_id,data,updated_at')
+    ]);
+    if(e1)throw e1;
+    const todayU=(allUsage||[]).filter(r=>r.created_at.startsWith(today));
+    const weekU=(allUsage||[]).filter(r=>r.created_at>=weekAgo);
+    el('fpu-total',ar(new Set((allUsage||[]).map(r=>r.user_id)).size));
+    el('fpu-active',ar(new Set(weekU.map(r=>r.user_id)).size));
+    el('fpu-calls-today',ar(todayU.length));
+    el('fpu-calls-week',ar(weekU.length));
+    const userMap={};
+    (allUsage||[]).forEach(r=>{
+      if(!userMap[r.user_id])userMap[r.user_id]={total:0,today:0,last:r.created_at,name:'',xp:0,streak:0};
+      userMap[r.user_id].total++;
+      if(r.created_at.startsWith(today))userMap[r.user_id].today++;
+      if(r.created_at>userMap[r.user_id].last)userMap[r.user_id].last=r.created_at;
+    });
+    (progData||[]).forEach(r=>{
+      if(!userMap[r.user_id])userMap[r.user_id]={total:0,today:0,last:r.updated_at,name:'',xp:0,streak:0};
+      userMap[r.user_id].name=r.data?.profile?.name||'';
+      userMap[r.user_id].xp=r.data?.xp||0;
+      userMap[r.user_id].streak=r.data?.streak||0;
+    });
+    const rows=Object.values(userMap).sort((a,b)=>b.total-a.total);
+    const list=document.getElementById('fpu-list');if(!list)return;
+    if(!rows.length){list.innerHTML='<p style="color:var(--muted);text-align:center;padding:20px;">لا يوجد مستخدمون بعد</p>';return;}
+    list.innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr style="color:var(--muted);font-size:11px;border-bottom:1px solid var(--sep);"><th style="text-align:right;padding:7px 4px;">الاسم</th><th style="padding:7px 4px;">XP</th><th style="padding:7px 4px;">تتالي</th><th style="padding:7px 4px;">طلبات AI</th><th style="padding:7px 4px;">اليوم</th><th style="padding:7px 4px;">آخر نشاط</th></tr></thead><tbody>${rows.map(u=>`<tr style="border-bottom:1px solid var(--sep2);"><td style="padding:7px 4px;font-weight:700;">${u.name||'<span style="color:var(--muted)">—</span>'}</td><td style="padding:7px 4px;text-align:center;">${ar(u.xp)}</td><td style="padding:7px 4px;text-align:center;">${ar(u.streak)}🔥</td><td style="padding:7px 4px;text-align:center;">${ar(u.total)}</td><td style="padding:7px 4px;text-align:center;">${ar(u.today)}</td><td style="padding:7px 4px;text-align:center;font-size:11px;color:var(--muted);">${u.last?new Date(u.last).toLocaleDateString('ar-SA'):'—'}</td></tr>`).join('')}</tbody></table>`;
+  }catch(e){['fpu-total','fpu-active','fpu-calls-today','fpu-calls-week'].forEach(id=>el(id,'!'));showToast('⚠️ '+e.message);}
 }
 function fpSaveContent(){const g=id=>document.getElementById(id)?.value||'';FCONFIG.content={badge:g('fpc-badge'),title1:g('fpc-title1'),title2:g('fpc-title2'),sub:g('fpc-sub'),stat1:g('fpc-stat1'),stat2:g('fpc-stat2'),stat3:g('fpc-stat3'),stat4:g('fpc-stat4')};saveFConfig();showToast('✅ تم حفظ المحتوى');}
 function fpSaveTools(){Object.keys(TOOL_NAMES).forEach(k=>{const cb=document.getElementById('fpt-'+k);if(cb)FCONFIG.tools[k]=cb.checked;});saveFConfig();fpRenderAll();showToast('✅ تم حفظ الأدوات');}
@@ -2209,7 +2267,7 @@ async function callAI(body,opts={}){
   if(!data.choices||!data.choices[0])throw new Error('استجابة غير متوقعة من الخادم.');
   return data;
 }
-let S={msgs:[],mode:'free',sessions:0,streak:0,bestStreak:0,correctTotal:0,wrongTotal:0,lastDate:null,weaknesses:{},strengths:{},examHistory:[],completedDays:{},dayStarted:{},weeklyTestDone:{},xp:0,dailyGoal:3,todayQs:0,lastGoalDate:null,notes:[],profile:{name:'',factory:'',speciality:'HSE'},warmupHistory:[],photoHistory:[],kwHistory:[],flashStats:{total:0,know:0,rev:0}};
+let S={msgs:[],mode:'free',sessions:0,streak:0,bestStreak:0,correctTotal:0,wrongTotal:0,lastDate:null,weaknesses:{},strengths:{},examHistory:[],completedDays:{},dayStarted:{},weeklyTestDone:{},xp:0,dailyGoal:3,todayQs:0,lastGoalDate:null,notes:[],profile:{name:'',factory:'',speciality:'HSE'},warmupHistory:[],photoHistory:[],kwHistory:[],flashStats:{total:0,know:0,rev:0},badges:[]};
 function save(){try{localStorage.setItem('mrshd_v4',JSON.stringify(S));}catch(e){}cloudSyncProgress();}
 // Debounced cloud sync of user progress (excludes photoHistory — stored in photo_history table)
 let _cloudSyncTimer=null;
@@ -2227,6 +2285,7 @@ async function loadCloudProgress(){
     if(data&&data.data){const p=data.data;S={...S,...p};if(p.profile)S.profile={...S.profile,...p.profile};if(p.flashStats)S.flashStats={...S.flashStats,...p.flashStats};localStorage.setItem('mrshd_v4',JSON.stringify(S));}
   }catch(e){}
   await loadPhotoHistory();
+  checkBadges();
 }
 
 // ═══════════ HSE IMAGE STORAGE (Supabase Storage) ═══════════
@@ -2268,8 +2327,46 @@ function fmt(t){if(!t)return'';return t.replace(/&/g,'&amp;').replace(/</g,'&lt;
 const LEVELS=[{level:1,name:'مبتدئ في السلامة',icon:'🌱',color:'rgba(120,120,128,.15)',xpMin:0,xpMax:100},{level:2,name:'متدرب السلامة',icon:'📚',color:'rgba(21,101,192,.1)',xpMin:100,xpMax:250},{level:3,name:'مراقب السلامة',icon:'👁️',color:'rgba(0,185,107,.1)',xpMin:250,xpMax:500},{level:4,name:'مفتش السلامة',icon:'🔍',color:'rgba(245,166,35,.1)',xpMin:500,xpMax:800},{level:5,name:'أخصائي السلامة',icon:'🛡️',color:'rgba(255,109,0,.12)',xpMin:800,xpMax:1200},{level:6,name:'محلل السلامة المهني',icon:'📊',color:'rgba(92,53,204,.1)',xpMin:1200,xpMax:1700},{level:7,name:'مهندس السلامة',icon:'⚙️',color:'rgba(21,101,192,.12)',xpMin:1700,xpMax:2300},{level:8,name:'خبير السلامة المعتمد',icon:'🎓',color:'rgba(245,166,35,.15)',xpMin:2300,xpMax:3000},{level:9,name:'مستشار السلامة الأول',icon:'⚡',color:'rgba(229,57,53,.1)',xpMin:3000,xpMax:4000},{level:10,name:'أسطورة السلامة 🏆',icon:'👑',color:'rgba(255,200,0,.15)',xpMin:4000,xpMax:99999}];
 function getCurrentLevel(xp){for(let i=LEVELS.length-1;i>=0;i--){if(xp>=LEVELS[i].xpMin)return LEVELS[i];}return LEVELS[0];}
 function getLevel(){return getCurrentLevel(S.xp).name;}
-function addXP(n){S.xp+=n;save();renderAll();}
-function checkStreak(){const today=new Date().toDateString();if(S.lastDate!==today){const yd=new Date(Date.now()-86400000).toDateString();S.streak=S.lastDate===yd?S.streak+1:1;S.lastDate=today;if(S.streak>S.bestStreak)S.bestStreak=S.streak;save();}}
+// ═══════════ MULTILINGUAL ═══════════
+let currentLang=localStorage.getItem('mrshd_lang')||'ar';
+const LANG={
+  ar:{nav:['الرئيسية','المرشد','كوادر','أدوات','الخطة'],placeholder:'اسأل أبو سلامة...',langBtn:'EN'},
+  en:{nav:['Home','Mentor','Qudrat','Tools','Plan'],placeholder:'Ask Abu Salama...',langBtn:'ع'},
+};
+function applyLang(lang){
+  currentLang=lang;localStorage.setItem('mrshd_lang',lang);
+  const navLabels=document.querySelectorAll('.nav-label');
+  LANG[lang].nav.forEach((txt,i)=>{if(navLabels[i])navLabels[i].textContent=txt;});
+  const inp=document.getElementById('chat-inp');if(inp)inp.placeholder=LANG[lang].placeholder;
+  const lb=document.getElementById('lang-btn');if(lb)lb.textContent=LANG[lang].langBtn;
+}
+const BADGES=[
+  {id:'first_login',icon:'👋',name:'الانطلاقة',check:s=>true},
+  {id:'first_quiz',icon:'🎯',name:'أول خطوة',check:s=>s.correctTotal+s.wrongTotal>=1},
+  {id:'ten_q',icon:'📚',name:'عاشر سؤال',check:s=>s.correctTotal+s.wrongTotal>=10},
+  {id:'fifty_q',icon:'🏅',name:'الخمسون',check:s=>s.correctTotal+s.wrongTotal>=50},
+  {id:'streak3',icon:'🔥',name:'لهيب ثلاثة',check:s=>s.streak>=3},
+  {id:'streak7',icon:'⚡',name:'أسبوع النار',check:s=>s.streak>=7},
+  {id:'xp500',icon:'⭐',name:'نجم صاعد',check:s=>s.xp>=500},
+  {id:'photo1',icon:'📷',name:'عين المفتش',check:s=>(s.photoHistory||[]).length>=1},
+  {id:'accuracy90',icon:'🎖️',name:'دقة عالية',check:s=>(s.correctTotal+s.wrongTotal)>=20&&s.correctTotal/(s.correctTotal+s.wrongTotal||1)>=0.9},
+];
+function checkBadges(){
+  let earned=false;
+  BADGES.forEach(b=>{
+    if(!(S.badges||[]).includes(b.id)&&b.check(S)){
+      (S.badges=S.badges||[]).push(b.id);earned=true;
+      setTimeout(()=>showToast(b.icon+' إنجاز: '+b.name+'!'),300);
+    }
+  });
+  if(earned)save();
+}
+function renderBadges(){
+  const g=document.getElementById('badges-grid');if(!g)return;
+  g.innerHTML=BADGES.map(b=>{const earned=(S.badges||[]).includes(b.id);return`<div title="${b.name}" style="width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;background:${earned?'rgba(255,109,0,.12)':'rgba(0,0,0,.04)'};opacity:${earned?1:.25};cursor:default;">${b.icon}</div>`;}).join('');
+}
+function addXP(n){S.xp+=n;save();renderAll();checkBadges();}
+function checkStreak(){const today=new Date().toDateString();if(S.lastDate!==today){const yd=new Date(Date.now()-86400000).toDateString();S.streak=S.lastDate===yd?S.streak+1:1;S.lastDate=today;if(S.streak>S.bestStreak)S.bestStreak=S.streak;save();checkBadges();}}
 function checkGoal(){const today=new Date().toDateString();if(S.lastGoalDate!==today){S.todayQs=0;S.lastGoalDate=today;}}
 
 function renderAll(){
@@ -2293,7 +2390,8 @@ function renderAll(){
   el('goal-sub',pct>=100?'🎉 أتممت هدف اليوم!':'باقي '+ar(Math.max(0,(S.dailyGoal||3)-S.todayQs))+' سؤال');
   if(S.profile.name){el('home-greeting','مرحباً '+S.profile.name+' 👋');el('settings-name-lbl',S.profile.name);const wm=document.getElementById('welcome-msg');if(wm)wm.innerHTML='أهلاً '+S.profile.name+'!<br>أنا أبو سلامة';}
   el('notes-count-lbl',ar(S.notes.length)+' ملاحظة');
-  renderPlanProgress();renderKWStats();
+  el('sv-xp',ar(S.xp));el('sv-correct',ar(S.correctTotal));el('sv-streak',ar(S.streak));
+  renderPlanProgress();renderKWStats();renderBadges();
 }
 
 // NAVIGATION
@@ -2532,7 +2630,7 @@ function flashAns2(know){if(!S.flashStats)S.flashStats={total:0,know:0,rev:0};S.
 function askAboutFlash2(){if(!curFlash2)return;switchTab('chat');setTimeout(()=>quickChat(`اشرح مفهوم "${curFlash2.front}"`),100);}
 
 // CHAT
-function buildSys(){const w=Object.entries(S.weaknesses||{}).sort((a,b)=>b[1]-a[1]).slice(0,3).map(e=>e[0]).join('، ')||'لا يوجد';return`أنت أبو سلامة — مساعد HSE شخصي لجميع القطاعات السعودية (إنشاءات، صناعة، نفط، صحة، خدمات، تجزئة).\nالمستخدم: ${S.profile.name||'مهندسنا'} | جهة العمل: ${S.profile.factory||'غير محدد'} | الوضع: ${S.mode}\nXP: ${S.xp} | Streak: ${S.streak} | نقاط الضعف: ${w}\nقواعد: عربية فصحى مبسطة، مختصر وعملي، اربط بالسياق السعودي وكوادر. عند TBT أضف [TBT_END] في النهاية.`;}
+function buildSys(){const w=Object.entries(S.weaknesses||{}).sort((a,b)=>b[1]-a[1]).slice(0,3).map(e=>e[0]).join('، ')||'لا يوجد';return`أنت أبو سلامة — مساعد HSE شخصي لجميع القطاعات السعودية (إنشاءات، صناعة، نفط، صحة، خدمات، تجزئة).\nالمستخدم: ${S.profile.name||'مهندسنا'} | جهة العمل: ${S.profile.factory||'غير محدد'} | الوضع: ${S.mode}\nXP: ${S.xp} | Streak: ${S.streak} | نقاط الضعف: ${w}\nقواعد: عربية فصحى مبسطة، مختصر وعملي، اربط بالسياق السعودي وكوادر. عند TBT أضف [TBT_END] في النهاية.`+(currentLang==='en'?' Respond in English only.':'');}
 function setMode(m,btn){S.mode=m;save();document.querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');
   const hints={free:'اسألني أي شيء في السلامة والصحة المهنية 💬',daily:'جاهز لجلسة تعلّم اليوم؟ اطلب درس اليوم 📅',quiz:'وضع الاختبار — اطلب أسئلة وسأصححها لك 🎯',scenario:'وضع الميدان — صف موقفاً وسأحلله معك 🏭'};
   const inp=document.getElementById('chat-inp');if(inp)inp.placeholder=hints[m]||'اسأل أبو سلامة...';
@@ -2557,7 +2655,8 @@ function appendBubble(role,text){
   const feed=document.getElementById('chat-feed');if(!feed)return;
   const now=new Date();const time=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
   const div=document.createElement('div');div.className='bw '+(role==='user'?'user':'');
-  div.innerHTML=`<div class="bav" ${role==='user'?'style="background:rgba(255,109,0,.15);"':''}>${role==='ai'?'🛡️':'👤'}</div><div><div class="bbl ${role==='ai'?'ai':'user'}">${fmt(text)}</div><div class="btime">${time}</div></div>`;
+  const copyBtn=role==='ai'?`<button onclick="navigator.clipboard?.writeText(this.closest('.bw').querySelector('.bbl').innerText);showToast('✅ نُسخ')" style="background:none;border:none;cursor:pointer;opacity:.4;font-size:13px;padding:0 4px;line-height:1;" title="نسخ">📋</button>`:'';
+  div.innerHTML=`<div class="bav" ${role==='user'?'style="background:rgba(255,109,0,.15);"':''}>${role==='ai'?'🛡️':'👤'}</div><div><div class="bbl ${role==='ai'?'ai':'user'}">${fmt(text)}</div><div class="btime">${time}${copyBtn}</div></div>`;
   const tw=document.getElementById('typing-wrap');if(tw)feed.insertBefore(div,tw);else feed.appendChild(div);
   scrollFeed();
 }
@@ -3251,6 +3350,7 @@ function renderDevBadge(){
 load();initTheme();
 (async()=>{await loadFConfig();if(FCONFIG.customQuestions&&FCONFIG.customQuestions.length){FCONFIG.customQuestions.forEach(q=>{if(!KWB.some(k=>k.q===q.q))KWB.push(q);});}renderKWStats();})();
 renderAll();renderKWScores();renderWUHist();renderPhotoHist();renderPlan();renderLevelsPage();
+applyLang(currentLang);
 if(location.hash==='#founder'||sessionStorage.getItem('mrshd_founder')==='1'){if(sessionStorage.getItem('mrshd_founder')==='1'){document.getElementById('founder-panel').classList.add('show');setTimeout(fpRenderAll,300);}else{openFounderLogin();}}
 (async()=>{const loggedIn=await checkAuthSession();if(loggedIn){renderAll();showApp();}else{showLanding();}})();
 if(sessionStorage.getItem('mrshd_admin')==='1')setTimeout(()=>openAdminPanel(),500);
