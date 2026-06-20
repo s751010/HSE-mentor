@@ -2035,13 +2035,16 @@ function applyFConfig(){
   if(creatorLink&&st.linkedin){const url=st.linkedin.startsWith('http')?st.linkedin:'https://'+st.linkedin;creatorLink.href=url;}
 }
 
-function founderLogin(){
+async function founderLogin(){
   const email=document.getElementById('fl-email').value.trim(),pass=document.getElementById('fl-pass').value,err=document.getElementById('fl-err');
-  if(email===FOUNDER_EMAIL&&hashStr(pass)==='79b2b44a'){
+  if(email!==FOUNDER_EMAIL||!sb){err.classList.add('show');document.getElementById('fl-pass').value='';return;}
+  try{
+    const{data,error}=await sb.auth.signInWithPassword({email,password:pass});
+    if(error||!data.user)throw error||new Error('فشل');
+    currentUser=data.user;await loadCloudProgress();renderAll();showApp();
     err.classList.remove('show');document.getElementById('founder-login').classList.remove('show');
-    document.getElementById('founder-panel').classList.add('show');sessionStorage.setItem('mrshd_founder','1');
-    fpRenderAll();
-  }else{err.classList.add('show');document.getElementById('fl-pass').value='';}
+    document.getElementById('founder-panel').classList.add('show');sessionStorage.setItem('mrshd_founder','1');fpRenderAll();
+  }catch(e){err.classList.add('show');document.getElementById('fl-pass').value='';}
 }
 function founderLogout(){sessionStorage.removeItem('mrshd_founder');document.getElementById('founder-panel').classList.remove('show');}
 function openFounderLogin(){document.getElementById('founder-login').classList.add('show');setTimeout(()=>document.getElementById('fl-email').focus(),200);}
@@ -2162,12 +2165,6 @@ async function submitAuth(){
   const email=document.getElementById('auth-email').value.trim(),pass=document.getElementById('auth-pass').value,name=document.getElementById('auth-name').value.trim();
   const btn=document.getElementById('auth-btn');
   if(!email||!pass){authErr('⚠️ أدخل البريد وكلمة المرور');return;}
-  // Founder secret access — works in any mode (local or Supabase)
-  if(email===FOUNDER_EMAIL&&hashStr(pass)==='79b2b44a'){
-    sessionStorage.setItem('mrshd_founder','1');
-    document.getElementById('founder-panel').classList.add('show');
-    closeAuth();fpRenderAll();return;
-  }
   if(authMode==='signup'&&pass.length<6){authErr('⚠️ كلمة المرور ٦ أحرف على الأقل');return;}
   if(authMode==='signup'&&!name){authErr('⚠️ أدخل اسمك');return;}
   btn.disabled=true;btn.textContent='⏳ جاري...';
@@ -2183,6 +2180,7 @@ async function submitAuth(){
     if(authMode==='signup'){res=await sb.auth.signUp({email,password:pass,options:{data:{name}}});if(res.error)throw res.error;S.profile.name=name;S.profile.email=email;save();}
     else{res=await sb.auth.signInWithPassword({email,password:pass});if(res.error)throw res.error;S.profile.email=email;if(res.data.user?.user_metadata?.name)S.profile.name=res.data.user.user_metadata.name;save();}
     currentUser=res.data.user;await loadCloudProgress();renderAll();showApp();
+    if(currentUser.email===FOUNDER_EMAIL){sessionStorage.setItem('mrshd_founder','1');document.getElementById('founder-panel').classList.add('show');fpRenderAll();}
   }catch(err){authErr('⚠️ '+(err.message||'حدث خطأ'));}
   btn.disabled=false;btn.textContent=authMode==='signup'?'إنشاء الحساب':'تسجيل الدخول';
 }
@@ -2191,7 +2189,7 @@ async function logoutUser(){
   localStorage.removeItem('mrshd_session');currentUser=null;showLanding();showToast('تم تسجيل الخروج 👋');
 }
 async function checkAuthSession(){
-  if(sb){try{const{data}=await sb.auth.getSession();if(data.session){currentUser=data.session.user;if(currentUser.user_metadata?.name)S.profile.name=currentUser.user_metadata.name;await loadCloudProgress();return true;}}catch(e){}return false;}
+  if(sb){try{const{data}=await sb.auth.getSession();if(data.session){currentUser=data.session.user;if(currentUser.user_metadata?.name)S.profile.name=currentUser.user_metadata.name;await loadCloudProgress();if(currentUser.email===FOUNDER_EMAIL){sessionStorage.setItem('mrshd_founder','1');}return true;}}catch(e){}return false;}
   const sess=localStorage.getItem('mrshd_session');
   return !!sess;
 }
