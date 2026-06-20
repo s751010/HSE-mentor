@@ -539,6 +539,23 @@ body.app-active .mobile-nav{display:none !important;}
 .auth-switch b{color:var(--orange);cursor:pointer;font-weight:800;}
 .auth-err{font-size:13px;color:var(--red);text-align:center;margin-top:12px;display:none;padding:10px;background:rgba(255,59,48,.07);border-radius:10px;}
 .auth-err.show{display:block;}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--muted);font-size:12px;}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--sep);}
+.auth-guest-btn{width:100%;padding:13px;background:var(--bg3);border:1.5px solid var(--sep);border-radius:14px;color:var(--sub);font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);transition:.18s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.auth-guest-btn:hover{background:var(--bg4);border-color:var(--orange);color:var(--orange);}
+.auth-pw-wrap{position:relative;}
+.auth-pw-wrap .auth-inp{padding-left:44px;}
+.auth-pw-toggle{position:absolute;left:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;padding:0;transition:color .15s;line-height:1;}
+.auth-pw-toggle:hover{color:var(--orange);}
+.auth-local-hint{font-size:11px;color:var(--muted);text-align:center;margin-top:10px;padding:7px 10px;background:rgba(52,199,89,.07);border-radius:8px;border:1px solid rgba(52,199,89,.15);}
+/* Floating dev badge */
+.dev-badge{position:fixed;bottom:80px;left:16px;z-index:900;background:var(--bg2);border:1.5px solid var(--sep);border-radius:50px;padding:8px 14px 8px 10px;box-shadow:var(--sh-md);display:none;align-items:center;gap:9px;text-decoration:none;color:var(--text);transition:transform .2s,box-shadow .2s,opacity .2s;}
+.dev-badge:hover{transform:translateY(-2px);box-shadow:var(--sh-lg);}
+.dev-badge-li-icon{width:28px;height:28px;border-radius:6px;background:#0A66C2;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:14px;font-weight:900;}
+.dev-badge-name{font-size:12px;font-weight:800;color:var(--text);line-height:1.3;}
+.dev-badge-title{font-size:10px;color:var(--muted);line-height:1.3;}
+.dev-badge.visible{display:flex;animation:fadeIn .3s ease;}
+body.dark .dev-badge{background:var(--bg2);border-color:var(--sep);}
 .auth-divider{display:flex;align-items:center;gap:12px;margin:22px 0;color:var(--muted);font-size:12px;}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--sep2);}
 
@@ -746,6 +763,9 @@ body.app-active .mobile-nav{display:none !important;}
 .lp-cta-band-btn{padding:17px 48px;border-radius:15px;font-size:16px;font-weight:800;color:var(--orange);background:#fff;border:none;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.15);transition:.2s;font-family:var(--font);}
 .lp-cta-band-btn:hover{transform:scale(1.05);}
 .lp-footer{text-align:center;padding:44px 26px;color:var(--muted);font-size:13px;border-top:.5px solid var(--sep2);line-height:1.7;}
+.lp-footer-credit{margin-top:8px;font-size:12px;color:var(--muted);}
+.lp-credit-link{color:var(--orange);font-weight:700;text-decoration:none;}
+.lp-credit-link:hover{text-decoration:underline;}
 
 /* ── PRINT ─────────────────────────────────────────── */
 @media print{
@@ -1082,7 +1102,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <button class="lp-footer-link" onclick="openLegal('privacy')">سياسة الخصوصية</button>
       <button class="lp-footer-link" onclick="openLegal('terms')">شروط الاستخدام</button>
     </div>
-    منصة مرشد السلامة المهنية · تطوير سياف الهذلي · جميع الحقوق محفوظة ٢٠٢٦
+    <div class="lp-footer-credit">صُنع بواسطة <a class="lp-credit-link" id="footer-li-link" href="https://linkedin.com/in/sayyaf-alhothali-01787a277" target="_blank" rel="noopener">سياف الهذلي · أخصائي السلامة المهنية</a> · جميع الحقوق محفوظة ٢٠٢٦</div>
   </footer>
 </div>
 
@@ -1104,9 +1124,12 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="auth-sub" id="auth-sub">ابدأ رحلتك في السلامة المهنية</div>
     <div class="auth-field" id="auth-name-field"><label class="auth-label">الاسم</label><input class="auth-inp" id="auth-name" placeholder="اسمك الكامل"></div>
     <div class="auth-field"><label class="auth-label">البريد الإلكتروني</label><input class="auth-inp" id="auth-email" type="email" placeholder="email@example.com"></div>
-    <div class="auth-field"><label class="auth-label">كلمة المرور</label><input class="auth-inp" id="auth-pass" type="password" placeholder="٦ أحرف على الأقل" onkeydown="if(event.key==='Enter')submitAuth()"></div>
+    <div class="auth-field"><label class="auth-label">كلمة المرور</label><div class="auth-pw-wrap"><input class="auth-inp" id="auth-pass" type="password" placeholder="٦ أحرف على الأقل" onkeydown="if(event.key==='Enter')submitAuth()"><button class="auth-pw-toggle" type="button" onclick="togglePwVis()" id="auth-pw-eye">👁</button></div></div>
     <button class="auth-btn" id="auth-btn" onclick="submitAuth()">إنشاء الحساب</button>
     <div class="auth-err" id="auth-err"></div>
+    <div class="auth-divider">أو</div>
+    <button class="auth-guest-btn" onclick="guestLogin()">👤 متابعة كزائر — بدون تسجيل</button>
+    <div class="auth-local-hint">🔒 بياناتك محفوظة على جهازك · تعمل بدون إنترنت</div>
     <div class="auth-switch" id="auth-switch">لديك حساب بالفعل؟ <b onclick="toggleAuthMode()">سجّل الدخول</b></div>
   </div>
 </div>
@@ -1873,6 +1896,7 @@ async function loadFConfig(){
   applyFConfig();
 }
 async function saveFConfig(){
+  FCONFIG.lastSaved=Date.now();
   localStorage.setItem('mrshd_fconfig',JSON.stringify(FCONFIG));
   try{if(sb)await sb.from('founder_config').upsert({id:'main',config:FCONFIG,updated_at:new Date().toISOString()});}catch(e){}
   applyFConfig();
@@ -1926,10 +1950,11 @@ function fpRenderAll(){
   fpRenderQuestions();fpLoadLegal();
   el('fp-st-q',ar(KWB.length));el('fp-st-tools',ar(Object.values(FCONFIG.tools).filter(Boolean).length));
   el('fp-st-certs',ar(parseInt(localStorage.getItem('mrshd_certnum')||'146')-146));
+  el('fp-st-saved',FCONFIG.lastSaved?new Date(FCONFIG.lastSaved).toLocaleString('ar-SA'):'—');
 }
 function fpSaveContent(){const g=id=>document.getElementById(id)?.value||'';FCONFIG.content={badge:g('fpc-badge'),title1:g('fpc-title1'),title2:g('fpc-title2'),sub:g('fpc-sub'),stat1:g('fpc-stat1'),stat2:g('fpc-stat2'),stat3:g('fpc-stat3'),stat4:g('fpc-stat4')};saveFConfig();showToast('✅ تم حفظ المحتوى');}
 function fpSaveTools(){Object.keys(TOOL_NAMES).forEach(k=>{const cb=document.getElementById('fpt-'+k);if(cb)FCONFIG.tools[k]=cb.checked;});saveFConfig();fpRenderAll();showToast('✅ تم حفظ الأدوات');}
-function fpSaveSettings(){const g=id=>document.getElementById(id)?.value||'';FCONFIG.settings={name:g('fps-name'),tagline:g('fps-tagline'),color:g('fps-color'),email:g('fps-email'),linkedin:g('fps-linkedin'),ailimit:parseInt(g('fps-ailimit'))||40};saveFConfig();showToast('✅ تم حفظ الإعدادات');}
+function fpSaveSettings(){const g=id=>document.getElementById(id)?.value||'';FCONFIG.settings={name:g('fps-name'),tagline:g('fps-tagline'),color:g('fps-color'),email:g('fps-email'),linkedin:g('fps-linkedin'),ailimit:parseInt(g('fps-ailimit'))||40};saveFConfig();renderDevBadge();showToast('✅ تم حفظ الإعدادات · الزر العائم تحدّث');}
 function fpAddQuestion(){
   const text=document.getElementById('fpq-text').value.trim(),optsRaw=document.getElementById('fpq-opts').value.trim(),ans=parseInt(document.getElementById('fpq-ans').value)||0,topic=document.getElementById('fpq-topic').value.trim()||'عام',ex=document.getElementById('fpq-ex').value.trim();
   if(!text||!optsRaw){showToast('⚠️ أدخل السؤال والخيارات');return;}
@@ -2016,7 +2041,9 @@ async function logoutUser(){
 }
 async function checkAuthSession(){
   if(sb){try{const{data}=await sb.auth.getSession();if(data.session){currentUser=data.session.user;if(currentUser.user_metadata?.name)S.profile.name=currentUser.user_metadata.name;return true;}}catch(e){}return false;}
-  return !!localStorage.getItem('mrshd_session');
+  const sess=localStorage.getItem('mrshd_session');
+  if(sess==='__guest__'){currentUser={email:'guest',name:S.profile.name||'زائر'};return true;}
+  return !!sess;
 }
 
 let API_KEY = window._OPENAI_KEY || localStorage.getItem('mrshd_apikey') || '';
@@ -2949,13 +2976,48 @@ function renderAdminPanel(){
   if(actEl){const acts=[];if(S.profile.name)acts.push({dot:'blue',text:'👤 المستخدم: '+S.profile.name});if(S.xp>0)acts.push({dot:'orange',text:'⚡ إجمالي XP: '+ar(S.xp)+' نقطة'});if(S.streak>0)acts.push({dot:'gold',text:'🔥 Streak: '+ar(S.streak)+' | أفضل: '+ar(S.bestStreak)});if(S.notes?.length)acts.push({dot:'blue',text:'📝 ملاحظات محفوظة: '+ar(S.notes.length)});if(S.photoHistory?.length)acts.push({dot:'green',text:'📸 تحليلات صور: '+ar(S.photoHistory.length)});if(!acts.length)acts.push({dot:'',text:'لا يوجد نشاط مسجل بعد'});actEl.innerHTML=acts.map(a=>`<div class="act-row"><div class="act-dot ${a.dot}"></div><div class="act-text">${a.text}</div></div>`).join('');}
 }
 
+// ═══════════ DEV BADGE + GUEST LOGIN ═══════════
+function guestLogin(){
+  S.profile.name='زائر';
+  localStorage.setItem('mrshd_session','__guest__');
+  currentUser={email:'guest',name:'زائر'};
+  save();renderAll();showApp();
+  showToast('👤 تم الدخول كزائر · بياناتك محفوظة محلياً');
+}
+function togglePwVis(){
+  const inp=document.getElementById('auth-pass'),btn=document.getElementById('auth-pw-eye');
+  if(!inp)return;
+  if(inp.type==='password'){inp.type='text';if(btn)btn.textContent='🙈';}
+  else{inp.type='password';if(btn)btn.textContent='👁';}
+}
+function renderDevBadge(){
+  const li=FCONFIG.settings.linkedin||'linkedin.com/in/sayyaf-alhothali-01787a277';
+  const badge=document.getElementById('dev-badge');
+  if(!badge)return;
+  const url=li.startsWith('http')?li:'https://'+li;
+  badge.href=url;
+  badge.classList.add('visible');
+  badge.style.display='flex';
+}
+
 // INIT
 load();initTheme();
-(async()=>{await loadFConfig();if(FCONFIG.customQuestions&&FCONFIG.customQuestions.length){FCONFIG.customQuestions.forEach(q=>{if(!KWB.some(k=>k.q===q.q))KWB.push(q);});}renderKWStats();})();
+(async()=>{await loadFConfig();if(FCONFIG.customQuestions&&FCONFIG.customQuestions.length){FCONFIG.customQuestions.forEach(q=>{if(!KWB.some(k=>k.q===q.q))KWB.push(q);});}renderKWStats();renderDevBadge();})();
 renderAll();renderKWScores();renderWUHist();renderPhotoHist();renderPlan();renderLevelsPage();
 if(location.hash==='#founder'||sessionStorage.getItem('mrshd_founder')==='1'){if(sessionStorage.getItem('mrshd_founder')==='1'){document.getElementById('founder-panel').classList.add('show');setTimeout(fpRenderAll,300);}else{openFounderLogin();}}
 (async()=>{const loggedIn=await checkAuthSession();if(loggedIn){renderAll();showApp();}else{showLanding();}})();
 if(sessionStorage.getItem('mrshd_admin')==='1')setTimeout(()=>openAdminPanel(),500);
 </script>
+
+<!-- Floating developer / founder badge -->
+<a class="dev-badge" id="dev-badge" href="https://linkedin.com/in/sayyaf-alhothali-01787a277" target="_blank" rel="noopener">
+  <div class="dev-badge-li-icon">in</div>
+  <div>
+    <div class="dev-badge-name" id="dev-badge-name">سياف الهذلي</div>
+    <div class="dev-badge-title">أخصائي السلامة المهنية</div>
+  </div>
+</a>
+<span id="dev-badge-link" style="display:none"></span>
+
 </body>
 </html>
