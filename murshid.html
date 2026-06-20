@@ -803,6 +803,154 @@ body.app-active .mobile-nav{display:none !important;}
   .btn,.nav-link,.mnav-item,.seg-btn,.chip,.quiz-opt{min-height:44px;}
   .ios-row{min-height:56px;}
 }
+
+/* ════════════════════════════════════════════════
+   DESIGN ENHANCEMENTS v3.1
+   ════════════════════════════════════════════════ */
+
+/* ── ANIMATIONS ── */
+@keyframes slideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes correctPulse{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes popIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+
+.quiz-opt.correct-anim{animation:correctPulse .35s ease;}
+.quiz-opt.wrong-anim{animation:wrongShake .3s ease;}
+
+/* ── MORNING WARMUP HERO ── */
+.warmup-hero{
+  background:linear-gradient(135deg,#FF6D00 0%,#FF8800 50%,#FFB627 100%);
+  border-radius:var(--r-lg);padding:24px 20px;margin-bottom:16px;
+  color:#fff;display:flex;align-items:center;gap:16px;
+  box-shadow:0 8px 28px rgba(255,109,0,.30);
+  position:relative;overflow:hidden;
+}
+.warmup-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 85% 20%,rgba(255,255,255,.18),transparent 50%);
+  pointer-events:none;
+}
+.warmup-hero-icon{font-size:54px;line-height:1;filter:drop-shadow(0 3px 8px rgba(0,0,0,.18));position:relative;}
+.warmup-hero-body{flex:1;position:relative;}
+.warmup-hero-title{font-size:19px;font-weight:900;margin-bottom:4px;}
+.warmup-hero-sub{font-size:13px;opacity:.9;line-height:1.5;}
+.warmup-hero-badge{
+  display:inline-block;margin-top:9px;
+  background:rgba(255,255,255,.22);border-radius:20px;
+  padding:4px 13px;font-size:12px;font-weight:700;
+  border:1px solid rgba(255,255,255,.3);
+}
+
+/* ── FLASH CARD PROGRESS ── */
+.flash-nav{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.flash-counter{font-size:13px;font-weight:700;color:var(--muted);min-width:36px;text-align:center;}
+.flash-prog-track{flex:1;height:5px;background:var(--sep2);border-radius:3px;overflow:hidden;}
+.flash-prog-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:3px;transition:width .4s ease;}
+.flash-topic-pill{
+  display:inline-block;background:rgba(255,109,0,.1);color:var(--orange);
+  font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;
+  margin-bottom:8px;border:1px solid rgba(255,109,0,.18);
+}
+
+/* ── LEVEL ROW IMPROVEMENTS ── */
+.level-row{
+  display:flex;align-items:center;gap:14px;padding:14px 18px;
+  border-radius:var(--r);margin-bottom:8px;
+  border:1.5px solid var(--sep2);background:var(--bg2);
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  cursor:default;
+}
+.level-row:not(.locked):hover{transform:translateX(-2px);box-shadow:var(--sh-md);}
+.level-row.current{border-color:var(--orange);background:rgba(255,109,0,.03);}
+body.dark .level-row.current{background:rgba(255,109,0,.06);}
+.level-name{font-size:15px;font-weight:800;color:var(--text);}
+.level-range{font-size:12px;color:var(--muted);margin-top:2px;font-family:var(--mono);}
+.level-status.done{background:rgba(52,199,89,.1);color:#1a8f3a;}
+body.dark .level-status.done{color:var(--green);}
+
+/* ── HOME QUICK-ACCESS STRIP ── */
+.home-qa-strip{display:flex;gap:9px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
+.home-qa-strip::-webkit-scrollbar{display:none;}
+.qa-item{
+  flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:5px;
+  background:var(--bg2);border-radius:var(--r);padding:13px 16px;
+  box-shadow:var(--sh);cursor:pointer;transition:transform .18s;
+  min-width:70px;border:1.5px solid var(--sep2);
+}
+.qa-item:active{transform:scale(.95);}
+.qa-icon{font-size:24px;}
+.qa-lbl{font-size:11px;font-weight:700;color:var(--sub);text-align:center;line-height:1.3;white-space:nowrap;}
+
+/* ── REPORT PAGE ── */
+.report-placeholder{
+  display:flex;flex-direction:column;align-items:center;
+  padding:36px 20px;gap:12px;text-align:center;
+}
+.report-placeholder-icon{font-size:56px;opacity:.55;}
+.report-placeholder-title{font-size:17px;font-weight:800;color:var(--text);}
+.report-placeholder-sub{font-size:13px;color:var(--muted);line-height:1.7;max-width:260px;}
+.report-stat-preview{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:9px;
+  width:100%;max-width:340px;margin-top:4px;
+}
+.rsp-item{background:var(--bg3);border-radius:var(--r-sm);padding:12px 8px;text-align:center;}
+.rsp-val{font-size:20px;font-weight:900;color:var(--orange);}
+.rsp-lbl{font-size:11px;color:var(--muted);margin-top:2px;}
+
+/* ── PLAN IMPROVEMENTS ── */
+.week-hdr{
+  display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:var(--bg3);border-radius:var(--r-sm);margin-bottom:8px;
+  border-right:3px solid var(--orange);
+}
+.week-hdr-icon{font-size:18px;}
+.week-hdr-title{font-size:14px;font-weight:800;color:var(--text);flex:1;}
+.week-hdr-pct{font-size:13px;font-weight:700;color:var(--orange);}
+
+/* ── FIELD / PHOTO PAGES ── */
+.field-how-card{
+  background:linear-gradient(135deg,rgba(255,109,0,.06),rgba(255,182,39,.04));
+  border:1.5px solid rgba(255,109,0,.15);border-radius:var(--r);
+  padding:14px 16px;margin-bottom:13px;
+}
+.field-how-title{font-size:13px;font-weight:800;color:var(--orange);margin-bottom:5px;}
+.field-how-sub{font-size:13px;color:var(--sub);line-height:1.65;}
+
+/* ── PHOTO DROP ZONE ── */
+.photo-drop{transition:border-color .2s,background .2s,transform .2s;}
+.photo-drop.drag-over{border-color:var(--orange)!important;background:rgba(255,109,0,.04)!important;transform:scale(1.01);}
+
+/* ── INCIDENT PAGE ── */
+.inc-section-title{
+  font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--orange);margin:16px 0 8px;padding-bottom:7px;
+  border-bottom:2px solid rgba(255,109,0,.15);
+}
+
+
+/* ── LEVEL CARD CONTAINER FIX ── */
+.level-card{background:transparent!important;border:none!important;box-shadow:none!important;overflow:visible!important;padding:0!important;}
+/* ── DARK MODE FLASH NAV ── */
+body.dark .flash-counter{color:var(--muted);}
+body.dark .flash-prog-track{background:var(--sep);}
+/* ── DARK MODE WARMUP HERO (slightly dim overlay) ── */
+body.dark .warmup-hero::before{background:radial-gradient(circle at 85% 20%,rgba(255,255,255,.08),transparent 50%);}
+/* ── DARK MODE QA STRIP ── */
+body.dark .qa-item{background:var(--bg2);border-color:var(--sep);}
+/* ── DARK MODE REPORT PLACEHOLDER ── */
+body.dark .rsp-item{background:var(--bg3);}
+body.dark .field-how-card{background:rgba(255,109,0,.06);border-color:rgba(255,109,0,.2);}
+
+
+/* ── SETTINGS STATS VISUAL GRID ── */
+.stats-viz-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:4px;}
+.sv-card{background:var(--bg3);border-radius:var(--r-sm);padding:13px 14px;display:flex;align-items:center;gap:10px;border:1.5px solid var(--sep2);}
+.sv-icon{font-size:26px;flex-shrink:0;}
+.sv-val{font-size:18px;font-weight:900;color:var(--text);}
+.sv-lbl{font-size:11px;color:var(--muted);margin-top:1px;}
+body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
@@ -1022,6 +1170,16 @@ body.app-active .mobile-nav{display:none !important;}
     </div>
     <div class="prog-track" style="height:8px;"><div class="prog-fill" id="goal-fill" style="width:0%;height:8px;border-radius:4px;"></div></div>
     <div style="font-size:13px;color:var(--muted);margin-top:5px;" id="goal-sub">أكمل أسئلة اليوم!</div>
+  </div>
+  <div class="home-qa-strip">
+    <div class="qa-item" onclick="switchTab('chat')"><div class="qa-icon">💬</div><div class="qa-lbl">المرشد<br>الذكي</div></div>
+    <div class="qa-item" onclick="switchTab('quiz')"><div class="qa-icon">🏆</div><div class="qa-lbl">محاكي<br>كوادر</div></div>
+    <div class="qa-item" onclick="switchTab('morning')"><div class="qa-icon">☀️</div><div class="qa-lbl">وارم<br>أب</div></div>
+    <div class="qa-item" onclick="switchTab('flash')"><div class="qa-icon">🃏</div><div class="qa-lbl">بطاقات<br>المراجعة</div></div>
+    <div class="qa-item" onclick="switchTab('tools')"><div class="qa-icon">⚠️</div><div class="qa-lbl">مصفوفة<br>المخاطر</div></div>
+    <div class="qa-item" onclick="switchTab('incident')"><div class="qa-icon">📋</div><div class="qa-lbl">بلاغ<br>حادثة</div></div>
+    <div class="qa-item" onclick="switchTab('photo')"><div class="qa-icon">📸</div><div class="qa-lbl">محلل<br>الصور</div></div>
+    <div class="qa-item" onclick="switchTab('plan')"><div class="qa-icon">📅</div><div class="qa-lbl">خطة<br>التعلم</div></div>
   </div>
   <div class="grid-2">
     <div>
@@ -1276,9 +1434,13 @@ body.app-active .mobile-nav{display:none !important;}
 <div class="container">
   <div class="ph"><div class="ph-eyebrow">نشاط يومي</div><div class="ph-title">وارم أب الصباح</div></div>
   <div id="wu-start">
-    <div class="ios-card" style="display:flex;align-items:center;gap:16px;">
-      <div style="font-size:48px;">☀️</div>
-      <div><div style="font-size:17px;font-weight:900;">وارم أب الصباح</div><div style="font-size:13px;color:var(--muted);margin-top:3px;">أسئلة سريعة في السلامة المهنية</div></div>
+    <div class="warmup-hero">
+      <div class="warmup-hero-icon">☀️</div>
+      <div class="warmup-hero-body">
+        <div class="warmup-hero-title">وارم أب الصباح</div>
+        <div class="warmup-hero-sub">أسئلة سريعة يومية في السلامة المهنية</div>
+        <div class="warmup-hero-badge">⚡ ابدأ يومك بالصح</div>
+      </div>
     </div>
     <div class="warmup-settings">
       <div class="ws-lbl">عدد الأسئلة</div>
@@ -1337,6 +1499,11 @@ body.app-active .mobile-nav{display:none !important;}
 <div class="page" id="page-flash">
 <div class="container">
   <div class="ph"><div class="ph-eyebrow">مراجعة سريعة</div><div class="ph-title">بطاقات المراجعة</div></div>
+  <div class="flash-nav">
+    <span class="flash-counter" id="fc-num">١/٢٤</span>
+    <div class="flash-prog-track"><div class="flash-prog-fill" id="fc-prog" style="width:4%;"></div></div>
+    <span class="flash-counter" id="fc-total-count">٢٤</span>
+  </div>
   <div class="flash-card" id="flash-card" onclick="flipCard()">
     <span class="flash-topic" id="fc-topic">إدارة المخاطر</span>
     <div class="flash-front" id="fc-front">ALARP</div>
@@ -1363,7 +1530,10 @@ body.app-active .mobile-nav{display:none !important;}
 <div class="page" id="page-field">
 <div class="container">
   <div class="ph"><div class="ph-eyebrow">تحليل ميداني</div><div class="ph-title">محلل المواقف</div></div>
-  <div class="ios-card" style="margin-bottom:13px;"><div style="font-size:13px;font-weight:700;color:var(--orange);margin-bottom:4px;">💡 كيف تعمل؟</div><div style="font-size:13px;color:var(--muted);line-height:1.6;">صف موقفاً واجهته في الموقع، سأحلله: المخاطر، المعايير المنتهكة، الإجراء الصحيح، الدرس المستفاد.</div></div>
+  <div class="field-how-card">
+    <div class="field-how-title">💡 كيف تعمل؟</div>
+    <div class="field-how-sub">صف موقفاً واجهته في الموقع — سيحلل المرشد: <strong>المخاطر · المعايير المنتهكة · الإجراء الصحيح · الدرس المستفاد</strong></div>
+  </div>
   <textarea class="field-ta" id="field-inp" placeholder="مثال: لاحظت عامل يعمل على ارتفاع ٣ أمتار بدون حزام..."></textarea>
   <button class="btn btn-primary btn-full" onclick="analyzeField()">🔍 حلل الموقف</button>
   <div class="field-result" id="field-result"></div>
@@ -1405,7 +1575,18 @@ body.app-active .mobile-nav{display:none !important;}
 <div class="container">
   <div class="ph"><div class="ph-eyebrow">تحليل الأداء</div><div class="ph-title">التقرير الأسبوعي</div></div>
   <button class="gen-report-btn" id="gen-report-btn" onclick="generateReport()">✨ توليد التحليل الأسبوعي</button>
-  <div class="report-content" id="report-content"><p style="color:var(--muted);text-align:center;padding:22px 0;">اضغط لتوليد تحليل مخصص لأدائك 📊</p></div>
+  <div class="report-content" id="report-content">
+    <div class="report-placeholder">
+      <div class="report-placeholder-icon">📊</div>
+      <div class="report-placeholder-title">تقريرك الأسبوعي جاهز</div>
+      <div class="report-placeholder-sub">سيحلل المرشد أداءك: نقاط XP، دقة الإجابات، التوصيات الذكية</div>
+      <div class="report-stat-preview">
+        <div class="rsp-item"><div class="rsp-val" id="rsp-xp">٠</div><div class="rsp-lbl">XP هذا الأسبوع</div></div>
+        <div class="rsp-item"><div class="rsp-val" id="rsp-q">٠</div><div class="rsp-lbl">أسئلة أجبت</div></div>
+        <div class="rsp-item"><div class="rsp-val" id="rsp-acc">—</div><div class="rsp-lbl">الدقة</div></div>
+      </div>
+    </div>
+  </div>
 </div>
 </div>
 
@@ -1421,7 +1602,14 @@ body.app-active .mobile-nav{display:none !important;}
     <div class="setting-row"><span class="setting-lbl">هدف يومي</span><select class="setting-inp" id="prf-goal" onchange="saveProfile()"><option value="3">٣ أسئلة</option><option value="5">٥ أسئلة</option><option value="10">١٠ أسئلة</option><option value="20">٢٠ سؤال</option></select></div>
   </div>
   <div class="sec-lbl">الإحصائيات</div>
-  <div class="ios-card" id="settings-stats" style="font-size:14px;color:var(--sub);line-height:2.2;">جاري التحميل...</div>
+  <div id="settings-stats" style="margin-bottom:14px;">
+    <div class="stats-viz-row">
+      <div class="sv-card"><div class="sv-icon">⭐</div><div><div class="sv-val" id="sv-xp">٠</div><div class="sv-lbl">نقاط XP</div></div></div>
+      <div class="sv-card"><div class="sv-icon">✅</div><div><div class="sv-val" id="sv-correct">٠</div><div class="sv-lbl">إجابة صحيحة</div></div></div>
+      <div class="sv-card"><div class="sv-icon">🔥</div><div><div class="sv-val" id="sv-streak">٠</div><div class="sv-lbl">يوم متتالي</div></div></div>
+      <div class="sv-card"><div class="sv-icon">📅</div><div><div class="sv-val" id="sv-plan">٠/٤٠</div><div class="sv-lbl">أيام الخطة</div></div></div>
+    </div>
+  </div>
   <div class="sec-lbl">لوحة المدير</div>
   <button class="admin-open-btn" onclick="openFounderLogin()">👑 لوحة المؤسس</button>
   <div class="sec-lbl">المظهر</div>
@@ -1884,6 +2072,14 @@ function renderAll(){
   el('h-xp',ar(S.xp));el('h-level',getLevel());el('h-streak',ar(S.streak)+'🔥');
   el('nav-xp',ar(S.xp));el('nav-streak',ar(S.streak));
   const noBanner=document.getElementById('no-api-banner');if(noBanner)noBanner.style.display=getApiKey()?'none':'block';
+  // Report placeholder stats
+  const rspXp=document.getElementById('rsp-xp');
+  const rspQ=document.getElementById('rsp-q');
+  const rspAcc=document.getElementById('rsp-acc');
+  if(rspXp)rspXp.textContent=ar(S.xp);
+  if(rspQ)rspQ.textContent=ar(S.correctTotal+S.wrongTotal);
+  const totalQ=S.correctTotal+S.wrongTotal;
+  if(rspAcc)rspAcc.textContent=totalQ?ar(Math.round((S.correctTotal/totalQ)*100))+'٪':'—';
   const tot=S.correctTotal+S.wrongTotal;el('h-acc',tot>0?ar(Math.round(S.correctTotal/tot*100))+'%':'—');
   el('h-done',ar(Object.keys(S.completedDays||{}).length));
   checkGoal();
@@ -2063,6 +2259,16 @@ let curFlash=null,flashFlipped=false,curFlash2=null,flashFlipped2=false;
 async function _loadFlashCard(ids,setFlip){
   const [cardId,topicId,frontId,backId,hintId,actsId,fsTotal,fsKnow,fsRev]=ids;
   setFlip(false);
+  // Update progress bar for the main flash card
+  if(cardId==='flash-card'){
+    const seen=(S.flashStats&&S.flashStats.total)||0;
+    const total=FLASH.length;
+    const pct=Math.min(100,Math.round((seen/total)*100));
+    const fcNum=document.getElementById('fc-num');
+    const fcProg=document.getElementById('fc-prog');
+    if(fcNum)fcNum.textContent=ar(Math.min(seen+1,total))+'/'+ar(total);
+    if(fcProg)fcProg.style.width=pct+'%';
+  }
   const fa=document.getElementById(actsId);if(fa)fa.style.display='none';
   const ftEl=document.getElementById(topicId),ffEl=document.getElementById(frontId),fbEl=document.getElementById(backId),fhEl=document.getElementById(hintId);
   if(Math.random()>0.45){
@@ -2465,7 +2671,8 @@ function loadProfile(){
   Object.entries(flds).forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.value=v;});
   const keyEl=document.getElementById('set-apikey');if(keyEl&&localStorage.getItem('mrshd_apikey'))keyEl.placeholder='●●●●●●●●●●●● (محفوظ)';
   const ss=document.getElementById('settings-stats');
-  if(ss)ss.innerHTML=`إجمالي الصح: <strong style="color:var(--orange);">${ar(S.correctTotal)}</strong><br>نقاط XP: <strong style="color:var(--gold);">${ar(S.xp)}</strong><br>أيام متتالية: <strong style="color:var(--orange);">${ar(S.streak)}</strong> | أفضل: <strong>${ar(S.bestStreak)}</strong><br>الخطة المكتملة: <strong style="color:var(--green);">${ar(Object.keys(S.completedDays||{}).length)}</strong>/٤٠`;
+  const svXp=document.getElementById('sv-xp');const svC=document.getElementById('sv-correct');const svS=document.getElementById('sv-streak');const svP=document.getElementById('sv-plan');
+  if(svXp)svXp.textContent=ar(S.xp);if(svC)svC.textContent=ar(S.correctTotal);if(svS)svS.textContent=ar(S.streak);if(svP)svP.textContent=ar(Object.keys(S.completedDays||{}).length)+'/٤٠';
 }
 function saveProfile(){S.profile.name=document.getElementById('prf-name')?.value||'';S.profile.factory=document.getElementById('prf-factory')?.value||'';S.profile.speciality=document.getElementById('prf-spec')?.value||'HSE';S.dailyGoal=parseInt(document.getElementById('prf-goal')?.value||'3');save();renderAll();}
 function confirmReset(){if(confirm('⚠️ مسح بيانات التقدم؟')){S.correctTotal=0;S.wrongTotal=0;S.xp=0;S.streak=0;S.completedDays={};S.dayStarted={};S.weeklyTestDone={};S.weaknesses={};S.strengths={};S.examHistory=[];S.kwHistory=[];save();renderAll();loadProfile();showToast('تم المسح ✅');}}
