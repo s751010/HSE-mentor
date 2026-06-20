@@ -2276,7 +2276,7 @@ function checkGoal(){const today=new Date().toDateString();if(S.lastGoalDate!==t
 function renderAll(){
   el('h-xp',ar(S.xp));el('h-level',getLevel());el('h-streak',ar(S.streak)+'🔥');
   el('nav-xp',ar(S.xp));el('nav-streak',ar(S.streak));
-  const noBanner=document.getElementById('no-api-banner');if(noBanner)noBanner.style.display=getApiKey()?'none':'block';
+  const noBanner=document.getElementById('no-api-banner');if(noBanner)noBanner.style.display='none';
   // Report placeholder stats
   const rspXp=document.getElementById('rsp-xp');
   const rspQ=document.getElementById('rsp-q');
@@ -2504,8 +2504,7 @@ async function _loadFlashCard(ids,setFlip){
     const topics=['إدارة المخاطر','ISO 45001','OSHA','NEBOSH','كوادر','PTW','LOTO','الحريق','الأماكن المغلقة','الكيمياء الصناعية','هرم الضوابط','مؤشرات الأداء','RCA','هرم هاينريش'];
     const topic=topics[Math.floor(Math.random()*topics.length)];
     try{
-      const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+getApiKey(),'Content-Type':'application/json'},body:JSON.stringify({model:'gpt-4o-mini',max_tokens:200,temperature:0.9,messages:[{role:'system',content:'أنت خبير HSE.'},{role:'user',content:`بطاقة مراجعة عن: ${topic}\nأجب بـ JSON فقط: {"front":"مصطلح","back":"تعريف (جملتان)","topic":"${topic}"}`}]})});
-      const data=await res.json();let raw=data.choices?.[0]?.message?.content||'{}';raw=raw.replace(/```json|```/g,'').trim();
+      const data=await callAI({model:'gpt-4o-mini',max_tokens:200,temperature:0.9,messages:[{role:'system',content:'أنت خبير HSE.'},{role:'user',content:`بطاقة مراجعة عن: ${topic}\nأجب بـ JSON فقط: {"front":"مصطلح","back":"تعريف (جملتان)","topic":"${topic}"}`}]});let raw=data.choices?.[0]?.message?.content||'{}';raw=raw.replace(/```json|```/g,'').trim();
       const card=JSON.parse(raw);
       if(card.front&&card.back){
         if(cardId==='flash-card')curFlash=card;else curFlash2=card;
@@ -2597,8 +2596,7 @@ async function startWarmup(){
   const qz=document.getElementById('wu-quiz');if(qz){qz.style.removeProperty('display');qz.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;padding:36px;gap:12px;"><div class="spinner"></div><div style="font-size:13px;color:var(--muted);">🤖 توليد أسئلة...</div></div>`;}
   try{
     const std=wuStd==='mixed'?'متنوعة كوادر وNEBOSH وOSHA':wuStd;
-    const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+getApiKey(),'Content-Type':'application/json'},body:JSON.stringify({model:'gpt-4o-mini',max_tokens:2000,temperature:0.8,messages:[{role:'system',content:'أنت خبير اختبارات السلامة المهنية.'},{role:'user',content:`أنشئ ${wuN} سؤالاً متعدد الخيارات في السلامة - المعيار: ${std}\nأجب بـ JSON فقط:\n[{"q":"...","opts":["أ)...","ب)...","ج)...","د)..."],"ans":0,"topic":"...","std":"كوادر","ex":"..."}]`}]})});
-    const data=await res.json();let raw=data.choices?.[0]?.message?.content||'[]';raw=raw.replace(/```json|```/g,'').trim();
+    const data=await callAI({model:'gpt-4o-mini',max_tokens:2000,temperature:0.8,messages:[{role:'system',content:'أنت خبير اختبارات السلامة المهنية.'},{role:'user',content:`أنشئ ${wuN} سؤالاً متعدد الخيارات في السلامة - المعيار: ${std}\nأجب بـ JSON فقط:\n[{"q":"...","opts":["أ)...","ب)...","ج)...","د)..."],"ans":0,"topic":"...","std":"كوادر","ex":"..."}]`}]});let raw=data.choices?.[0]?.message?.content||'[]';raw=raw.replace(/```json|```/g,'').trim();
     const parsed=JSON.parse(raw);if(Array.isArray(parsed)&&parsed.length>0)wuQs=parsed;else throw new Error();
   }catch(e){wuQs=getBankQ(wuN,wuStd==='mixed'?null:wuStd);}
   showWUQ();
@@ -2695,8 +2693,8 @@ async function _analyzeField(inpId,resId){
   const text=inp.value.trim(),res=document.getElementById(resId);
   if(res){res.className='field-result show';res.innerHTML='<div class="spinner"></div> جاري التحليل...';}
   try{
-    const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+getApiKey(),'Content-Type':'application/json'},body:JSON.stringify({model:'gpt-4o-mini',max_tokens:900,temperature:0.7,messages:[{role:'system',content:'أنت خبير HSE متخصص في جميع القطاعات السعودية.'},{role:'user',content:`حلل: "${text}"\n**١. المخاطر:**\n**٢. الخرق القانوني:**\n**٣. الإجراء الصحيح:**\n**٤. الدرس المستفاد:**`}]})});
-    const data=await r.json();if(res)res.innerHTML=fmt(data.choices?.[0]?.message?.content||'تعذّر التحليل');addXP(10);save();
+    const data=await callAI({model:'gpt-4o-mini',max_tokens:900,temperature:0.7,messages:[{role:'system',content:'أنت خبير HSE متخصص في جميع القطاعات السعودية.'},{role:'user',content:`حلل: "${text}"\n**١. المخاطر:**\n**٢. الخرق القانوني:**\n**٣. الإجراء الصحيح:**\n**٤. الدرس المستفاد:**`}]});
+    if(res)res.innerHTML=fmt(data.choices?.[0]?.message?.content||'تعذّر التحليل');addXP(10);save();
   }catch(e){if(res)res.innerHTML='⚠️ خطأ في الاتصال.';}
 }
 function analyzeField(){_analyzeField('field-inp','field-result');}
@@ -2882,8 +2880,7 @@ async function generateIncidentReport(){
   if(!desc||desc.trim().length<10){showToast('يرجى ملء وصف الحادثة');return;}
   const res=document.getElementById('inc-result');if(res)res.innerHTML=`<div class="ios-card"><div class="spinner"></div> جاري التحليل...</div>`;
   try{
-    const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+getApiKey(),'Content-Type':'application/json'},body:JSON.stringify({model:'gpt-4o-mini',max_tokens:1200,temperature:0.7,messages:[{role:'system',content:'أنت خبير تحقيق حوادث HSE محترف.'},{role:'user',content:`تحليل حادثة:\nالنوع: ${type||'غير محدد'}\nالموقع: ${loc||'غير محدد'}\nالتاريخ: ${date||'غير محدد'}\nالمصاب: ${person||'غير محدد'} - ${job||''}\nشدة الإصابة: ${sev||'غير محدد'}\nالوصف: ${desc}\n\nأجب بـ JSON فقط:\n{"hipo":"critical|high|low","root_causes":["..."],"immediate_causes":["..."],"corrective_actions":["..."],"preventive_measures":["..."],"regulatory_violations":["..."],"risk_score":1,"recommendations":"..."}`}]})});
-    const data=await r.json();let raw=data.choices?.[0]?.message?.content||'{}';raw=raw.replace(/```json|```/g,'').trim();
+    const data=await callAI({model:'gpt-4o-mini',max_tokens:1200,temperature:0.7,messages:[{role:'system',content:'أنت خبير تحقيق حوادث HSE محترف.'},{role:'user',content:`تحليل حادثة:\nالنوع: ${type||'غير محدد'}\nالموقع: ${loc||'غير محدد'}\nالتاريخ: ${date||'غير محدد'}\nالمصاب: ${person||'غير محدد'} - ${job||''}\nشدة الإصابة: ${sev||'غير محدد'}\nالوصف: ${desc}\n\nأجب بـ JSON فقط:\n{"hipo":"critical|high|low","root_causes":["..."],"immediate_causes":["..."],"corrective_actions":["..."],"preventive_measures":["..."],"regulatory_violations":["..."],"risk_score":1,"recommendations":"..."}`}]});let raw=data.choices?.[0]?.message?.content||'{}';raw=raw.replace(/```json|```/g,'').trim();
     let a;try{a=JSON.parse(raw);}catch{a=null;}
     if(a&&res){
       const hipoBadge=a.hipo==='critical'?'hipo-critical':a.hipo==='high'?'hipo-high':'hipo-low';
@@ -2936,8 +2933,7 @@ async function generateReport(){
   const strong=Object.entries(S.strengths||{}).sort((a,b)=>b[1]-a[1]).slice(0,3).map(e=>e[0]).join('، ')||'لا يوجد';
   const done=Object.keys(S.completedDays||{}).length,tot=S.correctTotal+S.wrongTotal,acc=tot>0?Math.round(S.correctTotal/tot*100):0;
   try{
-    const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+getApiKey(),'Content-Type':'application/json'},body:JSON.stringify({model:'gpt-4o-mini',max_tokens:1000,temperature:0.7,messages:[{role:'system',content:'أنت مرشد تعليمي في السلامة المهنية.'},{role:'user',content:`تقرير أسبوعي للمهندس ${S.profile.name||'سياف'}:\n- الدقة: ${acc}٪ (${S.correctTotal} صح/${S.wrongTotal} خطأ)\n- XP: ${S.xp} | مستوى: ${getLevel()} | Streak: ${S.streak}\n- تقدم الخطة: ${done}/40 يوم\n- الضعف: ${weak}\n- القوة: ${strong}\n\n**١. ملخص الأسبوع**\n**٢. نقاط القوة**\n**٣. نقاط الضعف**\n**٤. خطة الأسبوع القادم**\n**٥. رسالة تحفيزية**`}]})});
-    const data=await r.json();if(rc)rc.innerHTML=fmt(data.choices?.[0]?.message?.content||'تعذّر التوليد');
+    const data=await callAI({model:'gpt-4o-mini',max_tokens:1000,temperature:0.7,messages:[{role:'system',content:'أنت مرشد تعليمي في السلامة المهنية.'},{role:'user',content:`تقرير أسبوعي للمهندس ${S.profile.name||'سياف'}:\n- الدقة: ${acc}٪ (${S.correctTotal} صح/${S.wrongTotal} خطأ)\n- XP: ${S.xp} | مستوى: ${getLevel()} | Streak: ${S.streak}\n- تقدم الخطة: ${done}/40 يوم\n- الضعف: ${weak}\n- القوة: ${strong}\n\n**١. ملخص الأسبوع**\n**٢. نقاط القوة**\n**٣. نقاط الضعف**\n**٤. خطة الأسبوع القادم**\n**٥. رسالة تحفيزية**`}]});if(rc)rc.innerHTML=fmt(data.choices?.[0]?.message?.content||'تعذّر التوليد');
   }catch(e){if(rc)rc.innerHTML='⚠️ خطأ في الاتصال.';}
   if(btn){btn.disabled=false;btn.textContent='✨ توليد التحليل الأسبوعي';}
 }
