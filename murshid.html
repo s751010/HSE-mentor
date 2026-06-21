@@ -427,10 +427,11 @@ body.dark ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);background-
 .rm-crit{background:rgba(255,59,48,.3);color:#7a0;}
 
 /* ── CERTIFICATE ───────────────────────────────────── */
-.cert-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.6);backdrop-filter:blur(9px);align-items:center;justify-content:center;padding:20px;}
+.cert-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.6);backdrop-filter:blur(9px);align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;}
 .cert-overlay.open{display:flex;animation:fadeIn .25s ease;}
-.cert-box{background:#fff;border-radius:22px;overflow:hidden;width:100%;max-width:540px;box-shadow:0 24px 64px rgba(0,0,0,.4);}
-.cert-header{background:linear-gradient(135deg,#0d2137,#1a3a5c);padding:28px 30px 22px;text-align:center;}
+.cert-box{background:#fff;border-radius:22px;overflow:hidden;width:100%;max-width:540px;box-shadow:0 24px 64px rgba(0,0,0,.4);margin:auto;position:relative;border:2px solid rgba(198,124,42,0.25);}
+.cert-header{background:linear-gradient(135deg,#0d2137,#1a3a5c);padding:28px 30px 22px;text-align:center;border-bottom:2px solid rgba(198,124,42,0.45);}
+.cert-sig-svg{display:block;}
 .cert-header-badge{font-size:40px;margin-bottom:8px;}
 .cert-header-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;}
 .cert-header-main{font-size:22px;font-weight:900;color:#fff;}
@@ -446,7 +447,7 @@ body.dark ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);background-
 .cert-detail-val.pass{color:#1a7a3a;}
 .cert-footer-sig{border-top:1px solid #eee;padding-top:14px;text-align:center;}
 .cert-sig-line{width:130px;height:1px;background:#aaa;margin:0 auto 6px;}
-.cert-sig-name{font-size:14px;font-weight:800;color:var(--orange);}
+.cert-sig-name{font-size:15px;font-weight:900;color:#0d2137;font-family:var(--font);}
 .cert-sig-title{font-size:11px;color:#888;margin-top:2px;}
 .cert-actions{display:flex;gap:10px;padding:0 24px 20px;}
 .cert-dl-btn{flex:1;padding:13px;background:linear-gradient(135deg,var(--orange),var(--gold));border:none;border-radius:12px;color:#fff;font-size:14px;font-weight:800;cursor:pointer;font-family:var(--font);}
@@ -1774,7 +1775,15 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
         <div class="cert-detail"><div class="cert-detail-lbl">المستوى</div><div class="cert-detail-val" id="cert-level">—</div></div>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid #eee;padding-top:14px;">
-      <div style="text-align:right;"><div class="cert-sig-line"></div><div class="cert-sig-name">سياف الهذلي</div><div class="cert-sig-title">أخصائي السلامة المهنية · مؤسس المنصة</div></div>
+      <div style="text-align:right;">
+        <svg class="cert-sig-svg" viewBox="0 0 200 68" width="160" height="54" style="display:block;margin-bottom:3px;overflow:visible;">
+          <path d="M12,52 C8,34 18,18 38,20 C55,22 52,42 44,50 C38,56 46,58 60,52 C72,46 84,32 92,24 C100,16 106,26 103,38 C100,50 110,52 124,46 C136,40 146,38 158,44 C166,48 170,44 172,36" stroke="#0d2137" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10,62 C50,67 110,67 180,60" stroke="#c67c2a" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.8"/>
+          <circle cx="68" cy="16" r="2.8" fill="#c67c2a"/>
+          <circle cx="100" cy="11" r="2.2" fill="#c67c2a"/>
+        </svg>
+        <div class="cert-sig-name">سياف الهذلي</div><div class="cert-sig-title">أخصائي السلامة المهنية · مؤسس المنصة</div>
+      </div>
       <div style="text-align:center;"><img id="cert-qr" style="width:72px;height:72px;border-radius:8px;" alt="QR"><div style="font-size:9px;color:#aaa;margin-top:3px;font-family:monospace;" id="cert-serial">—</div></div>
     </div>
     </div>
@@ -2252,7 +2261,14 @@ async function submitAuth(){
     else{res=await sb.auth.signInWithPassword({email,password:pass});if(res.error)throw res.error;S.profile.email=email;if(res.data.user?.user_metadata?.name)S.profile.name=res.data.user.user_metadata.name;save();}
     currentUser=res.data.user;await loadCloudProgress();renderAll();showApp();
     if(currentUser.email===FOUNDER_EMAIL){sessionStorage.setItem('mrshd_founder','1');document.getElementById('founder-panel').classList.add('show');fpRenderAll();}
-  }catch(err){authErr('⚠️ '+(err.message||'حدث خطأ'));}
+  }catch(err){
+    const m=err.message||'';
+    if(/rate.?limit/i.test(m)){authErr('⚠️ تم تجاوز حد إنشاء الحسابات مؤقتاً. يرجى المحاولة بعد ساعة أو التواصل مع الدعم.');}
+    else if(/already.?registered|user already/i.test(m)){authErr('📧 هذا البريد مسجّل مسبقاً — اختر "تسجيل الدخول" بدلاً من إنشاء حساب.');}
+    else if(/invalid.?email|email.*invalid/i.test(m)){authErr('⚠️ البريد الإلكتروني غير صالح. تحقق من الصيغة.');}
+    else if(/password/i.test(m)){authErr('⚠️ كلمة المرور غير صحيحة أو قصيرة جداً (٦ أحرف على الأقل).');}
+    else{authErr('⚠️ '+(m||'حدث خطأ غير متوقع'));}
+  }
   btn.disabled=false;btn.textContent=authMode==='signup'?'إنشاء الحساب':'تسجيل الدخول';
 }
 async function logoutUser(){
@@ -3423,7 +3439,7 @@ body.app-active .mobile-nav{display:none !important;}
 .lp-hero-content{width:100%;max-width:880px;margin:0 auto;}
 .lp-hero-grid,.lp-hero-orb{left:50% !important;transform:translateX(-50%) !important;}
 .lp-hero-orb{top:8%;width:520px;}
-</style></head><body><div class="cert"><div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div><div class="cert-top"><div style="font-size:32px;margin-bottom:5px;">🛡️</div><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:1.5px;">منصة مرشد السلامة المهنية</div><div style="font-size:22px;font-weight:900;color:#fff;margin-top:4px;">شهادة إتمام اختبار</div><div style="display:inline-block;margin-top:8px;padding:3px 12px;border-radius:20px;font-size:10px;font-weight:700;color:rgba(255,200,50,.9);background:rgba(255,200,50,.12);border:1px solid rgba(255,200,50,.3);">شهادة إتمام تدريبي · رقم: ${d.serial||'—'}</div></div><div class="cert-body"><div class="presented">تشهد هذه المنصة بأن</div><div class="person-name">${name}</div><div style="text-align:center;font-size:13px;color:#444;margin-bottom:18px;line-height:1.7;">قد أتمّ بنجاح اختبار <strong>${d.testType||'محاكاة كوادر'}</strong></div><div class="stats"><div class="stat"><div style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">النتيجة</div><div style="font-size:18px;font-weight:900;color:#1a7a3a;">${d.pct}٪</div></div><div class="stat"><div style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">الأسئلة</div><div style="font-size:18px;font-weight:900;color:#1a1a1a;">${d.total}</div></div><div class="stat"><div style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">التاريخ</div><div style="font-size:13px;font-weight:900;color:#1a1a1a;">${date}</div></div><div class="stat"><div style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">المستوى</div><div style="font-size:13px;font-weight:900;color:#1a1a1a;">${cur.icon} ${cur.name}</div></div></div><div class="sig-area"><div style="text-align:right;"><div class="sig-line"></div><div style="font-size:13px;font-weight:800;color:#FF6D00;">سياف الهذلي</div><div style="font-size:10px;color:#888;margin-top:2px;">أخصائي السلامة المهنية · مؤسس المنصة</div></div><div style="text-align:center;"><img src="${qrSrc}" style="width:78px;height:78px;"><div style="font-size:9px;color:#999;font-family:monospace;margin-top:2px;">${d.serial||''}</div></div></div></div></div><script>window.onload=()=>window.print();<\/script></body></html>`;
+</style></head><body><div class="cert"><div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div><div class="cert-top"><div style="font-size:32px;margin-bottom:5px;">🛡️</div><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:1.5px;">منصة مرشد السلامة المهنية</div><div style="font-size:22px;font-weight:900;color:#fff;margin-top:4px;">شهادة إتمام اختبار</div><div style="display:inline-block;margin-top:8px;padding:3px 12px;border-radius:20px;font-size:10px;font-weight:700;color:rgba(255,200,50,.9);background:rgba(255,200,50,.12);border:1px solid rgba(255,200,50,.3);">شهادة إتمام تدريبي · رقم: ${d.serial||'—'}</div></div><div class="cert-body"><div class="presented">تشهد هذه المنصة بأن</div><div class="person-name">${name}</div><div style="text-align:center;font-size:13px;color:#444;margin-bottom:18px;line-height:1.7;">قد أتمّ بنجاح اختبار <strong>${d.testType||'محاكاة كوادر'}</strong></div><div class="stats"><div class="stat"><div style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">النتيجة</div><div style="font-size:18px;font-weight:900;color:#1a7a3a;">${d.pct}٪</div></div><div class="stat"><div style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">الأسئلة</div><div style="font-size:18px;font-weight:900;color:#1a1a1a;">${d.total}</div></div><div class="stat"><div style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">التاريخ</div><div style="font-size:13px;font-weight:900;color:#1a1a1a;">${date}</div></div><div class="stat"><div style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">المستوى</div><div style="font-size:13px;font-weight:900;color:#1a1a1a;">${cur.icon} ${cur.name}</div></div></div><div class="sig-area"><div style="text-align:right;"><svg viewBox="0 0 200 68" width="150" height="52" style="display:block;margin-bottom:3px;"><path d="M12,52 C8,34 18,18 38,20 C55,22 52,42 44,50 C38,56 46,58 60,52 C72,46 84,32 92,24 C100,16 106,26 103,38 C100,50 110,52 124,46 C136,40 146,38 158,44 C166,48 170,44 172,36" stroke="#0d2137" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M10,62 C50,67 110,67 180,60" stroke="#c67c2a" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.8"/><circle cx="68" cy="16" r="2.8" fill="#c67c2a"/><circle cx="100" cy="11" r="2.2" fill="#c67c2a"/></svg><div style="font-size:13px;font-weight:800;color:#0d2137;">سياف الهذلي</div><div style="font-size:10px;color:#888;margin-top:2px;">أخصائي السلامة المهنية · مؤسس المنصة</div></div><div style="text-align:center;"><img src="${qrSrc}" style="width:78px;height:78px;"><div style="font-size:9px;color:#999;font-family:monospace;margin-top:2px;">${d.serial||''}</div></div></div></div></div><script>window.onload=()=>window.print();<\/script></body></html>`;
   const blob=new Blob([certHTML],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob);
   const win=window.open(url,'_blank');if(!win){const a=document.createElement('a');a.href=url;a.download='شهادة-مرشد-السلامة.html';a.click();}
   showToast('✅ تم فتح الشهادة — اطبع أو احفظ PDF');
