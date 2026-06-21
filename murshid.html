@@ -2234,7 +2234,21 @@ async function submitAuth(){
   }
   try{
     let res;
-    if(authMode==='signup'){res=await sb.auth.signUp({email,password:pass,options:{data:{name}}});if(res.error)throw res.error;S.profile.name=name;S.profile.email=email;save();}
+    if(authMode==='signup'){
+      res=await sb.auth.signUp({email,password:pass,options:{data:{name}}});
+      if(res.error)throw res.error;
+      // If no session returned, email confirmation is required — sign in immediately to get session
+      if(!res.data.session){
+        const loginRes=await sb.auth.signInWithPassword({email,password:pass});
+        if(loginRes.data?.session){res=loginRes;}
+        else{
+          // Email confirmation required: show helpful message without entering app
+          authErr('✅ تم إنشاء حسابك! تحقق من بريدك الإلكتروني لتأكيده ثم سجّل الدخول.');
+          btn.disabled=false;btn.textContent='إنشاء الحساب';return;
+        }
+      }
+      S.profile.name=name;S.profile.email=email;save();
+    }
     else{res=await sb.auth.signInWithPassword({email,password:pass});if(res.error)throw res.error;S.profile.email=email;if(res.data.user?.user_metadata?.name)S.profile.name=res.data.user.user_metadata.name;save();}
     currentUser=res.data.user;await loadCloudProgress();renderAll();showApp();
     if(currentUser.email===FOUNDER_EMAIL){sessionStorage.setItem('mrshd_founder','1');document.getElementById('founder-panel').classList.add('show');fpRenderAll();}
@@ -2330,15 +2344,24 @@ function getLevel(){return getCurrentLevel(S.xp).name;}
 // ═══════════ MULTILINGUAL ═══════════
 let currentLang=localStorage.getItem('mrshd_lang')||'ar';
 const LANG={
-  ar:{nav:['الرئيسية','المرشد','كوادر','أدوات','الخطة'],placeholder:'اسأل أبو سلامة...',langBtn:'EN'},
-  en:{nav:['Home','Mentor','Qudrat','Tools','Plan'],placeholder:'Ask Abu Salama...',langBtn:'ع'},
+  ar:{
+    mob:['الرئيسية','المرشد','كوادر','أدوات','الخطة'],
+    desk:[['navtab-home','🏠 الرئيسية'],['navtab-chat','💬 المرشد'],['navtab-quiz','🏆 كوادر'],['navtab-tools','🔧 أدوات السلامة'],['navtab-plan','📅 الخطة'],['navtab-levels','🏅 مستوياتي']],
+    placeholder:'اسأل أبو سلامة...',langBtn:'EN'
+  },
+  en:{
+    mob:['Home','Mentor','Qudrat','Tools','Plan'],
+    desk:[['navtab-home','🏠 Home'],['navtab-chat','💬 Mentor'],['navtab-quiz','🏆 Qudrat'],['navtab-tools','🔧 HSE Tools'],['navtab-plan','📅 Plan'],['navtab-levels','🏅 My Levels']],
+    placeholder:'Ask Abu Salama...',langBtn:'ع'
+  },
 };
 function applyLang(lang){
   currentLang=lang;localStorage.setItem('mrshd_lang',lang);
-  const navLabels=document.querySelectorAll('.nav-label');
-  LANG[lang].nav.forEach((txt,i)=>{if(navLabels[i])navLabels[i].textContent=txt;});
-  const inp=document.getElementById('chat-inp');if(inp)inp.placeholder=LANG[lang].placeholder;
-  const lb=document.getElementById('lang-btn');if(lb)lb.textContent=LANG[lang].langBtn;
+  const L=LANG[lang];
+  document.querySelectorAll('.nav-label').forEach((s,i)=>{if(L.mob[i])s.textContent=L.mob[i];});
+  L.desk.forEach(([id,txt])=>{const b=document.getElementById(id);if(b)b.textContent=txt;});
+  const inp=document.getElementById('chat-inp');if(inp)inp.placeholder=L.placeholder;
+  const lb=document.getElementById('lang-btn');if(lb)lb.textContent=L.langBtn;
 }
 const BADGES=[
   {id:'first_login',icon:'👋',name:'الانطلاقة',check:s=>true},
