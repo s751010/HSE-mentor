@@ -2245,27 +2245,51 @@ async function submitAuth(){
     let res;
     if(authMode==='signup'){
       res=await sb.auth.signUp({email,password:pass,options:{data:{name}}});
-      if(res.error)throw res.error;
-      // If no session returned, email confirmation is required — sign in immediately to get session
-      if(!res.data.session){
-        const loginRes=await sb.auth.signInWithPassword({email,password:pass});
-        if(loginRes.data?.session){res=loginRes;}
+      if(res.error){
+        const em=res.error.message||'';
+        // Already registered → try signing in automatically
+        if(/already.?registered|user.?exists|already.?exists/i.test(em)){
+          authErr('📧 هذا البريد مسجّل — جاري تسجيل الدخول تلقائياً...');
+          const lr=await sb.auth.signInWithPassword({email,password:pass});
+          if(lr.error)throw lr.error;
+          res=lr;
+        } else {throw res.error;}
+      } else if(!res.data.session){
+        // No session yet: try immediate sign-in (works when email confirm is off)
+        const lr=await sb.auth.signInWithPassword({email,password:pass});
+        if(lr.data?.session){res=lr;}
         else{
-          // Email confirmation required: show helpful message without entering app
-          authErr('✅ تم إنشاء حسابك! تحقق من بريدك الإلكتروني لتأكيده ثم سجّل الدخول.');
-          btn.disabled=false;btn.textContent='إنشاء الحساب';return;
+          // Email confirmation truly required — switch UI to login
+          authErr('✅ تم إنشاء حسابك! تحقق من بريدك ثم سجّل دخولك أدناه.');
+          authMode='login';applyAuthMode();
+          document.getElementById('auth-email').value=email;
+          btn.disabled=false;btn.textContent='تسجيل الدخول';return;
         }
       }
       S.profile.name=name;S.profile.email=email;save();
+      // Save to profiles table (needs SQL below) and user_progress immediately
+      const uid=res.data?.user?.id;
+      if(uid){
+        try{await sb.from('profiles').upsert({id:uid,email,name,created_at:new Date().toISOString()},{onConflict:'id'});}catch(_){}
+        try{await sb.from('user_progress').upsert({user_id:uid,data:S,updated_at:new Date().toISOString()});}catch(_){}
+      }
     }
-    else{res=await sb.auth.signInWithPassword({email,password:pass});if(res.error)throw res.error;S.profile.email=email;if(res.data.user?.user_metadata?.name)S.profile.name=res.data.user.user_metadata.name;save();}
+    else{
+      res=await sb.auth.signInWithPassword({email,password:pass});
+      if(res.error)throw res.error;
+      S.profile.email=email;
+      if(res.data.user?.user_metadata?.name)S.profile.name=res.data.user.user_metadata.name;
+      save();
+    }
     currentUser=res.data.user;await loadCloudProgress();renderAll();showApp();
     if(currentUser.email===FOUNDER_EMAIL){sessionStorage.setItem('mrshd_founder','1');document.getElementById('founder-panel').classList.add('show');fpRenderAll();}
   }catch(err){
     const m=err.message||'';
     if(/rate.?limit/i.test(m)){authErr('⚠️ تم تجاوز حد إنشاء الحسابات مؤقتاً. يرجى المحاولة بعد ساعة أو التواصل مع الدعم.');}
-    else if(/already.?registered|user already/i.test(m)){authErr('📧 هذا البريد مسجّل مسبقاً — اختر "تسجيل الدخول" بدلاً من إنشاء حساب.');}
+    else if(/not.?confirm|confirm.*email/i.test(m)){authErr('✅ تم إنشاء حسابك! تحقق من بريدك الإلكتروني لتأكيده ثم سجّل الدخول.');authMode='login';applyAuthMode();document.getElementById('auth-email').value=email;}
+    else if(/already.?registered|user already|user.?exists/i.test(m)){authErr('📧 هذا البريد مسجّل — اختر "تسجيل الدخول" أو تحقق من كلمة المرور.');}
     else if(/invalid.?email|email.*invalid/i.test(m)){authErr('⚠️ البريد الإلكتروني غير صالح. تحقق من الصيغة.');}
+    else if(/invalid.?login|invalid.?credentials/i.test(m)){authErr('⚠️ البريد أو كلمة المرور غير صحيحة.');}
     else if(/password/i.test(m)){authErr('⚠️ كلمة المرور غير صحيحة أو قصيرة جداً (٦ أحرف على الأقل).');}
     else{authErr('⚠️ '+(m||'حدث خطأ غير متوقع'));}
   }
