@@ -1074,6 +1074,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="lp-nav-brand"><div class="nav-brand-icon"></div><div><div class="nav-brand-name">مرشد السلامة</div><div class="nav-brand-sub">HSE Smart Platform</div></div></div>
     <div class="lp-nav-actions">
       <button class="lp-nav-link" onclick="document.getElementById('lp-features').scrollIntoView({behavior:'smooth'})">المميزات</button>
+      <a class="lp-nav-link" href="/blog" style="text-decoration:none;">المدونة</a>
       <button class="lp-btn-login" onclick="openAuth('login')">تسجيل الدخول</button>
       <button class="lp-btn-cta" onclick="openAuth('signup')">ابدأ مجاناً</button>
     </div>
@@ -1228,6 +1229,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 
   <footer class="lp-footer">
     <div class="lp-footer-links">
+      <a class="lp-footer-link" href="/blog" style="text-decoration:none;">المدونة</a>
       <button class="lp-footer-link" onclick="openLegal('about')">من نحن</button>
       <button class="lp-footer-link" onclick="openLegal('contact')">تواصل معنا</button>
       <button class="lp-footer-link" onclick="openLegal('privacy')">سياسة الخصوصية</button>
@@ -1920,6 +1922,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <button class="fp-tab" data-fp="content" onclick="fpSwitch('content',this)"><span class="ic">✏️</span> محتوى اللاندنق</button>
       <button class="fp-tab" data-fp="tools" onclick="fpSwitch('tools',this)"><span class="ic">🔧</span> الأدوات</button>
       <button class="fp-tab" data-fp="questions" onclick="fpSwitch('questions',this)"><span class="ic">📚</span> بنك الأسئلة</button>
+      <button class="fp-tab" data-fp="blog" onclick="fpSwitch('blog',this)"><span class="ic">📰</span> المدونة</button>
       <button class="fp-tab" data-fp="branding" onclick="fpSwitch('branding',this)"><span class="ic">🎨</span> الهوية البصرية</button>
       <button class="fp-tab" data-fp="legal" onclick="fpSwitch('legal',this)"><span class="ic">📄</span> الصفحات القانونية</button>
       <button class="fp-tab" data-fp="settings" onclick="fpSwitch('settings',this)"><span class="ic">⚙️</span> الإعدادات العامة</button>
@@ -1987,6 +1990,44 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
           <button class="fp-save-btn" onclick="fpAddQuestion()">➕ إضافة السؤال</button>
         </div>
         <div class="fp-card"><div class="fp-card-title">📋 الأسئلة الحالية (<span id="fpq-count">٠</span>)</div><div id="fpq-list" style="max-height:400px;overflow-y:auto;"></div></div>
+      </div>
+      <!-- BLOG -->
+      <div class="fp-section" id="fp-blog">
+        <div class="fp-h">📰 المدونة — مقالات HSE العملية</div>
+        <div class="fp-hsub">ولّد مقالاً بالذكاء الاصطناعي (عملي + معيار)، راجعه، ثم انشره على المدونة العامة</div>
+        <div class="fp-card">
+          <div class="fp-card-title">✨ توليد مقال بالذكاء الاصطناعي</div>
+          <div class="fp-field"><label class="fp-label">موضوع المقال</label><input class="fp-input" id="fpa-gen-topic" placeholder="مثال: كيف تنفّذ نظام LOTO بشكل صحيح في ورش الصيانة"></div>
+          <div class="fp-field"><label class="fp-label">المعيار المستهدف (اختياري)</label><input class="fp-input" id="fpa-gen-std" placeholder="مثال: OSHA 1910.147 — اتركه فارغاً ليختار الأنسب"></div>
+          <div class="fp-field"><label class="fp-label">التصنيف (اختياري)</label><input class="fp-input" id="fpa-gen-cat" placeholder="مثال: السلامة الكهربائية"></div>
+          <button class="fp-save-btn" id="fpa-gen-btn" onclick="fpGenArticle()">✨ ولّد المسودة</button>
+          <button class="fp-quick-btn" onclick="fpNewArticle()" style="margin-top:8px;">📝 أو اكتب مقالاً يدوياً</button>
+        </div>
+
+        <div class="fp-card" id="fpa-editor" style="display:none;">
+          <div class="fp-card-title">✏️ محرر المقال — <span id="fpa-editor-mode">مسودة جديدة</span></div>
+          <input type="hidden" id="fpa-id">
+          <div class="fp-field"><label class="fp-label">العنوان</label><input class="fp-input" id="fpa-title" oninput="fpAutoSlug()"></div>
+          <div class="fp-field"><label class="fp-label">الرابط (slug) — إنجليزي بفواصل -</label><input class="fp-input" id="fpa-slug" dir="ltr" placeholder="loto-lockout-tagout-guide" oninput="this.dataset.touched='1'"></div>
+          <div class="fp-field"><label class="fp-label">الملخص (excerpt)</label><textarea class="fp-textarea" id="fpa-excerpt"></textarea></div>
+          <div class="fp-field"><label class="fp-label">المحتوى (Markdown)</label><textarea class="fp-textarea" id="fpa-body" style="min-height:320px;font-family:monospace;font-size:13px;" oninput="fpRenderPreview()"></textarea></div>
+          <div class="fp-field"><label class="fp-label">المعيار المرجعي</label><input class="fp-input" id="fpa-standard" placeholder="OSHA 1910.147 / ISO 45001 ..."></div>
+          <div class="fp-field"><label class="fp-label">التصنيف</label><input class="fp-input" id="fpa-category"></div>
+          <div class="fp-field"><label class="fp-label">الوسوم (مفصولة بفواصل)</label><input class="fp-input" id="fpa-tags" placeholder="LOTO, الصيانة, الكهرباء"></div>
+          <div class="fp-field"><label class="fp-label">إيموجي الغلاف</label><input class="fp-input" id="fpa-emoji" placeholder="🛡️" style="max-width:90px;"></div>
+          <div class="fp-card-title" style="margin-top:8px;">🔍 إعدادات SEO</div>
+          <div class="fp-field"><label class="fp-label">عنوان محرك البحث (≤60)</label><input class="fp-input" id="fpa-seotitle" maxlength="70"></div>
+          <div class="fp-field"><label class="fp-label">وصف meta (≤155)</label><textarea class="fp-textarea" id="fpa-seodesc" maxlength="170"></textarea></div>
+          <div class="fp-field"><label class="fp-label">الكلمات المفتاحية</label><input class="fp-input" id="fpa-keywords" placeholder="كلمة, كلمة, كلمة"></div>
+          <div class="fp-field"><label class="fp-label">معاينة المحتوى</label><div id="fpa-preview" style="background:var(--bg3);border:1px solid var(--sep2);border-radius:12px;padding:16px;max-height:280px;overflow-y:auto;line-height:1.8;"></div></div>
+          <div class="fp-actions-row">
+            <button class="fp-save-btn" style="flex:1;" onclick="fpSaveArticle(false)">💾 حفظ كمسودة</button>
+            <button class="fp-save-btn" style="flex:1;background:linear-gradient(135deg,#00B96B,#009e5a);" onclick="fpSaveArticle(true)">🚀 نشر المقال</button>
+          </div>
+          <button class="fp-quick-btn" onclick="fpCloseEditor()" style="margin-top:8px;">إغلاق المحرر</button>
+        </div>
+
+        <div class="fp-card"><div class="fp-card-title">📋 المقالات (<span id="fpa-count">٠</span>)</div><div id="fpa-list" style="max-height:420px;overflow-y:auto;"></div></div>
       </div>
       <!-- LEGAL -->
       <div class="fp-section" id="fp-legal">
@@ -2149,7 +2190,145 @@ async function founderLogin(){
 }
 function founderLogout(){sessionStorage.removeItem('mrshd_founder');document.getElementById('founder-panel').classList.remove('show');}
 function openFounderLogin(){document.getElementById('founder-login').classList.add('show');setTimeout(()=>document.getElementById('fl-email').focus(),200);}
-function fpSwitch(tab,btn){document.querySelectorAll('.fp-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.fp-tab').forEach(t=>t.classList.remove('active'));document.getElementById('fp-'+tab).classList.add('active');if(btn)btn.classList.add('active');if(tab==='users')fpLoadUsers();}
+function fpSwitch(tab,btn){document.querySelectorAll('.fp-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.fp-tab').forEach(t=>t.classList.remove('active'));document.getElementById('fp-'+tab).classList.add('active');if(btn)btn.classList.add('active');if(tab==='users')fpLoadUsers();if(tab==='blog')fpRenderArticles();}
+
+// ═══════════ BLOG / ARTICLES ═══════════
+function slugify(s){return (s||'').toString().trim().toLowerCase()
+  .replace(/[^\wء-ي\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,80);}
+function fpAutoSlug(){const slug=document.getElementById('fpa-slug');if(slug&&!slug.dataset.touched){slug.value=slugify(document.getElementById('fpa-title').value);}}
+// Minimal, safe-enough Markdown -> HTML (founder-authored content only)
+function mdToHtml(md){
+  if(!md)return '';
+  const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const inline=s=>esc(s)
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g,'<em>$1</em>')
+    .replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+  const lines=md.replace(/\r/g,'').split('\n');let html='',list=null;
+  const closeList=()=>{if(list){html+='</'+list+'>';list=null;}};
+  for(let raw of lines){
+    const line=raw.trimEnd();
+    let m;
+    if((m=line.match(/^######\s+(.*)/))){closeList();html+='<h6>'+inline(m[1])+'</h6>';}
+    else if((m=line.match(/^###\s+(.*)/))){closeList();html+='<h3>'+inline(m[1])+'</h3>';}
+    else if((m=line.match(/^##\s+(.*)/))){closeList();html+='<h2>'+inline(m[1])+'</h2>';}
+    else if((m=line.match(/^#\s+(.*)/))){closeList();html+='<h1>'+inline(m[1])+'</h1>';}
+    else if((m=line.match(/^\s*[-*]\s+(.*)/))){if(list!=='ul'){closeList();html+='<ul>';list='ul';}html+='<li>'+inline(m[1])+'</li>';}
+    else if((m=line.match(/^\s*\d+\.\s+(.*)/))){if(list!=='ol'){closeList();html+='<ol>';list='ol';}html+='<li>'+inline(m[1])+'</li>';}
+    else if(line.trim()===''){closeList();}
+    else{closeList();html+='<p>'+inline(line)+'</p>';}
+  }
+  closeList();return html;
+}
+function fpRenderPreview(){const p=document.getElementById('fpa-preview');if(p)p.innerHTML=mdToHtml(document.getElementById('fpa-body').value);}
+async function fpGenArticle(){
+  const topic=document.getElementById('fpa-gen-topic').value.trim();
+  if(!topic){showToast('⚠️ أدخل موضوع المقال');return;}
+  if(!sb||!currentUser){showToast('⚠️ يجب تسجيل الدخول كمؤسس');return;}
+  const btn=document.getElementById('fpa-gen-btn');const orig=btn.textContent;btn.disabled=true;btn.textContent='⏳ جارٍ التوليد...';
+  try{
+    const{data:{session}}=await sb.auth.getSession();
+    const res=await fetch(SUPABASE_URL+'/functions/v1/generate-article',{method:'POST',headers:{'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json'},body:JSON.stringify({topic,standard:document.getElementById('fpa-gen-std').value.trim(),category:document.getElementById('fpa-gen-cat').value.trim()})});
+    const out=await res.json();
+    if(!res.ok)throw new Error(out.error||'تعذّر التوليد');
+    fpFillEditor(out.article||{},true);
+    showToast('✅ تم توليد المسودة — راجعها ثم انشر');
+  }catch(e){showToast('⚠️ '+(e.message||'فشل التوليد'));}
+  finally{btn.disabled=false;btn.textContent=orig;}
+}
+function fpFillEditor(a,isNew){
+  const sv=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v!=null?v:'';};
+  sv('fpa-id',a.id||'');sv('fpa-title',a.title);sv('fpa-slug',a.slug||slugify(a.title));
+  sv('fpa-excerpt',a.excerpt);sv('fpa-body',a.body_md);sv('fpa-standard',a.standard);
+  sv('fpa-category',a.category);sv('fpa-tags',Array.isArray(a.tags)?a.tags.join(', '):(a.tags||''));
+  sv('fpa-emoji',a.cover_emoji||'🛡️');sv('fpa-seotitle',a.seo_title||a.title);
+  sv('fpa-seodesc',a.seo_description||a.excerpt);sv('fpa-keywords',a.keywords);
+  document.getElementById('fpa-slug').dataset.touched=a.id?'1':'';
+  document.getElementById('fpa-editor-mode').textContent=a.id?('تعديل · '+(a.status==='published'?'منشور':'مسودة')):'مسودة جديدة';
+  document.getElementById('fpa-editor').style.display='block';
+  fpRenderPreview();
+  document.getElementById('fpa-editor').scrollIntoView({behavior:'smooth'});
+}
+function fpNewArticle(){fpFillEditor({cover_emoji:'🛡️'},true);}
+function fpCloseEditor(){document.getElementById('fpa-editor').style.display='none';}
+async function fpSaveArticle(publish){
+  if(!sb||!currentUser){showToast('⚠️ يجب تسجيل الدخول كمؤسس');return;}
+  const g=id=>document.getElementById(id).value.trim();
+  const title=g('fpa-title'),slug=slugify(g('fpa-slug')||g('fpa-title')),body_md=document.getElementById('fpa-body').value;
+  if(!title){showToast('⚠️ أدخل عنوان المقال');return;}
+  if(!slug){showToast('⚠️ أدخل رابط (slug) صالحاً');return;}
+  if(!body_md.trim()){showToast('⚠️ المحتوى فارغ');return;}
+  const words=body_md.trim().split(/\s+/).length;
+  const row={
+    slug,title,seo_title:g('fpa-seotitle')||title,excerpt:g('fpa-excerpt'),
+    seo_description:g('fpa-seodesc')||g('fpa-excerpt'),body_md,body_html:mdToHtml(body_md),
+    standard:g('fpa-standard'),category:g('fpa-category'),
+    tags:g('fpa-tags')?g('fpa-tags').split(',').map(t=>t.trim()).filter(Boolean):[],
+    keywords:g('fpa-keywords'),cover_emoji:g('fpa-emoji')||'🛡️',
+    status:publish?'published':'draft',reading_minutes:Math.max(1,Math.round(words/200)),
+    updated_at:new Date().toISOString()
+  };
+  if(publish)row.published_at=new Date().toISOString();
+  const id=document.getElementById('fpa-id').value;
+  try{
+    let resp;
+    if(id){resp=await sb.from('articles').update(row).eq('id',id).select().single();}
+    else{resp=await sb.from('articles').insert(row).select().single();}
+    if(resp.error)throw resp.error;
+    document.getElementById('fpa-id').value=resp.data.id;
+    document.getElementById('fpa-editor-mode').textContent='تعديل · '+(publish?'منشور':'مسودة');
+    showToast(publish?'🚀 تم النشر بنجاح':'💾 تم حفظ المسودة');
+    fpRenderArticles();
+  }catch(e){
+    const msg=(e.message||'').includes('duplicate')?'⚠️ هذا الرابط (slug) مستخدم — غيّره':'⚠️ '+(e.message||'فشل الحفظ');
+    showToast(msg);
+  }
+}
+async function fpRenderArticles(){
+  const list=document.getElementById('fpa-list');if(!list)return;
+  if(!sb){list.innerHTML='<div style="color:var(--muted);font-size:13px;">يتطلب اتصال Supabase</div>';return;}
+  try{
+    const{data,error}=await sb.from('articles').select('id,title,slug,status,category,standard,views,published_at,updated_at').order('updated_at',{ascending:false});
+    if(error)throw error;
+    document.getElementById('fpa-count').textContent=ar((data||[]).length);
+    if(!data||!data.length){list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px;">لا توجد مقالات بعد — ولّد أول مقال ✨</div>';return;}
+    list.innerHTML=data.map(a=>{
+      const badge=a.status==='published'?'<span style="color:#00B96B;font-weight:800;">● منشور</span>':'<span style="color:var(--gold);font-weight:800;">● مسودة</span>';
+      return `<div style="padding:12px 0;border-bottom:.5px solid var(--sep2);">
+        <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start;">
+          <div style="flex:1;">
+            <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:3px;">${a.title}</div>
+            <div style="font-size:11.5px;color:var(--muted);">${badge} · ${a.category||'عام'} ${a.standard?('· '+a.standard):''} ${a.status==='published'?('· 👁 '+ar(a.views||0)):''}</div>
+            <div style="font-size:11px;color:var(--muted);direction:ltr;text-align:right;">/blog/${a.slug}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <button class="fp-quick-btn" style="padding:6px 12px;font-size:12px;" onclick="fpEditArticle('${a.id}')">✏️ تعديل</button>
+            <button class="fp-quick-btn" style="padding:6px 12px;font-size:12px;" onclick="fpToggleArticle('${a.id}','${a.status}')">${a.status==='published'?'↩️ إلغاء النشر':'🚀 نشر'}</button>
+            <button class="fp-quick-btn" style="padding:6px 12px;font-size:12px;color:var(--red);border-color:rgba(229,57,53,.4);" onclick="fpDeleteArticle('${a.id}')">🗑️ حذف</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){list.innerHTML='<div style="color:var(--red);font-size:13px;">تعذّر تحميل المقالات: '+(e.message||'')+'</div>';}
+}
+async function fpEditArticle(id){
+  const{data,error}=await sb.from('articles').select('*').eq('id',id).single();
+  if(error){showToast('⚠️ تعذّر فتح المقال');return;}
+  fpFillEditor(data,false);
+}
+async function fpToggleArticle(id,status){
+  const publish=status!=='published';
+  const upd={status:publish?'published':'draft'};if(publish)upd.published_at=new Date().toISOString();
+  const{error}=await sb.from('articles').update(upd).eq('id',id);
+  if(error){showToast('⚠️ '+(error.message||'فشل'));return;}
+  showToast(publish?'🚀 تم النشر':'↩️ أصبح مسودة');fpRenderArticles();
+}
+async function fpDeleteArticle(id){
+  if(!confirm('حذف هذا المقال نهائياً؟'))return;
+  const{error}=await sb.from('articles').delete().eq('id',id);
+  if(error){showToast('⚠️ '+(error.message||'فشل الحذف'));return;}
+  showToast('🗑️ تم الحذف');fpRenderArticles();
+}
 
 function fpRenderAll(){
   const c=FCONFIG.content;
