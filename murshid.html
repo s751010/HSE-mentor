@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
 <title>مرشد السلامة — منصة HSE الذكية</title>
+<meta name="description" content="منصة عربية متخصصة في السلامة والصحة المهنية: محاكاة اختبار كوادر، مرشد ذكاء اصطناعي، تحليل مواقع بالصور، تقييم مخاطر، ومرجع معايير HSE.">
+<link rel="canonical" id="canonical-link" href="/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="مرشد السلامة — منصة HSE الذكية">
+<meta property="og:description" content="تدرّب على كوادر، حلّل مواقعك بالذكاء الاصطناعي، وارجع لأي معيار HSE في ثوانٍ.">
+<meta property="og:locale" content="ar_AR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FF6D00">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23FF6D00'/%3E%3Ctext x='50' y='72' font-size='60' text-anchor='middle'%3E%F0%9F%9B%A1%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var o=location.origin+'/';var c=document.getElementById('canonical-link');if(c)c.href=o;var m=document.createElement('meta');m.setAttribute('property','og:url');m.content=o;document.head.appendChild(m);}catch(e){}})();</script>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════════════════
@@ -344,6 +354,9 @@ body.dark ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);background-
 .field-ta:focus{border-color:rgba(255,109,0,.45);box-shadow:0 0 0 4px rgba(255,109,0,.08);}
 .field-result{background:var(--bg2);border:1px solid var(--sep2);border-radius:var(--r-lg);padding:20px;font-size:14px;color:var(--text);line-height:1.82;margin-top:13px;display:none;box-shadow:var(--sh);}
 .field-result.show{display:block;animation:fadeIn .3s ease;}
+.ai-note{font-size:11px;color:var(--muted);text-align:center;line-height:1.6;padding:8px 14px;opacity:.9;}
+.ai-note b{color:var(--orange);font-weight:800;}
+.ai-disclaimer-box{font-size:11.5px;color:var(--muted);line-height:1.65;background:rgba(255,109,0,.06);border:1px solid rgba(255,109,0,.18);border-radius:10px;padding:9px 12px;margin-top:12px;}
 
 /* ── LEVELS ────────────────────────────────────────── */
 .level-card{background:var(--bg2);border-radius:var(--r-lg);margin-bottom:14px;overflow:hidden;box-shadow:var(--sh);border:1px solid var(--sep2);}
@@ -756,6 +769,7 @@ body.dark .dev-badge{background:var(--bg2);border-color:var(--sep);}
 .lp-testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
 .lp-test{padding:28px;background:var(--bg2);border-radius:22px;box-shadow:var(--sh);border:1px solid var(--sep2);transition:.2s;}
 .lp-test:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);}
+.lp-test-icon{font-size:34px;margin-bottom:12px;}
 .lp-test-stars{color:var(--gold);font-size:15px;margin-bottom:13px;}
 .lp-test-text{font-size:14.5px;color:var(--text);line-height:1.72;margin-bottom:17px;}
 .lp-test-author{display:flex;align-items:center;gap:12px;}
@@ -1197,14 +1211,14 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     </div>
   </div>
 
-  <!-- TESTIMONIALS -->
+  <!-- LEARNING OUTCOMES -->
   <section class="lp-section reveal">
-    <h2 class="lp-section-title">ماذا يقول المتدربون</h2>
-    <p class="lp-section-sub">انضم لمجتمع متخصصي السلامة في السعودية</p>
+    <h2 class="lp-section-title">ماذا ستتقن مع مرشد السلامة</h2>
+    <p class="lp-section-sub">نتائج تعلّمية عملية تنقلك من المعرفة إلى التطبيق الميداني</p>
     <div class="lp-testimonials">
-      <div class="lp-test"><div class="lp-test-stars">★★★★★</div><div class="lp-test-text">«محاكي كوادر ساعدني أجتاز الاختبار من أول محاولة. الأسئلة قريبة جداً من الواقع والشرح ممتاز.»</div><div class="lp-test-author"><div class="lp-test-avatar">ع</div><div><div class="lp-test-name">عبدالله الشمري</div><div class="lp-test-role">أخصائي سلامة · ينبع</div></div></div></div>
-      <div class="lp-test"><div class="lp-test-stars">★★★★★</div><div class="lp-test-text">«محلل الصور وفّر علي ساعات في تقارير الجولات الميدانية. أرفع صورة ويطلع لي تقرير مخالفات جاهز.»</div><div class="lp-test-author"><div class="lp-test-avatar">ن</div><div><div class="lp-test-name">نوف القحطاني</div><div class="lp-test-role">مهندسة HSE · الجبيل</div></div></div></div>
-      <div class="lp-test"><div class="lp-test-stars">★★★★★</div><div class="lp-test-text">«أبو سلامة مرجع سريع في الميدان. أسأله عن أي إجراء أو معيار ويجاوبني بالسياق السعودي مباشرة.»</div><div class="lp-test-author"><div class="lp-test-avatar">م</div><div><div class="lp-test-name">محمد العتيبي</div><div class="lp-test-role">مشرف سلامة · الرياض</div></div></div></div>
+      <div class="lp-test"><div class="lp-test-icon">🏆</div><div class="lp-test-text"><b>اجتياز اختبار كوادر بثقة</b> — تدرّب على نمط الأسئلة الرسمي مع تصحيح فوري وشرح لكل إجابة حتى تدخل الاختبار جاهزاً.</div></div>
+      <div class="lp-test"><div class="lp-test-icon">📸</div><div class="lp-test-text"><b>تقارير جولات أسرع</b> — حلّل صور الموقع بالذكاء الاصطناعي واحصل على مخالفات مصنّفة الخطورة في دقائق بدل ساعات.</div></div>
+      <div class="lp-test"><div class="lp-test-icon">📋</div><div class="lp-test-text"><b>قرارات مبنية على المعيار</b> — تقييم مخاطر، بلاغ حوادث RCA، ومرجع معايير سريع (OSHA / ISO 45001 / NFPA) في متناولك.</div></div>
     </div>
   </section>
 
@@ -1215,7 +1229,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="lp-faq">
       <div class="lp-faq-item" onclick="this.classList.toggle('open')"><div class="lp-faq-q">هل المنصة مجانية؟ <span class="arrow">+</span></div><div class="lp-faq-a">نعم، يمكنك إنشاء حساب والوصول لجميع الأدوات الأساسية مجاناً والبدء فوراً.</div></div>
       <div class="lp-faq-item" onclick="this.classList.toggle('open')"><div class="lp-faq-q">هل أسئلة كوادر حقيقية؟ <span class="arrow">+</span></div><div class="lp-faq-a">بنك الأسئلة مبني على نمط اختبار كوادر الرسمي ويغطي الوحدات الأساسية، مع تصحيح فوري وشرح لكل إجابة.</div></div>
-      <div class="lp-faq-item" onclick="this.classList.toggle('open')"><div class="lp-faq-q">هل الشهادات معتمدة رسمياً؟ <span class="arrow">+</span></div><div class="lp-faq-a">الشهادات هي شهادات إتمام تدريبي من المنصة لتوثيق تقدمك، وليست بديلاً عن الشهادات الرسمية المعتمدة من الجهات الحكومية.</div></div>
+      <div class="lp-faq-item" onclick="this.classList.toggle('open')"><div class="lp-faq-q">ماذا تمنحني شهادة المنصة؟ <span class="arrow">+</span></div><div class="lp-faq-a">عند إتمام دورة أو اختبار تحصل على <b>شهادة إتمام تدريبي</b> رسمية من منصة مرشد السلامة، تحمل اسمك ونتيجتك ورقماً تسلسلياً ورمز تحقق — توثّق مستواك وإنجازك وتصلح للإضافة إلى ملفك المهني وLinkedIn كدليل على تطوّرك المستمر في مجال HSE.</div></div>
       <div class="lp-faq-item" onclick="this.classList.toggle('open')"><div class="lp-faq-q">هل بياناتي محفوظة وآمنة؟ <span class="arrow">+</span></div><div class="lp-faq-a">يتم حفظ تقدمك بشكل آمن مرتبط بحسابك، وتستطيع متابعة رحلتك التعليمية من أي جهاز.</div></div>
       <div class="lp-faq-item" onclick="this.classList.toggle('open')"><div class="lp-faq-q">كيف يعمل محلل الصور؟ <span class="arrow">+</span></div><div class="lp-faq-a">ارفع صورة من موقع العمل، وتقوم تقنية الذكاء الاصطناعي بتحليلها وكشف المخالفات وتصنيف خطورتها مع اقتراح الحلول.</div></div>
     </div>
@@ -1243,7 +1257,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 <!-- ═══════════════ LEGAL MODAL ═══════════════ -->
 <div class="legal-overlay" id="legal-overlay">
   <div class="legal-box">
-    <div class="legal-header"><div class="legal-title" id="legal-title">—</div><button class="legal-close" onclick="closeLegal()">✕</button></div>
+    <div class="legal-header"><div class="legal-title" id="legal-title">—</div><button class="legal-close" onclick="closeLegal()" aria-label="إغلاق">✕</button></div>
     <div class="legal-body" id="legal-body">—</div>
   </div>
 </div>
@@ -1251,13 +1265,15 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 <!-- ═══════════════ AUTH MODAL ═══════════════ -->
 <div class="auth-overlay" id="auth-overlay">
   <div class="auth-box">
-    <button class="auth-close" onclick="closeAuth()">✕</button>
+    <button class="auth-close" onclick="closeAuth()" aria-label="إغلاق">✕</button>
     <div class="auth-logo"><div class="brand-logo-img" style="background:var(--logo) center/contain no-repeat;width:70%;height:70%;"></div></div>
     <div class="auth-title" id="auth-title">أنشئ حسابك</div>
     <div class="auth-sub" id="auth-sub">ابدأ رحلتك في السلامة المهنية</div>
     <div class="auth-field" id="auth-name-field"><label class="auth-label">الاسم</label><input class="auth-inp" id="auth-name" placeholder="اسمك الكامل"></div>
+    <!-- honeypot: hidden from humans, bots tend to fill it -->
+    <input id="auth-company" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
     <div class="auth-field"><label class="auth-label">البريد الإلكتروني</label><input class="auth-inp" id="auth-email" type="email" placeholder="email@example.com"></div>
-    <div class="auth-field"><label class="auth-label">كلمة المرور</label><div class="auth-pw-wrap"><input class="auth-inp" id="auth-pass" type="password" placeholder="٦ أحرف على الأقل" onkeydown="if(event.key==='Enter')submitAuth()"><button class="auth-pw-toggle" type="button" onclick="togglePwVis()" id="auth-pw-eye">👁</button></div></div>
+    <div class="auth-field"><label class="auth-label">كلمة المرور</label><div class="auth-pw-wrap"><input class="auth-inp" id="auth-pass" type="password" placeholder="٦ أحرف على الأقل" onkeydown="if(event.key==='Enter')submitAuth()"><button class="auth-pw-toggle" type="button" onclick="togglePwVis()" id="auth-pw-eye" aria-label="إظهار/إخفاء كلمة المرور">👁</button></div></div>
     <button class="auth-btn" id="auth-btn" onclick="submitAuth()">إنشاء الحساب</button>
     <div class="auth-err" id="auth-err"></div>
     <div class="auth-local-hint">🔒 بياناتك محفوظة بشكل آمن · تتابع تقدمك من أي جهاز</div>
@@ -1281,8 +1297,8 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <button class="nav-link" id="navtab-levels" onclick="switchTab('levels')">🏅 مستوياتي</button>
   </div>
   <div class="nav-end">
-    <button id="lang-btn" onclick="applyLang(currentLang==='ar'?'en':'ar')" style="background:none;border:1.5px solid var(--sep2);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:800;cursor:pointer;color:var(--text);">EN</button>
-    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="الوضع الليلي">🌙</button>
+    <button id="lang-btn" onclick="applyLang(currentLang==='ar'?'en':'ar')" aria-label="تبديل اللغة" style="background:none;border:1.5px solid var(--sep2);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:800;cursor:pointer;color:var(--text);">EN</button>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
     <div class="nav-badge nav-xp">⚡ <span id="nav-xp">٠</span> XP</div>
     <div class="nav-badge nav-streak">🔥 <span id="nav-streak">٠</span></div>
   </div>
@@ -1415,8 +1431,9 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="chat-input-zone">
       <div class="chat-input-row">
         <textarea class="chat-inp" id="chat-inp" rows="1" placeholder="اسأل أبو سلامة..." onkeydown="chatKey(event)" oninput="autoResize(this)"></textarea>
-        <button class="send-btn" onclick="sendChat()">▲</button>
+        <button class="send-btn" onclick="sendChat()" aria-label="إرسال الرسالة">▲</button>
       </div>
+      <div class="ai-note">⚠️ ردود الذكاء الاصطناعي <b>استرشادية</b> — تحقّق من المعيار الرسمي وراجع مختصاً معتمداً قبل أي قرار سلامة.</div>
     </div>
   </div>
 </div>
@@ -1545,6 +1562,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
         <textarea class="field-ta" id="field-inp-t" placeholder="صف موقفاً ميدانياً واجهته..." style="min-height:90px;"></textarea>
         <button class="btn btn-primary btn-full" onclick="analyzeField2()">🔍 حلل الموقف</button>
         <div class="field-result" id="field-result-t"></div>
+        <div class="ai-note">⚠️ تحليل استرشادي بالذكاء الاصطناعي — لا يُغني عن التفتيش الميداني ومراجعة مختص معتمد.</div>
       </div>
       <div class="sec-lbl">📖 المرجع السريع — مصطلحات ومعايير HSE</div>
       <div class="card card-p">
@@ -1593,6 +1611,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
         <button class="btn btn-primary btn-full" onclick="generateIncidentReport()" style="margin-bottom:10px;">🤖 توليد التقرير</button>
         <button class="btn btn-secondary btn-full" onclick="window.print()">🖨️ طباعة</button>
         <div id="inc-result" style="margin-top:13px;"></div>
+        <div class="ai-note">⚠️ تحليل استرشادي — راجع نتائج التحقيق مع مختص السلامة المعتمد قبل الاعتماد عليها رسمياً.</div>
       </div>
       <div class="card card-p">
         <div style="font-size:15px;font-weight:800;margin-bottom:12px;">📊 تصنيف HiPo</div>
@@ -1715,6 +1734,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   <textarea class="field-ta" id="field-inp" placeholder="مثال: لاحظت عامل يعمل على ارتفاع ٣ أمتار بدون حزام..."></textarea>
   <button class="btn btn-primary btn-full" onclick="analyzeField()">🔍 حلل الموقف</button>
   <div class="field-result" id="field-result"></div>
+  <div class="ai-note">⚠️ تحليل استرشادي بالذكاء الاصطناعي — لا يُغني عن التفتيش الميداني ومراجعة مختص معتمد.</div>
 </div>
 </div>
 
@@ -1743,6 +1763,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <button class="btn btn-primary btn-full" id="hse-analyze-btn" onclick="hseAnalyze()" style="font-size:15px;padding:14px;">🔬 حلل الصورة بعمق</button>
   </div>
   <div id="hse-result" style="margin-top:13px;"></div>
+  <div class="ai-note">⚠️ كشف المخالفات بالذكاء الاصطناعي استرشادي وقد يُغفل مخاطر — لا يُغني عن جولة تفتيش ميدانية من مختص معتمد.</div>
   <div class="sec-lbl">آخر التحليلات</div>
   <div id="photo-hist"></div>
 </div>
@@ -1765,6 +1786,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       </div>
     </div>
   </div>
+  <div class="ai-note">⚠️ تحليل استرشادي بالذكاء الاصطناعي لأغراض المتابعة والتحفيز.</div>
 </div>
 </div>
 
@@ -2483,6 +2505,17 @@ async function submitAuth(){
   if(!email||!pass){authErr('⚠️ أدخل البريد وكلمة المرور');return;}
   if(authMode==='signup'&&pass.length<6){authErr('⚠️ كلمة المرور ٦ أحرف على الأقل');return;}
   if(authMode==='signup'&&!name){authErr('⚠️ أدخل اسمك');return;}
+  // Anti-spam (signup only): honeypot + per-browser cooldown
+  if(authMode==='signup'){
+    const hp=document.getElementById('auth-company');
+    if(hp&&hp.value){return;} // bot filled hidden field — silently abort
+    try{
+      const k='mrshd_signups',now=Date.now();
+      let arr=JSON.parse(localStorage.getItem(k)||'[]').filter(t=>now-t<3600000);
+      if(arr.length>=3){authErr('⚠️ تم تجاوز عدد محاولات إنشاء الحساب. حاول بعد ساعة.');return;}
+      arr.push(now);localStorage.setItem(k,JSON.stringify(arr));
+    }catch(_){}
+  }
   btn.disabled=true;btn.textContent='⏳ جاري...';
   // If Supabase not configured, fall back to local auth
   if(!sb){
