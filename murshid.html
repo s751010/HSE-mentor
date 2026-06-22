@@ -688,6 +688,30 @@ body.dark .dev-badge{background:var(--bg2);border-color:var(--sep);}
 .lp-stat-num{font-size:clamp(28px,4vw,40px);font-weight:900;color:#FFB627;letter-spacing:-1px;}
 .lp-stat-lbl{font-size:13px;color:rgba(235,240,250,.55);margin-top:3px;font-weight:600;}
 .lp-scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.35);font-size:22px;animation:bounce 2s infinite;z-index:2;}
+/* HERO — #1 RIBBON + AUTHORITY + SOCIAL PROOF */
+.lp-hero-rank{display:inline-flex;align-items:center;gap:7px;padding:6px 15px;border-radius:30px;margin-bottom:16px;
+  background:linear-gradient(135deg,rgba(255,109,0,.16),rgba(255,182,39,.16));border:1px solid rgba(255,182,39,.4);
+  color:#FFB627;font-size:12px;font-weight:800;letter-spacing:.3px;backdrop-filter:blur(8px);}
+.lp-hero-rank .crown{font-size:14px;}
+.lp-hero-author{display:inline-flex;align-items:center;gap:11px;margin-bottom:30px;padding:7px 18px 7px 8px;border-radius:40px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(8px);}
+.lp-hero-author .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#FF6D00,#FFB627);
+  display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 3px 12px rgba(255,109,0,.4);}
+.lp-hero-author .txt{font-size:12.5px;color:rgba(235,240,250,.82);font-weight:600;line-height:1.35;text-align:right;}
+.lp-hero-author .txt b{color:#FFB627;font-weight:800;}
+.lp-hero-author .verify{color:#34C759;font-size:12px;}
+.lp-hero-proof{display:flex;align-items:center;justify-content:center;gap:13px;margin-bottom:48px;flex-wrap:wrap;}
+.lp-proof-avatars{display:flex;direction:ltr;}
+.lp-proof-avatars .pa{width:34px;height:34px;border-radius:50%;border:2px solid #0A1628;margin-left:-9px;
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;}
+.lp-proof-avatars .pa:first-child{margin-left:0;}
+.lp-proof-text{text-align:right;}
+.lp-proof-stars{color:#FFB627;font-size:14px;letter-spacing:1.5px;line-height:1.2;}
+.lp-proof-sub{font-size:12.5px;color:rgba(235,240,250,.62);font-weight:600;}
+/* CREATOR — CREDENTIAL CHIPS */
+.lp-creator-creds{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;}
+.lp-creator-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:20px;
+  background:var(--bg3);border:1px solid var(--sep2);font-size:12px;font-weight:700;color:var(--sub);}
 
 /* TRUST BAR */
 .lp-trust{padding:34px 24px;border-top:.5px solid var(--sep2);border-bottom:.5px solid var(--sep2);background:var(--bg2);}
@@ -821,6 +845,10 @@ body.dark .lp-creator-card{background:var(--bg2);border-color:var(--sep);}
   .lp-stat-num{font-size:26px;}
   .lp-hero-cta{flex-direction:column;align-items:center;}
   .lp-cta-primary,.lp-cta-secondary{width:100%;max-width:320px;text-align:center;}
+  .lp-hero-rank{font-size:10.5px;padding:6px 12px;}
+  .lp-hero-author{padding:6px 14px 6px 6px;}
+  .lp-hero-author .txt{font-size:11.5px;}
+  .lp-hero-proof{margin-bottom:38px;}
 }
 
 /* ── AUTH MODAL SMALL SCREENS ───────────────────────── */
@@ -1060,15 +1088,32 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <div class="lp-shield-core"><div class="brand-logo-img" style="background:var(--logo) center/contain no-repeat;width:62%;height:62%;"></div></div>
     </div>
     <div class="lp-hero-content">
-      <div class="lp-badge"><span class="dot"></span> خبرة ميدانية · HSE متكامل وذكي</div>
-      <h1 class="lp-hero-title">طوّر مهاراتك في<br><span class="grad">السلامة والصحة المهنية</span></h1>
-      <p class="lp-hero-sub">منصة تدريبية متكاملة طوّرها متخصص HSE من الميدان — محاكاة الكوادر الوطنية، تحليل المواقع بالذكاء الاصطناعي، وخطة تعلّم مخصصة ترتقي بك خطوة بخطوة.</p>
+      <div class="lp-hero-rank"><span class="crown">👑</span> المنصة العربية الأولى المتكاملة لأخصائيي HSE</div>
+      <div class="lp-badge"><span class="dot"></span> كوادر · ذكاء اصطناعي · مرجع معايير فوري</div>
+      <h1 class="lp-hero-title">مرجعك الأول في<br><span class="grad">السلامة والصحة المهنية</span></h1>
+      <p class="lp-hero-sub">اجتَز اختبار كوادر، حلّل مواقعك بالذكاء الاصطناعي، وارجع لأي معيار في ثوانٍ — منصة واحدة متكاملة بناها أخصائي HSE من قلب الميدان لترتقي بك من مبتدئ إلى مرجع.</p>
+      <div class="lp-hero-author">
+        <span class="av">🛡️</span>
+        <span class="txt">بإشراف وتطوير <b>سياف الهذلي</b> <span class="verify">✓</span><br>أخصائي السلامة والصحة المهنية · خبرة ميدانية</span>
+      </div>
       <div class="lp-hero-cta">
         <button class="lp-cta-primary" onclick="openAuth('signup')">ابدأ التدريب مجاناً 🚀</button>
-        <button class="lp-cta-secondary" onclick="document.getElementById('lp-features').scrollIntoView({behavior:'smooth'})">اكتشف الأدوات</button>
+        <button class="lp-cta-secondary" onclick="document.getElementById('lp-features').scrollIntoView({behavior:'smooth'})">شاهد الأدوات</button>
+      </div>
+      <div class="lp-hero-proof">
+        <div class="lp-proof-avatars">
+          <span class="pa" style="background:linear-gradient(135deg,#FF6D00,#FFB627)">ع</span>
+          <span class="pa" style="background:linear-gradient(135deg,#5856D6,#7B79E8)">ن</span>
+          <span class="pa" style="background:linear-gradient(135deg,#34C759,#28A745)">م</span>
+          <span class="pa" style="background:linear-gradient(135deg,#007AFF,#0A66C2)">س</span>
+        </div>
+        <div class="lp-proof-text">
+          <div class="lp-proof-stars">★★★★★</div>
+          <div class="lp-proof-sub">يثق بها متخصصو السلامة في المملكة</div>
+        </div>
       </div>
       <div class="lp-hero-stats">
-        <div class="lp-stat"><div class="lp-stat-num">+٨٠</div><div class="lp-stat-lbl">سؤال كوادر</div></div>
+        <div class="lp-stat"><div class="lp-stat-num">١٠٣</div><div class="lp-stat-lbl">سؤال كوادر</div></div>
         <div class="lp-stat"><div class="lp-stat-num">١٠+</div><div class="lp-stat-lbl">أدوات احترافية</div></div>
         <div class="lp-stat"><div class="lp-stat-num">AI</div><div class="lp-stat-lbl">تحليل ذكي للمواقع</div></div>
         <div class="lp-stat"><div class="lp-stat-num">∞</div><div class="lp-stat-lbl">كل القطاعات</div></div>
@@ -1100,6 +1145,12 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
         <div class="lp-creator-name">سياف الهذلي</div>
         <div class="lp-creator-role">أخصائي السلامة والصحة المهنية</div>
         <div class="lp-creator-bio">بنيت هذه المنصة بعد سنوات من العمل الميداني في قطاعات البناء والصناعة والخدمات — لأجعل التدريب على HSE أكثر ذكاءً وفاعلية لكل متخصص في المملكة. من الكوادر إلى تحليل المواقع بالذكاء الاصطناعي، كل أداة صُممت من تجربة حقيقية في الميدان.</div>
+        <div class="lp-creator-creds">
+          <span class="lp-creator-chip">🏆 محاكاة كوادر</span>
+          <span class="lp-creator-chip">🎓 معايير NEBOSH / OSHA</span>
+          <span class="lp-creator-chip">📋 ISO 45001</span>
+          <span class="lp-creator-chip">🏭 خبرة ميدانية متعددة القطاعات</span>
+        </div>
         <a id="creator-li-link" href="https://linkedin.com/in/sayyaf-alhothali-01787a277" class="lp-creator-li" target="_blank" rel="noopener">
           <span class="li-icon">in</span> تواصل على LinkedIn
         </a>
