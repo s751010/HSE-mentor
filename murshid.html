@@ -3114,12 +3114,27 @@ function renderWUHist(){const e=document.getElementById('wu-hist');if(!e)return;
 let kwN=20,kwTime=30,kwQs=[],kwIdx=0,kwAns=[],kwTimer=null,kwTimeLeft=0,kwTopic='all',kwReview=false;
 function selectKWN(n){kwN=n;[20,40,99].forEach((x,i)=>{const e=document.getElementById(['kwn-20','kwn-40','kwn-all'][i]);if(e)e.classList.toggle('sel',x===n);});}
 function selectKWT(t){kwTime=t;[30,60,0].forEach(x=>{const e=document.getElementById('kwt-'+x);if(e)e.classList.toggle('sel',x===t);});}
-function selectKWTopic(t){kwTopic=t;renderKWTopics();el('kw-total-lbl',ar(kwTopic==='all'?KWB.length:KWB.filter(q=>q.topic===kwTopic).length));}
+// Consolidate the many granular topics into clean Kawader-style units
+const KW_UNIT={
+  'التدقيق والتفتيش':'التدقيق والتفتيش','التدقيق':'التدقيق والتفتيش',
+  'إدارة المخاطر':'إدارة وتقييم المخاطر','تقييم المخاطر':'إدارة وتقييم المخاطر',
+  'الحوادث والإصابات':'الحوادث والتحقيق','الإبلاغ عن الحوادث':'الحوادث والتحقيق','الإبلاغ':'الحوادث والتحقيق','الحوادث':'الحوادث والتحقيق','التحقيق في الحوادث':'الحوادث والتحقيق',
+  'إدارة الطوارئ':'الطوارئ والحريق','الطوارئ':'الطوارئ والحريق','الحريق':'الطوارئ والحريق',
+  'نظم الإدارة':'نظم وثقافة السلامة','ثقافة السلامة':'نظم وثقافة السلامة','إدارة السلامة':'نظم وثقافة السلامة','تعريفات السلامة':'نظم وثقافة السلامة','أكواد الممارسة':'نظم وثقافة السلامة','التوثيق':'نظم وثقافة السلامة','التوثيق والسجلات':'نظم وثقافة السلامة',
+  'مؤشرات الأداء':'مؤشرات وقياس الأداء','إحصاءات السلامة':'مؤشرات وقياس الأداء','قياس الأداء':'مؤشرات وقياس الأداء','المقارنة المعيارية':'مؤشرات وقياس الأداء','الاقتصاد والسلامة':'مؤشرات وقياس الأداء',
+  'العمل على الارتفاعات':'مخاطر العمل والإجراءات','أماكن مغلقة':'مخاطر العمل والإجراءات','السلامة الكهربائية':'مخاطر العمل والإجراءات','السلامة الكيميائية':'مخاطر العمل والإجراءات','إجراءات السلامة':'مخاطر العمل والإجراءات','اللحام والقطع':'مخاطر العمل والإجراءات','المناولة اليدوية':'مخاطر العمل والإجراءات','سلامة المعدات':'مخاطر العمل والإجراءات','السلامة المرورية':'مخاطر العمل والإجراءات','سلامة الموقع':'مخاطر العمل والإجراءات','الإنشاءات':'مخاطر العمل والإجراءات','علامات السلامة':'مخاطر العمل والإجراءات',
+  'الصحة المهنية':'الصحة المهنية والإسعافات','الإسعافات الأولية':'الصحة المهنية والإسعافات','بيئة العمل':'الصحة المهنية والإسعافات',
+  'PPE':'معدات الوقاية','معدات الوقاية':'معدات الوقاية',
+  'التدريب والتأهيل':'التدريب والقطاعات','التدريب':'التدريب والقطاعات','النفط والغاز':'التدريب والقطاعات','الرعاية الصحية':'التدريب والقطاعات','بيئة المكاتب':'التدريب والقطاعات','قطاع الأغذية':'التدريب والقطاعات','المستودعات':'التدريب والقطاعات','المنشآت العامة':'التدريب والقطاعات','القطاع التعليمي':'التدريب والقطاعات'
+};
+function kwUnit(q){return KW_UNIT[q&&q.topic]||'أخرى';}
+function selectKWTopic(t){kwTopic=t;renderKWTopics();el('kw-total-lbl',ar(kwTopic==='all'?KWB.length:KWB.filter(q=>kwUnit(q)===kwTopic).length));}
 function renderKWTopics(){
   const c=document.getElementById('kw-topic-chips');if(!c)return;
-  const topics=[...new Set(KWB.map(q=>q.topic).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar'));
+  const counts={};KWB.forEach(q=>{const u=kwUnit(q);counts[u]=(counts[u]||0)+1;});
+  const units=Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
   let h=`<div class="ws-opt ${kwTopic==='all'?'sel':''}" onclick="selectKWTopic('all')">الكل (${ar(KWB.length)})</div>`;
-  h+=topics.map(t=>`<div class="ws-opt ${kwTopic===t?'sel':''}" onclick="selectKWTopic('${t.replace(/'/g,"")}')">${t} (${ar(KWB.filter(q=>q.topic===t).length)})</div>`).join('');
+  h+=units.map(u=>`<div class="ws-opt ${kwTopic===u?'sel':''}" onclick="selectKWTopic('${u.replace(/'/g,"")}')">${u} (${ar(counts[u])})</div>`).join('');
   c.innerHTML=h;
 }
 function renderKWReviewBanner(){
@@ -3131,7 +3146,7 @@ function renderKWReviewBanner(){
 async function startKwadarat(){
   kwReview=false;kwQs=[];kwIdx=0;kwAns=[];hideEl('kw-start-view');hideEl('kw-result-view');
   const qz=document.getElementById('kw-quiz-view');if(qz){qz.style.removeProperty('display');qz.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;padding:38px;gap:13px;"><div class="spinner"></div><div style="font-size:13px;color:var(--muted);">🏆 تحضير كوادر...</div></div>`;}
-  let pool=kwTopic==='all'?[...KWB]:KWB.filter(q=>q.topic===kwTopic);
+  let pool=kwTopic==='all'?[...KWB]:KWB.filter(q=>kwUnit(q)===kwTopic);
   if(!pool.length){showToast('⚠️ لا توجد أسئلة في هذه الوحدة');resetKwadarat();return;}
   for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
   kwQs=pool.slice(0,Math.min(kwN,pool.length));
@@ -3186,7 +3201,7 @@ function finishKwadarat(){
 }
 function resetKwadarat(){if(kwTimer){clearInterval(kwTimer);kwTimer=null;}kwReview=false;kwQs=[];kwIdx=0;kwAns=[];kwTimeLeft=0;hideEl('kw-quiz-view');hideEl('kw-result-view');showEl('kw-start-view');renderKWScores();renderKWStats();renderKWReviewBanner();}
 function kwDiscuss(){switchTab('chat');const m=[...new Set(kwAns.filter(a=>!a.correct).map(a=>a.q.topic))].join('، ')||'عام';setTimeout(()=>quickChat(`حللّ أداءي في كوادر: الأخطاء في: ${m}. أعطني توصيات للاختبار الفعلي.`),100);}
-function renderKWStats(){el('kw-total-lbl',ar(kwTopic==='all'?KWB.length:KWB.filter(q=>q.topic===kwTopic).length));el('kw-att-lbl',ar((S.kwHistory||[]).length));const h=S.kwHistory||[];if(h.length)el('kw-best-lbl',ar(Math.max(...h.map(x=>x.pct)))+'٪');renderKWTopics();renderKWReviewBanner();}
+function renderKWStats(){el('kw-total-lbl',ar(kwTopic==='all'?KWB.length:KWB.filter(q=>kwUnit(q)===kwTopic).length));el('kw-att-lbl',ar((S.kwHistory||[]).length));const h=S.kwHistory||[];if(h.length)el('kw-best-lbl',ar(Math.max(...h.map(x=>x.pct)))+'٪');renderKWTopics();renderKWReviewBanner();}
 function renderKWScores(){const e=document.getElementById('kw-hist');if(!e)return;const h=S.kwHistory||[];if(!h.length){e.innerHTML='<p style="color:var(--muted);font-size:13px;text-align:center;padding:8px;">لا توجد نتائج بعد</p>';return;}e.innerHTML=h.slice(0,5).map(x=>`<div class="hist-item"><span class="hist-date">${x.date} · ${ar(x.total)} سؤال</span><span class="hist-score ${x.pct>=70?'pass':'fail'}">${ar(x.pct)}٪</span></div>`).join('');}
 
 // FIELD ANALYZER
