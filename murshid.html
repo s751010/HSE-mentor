@@ -1539,10 +1539,15 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
         <button class="btn btn-primary btn-full" onclick="generateTBT2()">🗣️ اصنع الـ TBT</button>
       </div>
       <div class="sec-lbl">🏭 محلل المواقف</div>
-      <div class="card card-p">
+      <div class="card card-p" style="margin-bottom:14px;">
         <textarea class="field-ta" id="field-inp-t" placeholder="صف موقفاً ميدانياً واجهته..." style="min-height:90px;"></textarea>
         <button class="btn btn-primary btn-full" onclick="analyzeField2()">🔍 حلل الموقف</button>
         <div class="field-result" id="field-result-t"></div>
+      </div>
+      <div class="sec-lbl">📖 المرجع السريع — مصطلحات ومعايير HSE</div>
+      <div class="card card-p">
+        <input class="form-input" id="ref-search" placeholder="ابحث: LOTO، PTW، ALARP، ISO 45001..." oninput="renderRef()" style="margin-bottom:12px;">
+        <div id="ref-list" style="max-height:420px;overflow-y:auto;"></div>
       </div>
     </div>
   </div>
@@ -2532,7 +2537,7 @@ function switchTab(name){
   ['navtab-'+name,'mnav-'+name].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.add('active');});
   window.scrollTo({top:0,behavior:'instant'});
   if(name==='flash')loadFlashCard();
-  if(name==='tools'){loadFlashCard2();buildRiskMatrix();}
+  if(name==='tools'){loadFlashCard2();buildRiskMatrix();renderRef();}
   if(name==='settings')loadProfile();
   if(name==='plan')renderPlan();
   if(name==='morning'){showEl('wu-start');hideEl('wu-quiz');hideEl('wu-result');renderWUHist();}
@@ -2822,6 +2827,39 @@ function calcKPI(){
     <div style="margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(255,109,0,.07);font-size:12.5px;font-weight:700;color:${bandColor};">📈 تقييم TRIR: ${band}</div>
   </div>`;
   box.style.display='block';
+}
+const HSE_REF=[
+  {t:'LOTO — Lockout/Tagout',d:'عزل مصادر الطاقة (كهربائية/هيدروليكية/ميكانيكية) وقفلها ووسمها لمنع التشغيل العرضي أثناء الصيانة.',s:'OSHA 1910.147'},
+  {t:'PTW — Permit to Work',d:'نظام تصاريح مكتوب يضمن تقييم المخاطر واعتماد العمل عالي الخطورة قبل البدء (حفر، أعمال ساخنة، أماكن محصورة).',s:'كوادر · ISO 45001'},
+  {t:'JSA — Job Safety Analysis',d:'تحليل خطوات المهمة لتحديد مخاطر كل خطوة ووضع الضوابط قبل التنفيذ.',s:'OSHA'},
+  {t:'HIRA — تحديد المخاطر وتقييمها',d:'منهجية لتحديد الأخطار وتقييم احتمالية وشدة المخاطر ثم تحديد الضوابط.',s:'ISO 45001'},
+  {t:'ALARP — As Low As Reasonably Practicable',d:'تقليل المخاطر لأدنى حد ممكن عملياً بموازنة الخطر مقابل الكلفة والجهد.',s:'مبدأ دولي'},
+  {t:'TRIR — Total Recordable Incident Rate',d:'(الحوادث المسجَّلة × ٢٠٠٬٠٠٠) ÷ ساعات العمل. مؤشر متأخر لقياس الأداء.',s:'OSHA'},
+  {t:'LTIFR — Lost Time Injury Frequency Rate',d:'(إصابات الوقت الضائع × ١٬٠٠٠٬٠٠٠) ÷ ساعات العمل.',s:'معيار دولي'},
+  {t:'SDS — Safety Data Sheet',d:'صحيفة بيانات سلامة المادة الكيميائية: المخاطر، التخزين، الإسعافات، الطوارئ (١٦ قسماً).',s:'GHS · OSHA HazCom'},
+  {t:'Confined Space — مكان محصور',d:'حيز محدود الدخول/الخروج وغير مصمم للإشغال المستمر. يتطلب: قياس غازات + تصريح + مراقب + خطة إنقاذ.',s:'OSHA 1910.146'},
+  {t:'Hot Work — الأعمال الساخنة',d:'أعمال تولّد حرارة أو شرر (لحام، قطع، طحن). تتطلب تصريحاً، مراقب حريق، وإزالة المواد القابلة للاشتعال.',s:'NFPA 51B'},
+  {t:'هرم الضوابط — Hierarchy of Controls',d:'الإزالة ← الاستبدال ← الضوابط الهندسية ← الإدارية ← معدات الحماية (الأقل فعالية).',s:'NIOSH · ISO 45001'},
+  {t:'Near Miss — حادث وشيك',d:'حدث كاد يسبب ضرراً لكنه لم يقع. الإبلاغ عنه مؤشر استباقي مهم للوقاية.',s:'مبدأ السلامة'},
+  {t:'RCA — Root Cause Analysis',d:'تحليل الأسباب الجذرية للوصول للسبب الكامن وراء الحادث وليس العَرَض الظاهر (مثل 5 Whys).',s:'منهجية تحقيق'},
+  {t:'HiPo — High Potential Incident',d:'حادث أو حادث وشيك كان يمكن أن يؤدي لإصابة خطيرة أو وفاة لو اختلفت الظروف.',s:'تصنيف خطورة'},
+  {t:'ERP — Emergency Response Plan',d:'خطة استجابة منظمة للطوارئ (حريق/تسرب/إصابة) لتقليل الأضرار، تشمل الإخلاء وأدوار الفِرق.',s:'ISO 45001 · الدفاع المدني'},
+  {t:'PEL / TWA — حدود التعرض',d:'PEL: الحد الأقصى المسموح للتعرض. TWA: المتوسط المرجّح زمنياً للتعرض خلال ٨ ساعات.',s:'OSHA · ACGIH'},
+  {t:'ISO 45001',d:'المواصفة الدولية لنظام إدارة السلامة والصحة المهنية، مبنية على دورة PDCA (خطط-نفّذ-تحقق-حسّن).',s:'ISO'},
+  {t:'TBT — Toolbox Talk',d:'اجتماع سلامة قصير قبل العمل لتذكير العمال بمخاطر المهمة وضوابطها.',s:'ممارسة ميدانية'},
+  {t:'PPE — معدات الوقاية الشخصية',d:'آخر خط دفاع في هرم الضوابط: خوذة، نظارات، قفازات، أحذية، حماية تنفس/سمع حسب المخاطر.',s:'OSHA 1910 Subpart I'},
+  {t:'Work at Height — العمل على ارتفاع',d:'يتطلب نظام حماية من السقوط عادةً عند ١.٨ متر فأكثر: حواجز، حزام أمان مع نقطة تثبيت، شبكات.',s:'OSHA · كوادر'}
+];
+function renderRef(){
+  const q=(document.getElementById('ref-search').value||'').trim().toLowerCase();
+  const list=document.getElementById('ref-list');
+  const items=HSE_REF.filter(r=>!q||r.t.toLowerCase().includes(q)||r.d.toLowerCase().includes(q)||r.s.toLowerCase().includes(q));
+  if(!items.length){list.innerHTML='<div style="text-align:center;color:var(--muted);font-size:13px;padding:20px;">لا توجد نتائج لـ «'+q+'»</div>';return;}
+  list.innerHTML=items.map(r=>`<div style="padding:12px 0;border-bottom:.5px solid var(--sep2);">
+    <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px;">${r.t}</div>
+    <div style="font-size:13px;color:var(--sub);line-height:1.65;margin-bottom:6px;">${r.d}</div>
+    <span style="display:inline-block;font-size:11px;font-weight:700;color:var(--orange);background:rgba(255,109,0,.08);padding:3px 10px;border-radius:12px;">📋 ${r.s}</span>
+  </div>`).join('');
 }
 function openNotes(){document.getElementById('notes-modal').classList.add('open');renderNotes();}
 function closeNotes(){document.getElementById('notes-modal').classList.remove('open');}
