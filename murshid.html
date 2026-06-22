@@ -1489,6 +1489,21 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
         <div class="hoc-item" style="background:rgba(245,166,35,.07);"><div class="hoc-num" style="background:var(--gold);">٤</div><div class="hoc-body"><div class="hoc-title" style="color:#8a6000;">الإجراءات الإدارية — Administrative</div><div class="hoc-sub">إجراءات، تناوب، تدريب</div></div></div>
         <div class="hoc-item" style="background:rgba(229,57,53,.07);"><div class="hoc-num" style="background:var(--red);">٥</div><div class="hoc-body"><div class="hoc-title" style="color:var(--red);">معدات الحماية — PPE</div><div class="hoc-sub">آخر خط دفاع — الأقل فعالية</div></div></div>
       </div>
+      <div class="sec-lbl">📊 حاسبة مؤشرات الأداء (KPIs)</div>
+      <div class="card card-p">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6;">احسب مؤشرات السلامة المعتمدة عالمياً (OSHA) — أدخل بيانات الفترة.</div>
+        <div class="form-group"><label class="form-label">إجمالي ساعات العمل خلال الفترة</label><input class="form-input" id="kpi-hours" type="number" min="0" inputmode="numeric" placeholder="مثال: 250000"></div>
+        <div class="form-group"><label class="form-label">عدد الحوادث المسجَّلة (Recordable)</label><input class="form-input" id="kpi-rec" type="number" min="0" inputmode="numeric" placeholder="مثال: 5"></div>
+        <div class="form-group"><label class="form-label">عدد إصابات الوقت الضائع (LTI)</label><input class="form-input" id="kpi-lti" type="number" min="0" inputmode="numeric" placeholder="مثال: 2"></div>
+        <div class="form-group"><label class="form-label">إجمالي أيام العمل المفقودة</label><input class="form-input" id="kpi-days" type="number" min="0" inputmode="numeric" placeholder="مثال: 40"></div>
+        <button class="btn btn-primary btn-full" onclick="calcKPI()">📊 احسب المؤشرات</button>
+        <div id="kpi-result" style="display:none;margin-top:14px;"></div>
+        <div style="font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.7;border-top:.5px solid var(--sep2);padding-top:10px;">
+          <b>TRIR</b> = (الحوادث المسجَّلة × ٢٠٠٬٠٠٠) ÷ ساعات العمل<br>
+          <b>LTIFR</b> = (إصابات الوقت الضائع × ١٬٠٠٠٬٠٠٠) ÷ ساعات العمل<br>
+          <b>معدل الشدة</b> = (الأيام المفقودة × ٢٠٠٬٠٠٠) ÷ ساعات العمل
+        </div>
+      </div>
     </div>
     <div>
       <div class="sec-lbl" style="padding-top:0;">🃏 بطاقات المراجعة</div>
@@ -2784,6 +2799,30 @@ function closeTBT(){document.getElementById('tbt-modal').classList.remove('open'
 function setTBT(t){document.getElementById('tbt-inp').value=t;}
 function generateTBT(){const topic=document.getElementById('tbt-inp')?.value.trim();if(!topic){showToast('أدخل موضوع TBT');return;}closeTBT();switchTab('chat');setTimeout(()=>{const inp=document.getElementById('chat-inp');if(inp){inp.value=`اصنع Toolbox Talk احترافي عن: ${topic}\nللعاملين في القطاعات السعودية. اشمل: المقدمة، المخاطر، الإجراءات، نقطة نقاش. أضف [TBT_END] في النهاية.`;sendChat();}},100);}
 function generateTBT2(){const topic=document.getElementById('tbt-quick')?.value.trim();if(!topic){showToast('أدخل موضوع TBT');return;}switchTab('chat');setTimeout(()=>{const inp=document.getElementById('chat-inp');if(inp){inp.value=`اصنع Toolbox Talk احترافي عن: ${topic}\nأضف [TBT_END] في النهاية.`;sendChat();}},100);}
+function calcKPI(){
+  const hours=parseFloat(document.getElementById('kpi-hours').value);
+  const rec=parseFloat(document.getElementById('kpi-rec').value)||0;
+  const lti=parseFloat(document.getElementById('kpi-lti').value)||0;
+  const days=parseFloat(document.getElementById('kpi-days').value)||0;
+  const box=document.getElementById('kpi-result');
+  if(!hours||hours<=0){showToast('⚠️ أدخل إجمالي ساعات العمل');return;}
+  const trir=(rec*200000)/hours;
+  const ltifr=(lti*1000000)/hours;
+  const sev=(days*200000)/hours;
+  // Benchmark interpretation for TRIR (OSHA): <1 ممتاز · 1-3 جيد · >3 يحتاج تحسين
+  let band,bandColor;
+  if(trir<1){band='ممتاز — أداء عالمي';bandColor='var(--green)';}
+  else if(trir<3){band='جيد — ضمن المعدل المقبول';bandColor='var(--gold)';}
+  else{band='يحتاج تحسيناً عاجلاً';bandColor='var(--red)';}
+  const row=(lbl,val,sub)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:.5px solid var(--sep2);"><div><div style="font-size:13px;font-weight:800;color:var(--text);">${lbl}</div><div style="font-size:11px;color:var(--muted);">${sub}</div></div><div style="font-size:20px;font-weight:900;color:var(--orange);">${ar(val.toFixed(2))}</div></div>`;
+  box.innerHTML=`<div style="background:var(--bg3);border-radius:12px;padding:14px;">
+    ${row('TRIR',trir,'معدل الحوادث الكلية المسجَّلة')}
+    ${row('LTIFR',ltifr,'معدل تكرار إصابات الوقت الضائع')}
+    ${row('معدل الشدة',sev,'أيام مفقودة لكل ٢٠٠ ألف ساعة')}
+    <div style="margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(255,109,0,.07);font-size:12.5px;font-weight:700;color:${bandColor};">📈 تقييم TRIR: ${band}</div>
+  </div>`;
+  box.style.display='block';
+}
 function openNotes(){document.getElementById('notes-modal').classList.add('open');renderNotes();}
 function closeNotes(){document.getElementById('notes-modal').classList.remove('open');}
 function addNote(){const inp=document.getElementById('note-inp');if(!inp||!inp.value.trim()){showToast('اكتب ملاحظة أولاً');return;}S.notes.unshift({text:inp.value.trim(),date:new Date().toLocaleDateString('ar-SA')});inp.value='';save();renderNotes();renderAll();showToast('تم الحفظ ✅');}
