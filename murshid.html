@@ -728,6 +728,13 @@ body.dark .dev-badge{background:var(--bg2);border-color:var(--sep);}
 .lp-impact-num{font-size:clamp(34px,5vw,46px);font-weight:900;color:#FFB627;letter-spacing:-1.5px;line-height:1;text-shadow:0 4px 24px rgba(255,182,39,.3);}
 .lp-impact-lbl{font-size:13px;color:rgba(255,255,255,.7);margin-top:9px;line-height:1.4;}
 
+/* AI ANALYSIS TABS (تحليلات أبو سلامة) */
+.ai-analysis-tabs{display:flex;gap:8px;background:var(--bg2);padding:6px;border-radius:16px;margin-bottom:18px;box-shadow:var(--sh);border:1px solid var(--sep2);}
+.aat{flex:1;padding:11px 8px;border:none;background:transparent;border-radius:12px;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer;transition:.18s;white-space:nowrap;}
+.aat:hover{color:var(--text);}
+.aat.active{background:linear-gradient(135deg,var(--orange),var(--gold));color:#fff;box-shadow:0 4px 14px rgba(255,109,0,.3);}
+@media(max-width:600px){.aat{font-size:11.5px;padding:10px 4px;}}
+
 /* TESTIMONIALS */
 .lp-testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
 .lp-test{padding:28px;background:var(--bg2);border-radius:22px;box-shadow:var(--sh);border:1px solid var(--sep2);transition:.2s;}
@@ -1300,15 +1307,13 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <div class="sec-lbl" style="padding-top:0;">أدوات السلامة</div>
       <div class="ios-list">
         <div class="ios-row" onclick="switchTab('tools')"><div class="row-icon" style="background:rgba(229,57,53,.1);">⚠️</div><div class="row-body"><div class="row-title">مصفوفة المخاطر</div><div class="row-sub">Risk Matrix تفاعلي</div></div><div class="row-right"><span class="bdg bdg-red">جديد</span><span class="chevron">‹</span></div></div>
-        <div class="ios-row" onclick="switchTab('incident')"><div class="row-icon" style="background:rgba(92,53,204,.1);">📋</div><div class="row-body"><div class="row-title">بلاغ الحادثة</div><div class="row-sub">Incident Report + AI</div></div><div class="row-right"><span class="bdg bdg-indigo">جديد</span><span class="chevron">‹</span></div></div>
-        <div class="ios-row" onclick="switchTab('photo')"><div class="row-icon" style="background:rgba(92,53,204,.1);">📸</div><div class="row-body"><div class="row-title">محلل صور الموقع</div><div class="row-sub">GPT-4o Vision</div></div><div class="row-right"><span class="bdg bdg-indigo">AI</span><span class="chevron">‹</span></div></div>
+        <div class="ios-row" onclick="switchTab('field')"><div class="row-icon" style="background:rgba(92,53,204,.1);">🤖</div><div class="row-body"><div class="row-title">تحليلات أبو سلامة AI</div><div class="row-sub">المواقف · الحوادث · الصور</div></div><div class="row-right"><span class="bdg bdg-indigo">AI</span><span class="chevron">‹</span></div></div>
       </div>
     </div>
   </div>
   <div class="sec-lbl">أدوات إضافية</div>
   <div class="ios-list">
     <div class="ios-row" onclick="switchTab('flash')"><div class="row-icon" style="background:rgba(229,57,53,.1);">🃏</div><div class="row-body"><div class="row-title">بطاقات المراجعة</div><div class="row-sub">٢٤ بطاقة + AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
-    <div class="ios-row" onclick="switchTab('field')"><div class="row-icon" style="background:rgba(21,101,192,.1);">🏭</div><div class="row-body"><div class="row-title">محلل المواقف</div><div class="row-sub">تحليل ميداني بـ AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="switchTab('report')"><div class="row-icon" style="background:rgba(0,185,107,.1);">📊</div><div class="row-body"><div class="row-title">التقرير الأسبوعي</div><div class="row-sub">تحليل أدائك</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="openTBT()"><div class="row-icon" style="background:rgba(245,166,35,.1);">🗣️</div><div class="row-body"><div class="row-title">توليد TBT</div><div class="row-sub">Toolbox Talk احترافي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="openNotes()"><div class="row-icon" style="background:rgba(21,101,192,.1);">📝</div><div class="row-body"><div class="row-title">ملاحظات سريعة</div><div class="row-sub" id="notes-count-lbl">٠ ملاحظة</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
@@ -1489,7 +1494,12 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 <!-- ═══════════════ INCIDENT ═══════════════ -->
 <div class="page" id="page-incident">
 <div class="container">
-  <div class="ph"><div class="ph-eyebrow">نموذج رسمي</div><div class="ph-title">بلاغ الحادثة</div><div class="ph-sub">Incident Report — OSHA / كوادر</div></div>
+  <div class="ai-analysis-tabs">
+    <button class="aat" data-aat="field" onclick="switchTab('field')">🏭 المواقف</button>
+    <button class="aat active" data-aat="incident" onclick="switchTab('incident')">📋 الحادثة</button>
+    <button class="aat" data-aat="photo" onclick="switchTab('photo')">📸 الصور</button>
+  </div>
+  <div class="ph"><div class="ph-eyebrow">تحليلات أبو سلامة · AI</div><div class="ph-title">بلاغ الحادثة</div><div class="ph-sub">Incident Report — OSHA / كوادر</div></div>
   <div class="grid-2">
     <div>
       <div class="card card-p" style="margin-bottom:13px;">
@@ -1637,7 +1647,12 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 <!-- ═══════════════ FIELD ═══════════════ -->
 <div class="page" id="page-field">
 <div class="container">
-  <div class="ph"><div class="ph-eyebrow">تحليل ميداني</div><div class="ph-title">محلل المواقف</div></div>
+  <div class="ai-analysis-tabs">
+    <button class="aat active" data-aat="field" onclick="switchTab('field')">🏭 المواقف</button>
+    <button class="aat" data-aat="incident" onclick="switchTab('incident')">📋 الحادثة</button>
+    <button class="aat" data-aat="photo" onclick="switchTab('photo')">📸 الصور</button>
+  </div>
+  <div class="ph"><div class="ph-eyebrow">تحليلات أبو سلامة · AI</div><div class="ph-title">محلل المواقف</div></div>
   <div class="field-how-card">
     <div class="field-how-title">💡 كيف تعمل؟</div>
     <div class="field-how-sub">صف موقفاً واجهته في الموقع — سيحلل المرشد: <strong>المخاطر · المعايير المنتهكة · الإجراء الصحيح · الدرس المستفاد</strong></div>
@@ -1651,7 +1666,12 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 <!-- ═══════════════ PHOTO ═══════════════ -->
 <div class="page" id="page-photo">
 <div class="container">
-  <div class="ph"><div class="ph-eyebrow">GPT-4o Vision · تحليل احترافي</div><div class="ph-title">محلل صور المواقع</div><div class="ph-sub">تقرير سلامة شامل: Bow-Tie · 5-Why · مصفوفة 5×5 · معايير دولية</div></div>
+  <div class="ai-analysis-tabs">
+    <button class="aat" data-aat="field" onclick="switchTab('field')">🏭 المواقف</button>
+    <button class="aat" data-aat="incident" onclick="switchTab('incident')">📋 الحادثة</button>
+    <button class="aat active" data-aat="photo" onclick="switchTab('photo')">📸 الصور</button>
+  </div>
+  <div class="ph"><div class="ph-eyebrow">تحليلات أبو سلامة · GPT-4o Vision</div><div class="ph-title">محلل صور المواقع</div><div class="ph-sub">تقرير سلامة شامل: Bow-Tie · 5-Why · مصفوفة 5×5 · معايير دولية</div></div>
   <div class="photo-drop" id="hse-dropzone" onclick="document.getElementById('hse-file').click()" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="event.preventDefault();this.classList.remove('drag-over');if(event.dataTransfer.files[0])hseLoadFile(event.dataTransfer.files[0])">
     <input type="file" id="hse-file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="hseLoadFile(event.target.files[0])">
     <div id="hse-placeholder"><div style="font-size:40px;margin-bottom:10px;">📸</div><div style="font-size:15px;font-weight:700;color:var(--text);">ارفع صورة من الموقع</div><div style="font-size:12px;color:var(--muted);margin-top:4px;">JPG / PNG / WEBP · حتى 10MB</div></div>
@@ -2653,7 +2673,10 @@ function switchTab(name){
   if(name==='quiz')renderKWScores();
   if(name==='photo')renderPhotoHist();
   if(name==='levels')renderLevelsPage();
-  
+  // AI-analysis sub-tab highlight (within the now-visible page only — avoids duplicate-id issues)
+  if(name==='field'||name==='incident'||name==='photo'){
+    if(pg)pg.querySelectorAll('.aat').forEach(b=>b.classList.toggle('active',b.dataset.aat===name));
+  }
 }
 
 // QUESTION BANKS
