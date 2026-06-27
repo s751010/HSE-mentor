@@ -1953,6 +1953,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <button class="fp-tab" data-fp="settings" onclick="fpSwitch('settings',this)"><span class="ic">⚙️</span> الإعدادات العامة</button>
       <button class="fp-tab" data-fp="users" onclick="fpSwitch('users',this)"><span class="ic">👥</span> المستخدمون</button>
       <button class="fp-tab" data-fp="testimonials" onclick="fpSwitch('testimonials',this)"><span class="ic">⭐</span> آراء المستخدمين</button>
+      <button class="fp-tab" data-fp="chatstats" onclick="fpSwitch('chatstats',this)"><span class="ic">💬</span> إحصاءات الدردشة</button>
     </div>
     <div class="fp-content">
       <!-- DASHBOARD -->
@@ -2140,6 +2141,30 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
         </div>
         <button class="fp-save-btn" onclick="fpLoadTestimonials()" style="margin-top:4px;">🔄 تحديث</button>
       </div>
+      <!-- CHAT STATS -->
+      <div class="fp-section" id="fp-chatstats">
+        <div class="fp-h">💬 إحصاءات الدردشة</div>
+        <div class="fp-hsub">رؤية مجمّعة لاستخدام المرشد — بدون أي نص محادثة (خصوصية كاملة)</div>
+        <div class="fp-stat-grid">
+          <div class="fp-stat"><div class="fp-stat-num" id="fpcs-total">—</div><div class="fp-stat-lbl">رسالة إجمالاً</div></div>
+          <div class="fp-stat"><div class="fp-stat-num" id="fpcs-users">—</div><div class="fp-stat-lbl">مستخدم نشط</div></div>
+          <div class="fp-stat"><div class="fp-stat-num" id="fpcs-today">—</div><div class="fp-stat-lbl">رسالة اليوم</div></div>
+          <div class="fp-stat"><div class="fp-stat-num" id="fpcs-week">—</div><div class="fp-stat-lbl">رسالة الأسبوع</div></div>
+        </div>
+        <div class="fp-card">
+          <div class="fp-card-title">🎯 حسب وضع الدردشة</div>
+          <div id="fpcs-modes"><p style="color:var(--muted);text-align:center;padding:14px;">جاري التحميل...</p></div>
+        </div>
+        <div class="fp-card">
+          <div class="fp-card-title">📚 أكثر المواضيع طلباً</div>
+          <div id="fpcs-topics"><p style="color:var(--muted);text-align:center;padding:14px;">جاري التحميل...</p></div>
+        </div>
+        <div class="fp-card">
+          <div class="fp-card-title">📈 آخر ٧ أيام</div>
+          <div id="fpcs-days"><p style="color:var(--muted);text-align:center;padding:14px;">جاري التحميل...</p></div>
+        </div>
+        <button class="fp-save-btn" onclick="fpLoadChatStats()" style="margin-top:4px;">🔄 تحديث</button>
+      </div>
     </div>
   </div>
 </div>
@@ -2225,7 +2250,7 @@ async function founderLogin(){
 }
 function founderLogout(){sessionStorage.removeItem('mrshd_founder');document.getElementById('founder-panel').classList.remove('show');}
 function openFounderLogin(){document.getElementById('founder-login').classList.add('show');setTimeout(()=>document.getElementById('fl-email').focus(),200);}
-function fpSwitch(tab,btn){document.querySelectorAll('.fp-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.fp-tab').forEach(t=>t.classList.remove('active'));document.getElementById('fp-'+tab).classList.add('active');if(btn)btn.classList.add('active');if(tab==='users')fpLoadUsers();if(tab==='testimonials')fpLoadTestimonials();}
+function fpSwitch(tab,btn){document.querySelectorAll('.fp-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.fp-tab').forEach(t=>t.classList.remove('active'));document.getElementById('fp-'+tab).classList.add('active');if(btn)btn.classList.add('active');if(tab==='users')fpLoadUsers();if(tab==='testimonials')fpLoadTestimonials();if(tab==='chatstats')fpLoadChatStats();}
 
 function fpRenderAll(){
   const c=FCONFIG.content;
@@ -3096,6 +3121,26 @@ function setMode(m,btn){S.mode=m;save();document.querySelectorAll('.seg-btn').fo
   const labels={free:'الوضع الحر',daily:'الوضع اليومي',quiz:'وضع الاختبار',scenario:'وضع الميدان'};
   showToast('✅ '+(labels[m]||''));}
 function quickChat(p){const inp=document.getElementById('chat-inp');if(inp){inp.value=p;sendChat();}}
+// Chat statistics — privacy-safe: logs ONLY mode + auto-detected topic category, never the message text
+const CHAT_TOPICS=[
+  ['ارتفاع|سقوط|حزام|سقال|scaffold|height','العمل على الارتفاعات'],
+  ['كهرب|تماس|loto|عزل الطاقة|electric','السلامة الكهربائية'],
+  ['حريق|اطفاء|طفاي|fire','الحريق والإطفاء'],
+  ['كيمياء|كيميائ|انسكاب|msds|sds|مواد خطر|chemical','المواد الكيميائية'],
+  ['حفر|خنادق|excavation|trench','الحفريات'],
+  ['ppe|معدات الحماي|خوذة|قفاز|نظارة','معدات الوقاية'],
+  ['حادث|اصاب|إصاب|near.?miss|بلاغ|تحقيق|rca','الحوادث والتحقيق'],
+  ['مخاطر|تقييم|risk|jsa|hazard','تقييم المخاطر'],
+  ['كوادر|اختبار|امتحان','أسئلة كوادر'],
+  ['nebosh|iosh|osha|iso.?45001|معيار','المعايير والشهادات'],
+  ['تصريح|permit|ptw','تصاريح العمل'],
+  ['حرار|اجهاد حراري|شمس|heat','الإجهاد الحراري'],
+];
+function detectChatTopic(t){const s=(t||'').toLowerCase();for(const[pat,label]of CHAT_TOPICS){try{if(new RegExp(pat,'i').test(s))return label;}catch(_){}}return 'عام';}
+async function logChatStat(text){
+  if(!sb||!currentUser)return;
+  try{await sb.from('chat_stats').insert({user_id:currentUser.id,mode:S.mode||'free',topic:detectChatTopic(text)});}catch(_){}
+}
 function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
 async function sendChat(){
   const inp=document.getElementById('chat-inp');if(!inp)return;const text=inp.value.trim();if(!text)return;
@@ -3108,6 +3153,7 @@ async function sendChat(){
     const reply=data.choices?.[0]?.message?.content||'عذراً، حدث خطأ.';
     S.msgs.push({role:'assistant',content:reply});appendBubble('ai',reply);
     S.sessions=Math.max(S.sessions,1);S.todayQs++;addXP(5);save();renderAll();
+    logChatStat(text);
   }catch(e){if(tw)tw.style.display='none';appendBubble('ai','⚠️ '+(e.message||'خطأ في الاتصال.'));}
 }
 function appendBubble(role,text){
@@ -3954,6 +4000,44 @@ async function loadTestimonials(){
     }).join('');
   }catch(e){
     if(list)list.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--muted);">تعذّر تحميل الآراء</div>';
+  }
+}
+
+// ═══════════ FOUNDER: CHAT STATISTICS (no message text) ═══════════
+async function fpLoadChatStats(){
+  if(!sb||!currentUser)return;
+  ['fpcs-total','fpcs-users','fpcs-today','fpcs-week'].forEach(id=>el(id,'...'));
+  const modesEl=document.getElementById('fpcs-modes'),topicsEl=document.getElementById('fpcs-topics'),daysEl=document.getElementById('fpcs-days');
+  try{
+    const{data,error}=await sb.from('chat_stats').select('user_id,mode,topic,created_at').order('created_at',{ascending:false}).limit(5000);
+    if(error)throw error;
+    const rows=data||[];
+    const today=new Date().toISOString().split('T')[0];
+    const weekAgo=new Date(Date.now()-7*86400000).toISOString();
+    el('fpcs-total',ar(rows.length));
+    el('fpcs-users',ar(new Set(rows.map(r=>r.user_id)).size));
+    el('fpcs-today',ar(rows.filter(r=>(r.created_at||'').split('T')[0]===today).length));
+    el('fpcs-week',ar(rows.filter(r=>r.created_at>=weekAgo).length));
+    const modeLbl={free:'حر',daily:'يومي',quiz:'اختبار',scenario:'ميدان'};
+    const bar=(label,count,max,color)=>{const w=max?Math.round(count/max*100):0;return`<div style="margin-bottom:9px;"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:3px;"><span style="font-weight:700;">${esc(label)}</span><span style="color:var(--muted);">${ar(count)}</span></div><div style="height:8px;background:var(--bg3);border-radius:5px;overflow:hidden;"><div style="height:100%;width:${w}%;background:${color};border-radius:5px;"></div></div></div>`;};
+    // modes
+    const modeCount={};rows.forEach(r=>{const k=r.mode||'free';modeCount[k]=(modeCount[k]||0)+1;});
+    const modeMax=Math.max(1,...Object.values(modeCount));
+    if(modesEl)modesEl.innerHTML=Object.entries(modeCount).sort((a,b)=>b[1]-a[1]).map(([k,c])=>bar(modeLbl[k]||k,c,modeMax,'var(--orange)')).join('')||'<p style="color:var(--muted);text-align:center;padding:10px;">لا بيانات</p>';
+    // topics
+    const topicCount={};rows.forEach(r=>{const k=r.topic||'عام';topicCount[k]=(topicCount[k]||0)+1;});
+    const topicsSorted=Object.entries(topicCount).sort((a,b)=>b[1]-a[1]).slice(0,10);
+    const topicMax=Math.max(1,...topicsSorted.map(x=>x[1]));
+    if(topicsEl)topicsEl.innerHTML=topicsSorted.map(([k,c])=>bar(k,c,topicMax,'var(--blue)')).join('')||'<p style="color:var(--muted);text-align:center;padding:10px;">لا بيانات</p>';
+    // last 7 days
+    const days=[];for(let i=6;i>=0;i--){const d=new Date(Date.now()-i*86400000).toISOString().split('T')[0];days.push(d);}
+    const dayCount={};rows.forEach(r=>{const d=(r.created_at||'').split('T')[0];if(d)dayCount[d]=(dayCount[d]||0)+1;});
+    const dayMax=Math.max(1,...days.map(d=>dayCount[d]||0));
+    if(daysEl)daysEl.innerHTML=days.map(d=>{const c=dayCount[d]||0;const lbl=new Date(d).toLocaleDateString('ar-SA',{weekday:'short',day:'numeric'});return bar(lbl,c,dayMax,'var(--green)');}).join('');
+  }catch(e){
+    ['fpcs-total','fpcs-users','fpcs-today','fpcs-week'].forEach(id=>el(id,'!'));
+    const m=e.message||'';const msg=/relation|does not exist|chat_stats|schema cache|not find/i.test(m)?'⚙️ إحصاءات الدردشة قيد التفعيل — ستعمل بعد إنشاء جدول chat_stats.':'تعذّر التحميل';
+    [modesEl,topicsEl,daysEl].forEach(elm=>{if(elm)elm.innerHTML='<p style="color:var(--muted);text-align:center;padding:14px;">'+msg+'</p>';});
   }
 }
 
