@@ -1224,6 +1224,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="auth-field"><label class="auth-label">كلمة المرور</label><div class="auth-pw-wrap"><input class="auth-inp" id="auth-pass" type="password" placeholder="٦ أحرف على الأقل" onkeydown="if(event.key==='Enter')submitAuth()"><button class="auth-pw-toggle" type="button" onclick="togglePwVis()" id="auth-pw-eye">👁</button></div></div>
     <button class="auth-btn" id="auth-btn" onclick="submitAuth()">إنشاء الحساب</button>
     <div class="auth-err" id="auth-err"></div>
+    <div class="auth-switch" id="auth-forgot" style="margin-top:10px;display:none;"><b onclick="forgotPassword()">نسيت كلمة المرور؟ 🔑</b></div>
     <div class="auth-local-hint">🔒 بياناتك محفوظة بشكل آمن · تتابع تقدمك من أي جهاز</div>
     <div class="auth-switch" id="auth-switch">لديك حساب بالفعل؟ <b onclick="toggleAuthMode()">سجّل الدخول</b></div>
   </div>
@@ -1776,9 +1777,14 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   <div class="sec-lbl">المظهر</div>
   <div class="setting-group"><div class="setting-row"><span class="setting-lbl">الوضع الليلي</span><button class="theme-toggle" onclick="toggleTheme()" id="theme-btn2" style="margin-right:auto;">🌙</button></div></div>
   <div class="sec-lbl">الحساب</div>
+  <div class="setting-group">
+    <div class="setting-row" style="cursor:pointer;" onclick="openChangePassword()"><span class="setting-lbl">🔑 تغيير كلمة المرور</span><span style="margin-right:auto;color:var(--muted);">‹</span></div>
+  </div>
   <button class="admin-open-btn" onclick="logoutUser()" style="background:var(--bg2);color:var(--text);border:1.5px solid var(--sep);box-shadow:var(--sh);">👋 تسجيل الخروج</button>
   <div class="sec-lbl">إعادة ضبط</div>
   <button class="reset-btn" onclick="confirmReset()">🗑️ مسح بيانات التقدم</button>
+  <div class="sec-lbl" style="color:var(--red);">منطقة الخطر</div>
+  <button class="reset-btn" onclick="confirmDeleteAccount()" style="border-color:rgba(255,59,48,.4);color:var(--red);">⚠️ حذف الحساب نهائياً</button>
 </div>
 </div>
 
@@ -1902,6 +1908,19 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">📅 تقدم الخطة</span><span class="admin-sec-badge" id="a-plan-badge">—</span></div><div style="padding:13px 18px;"><div class="xp-bar-track"><div class="xp-bar-fill" id="a-plan-bar" style="width:0%"></div></div><div style="font-size:12px;color:var(--muted);margin-top:5px;" id="a-plan-sub">—</div></div></div>
     <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">📋 سجل النشاط</span></div><div id="a-activity"></div></div>
     <div style="height:28px;"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ CHANGE PASSWORD ═══════════════ -->
+<div class="modal-overlay" id="changepw-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🔑 تغيير كلمة المرور</div>
+    <input class="modal-inp" id="cpw-new" type="password" placeholder="كلمة المرور الجديدة (٦ أحرف على الأقل)">
+    <input class="modal-inp" id="cpw-confirm" type="password" placeholder="تأكيد كلمة المرور">
+    <div id="cpw-err" style="display:none;color:var(--red);font-size:13px;margin:4px 0;"></div>
+    <button class="modal-ok" onclick="submitChangePassword()">💾 حفظ</button>
+    <button class="modal-cancel" onclick="closeChangePassword()">إلغاء</button>
   </div>
 </div>
 
@@ -2491,8 +2510,19 @@ function closeAuth(){document.getElementById('auth-overlay').classList.remove('s
 function toggleAuthMode(){authMode=authMode==='signup'?'login':'signup';applyAuthMode();}
 function applyAuthMode(){
   const t=document.getElementById('auth-title'),s=document.getElementById('auth-sub'),b=document.getElementById('auth-btn'),sw=document.getElementById('auth-switch'),nf=document.getElementById('auth-name-field');
-  if(authMode==='signup'){t.textContent='أنشئ حسابك';s.textContent='ابدأ رحلتك في السلامة المهنية';b.textContent='إنشاء الحساب';sw.innerHTML='لديك حساب بالفعل؟ <b onclick="toggleAuthMode()">سجّل الدخول</b>';nf.style.display='';}
-  else{t.textContent='مرحباً بعودتك';s.textContent='سجّل دخولك لمتابعة تقدمك';b.textContent='تسجيل الدخول';sw.innerHTML='ليس لديك حساب؟ <b onclick="toggleAuthMode()">أنشئ حساباً</b>';nf.style.display='none';}
+  const fg=document.getElementById('auth-forgot');
+  if(authMode==='signup'){t.textContent='أنشئ حسابك';s.textContent='ابدأ رحلتك في السلامة المهنية';b.textContent='إنشاء الحساب';sw.innerHTML='لديك حساب بالفعل؟ <b onclick="toggleAuthMode()">سجّل الدخول</b>';nf.style.display='';if(fg)fg.style.display='none';}
+  else{t.textContent='مرحباً بعودتك';s.textContent='سجّل دخولك لمتابعة تقدمك';b.textContent='تسجيل الدخول';sw.innerHTML='ليس لديك حساب؟ <b onclick="toggleAuthMode()">أنشئ حساباً</b>';nf.style.display='none';if(fg)fg.style.display='';}
+}
+async function forgotPassword(){
+  const email=(document.getElementById('auth-email')?.value||'').trim();
+  if(!email){authErr('⚠️ اكتب بريدك الإلكتروني في الحقل أعلاه أولاً');return;}
+  if(!sb){authErr('⚠️ الخدمة غير متاحة حالياً');return;}
+  try{
+    const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+    if(error)throw error;
+    const e=document.getElementById('auth-err');if(e){e.textContent='✅ أرسلنا رابط إعادة التعيين إلى بريدك — تحقق من البريد ومجلد المهملات.';e.classList.add('show');e.style.color='var(--green)';e.style.background='rgba(0,185,107,.08)';}
+  }catch(e){authErr('⚠️ تعذّر الإرسال: '+(e.message||''));}
 }
 function authErr(msg){const e=document.getElementById('auth-err');if(e){e.textContent=msg;e.classList.add('show');}}
 async function submitAuth(){
@@ -3634,6 +3664,41 @@ async function renderLeaderboard(){
     else{list.innerHTML='<p style="text-align:center;color:var(--red);padding:20px;">تعذّر تحميل اللوحة</p>';}
     if(myrank)myrank.style.display='none';
   }
+}
+
+// ACCOUNT MANAGEMENT
+function openChangePassword(){const e=document.getElementById('cpw-err');if(e)e.style.display='none';['cpw-new','cpw-confirm'].forEach(id=>{const x=document.getElementById(id);if(x)x.value='';});document.getElementById('changepw-modal').classList.add('open');}
+function closeChangePassword(){document.getElementById('changepw-modal').classList.remove('open');}
+async function submitChangePassword(){
+  const np=document.getElementById('cpw-new').value,cf=document.getElementById('cpw-confirm').value,err=document.getElementById('cpw-err');
+  const showErr=m=>{if(err){err.textContent=m;err.style.display='block';}};
+  if(np.length<6)return showErr('⚠️ كلمة المرور ٦ أحرف على الأقل');
+  if(np!==cf)return showErr('⚠️ كلمتا المرور غير متطابقتين');
+  if(!sb||!currentUser)return showErr('⚠️ يجب تسجيل الدخول عبر حساب سحابي');
+  const btn=document.querySelector('#changepw-modal .modal-ok');if(btn){btn.disabled=true;btn.textContent='⏳ جاري...';}
+  try{const{error}=await sb.auth.updateUser({password:np});if(error)throw error;closeChangePassword();showToast('✅ تم تغيير كلمة المرور');}
+  catch(e){showErr('⚠️ '+(e.message||'تعذّر التغيير'));}
+  finally{if(btn){btn.disabled=false;btn.textContent='💾 حفظ';}}
+}
+async function confirmDeleteAccount(){
+  if(!sb||!currentUser){showToast('⚠️ يجب تسجيل الدخول عبر حساب سحابي');return;}
+  if(!confirm('⚠️ حذف حسابك نهائياً؟ سيُمسح كل تقدمك وبياناتك ولا يمكن التراجع.'))return;
+  if(!confirm('تأكيد أخير: هذا الإجراء لا رجعة فيه. متابعة الحذف؟'))return;
+  const uid=currentUser.id;
+  try{
+    try{await sb.from('user_progress').delete().eq('user_id',uid);}catch(_){}
+    try{await sb.from('profiles').delete().eq('id',uid);}catch(_){}
+    try{await sb.from('photo_history').delete().eq('user_id',uid);}catch(_){}
+    let authDeleted=false;
+    try{
+      const{data:{session}}=await sb.auth.getSession();
+      if(session){const r=await fetch(SUPABASE_URL+'/functions/v1/delete-account',{method:'POST',headers:{'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json'}});authDeleted=r.ok;}
+    }catch(_){}
+    localStorage.removeItem('mrshd_v4');localStorage.removeItem('mrshd_session');
+    try{await sb.auth.signOut();}catch(_){}
+    S=S_DEFAULTS();currentUser=null;showLanding();
+    showToast(authDeleted?'تم حذف حسابك نهائياً 👋':'تم مسح بياناتك وتسجيل خروجك');
+  }catch(e){showToast('⚠️ '+(e.message||'تعذّر الحذف'));}
 }
 
 // ONBOARDING (first-time users)
