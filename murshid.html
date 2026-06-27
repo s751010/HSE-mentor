@@ -1725,8 +1725,13 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   <div class="sec-lbl">الملف الشخصي</div>
   <div class="setting-group">
     <div class="setting-row"><span class="setting-lbl">الاسم</span><input class="setting-inp" id="prf-name" placeholder="اسمك" oninput="saveProfile()"></div>
-    <div class="setting-row"><span class="setting-lbl">جهة العمل</span><input class="setting-inp" id="prf-factory" placeholder="جهة العمل" oninput="saveProfile()"></div>
-    <div class="setting-row"><span class="setting-lbl">التخصص</span><select class="setting-inp" id="prf-spec" onchange="saveProfile()"><option>HSE</option><option>سلامة</option><option>صحة مهنية</option><option>بيئة</option></select></div>
+    <div class="setting-row"><span class="setting-lbl">الاسم المستعار <small style="color:var(--muted);font-weight:400;">(للمتصدّرين)</small></span><input class="setting-inp" id="prf-nick" placeholder="يظهر في لوحة المتصدّرين" maxlength="24" oninput="saveProfile()"></div>
+    <div class="setting-row"><span class="setting-lbl">المسمى الوظيفي</span><input class="setting-inp" id="prf-title" placeholder="مثال: مهندس سلامة" oninput="saveProfile()"></div>
+    <div class="setting-row"><span class="setting-lbl">التخصص</span><select class="setting-inp" id="prf-spec" onchange="saveProfile()"><option>HSE</option><option>سلامة مهنية</option><option>صحة مهنية</option><option>بيئة</option><option>إطفاء ومكافحة حريق</option><option>أمن صناعي</option><option>إدارة مخاطر</option><option>أخرى</option></select></div>
+    <div class="setting-row"><span class="setting-lbl">جهة العمل</span><input class="setting-inp" id="prf-factory" placeholder="اسم الشركة / المصنع" oninput="saveProfile()"></div>
+    <div class="setting-row"><span class="setting-lbl">المنطقة</span><select class="setting-inp" id="prf-region" onchange="saveProfile()"><option value="">اختر...</option><option>الرياض</option><option>مكة المكرمة</option><option>المدينة المنورة</option><option>الشرقية</option><option>عسير</option><option>القصيم</option><option>حائل</option><option>تبوك</option><option>الجوف</option><option>جازان</option><option>نجران</option><option>الباحة</option><option>الحدود الشمالية</option><option>خارج السعودية</option></select></div>
+    <div class="setting-row"><span class="setting-lbl">سنوات الخبرة</span><select class="setting-inp" id="prf-exp" onchange="saveProfile()"><option value="">اختر...</option><option>أقل من سنة</option><option>١-٣ سنوات</option><option>٣-٥ سنوات</option><option>٥-١٠ سنوات</option><option>أكثر من ١٠ سنوات</option></select></div>
+    <div class="setting-row"><span class="setting-lbl">هدفك من المنصة</span><select class="setting-inp" id="prf-goaltype" onchange="saveProfile()"><option value="">اختر...</option><option>اجتياز اختبار كوادر</option><option>التطور المهني</option><option>كلاهما</option></select></div>
     <div class="setting-row"><span class="setting-lbl">هدف يومي</span><select class="setting-inp" id="prf-goal" onchange="saveProfile()"><option value="3">٣ أسئلة</option><option value="5">٥ أسئلة</option><option value="10">١٠ أسئلة</option><option value="20">٢٠ سؤال</option></select></div>
   </div>
   <div class="sec-lbl">الإحصائيات</div>
@@ -1871,6 +1876,24 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">📅 تقدم الخطة</span><span class="admin-sec-badge" id="a-plan-badge">—</span></div><div style="padding:13px 18px;"><div class="xp-bar-track"><div class="xp-bar-fill" id="a-plan-bar" style="width:0%"></div></div><div style="font-size:12px;color:var(--muted);margin-top:5px;" id="a-plan-sub">—</div></div></div>
     <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">📋 سجل النشاط</span></div><div id="a-activity"></div></div>
     <div style="height:28px;"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ ONBOARDING ═══════════════ -->
+<div class="modal-overlay" id="onboarding-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">👋 أهلاً بك في مرشد السلامة</div>
+    <p style="font-size:13.5px;color:var(--muted);line-height:1.7;margin:-4px 0 6px;">عرّفنا بنفسك باختصار لنخصّص تجربتك — كل الحقول اختيارية عدا الاسم المستعار. تقدر تعدّلها لاحقاً من الإعدادات.</p>
+    <input class="modal-inp" id="ob-nick" placeholder="اسم مستعار يظهر في المتصدّرين *" maxlength="24">
+    <input class="modal-inp" id="ob-title" placeholder="مسماك الوظيفي (مثال: مهندس سلامة)" maxlength="60">
+    <select class="modal-inp" id="ob-spec"><option value="">التخصص...</option><option>HSE</option><option>سلامة مهنية</option><option>صحة مهنية</option><option>بيئة</option><option>إطفاء ومكافحة حريق</option><option>أمن صناعي</option><option>إدارة مخاطر</option><option>أخرى</option></select>
+    <select class="modal-inp" id="ob-region"><option value="">المنطقة...</option><option>الرياض</option><option>مكة المكرمة</option><option>المدينة المنورة</option><option>الشرقية</option><option>عسير</option><option>القصيم</option><option>حائل</option><option>تبوك</option><option>الجوف</option><option>جازان</option><option>نجران</option><option>الباحة</option><option>الحدود الشمالية</option><option>خارج السعودية</option></select>
+    <select class="modal-inp" id="ob-exp"><option value="">سنوات الخبرة...</option><option>أقل من سنة</option><option>١-٣ سنوات</option><option>٣-٥ سنوات</option><option>٥-١٠ سنوات</option><option>أكثر من ١٠ سنوات</option></select>
+    <select class="modal-inp" id="ob-goal"><option value="">هدفك من المنصة...</option><option>اجتياز اختبار كوادر</option><option>التطور المهني</option><option>كلاهما</option></select>
+    <div id="ob-err" style="display:none;color:var(--red);font-size:13px;margin:4px 0;"></div>
+    <button class="modal-ok" onclick="submitOnboarding()">🚀 ابدأ رحلتك</button>
+    <button class="modal-cancel" onclick="skipOnboarding()">تخطّي الآن</button>
   </div>
 </div>
 
@@ -2477,7 +2500,7 @@ async function submitAuth(){
       S.profile.email=email;
       if(res.data.user?.user_metadata?.name)S.profile.name=res.data.user.user_metadata.name;
     }
-    currentUser=res.data.user;await loadCloudProgress();renderAll();showApp();
+    currentUser=res.data.user;await loadCloudProgress();renderAll();showApp();maybeOnboard();
     if(currentUser.email===FOUNDER_EMAIL){sessionStorage.setItem('mrshd_founder','1');document.getElementById('founder-panel').classList.add('show');fpRenderAll();}
   }catch(err){
     const m=err.message||'';
@@ -2520,7 +2543,7 @@ async function callAI(body,opts={}){
   if(!data.choices||!data.choices[0])throw new Error('استجابة غير متوقعة من الخادم.');
   return data;
 }
-const S_DEFAULTS=()=>({msgs:[],mode:'free',sessions:0,streak:0,bestStreak:0,correctTotal:0,wrongTotal:0,lastDate:null,weaknesses:{},strengths:{},examHistory:[],completedDays:{},dayStarted:{},weeklyTestDone:{},xp:0,dailyGoal:3,todayQs:0,lastGoalDate:null,notes:[],profile:{name:'',factory:'',speciality:'HSE'},warmupHistory:[],photoHistory:[],kwHistory:[],flashStats:{total:0,know:0,rev:0},badges:[]});
+const S_DEFAULTS=()=>({msgs:[],mode:'free',sessions:0,streak:0,bestStreak:0,correctTotal:0,wrongTotal:0,lastDate:null,weaknesses:{},strengths:{},examHistory:[],completedDays:{},dayStarted:{},weeklyTestDone:{},xp:0,dailyGoal:3,todayQs:0,lastGoalDate:null,notes:[],profile:{name:'',factory:'',speciality:'HSE',nickname:'',jobTitle:'',region:'',experience:'',goalType:'',onboarded:false},warmupHistory:[],photoHistory:[],kwHistory:[],flashStats:{total:0,know:0,rev:0},badges:[]});
 let S=S_DEFAULTS();
 function save(){try{localStorage.setItem('mrshd_v4',JSON.stringify(S));}catch(e){}cloudSyncProgress();}
 // Debounced cloud sync of user progress (excludes photoHistory — stored in photo_history table)
@@ -3478,14 +3501,44 @@ async function generateReport(){
 
 // SETTINGS & PROFILE
 function loadProfile(){
-  const flds={'prf-name':S.profile.name||'','prf-factory':S.profile.factory||'','prf-spec':S.profile.speciality||'HSE','prf-goal':String(S.dailyGoal||3)};
+  const flds={'prf-name':S.profile.name||'','prf-nick':S.profile.nickname||'','prf-title':S.profile.jobTitle||'','prf-factory':S.profile.factory||'','prf-spec':S.profile.speciality||'HSE','prf-region':S.profile.region||'','prf-exp':S.profile.experience||'','prf-goaltype':S.profile.goalType||'','prf-goal':String(S.dailyGoal||3)};
   Object.entries(flds).forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.value=v;});
   const ss=document.getElementById('settings-stats');
   const svXp=document.getElementById('sv-xp');const svC=document.getElementById('sv-correct');const svS=document.getElementById('sv-streak');const svP=document.getElementById('sv-plan');
   if(svXp)svXp.textContent=ar(S.xp);if(svC)svC.textContent=ar(S.correctTotal);if(svS)svS.textContent=ar(S.streak);if(svP)svP.textContent=ar(Object.keys(S.completedDays||{}).length)+'/٤٠';
 }
-function saveProfile(){S.profile.name=document.getElementById('prf-name')?.value||'';S.profile.factory=document.getElementById('prf-factory')?.value||'';S.profile.speciality=document.getElementById('prf-spec')?.value||'HSE';S.dailyGoal=parseInt(document.getElementById('prf-goal')?.value||'3');save();renderAll();}
+function saveProfile(){const g=id=>document.getElementById(id)?.value||'';S.profile.name=g('prf-name');S.profile.nickname=g('prf-nick');S.profile.jobTitle=g('prf-title');S.profile.factory=g('prf-factory');S.profile.speciality=g('prf-spec')||'HSE';S.profile.region=g('prf-region');S.profile.experience=g('prf-exp');S.profile.goalType=g('prf-goaltype');S.dailyGoal=parseInt(g('prf-goal')||'3');save();renderAll();}
 function confirmReset(){if(confirm('⚠️ مسح بيانات التقدم؟')){S.correctTotal=0;S.wrongTotal=0;S.xp=0;S.streak=0;S.completedDays={};S.dayStarted={};S.weeklyTestDone={};S.weaknesses={};S.strengths={};S.examHistory=[];S.kwHistory=[];save();renderAll();loadProfile();showToast('تم المسح ✅');}}
+
+// ONBOARDING (first-time users)
+function maybeOnboard(){
+  if(!currentUser)return;
+  if(currentUser.email===FOUNDER_EMAIL)return; // founder skips
+  if(S.profile&&S.profile.onboarded)return;
+  setTimeout(openOnboarding,600);
+}
+function openOnboarding(){
+  const nick=document.getElementById('ob-nick');
+  if(nick&&!nick.value)nick.value=S.profile.nickname||(S.profile.name||'').split(' ')[0]||'';
+  const err=document.getElementById('ob-err');if(err){err.style.display='none';err.textContent='';}
+  const m=document.getElementById('onboarding-modal');if(m)m.classList.add('open');
+}
+function closeOnboarding(){const m=document.getElementById('onboarding-modal');if(m)m.classList.remove('open');}
+function skipOnboarding(){S.profile.onboarded=true;save();closeOnboarding();}
+function submitOnboarding(){
+  const g=id=>(document.getElementById(id)?.value||'').trim();
+  const nick=g('ob-nick'),err=document.getElementById('ob-err');
+  if(!nick){if(err){err.textContent='⚠️ اختر اسماً مستعاراً (يظهر في لوحة المتصدّرين)';err.style.display='block';}return;}
+  S.profile.nickname=nick;
+  S.profile.jobTitle=g('ob-title');
+  if(g('ob-spec'))S.profile.speciality=g('ob-spec');
+  S.profile.region=g('ob-region');
+  S.profile.experience=g('ob-exp');
+  S.profile.goalType=g('ob-goal');
+  S.profile.onboarded=true;
+  save();renderAll();closeOnboarding();
+  showToast('✅ أهلاً بك '+nick+'! تم تجهيز تجربتك');
+}
 
 // LEVELS PAGE
 function renderLevelsPage(){
@@ -3979,7 +4032,7 @@ load();initTheme();
 renderAll();renderKWScores();renderWUHist();renderPhotoHist();renderPlan();renderLevelsPage();
 applyLang(currentLang);
 if(location.hash==='#founder'||sessionStorage.getItem('mrshd_founder')==='1'){if(sessionStorage.getItem('mrshd_founder')==='1'){document.getElementById('founder-panel').classList.add('show');setTimeout(fpRenderAll,300);}else{openFounderLogin();}}
-(async()=>{const loggedIn=await checkAuthSession();if(loggedIn){renderAll();showApp();}else{showLanding();}loadTestimonials();})();
+(async()=>{const loggedIn=await checkAuthSession();if(loggedIn){renderAll();showApp();maybeOnboard();}else{showLanding();}loadTestimonials();})();
 if(sessionStorage.getItem('mrshd_admin')==='1')setTimeout(()=>openAdminPanel(),500);
 </script>
 
