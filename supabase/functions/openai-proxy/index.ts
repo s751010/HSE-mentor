@@ -73,6 +73,47 @@ Deno.serve(async (req: Request) => {
   }
 
   const data = await oaRes.json();
+
+  // Token + cost accounting (never block the response on this)
+  try {
+    const u = data?.usage;
+    if (oaRes.ok && u) {
+      // OpenAI prices per 1M tokens (USD). Order matters: check "gpt-4o-mini" before "gpt-4o".
+      const PRICES: Record<string, { in: number; out: number }> = {
+        "gpt-4o-mini": { in: 0.15, out: 0.60 },
+        "gpt-4o": { in: 2.50, out: 10.00 },
+      };
+      const model = String(body?.model ?? "gpt-4o-mini").toLowerCase();
+      let price = PRICES["gpt-4o-mini"];
+      if (model.startsWith("gpt-4o-mini")) price = PRICES["gpt-4o-mini"];
+      else if (model.startsWith("gpt-4o")) price = PRICES["gpt-4o"];
+
+      const pt: number = u.prompt_tokens ?? 0;
+      const ct: number = u.completion_tokens ?? 0;
+      const cost = (pt * price.in + ct * price.out) / 1_000_000;
+
+      const { data: cur } = await svc
+        .from("ai_usage")
+        .select("prompt_tokens,completion_tokens,cost_usd")
+        .eq("user_id", user.id)
+        .eq("date", today)
+        .maybeSingle();
+
+      await svc
+        .from("ai_usage")
+        .update({
+          prompt_tokens: Number(cur?.prompt_tokens ?? 0) + pt,
+          completion_tokens: Number(cur?.completion_tokens ?? 0) + ct,
+          cost_usd: Number(cur?.cost_usd ?? 0) + cost,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("user_id", user.id)
+        .eq("date", today);
+    }
+  } catch (_e) {
+    // accounting failure must not affect the user response
+  }
+
   return new Response(JSON.stringify(data), {
     status: oaRes.status,
     headers: { ...cors, "Content-Type": "application/json" },

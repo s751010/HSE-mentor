@@ -2034,7 +2034,9 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
           <div class="fp-stat"><div class="fp-stat-num" id="fpu-active">—</div><div class="fp-stat-lbl">نشط ٧ أيام</div></div>
           <div class="fp-stat"><div class="fp-stat-num" id="fpu-calls-today">—</div><div class="fp-stat-lbl">طلب AI اليوم</div></div>
           <div class="fp-stat"><div class="fp-stat-num" id="fpu-calls-week">—</div><div class="fp-stat-lbl">طلب AI الأسبوع</div></div>
+          <div class="fp-stat"><div class="fp-stat-num" id="fpu-cost" style="color:var(--green);" dir="ltr">—</div><div class="fp-stat-lbl">تكلفة OpenAI ($)</div></div>
         </div>
+        <div style="font-size:11.5px;color:var(--muted);margin:-6px 0 14px;line-height:1.6;">💡 التكلفة الفعلية تُحسب بالـ tokens من رد OpenAI بسعر كل نموذج (gpt-4o-mini و gpt-4o). الطلبات السابقة لتفعيل التتبع تُعرض كتقدير (~$<span id="fpu-est-rate">0.004</span>/طلب) ومميّزة بعلامة ~.</div>
         <div class="fp-card">
           <div class="fp-card-title">📋 قائمة المستخدمين</div>
           <div style="display:flex;gap:9px;margin-bottom:12px;flex-wrap:wrap;">
@@ -2044,6 +2046,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
               <option value="last_login">ترتيب: آخر دخول</option>
               <option value="xp">ترتيب: XP</option>
               <option value="ai_calls">ترتيب: طلبات AI</option>
+              <option value="cost">ترتيب: التكلفة ($)</option>
             </select>
           </div>
           <div id="fpu-list" style="overflow-x:auto;"></div>
@@ -2196,17 +2199,22 @@ async function fpLoadUsers(){
     // profiles is the source of truth — fetch all registered users
     const[{data:profilesData,error:pErr},{data:allUsage,error:uErr},{data:progData}]=await Promise.all([
       sb.from('profiles').select('id,email,name,created_at'),
-      sb.from('ai_usage').select('user_id,created_at,count,date').order('created_at',{ascending:false}),
+      sb.from('ai_usage').select('user_id,created_at,count,date,cost_usd,prompt_tokens,completion_tokens').order('created_at',{ascending:false}),
       sb.from('user_progress').select('user_id,data,updated_at')
     ]);
     if(pErr)console.warn('profiles error:',pErr.message);
     if(uErr)console.warn('ai_usage error:',uErr.message);
+    const EST_PER_REQ=0.004; // estimated $/request for usage logged before token-tracking existed
     // Build lookup maps
     const usageMap={};
     (allUsage||[]).forEach(r=>{
-      if(!usageMap[r.user_id])usageMap[r.user_id]={total:0,today:0,lastActivity:null};
-      usageMap[r.user_id].total+=(r.count||1);
-      if(r.date===today)usageMap[r.user_id].today+=(r.count||1);
+      if(!usageMap[r.user_id])usageMap[r.user_id]={total:0,today:0,lastActivity:null,costActual:0,untracked:0,tokens:0};
+      const cnt=(r.count||1),cost=Number(r.cost_usd||0);
+      usageMap[r.user_id].total+=cnt;
+      usageMap[r.user_id].costActual+=cost;
+      usageMap[r.user_id].tokens+=(Number(r.prompt_tokens||0)+Number(r.completion_tokens||0));
+      if(cost<=0)usageMap[r.user_id].untracked+=cnt; // requests with no token data → estimated
+      if(r.date===today)usageMap[r.user_id].today+=cnt;
       if(!usageMap[r.user_id].lastActivity||r.created_at>usageMap[r.user_id].lastActivity)usageMap[r.user_id].lastActivity=r.created_at;
     });
     const progMap={};
@@ -2218,9 +2226,10 @@ async function fpLoadUsers(){
     const userList=[];
     allIds.forEach(uid=>{
       const prof=(profilesData||[]).find(p=>p.id===uid)||{};
-      const usage=usageMap[uid]||{total:0,today:0,lastActivity:null};
+      const usage=usageMap[uid]||{total:0,today:0,lastActivity:null,costActual:0,untracked:0,tokens:0};
       const prog=progMap[uid]||{xp:0,streak:0,name:'',lastProg:null};
       const auth=authMap[uid]||{lastLogin:null,email:'',name:'',confirmed:false};
+      const estCost=usage.untracked*EST_PER_REQ;
       userList.push({
         id:uid,
         name:prog.name||auth.name||prof.name||'',
@@ -2230,6 +2239,9 @@ async function fpLoadUsers(){
         lastActivity:usage.lastActivity||prog.lastProg||null,
         xp:prog.xp,streak:prog.streak,
         aiTotal:usage.total,aiToday:usage.today,
+        cost:usage.costActual+estCost,        // total $ (actual + estimated)
+        costEstimated:usage.untracked>0,      // true if any part is an estimate
+        tokens:usage.tokens,
         confirmed:auth.confirmed
       });
     });
@@ -2237,13 +2249,16 @@ async function fpLoadUsers(){
     const weekActive=new Set((allUsage||[]).filter(r=>r.created_at>=weekAgo).map(r=>r.user_id));
     const todayCalls=(allUsage||[]).filter(r=>r.date===today).reduce((s,r)=>s+(r.count||1),0);
     const weekCalls=(allUsage||[]).filter(r=>r.created_at>=weekAgo).reduce((s,r)=>s+(r.count||1),0);
+    const totalCost=userList.reduce((s,u)=>s+(u.cost||0),0);
+    const anyEst=userList.some(u=>u.costEstimated);
     el('fpu-total',ar(userList.length));
     el('fpu-active',ar(weekActive.size));
     el('fpu-calls-today',ar(todayCalls));
     el('fpu-calls-week',ar(weekCalls));
+    el('fpu-cost',(anyEst?'~':'')+'$'+totalCost.toFixed(2));
     _fpUsersData=userList;
     fpFilterUsers();
-  }catch(e){['fpu-total','fpu-active','fpu-calls-today','fpu-calls-week'].forEach(id=>el(id,'!'));if(list)list.innerHTML='<p style="color:var(--red);text-align:center;padding:20px;">⚠️ خطأ في التحميل: '+esc(e.message)+'</p>';console.error('fpLoadUsers:',e);}
+  }catch(e){['fpu-total','fpu-active','fpu-calls-today','fpu-calls-week','fpu-cost'].forEach(id=>el(id,'!'));if(list)list.innerHTML='<p style="color:var(--red);text-align:center;padding:20px;">⚠️ خطأ في التحميل: '+esc(e.message)+'</p>';console.error('fpLoadUsers:',e);}
 }
 function fpFilterUsers(){
   const list=document.getElementById('fpu-list');if(!list||!_fpUsersData.length)return;
@@ -2253,6 +2268,7 @@ function fpFilterUsers(){
   rows.sort((a,b)=>{
     if(sort==='xp')return b.xp-a.xp;
     if(sort==='ai_calls')return b.aiTotal-a.aiTotal;
+    if(sort==='cost')return (b.cost||0)-(a.cost||0);
     if(sort==='last_login')return (b.lastLogin||'').localeCompare(a.lastLogin||'');
     return (b.registered||'').localeCompare(a.registered||''); // default: registered desc
   });
@@ -2263,6 +2279,7 @@ function fpFilterUsers(){
       <th style="padding:8px 6px;white-space:nowrap;">XP / المستوى</th>
       <th style="padding:8px 6px;">تتالي</th>
       <th style="padding:8px 6px;white-space:nowrap;">طلبات AI</th>
+      <th style="padding:8px 6px;white-space:nowrap;">التكلفة ($)</th>
       <th style="padding:8px 6px;white-space:nowrap;">تاريخ التسجيل</th>
       <th style="padding:8px 6px;white-space:nowrap;">آخر دخول</th>
       <th style="padding:8px 6px;">الحالة</th>
@@ -2276,6 +2293,7 @@ function fpFilterUsers(){
         <td style="padding:8px 6px;text-align:center;"><div style="font-weight:800;color:var(--orange);">${ar(u.xp)}</div><div style="font-size:10px;color:var(--muted);">${lvl.icon} ${lvl.name}</div></td>
         <td style="padding:8px 6px;text-align:center;">${ar(u.streak)}🔥</td>
         <td style="padding:8px 6px;text-align:center;"><div style="font-weight:700;">${ar(u.aiTotal)}</div>${u.aiToday?`<div style="font-size:10px;color:var(--green);">+${ar(u.aiToday)} اليوم</div>`:''}</td>
+        <td style="padding:8px 6px;text-align:center;" dir="ltr"><div style="font-weight:700;color:var(--green);">${u.costEstimated?'~':''}$${(u.cost||0).toFixed(u.cost>=1?2:4)}</div>${u.tokens?`<div style="font-size:10px;color:var(--muted);">${ar(Math.round(u.tokens/1000))}k tok</div>`:''}</td>
         <td style="padding:8px 6px;text-align:center;font-size:11px;color:var(--muted);">${regDate}</td>
         <td style="padding:8px 6px;text-align:center;font-size:11px;color:var(--muted);">${loginDate}</td>
         <td style="padding:8px 6px;text-align:center;">${u.confirmed?'<span style="color:var(--green);font-size:11px;">✅ مؤكد</span>':'<span style="color:var(--muted);font-size:11px;">⏳ غير مؤكد</span>'}</td>
