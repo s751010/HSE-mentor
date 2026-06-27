@@ -735,6 +735,14 @@ body.dark .dev-badge{background:var(--bg2);border-color:var(--sep);}
 .aat.active{background:linear-gradient(135deg,var(--orange),var(--gold));color:#fff;box-shadow:0 4px 14px rgba(255,109,0,.3);}
 @media(max-width:600px){.aat{font-size:11.5px;padding:10px 4px;}}
 
+/* LEADERBOARD */
+.lb-row{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--bg2);border:1px solid var(--sep2);border-radius:14px;margin-bottom:8px;box-shadow:var(--sh);}
+.lb-row.lb-me{border-color:var(--orange);background:rgba(255,109,0,.06);}
+.lb-rank{width:34px;text-align:center;font-size:20px;flex-shrink:0;}
+.lb-name{flex:1;font-weight:800;color:var(--text);font-size:14.5px;min-width:0;}
+.lb-lvl{font-size:11px;color:var(--muted);font-weight:500;margin-top:2px;}
+.lb-xp{font-weight:900;color:var(--orange);font-size:15px;white-space:nowrap;}
+
 /* TESTIMONIALS */
 .lp-testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
 .lp-test{padding:28px;background:var(--bg2);border-radius:22px;box-shadow:var(--sh);border:1px solid var(--sep2);transition:.2s;}
@@ -1313,6 +1321,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   </div>
   <div class="sec-lbl">أدوات إضافية</div>
   <div class="ios-list">
+    <div class="ios-row" onclick="switchTab('leaderboard')"><div class="row-icon" style="background:rgba(245,166,35,.15);">🏆</div><div class="row-body"><div class="row-title">لوحة المتصدّرين</div><div class="row-sub">نافس متخصصي السلامة</div></div><div class="row-right"><span class="bdg bdg-gold">جديد</span><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="switchTab('flash')"><div class="row-icon" style="background:rgba(229,57,53,.1);">🃏</div><div class="row-body"><div class="row-title">بطاقات المراجعة</div><div class="row-sub">٢٤ بطاقة + AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="switchTab('report')"><div class="row-icon" style="background:rgba(0,185,107,.1);">📊</div><div class="row-body"><div class="row-title">التقرير الأسبوعي</div><div class="row-sub">تحليل أدائك</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="openTBT()"><div class="row-icon" style="background:rgba(245,166,35,.1);">🗣️</div><div class="row-body"><div class="row-title">توليد TBT</div><div class="row-sub">Toolbox Talk احترافي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
@@ -1715,6 +1724,15 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       </div>
     </div>
   </div>
+</div>
+</div>
+
+<!-- ═══════════════ LEADERBOARD ═══════════════ -->
+<div class="page" id="page-leaderboard">
+<div class="container">
+  <div class="ph"><div class="ph-eyebrow">المجتمع</div><div class="ph-title">🏆 لوحة المتصدّرين</div><div class="ph-sub">ترتيب متخصصي السلامة حسب نقاط XP</div></div>
+  <div id="lb-myrank" style="display:none;margin-bottom:14px;" class="ios-card"></div>
+  <div id="lb-list"></div>
 </div>
 </div>
 
@@ -2681,7 +2699,7 @@ function renderAll(){
 }
 
 // NAVIGATION
-const ALL_PAGES=['home','chat','quiz','tools','plan','morning','levels','flash','field','photo','report','settings','incident'];
+const ALL_PAGES=['home','chat','quiz','tools','plan','morning','levels','flash','field','photo','report','settings','incident','leaderboard'];
 function switchTab(name){
   ALL_PAGES.forEach(p=>{const pg=document.getElementById('page-'+p);if(pg)pg.classList.remove('active');});
   document.querySelectorAll('.nav-link,.mnav-item').forEach(t=>t.classList.remove('active'));
@@ -2696,6 +2714,7 @@ function switchTab(name){
   if(name==='quiz')renderKWScores();
   if(name==='photo')renderPhotoHist();
   if(name==='levels')renderLevelsPage();
+  if(name==='leaderboard')renderLeaderboard();
   // AI-analysis sub-tab highlight (within the now-visible page only — avoids duplicate-id issues)
   if(name==='field'||name==='incident'||name==='photo'){
     if(pg)pg.querySelectorAll('.aat').forEach(b=>b.classList.toggle('active',b.dataset.aat===name));
@@ -3509,6 +3528,35 @@ function loadProfile(){
 }
 function saveProfile(){const g=id=>document.getElementById(id)?.value||'';S.profile.name=g('prf-name');S.profile.nickname=g('prf-nick');S.profile.jobTitle=g('prf-title');S.profile.factory=g('prf-factory');S.profile.speciality=g('prf-spec')||'HSE';S.profile.region=g('prf-region');S.profile.experience=g('prf-exp');S.profile.goalType=g('prf-goaltype');S.dailyGoal=parseInt(g('prf-goal')||'3');save();renderAll();}
 function confirmReset(){if(confirm('⚠️ مسح بيانات التقدم؟')){S.correctTotal=0;S.wrongTotal=0;S.xp=0;S.streak=0;S.completedDays={};S.dayStarted={};S.weeklyTestDone={};S.weaknesses={};S.strengths={};S.examHistory=[];S.kwHistory=[];save();renderAll();loadProfile();showToast('تم المسح ✅');}}
+
+// LEADERBOARD
+async function renderLeaderboard(){
+  const list=document.getElementById('lb-list'),myrank=document.getElementById('lb-myrank');
+  if(!list)return;
+  list.innerHTML='<div style="text-align:center;padding:30px;"><div class="spinner" style="margin:auto;"></div></div>';
+  if(!sb){list.innerHTML='<p style="text-align:center;color:var(--muted);padding:20px;">لوحة المتصدّرين تحتاج اتصالاً بالخادم.</p>';if(myrank)myrank.style.display='none';return;}
+  try{
+    const{data,error}=await sb.rpc('get_leaderboard');
+    if(error)throw error;
+    if(!data||!data.length){list.innerHTML='<p style="text-align:center;color:var(--muted);padding:30px;">لا يوجد متصدّرون بعد — كن أول من يجمع النقاط! 🚀</p>';if(myrank)myrank.style.display='none';return;}
+    const myNick=(S.profile.nickname||'').trim();const medals=['🥇','🥈','🥉'];let myIdx=-1;
+    list.innerHTML=data.map((u,i)=>{
+      const lvl=getCurrentLevel(u.xp);const isMe=myNick&&u.nickname===myNick;if(isMe&&myIdx<0)myIdx=i;
+      const rankBadge=i<3?medals[i]:`<span style="font-weight:800;color:var(--muted);">${ar(i+1)}</span>`;
+      return`<div class="lb-row${isMe?' lb-me':''}"><div class="lb-rank">${rankBadge}</div><div class="lb-name">${esc(u.nickname)}${isMe?' <span style="font-size:11px;color:var(--orange);">(أنت)</span>':''}<div class="lb-lvl">${lvl.icon} ${esc(lvl.name)}${u.streak?' · '+ar(u.streak)+'🔥':''}</div></div><div class="lb-xp">${ar(u.xp)} <span style="font-size:11px;color:var(--muted);">XP</span></div></div>`;
+    }).join('');
+    if(myrank){
+      if(myIdx>=0){myrank.style.display='block';myrank.innerHTML=`<div style="text-align:center;"><div style="font-size:13px;color:var(--muted);">ترتيبك الحالي</div><div style="font-size:28px;font-weight:900;color:var(--orange);">#${ar(myIdx+1)}</div><div style="font-size:12px;color:var(--muted);">من ${ar(data.length)} متصدّر</div></div>`;}
+      else if(!myNick){myrank.style.display='block';myrank.innerHTML='<div style="text-align:center;font-size:13px;color:var(--sub);">✨ اختر اسماً مستعاراً من <b onclick="switchTab(\'settings\')" style="color:var(--orange);cursor:pointer;">الإعدادات</b> لتظهر في اللوحة</div>';}
+      else{myrank.style.display='none';}
+    }
+  }catch(e){
+    const m=e.message||'';
+    if(/function|does not exist|404|schema cache|not find/i.test(m)){list.innerHTML='<p style="text-align:center;color:var(--muted);padding:24px;">⚙️ لوحة المتصدّرين قيد التفعيل — ستعمل بعد تشغيل دالة قاعدة البيانات.</p>';}
+    else{list.innerHTML='<p style="text-align:center;color:var(--red);padding:20px;">تعذّر تحميل اللوحة</p>';}
+    if(myrank)myrank.style.display='none';
+  }
+}
 
 // ONBOARDING (first-time users)
 function maybeOnboard(){
