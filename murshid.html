@@ -1355,9 +1355,11 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="chat-header">
       <div class="chat-avatar">🛡️</div>
       <div><div style="font-size:15px;font-weight:800;color:var(--text);">أبو سلامة</div><div style="font-size:12px;color:var(--green);font-weight:700;">● متاح الآن</div></div>
-      <div style="margin-right:auto;display:flex;gap:7px;">
+      <div style="margin-right:auto;display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;">
+        <button class="bdg bdg-orange" onclick="newChatSession()" style="cursor:pointer;border:none;padding:5px 11px;" title="محادثة جديدة">🆕 جديدة</button>
+        <button class="bdg bdg-blue" onclick="openSessions()" style="cursor:pointer;border:none;padding:5px 11px;">🗂️ محادثاتي</button>
+        <button class="bdg bdg-gold" onclick="openSaved()" style="cursor:pointer;border:none;padding:5px 11px;">🔖 المحفوظات</button>
         <button class="bdg bdg-orange" onclick="openTBT()" style="cursor:pointer;border:none;padding:5px 11px;">🗣️ TBT</button>
-        <button class="bdg bdg-blue" onclick="openNotes()" style="cursor:pointer;border:none;padding:5px 11px;">📝 ملاحظات</button>
       </div>
     </div>
     <div class="chat-feed" id="chat-feed">
@@ -1908,6 +1910,27 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">📅 تقدم الخطة</span><span class="admin-sec-badge" id="a-plan-badge">—</span></div><div style="padding:13px 18px;"><div class="xp-bar-track"><div class="xp-bar-fill" id="a-plan-bar" style="width:0%"></div></div><div style="font-size:12px;color:var(--muted);margin-top:5px;" id="a-plan-sub">—</div></div></div>
     <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">📋 سجل النشاط</span></div><div id="a-activity"></div></div>
     <div style="height:28px;"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ CHAT SESSIONS ═══════════════ -->
+<div class="modal-overlay" id="sessions-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🗂️ محادثاتي</div>
+    <button class="modal-ok" onclick="newChatSession()">🆕 محادثة جديدة</button>
+    <div id="sessions-list" style="margin-top:12px;max-height:50vh;overflow:auto;"></div>
+    <button class="modal-cancel" onclick="closeSessionsModal()">إغلاق</button>
+  </div>
+</div>
+
+<!-- ═══════════════ SAVED ANSWERS ═══════════════ -->
+<div class="modal-overlay" id="saved-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🔖 الإجابات المحفوظة</div>
+    <div id="saved-list" style="margin-top:8px;max-height:60vh;overflow:auto;"></div>
+    <button class="modal-cancel" onclick="closeSaved()">إغلاق</button>
   </div>
 </div>
 
@@ -2624,7 +2647,7 @@ async function callAI(body,opts={}){
   if(!data.choices||!data.choices[0])throw new Error('استجابة غير متوقعة من الخادم.');
   return data;
 }
-const S_DEFAULTS=()=>({msgs:[],mode:'free',sessions:0,streak:0,bestStreak:0,correctTotal:0,wrongTotal:0,lastDate:null,weaknesses:{},strengths:{},examHistory:[],completedDays:{},dayStarted:{},weeklyTestDone:{},xp:0,dailyGoal:3,todayQs:0,lastGoalDate:null,notes:[],profile:{name:'',factory:'',speciality:'HSE',nickname:'',jobTitle:'',region:'',experience:'',goalType:'',onboarded:false},warmupHistory:[],photoHistory:[],kwHistory:[],flashStats:{total:0,know:0,rev:0},badges:[]});
+const S_DEFAULTS=()=>({msgs:[],chatSessions:[],activeSession:null,savedAnswers:[],mode:'free',sessions:0,streak:0,bestStreak:0,correctTotal:0,wrongTotal:0,lastDate:null,weaknesses:{},strengths:{},examHistory:[],completedDays:{},dayStarted:{},weeklyTestDone:{},xp:0,dailyGoal:3,todayQs:0,lastGoalDate:null,notes:[],profile:{name:'',factory:'',speciality:'HSE',nickname:'',jobTitle:'',region:'',experience:'',goalType:'',onboarded:false},warmupHistory:[],photoHistory:[],kwHistory:[],flashStats:{total:0,know:0,rev:0},badges:[]});
 let S=S_DEFAULTS();
 function save(){try{localStorage.setItem('mrshd_v4',JSON.stringify(S));}catch(e){}cloudSyncProgress();}
 // Debounced cloud sync of user progress (excludes photoHistory — stored in photo_history table)
@@ -2802,6 +2825,7 @@ function switchTab(name){
   if(name==='photo')renderPhotoHist();
   if(name==='levels')renderLevelsPage();
   if(name==='leaderboard')renderLeaderboard();
+  if(name==='chat')renderChatFeed();
   // AI-analysis sub-tab highlight (within the now-visible page only — avoids duplicate-id issues)
   if(name==='field'||name==='incident'||name==='photo'){
     if(pg)pg.querySelectorAll('.aat').forEach(b=>b.classList.toggle('active',b.dataset.aat===name));
@@ -3175,7 +3199,9 @@ function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat
 async function sendChat(){
   const inp=document.getElementById('chat-inp');if(!inp)return;const text=inp.value.trim();if(!text)return;
   inp.value='';inp.style.height='';const welcome=document.getElementById('chat-welcome');if(welcome)welcome.style.display='none';
+  ensureChatSessions();
   checkStreak();S.msgs.push({role:'user',content:text});appendBubble('user',text);
+  const _act=S.chatSessions.find(s=>s.id===S.activeSession);if(_act){_act.updated=Date.now();const fu=_act.msgs.find(m=>m.role==='user');if(fu)_act.title=fu.content.slice(0,32);}
   const tw=document.getElementById('typing-wrap');if(tw)tw.style.display='flex';scrollFeed();
   try{
     const data=await callAI({model:'gpt-4o-mini',max_tokens:1000,temperature:0.7,messages:[{role:'system',content:buildSys()},...S.msgs.slice(-12)]});
@@ -3190,7 +3216,7 @@ function appendBubble(role,text){
   const feed=document.getElementById('chat-feed');if(!feed)return;
   const now=new Date();const time=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
   const div=document.createElement('div');div.className='bw '+(role==='user'?'user':'');
-  const copyBtn=role==='ai'?`<button onclick="navigator.clipboard?.writeText(this.closest('.bw').querySelector('.bbl').innerText);showToast('✅ نُسخ')" style="background:none;border:none;cursor:pointer;opacity:.4;font-size:13px;padding:0 4px;line-height:1;" title="نسخ">📋</button>`:'';
+  const copyBtn=role==='ai'?`<button onclick="navigator.clipboard?.writeText(this.closest('.bw').querySelector('.bbl').innerText);showToast('✅ نُسخ')" style="background:none;border:none;cursor:pointer;opacity:.4;font-size:13px;padding:0 4px;line-height:1;" title="نسخ">📋</button><button onclick="saveAnswer(this)" style="background:none;border:none;cursor:pointer;opacity:.4;font-size:13px;padding:0 4px;line-height:1;" title="حفظ الإجابة">🔖</button>`:'';
   div.innerHTML=`<div class="bav" ${role==='user'?'style="background:rgba(255,109,0,.15);"':''}>${role==='ai'?'🛡️':'👤'}</div><div><div class="bbl ${role==='ai'?'ai':'user'}">${fmt(text)}</div><div class="btime">${time}${copyBtn}</div></div>`;
   const tw=document.getElementById('typing-wrap');if(tw)feed.insertBefore(div,tw);else feed.appendChild(div);
   scrollFeed();
@@ -3198,6 +3224,76 @@ function appendBubble(role,text){
 function scrollFeed(){const cf=document.getElementById('chat-feed');if(cf)cf.scrollTop=cf.scrollHeight;}
 function copyTBT(btn){const t=btn.closest('.bbl').innerText.replace(/📋 نسخ|💬 واتساب/g,'').trim();navigator.clipboard?.writeText(t).then(()=>showToast('✅ تم النسخ'));}
 function waTBT(btn){window.open('https://wa.me/?text='+encodeURIComponent(btn.closest('.bbl').innerText.replace(/📋 نسخ|💬 واتساب/g,'').trim()),'_blank');}
+
+// CHAT SESSIONS + SAVED ANSWERS
+function sessionTitle(msgs){const f=(msgs||[]).find(m=>m.role==='user');return f?f.content.slice(0,32):'محادثة جديدة';}
+function ensureChatSessions(){
+  if(!Array.isArray(S.chatSessions))S.chatSessions=[];
+  if(!Array.isArray(S.savedAnswers))S.savedAnswers=[];
+  if(!S.chatSessions.length){
+    const id='s'+Date.now();const msgs=Array.isArray(S.msgs)?S.msgs:[];
+    S.chatSessions.push({id,title:sessionTitle(msgs),msgs,created:Date.now(),updated:Date.now()});
+    S.activeSession=id;
+  }
+  let act=S.chatSessions.find(s=>s.id===S.activeSession);
+  if(!act){act=S.chatSessions[0];S.activeSession=act.id;}
+  S.msgs=act.msgs;
+}
+function renderChatFeed(){
+  ensureChatSessions();
+  const feed=document.getElementById('chat-feed');if(!feed)return;
+  feed.querySelectorAll('.bw').forEach(elm=>{if(elm.id!=='typing-wrap')elm.remove();});
+  const welcome=document.getElementById('chat-welcome');
+  const msgs=S.msgs||[];
+  if(welcome)welcome.style.display=msgs.length?'none':'';
+  msgs.forEach(m=>appendBubble(m.role==='assistant'?'ai':'user',m.content));
+  scrollFeed();
+}
+function newChatSession(){
+  ensureChatSessions();
+  const cur=S.chatSessions.find(s=>s.id===S.activeSession);
+  if(!(cur&&cur.msgs.length===0)){
+    const id='s'+Date.now();
+    S.chatSessions.unshift({id,title:'محادثة جديدة',msgs:[],created:Date.now(),updated:Date.now()});
+    S.activeSession=id;S.msgs=S.chatSessions[0].msgs;
+  }
+  save();closeSessionsModal();if(document.getElementById('page-chat').classList.contains('active'))renderChatFeed();else switchTab('chat');
+}
+function switchSession(id){const s=S.chatSessions.find(x=>x.id===id);if(!s)return;S.activeSession=id;S.msgs=s.msgs;save();closeSessionsModal();renderChatFeed();}
+function deleteSession(id){
+  if(!confirm('حذف هذه المحادثة؟'))return;
+  S.chatSessions=(S.chatSessions||[]).filter(s=>s.id!==id);
+  ensureChatSessions();save();renderSessionsList();renderChatFeed();
+}
+function openSessions(){renderSessionsList();document.getElementById('sessions-modal').classList.add('open');}
+function closeSessionsModal(){const m=document.getElementById('sessions-modal');if(m)m.classList.remove('open');}
+function renderSessionsList(){
+  ensureChatSessions();
+  const c=document.getElementById('sessions-list');if(!c)return;
+  const arr=[...(S.chatSessions||[])].sort((a,b)=>(b.updated||0)-(a.updated||0));
+  c.innerHTML=arr.map(s=>{
+    const active=s.id===S.activeSession,cnt=(s.msgs||[]).filter(m=>m.role==='user').length;
+    return`<div style="display:flex;align-items:center;gap:8px;border:1px solid ${active?'var(--orange)':'var(--sep2)'};border-radius:12px;padding:11px;margin-bottom:8px;background:${active?'rgba(255,109,0,.06)':'var(--bg3)'};">
+      <div style="flex:1;cursor:pointer;min-width:0;" onclick="switchSession('${s.id}')"><div style="font-weight:700;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(s.title||'محادثة')}</div><div style="font-size:11px;color:var(--muted);">${ar(cnt)} رسالة · ${esc(new Date(s.updated||s.created||Date.now()).toLocaleDateString('ar-SA'))}</div></div>
+      <button onclick="deleteSession('${s.id}')" style="background:none;border:none;cursor:pointer;opacity:.5;font-size:15px;">🗑️</button></div>`;
+  }).join('');
+}
+function saveAnswer(btn){
+  const txt=(btn.closest('.bw').querySelector('.bbl').innerText||'').trim();if(!txt)return;
+  S.savedAnswers=S.savedAnswers||[];
+  if(S.savedAnswers.some(a=>a.text===txt)){showToast('🔖 محفوظة مسبقاً');return;}
+  S.savedAnswers.unshift({text:txt,date:new Date().toLocaleDateString('ar-SA')});save();showToast('🔖 حُفظت الإجابة');
+}
+function openSaved(){renderSavedList();document.getElementById('saved-modal').classList.add('open');}
+function closeSaved(){const m=document.getElementById('saved-modal');if(m)m.classList.remove('open');}
+function copySaved(i){const a=(S.savedAnswers||[])[i];if(a)navigator.clipboard?.writeText(a.text).then(()=>showToast('✅ نُسخ'));}
+function delSaved(i){if(!S.savedAnswers)return;S.savedAnswers.splice(i,1);save();renderSavedList();}
+function renderSavedList(){
+  const c=document.getElementById('saved-list');if(!c)return;
+  const arr=S.savedAnswers||[];
+  if(!arr.length){c.innerHTML='<p style="color:var(--muted);text-align:center;padding:18px;">لا إجابات محفوظة بعد.<br>اضغط 🔖 على أي رد من أبو سلامة لحفظه هنا.</p>';return;}
+  c.innerHTML=arr.map((a,i)=>`<div style="border:1px solid var(--sep2);border-radius:12px;padding:12px;margin-bottom:8px;background:var(--bg3);"><div style="font-size:11px;color:var(--muted);margin-bottom:6px;">${esc(a.date)}</div><div style="font-size:13.5px;line-height:1.7;color:var(--text);max-height:170px;overflow:auto;">${fmt(a.text)}</div><div style="display:flex;gap:8px;margin-top:9px;"><button onclick="copySaved(${i})" style="flex:1;padding:7px;border-radius:9px;border:1px solid var(--sep2);background:var(--bg2);color:var(--text);font-size:12px;font-weight:700;cursor:pointer;">📋 نسخ</button><button onclick="delSaved(${i})" style="padding:7px 12px;border-radius:9px;border:1px solid rgba(255,59,48,.3);background:rgba(255,59,48,.06);color:var(--red);font-size:12px;font-weight:700;cursor:pointer;">🗑️</button></div></div>`).join('');
+}
 
 // TBT & NOTES
 function openTBT(){document.getElementById('tbt-modal').classList.add('open');}
@@ -4256,7 +4352,7 @@ function renderDevBadge(){
 }
 
 // INIT
-load();initTheme();
+load();initTheme();ensureChatSessions();
 (async()=>{await loadFConfig();if(FCONFIG.bankCleared)KWB.length=0;if(FCONFIG.customQuestions&&FCONFIG.customQuestions.length){FCONFIG.customQuestions.forEach(q=>{if(!KWB.some(k=>k.q===q.q))KWB.push(q);});}renderKWStats();})();
 renderAll();renderKWScores();renderWUHist();renderPhotoHist();renderPlan();renderLevelsPage();
 applyLang(currentLang);
