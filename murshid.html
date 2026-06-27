@@ -1958,6 +1958,11 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
           </div>
           <div id="fpq-import-preview" style="display:none;background:var(--bg3);border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px;"></div>
         </div>
+        <div class="fp-card" style="border:1.5px solid rgba(255,59,48,.25);">
+          <div class="fp-card-title" style="color:var(--red);">⚠️ منطقة الخطر</div>
+          <p style="font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.6;">حذف <strong>جميع</strong> أسئلة محاكي كوادر نهائياً (الأساسية والمستوردة). لا يمكن التراجع — يُنصح بتصدير نسخة احتياطية أولاً.</p>
+          <button class="fp-save-btn" onclick="fpDeleteAllQuestions()" style="background:rgba(255,59,48,.1);color:var(--red);border:1.5px solid rgba(255,59,48,.3);">🗑️ حذف جميع الأسئلة</button>
+        </div>
         <div class="fp-card"><div class="fp-card-title">📋 الأسئلة الحالية (<span id="fpq-count">٠</span>)</div><div id="fpq-list" style="max-height:400px;overflow-y:auto;"></div></div>
       </div>
       <!-- LEGAL -->
@@ -2310,6 +2315,17 @@ function fpDelQuestion(idx){
   // remove from custom if present
   if(FCONFIG.customQuestions){const ci=FCONFIG.customQuestions.findIndex(x=>x.q===q.q);if(ci>=0)FCONFIG.customQuestions.splice(ci,1);saveFConfig();}
   fpRenderQuestions();renderKWStats();showToast('🗑️ تم الحذف');
+}
+function fpDeleteAllQuestions(){
+  if(!KWB.length){showToast('⚠️ لا توجد أسئلة لحذفها');return;}
+  if(!confirm(`سيتم حذف جميع الأسئلة (${KWB.length}) نهائياً من محاكي كوادر. هل أنت متأكد؟`))return;
+  if(!confirm('تأكيد أخير: هذا الإجراء لا يمكن التراجع عنه — تأكد من تصدير نسخة احتياطية. متابعة؟'))return;
+  KWB.length=0;
+  FCONFIG.customQuestions=[];
+  FCONFIG.bankCleared=true; // persist cleared state so hardcoded base questions don't reappear on reload
+  saveFConfig();
+  fpRenderQuestions();renderKWStats();el('fp-st-q',ar(0));
+  showToast('🗑️ تم حذف جميع الأسئلة');
 }
 function fpRenderQuestions(){
   el('fpq-count',ar(KWB.length));
@@ -3918,7 +3934,7 @@ function renderDevBadge(){
 
 // INIT
 load();initTheme();
-(async()=>{await loadFConfig();if(FCONFIG.customQuestions&&FCONFIG.customQuestions.length){FCONFIG.customQuestions.forEach(q=>{if(!KWB.some(k=>k.q===q.q))KWB.push(q);});}renderKWStats();})();
+(async()=>{await loadFConfig();if(FCONFIG.bankCleared)KWB.length=0;if(FCONFIG.customQuestions&&FCONFIG.customQuestions.length){FCONFIG.customQuestions.forEach(q=>{if(!KWB.some(k=>k.q===q.q))KWB.push(q);});}renderKWStats();})();
 renderAll();renderKWScores();renderWUHist();renderPhotoHist();renderPlan();renderLevelsPage();
 applyLang(currentLang);
 if(location.hash==='#founder'||sessionStorage.getItem('mrshd_founder')==='1'){if(sessionStorage.getItem('mrshd_founder')==='1'){document.getElementById('founder-panel').classList.add('show');setTimeout(fpRenderAll,300);}else{openFounderLogin();}}
