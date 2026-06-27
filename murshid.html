@@ -1291,6 +1291,14 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="prog-track" style="height:8px;"><div class="prog-fill" id="goal-fill" style="width:0%;height:8px;border-radius:4px;"></div></div>
     <div style="font-size:13px;color:var(--muted);margin-top:5px;" id="goal-sub">أكمل أسئلة اليوم!</div>
   </div>
+  <div class="ios-card" id="readiness-card" onclick="switchTab('quiz')" style="cursor:pointer;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;">
+      <span style="font-size:15px;font-weight:700;">📊 جاهزيتك لاختبار كوادر</span>
+      <span style="font-size:18px;font-weight:900;" id="rdy-pct">٠٪</span>
+    </div>
+    <div class="prog-track" style="height:8px;"><div class="prog-fill" id="rdy-fill" style="width:0%;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--red),var(--gold),var(--green));"></div></div>
+    <div style="font-size:13px;color:var(--muted);margin-top:6px;" id="rdy-sub">ابدأ التدريب لقياس جاهزيتك</div>
+  </div>
   <div class="home-qa-strip">
     <div class="qa-item" onclick="switchTab('chat')"><div class="qa-icon">💬</div><div class="qa-lbl">المرشد<br>الذكي</div></div>
     <div class="qa-item" onclick="switchTab('quiz')"><div class="qa-icon">🏆</div><div class="qa-lbl">محاكي<br>كوادر</div></div>
@@ -2695,7 +2703,31 @@ function renderAll(){
   if(S.profile.name){el('home-greeting','مرحباً '+S.profile.name+' 👋');el('settings-name-lbl',S.profile.name);const wm=document.getElementById('welcome-msg');if(wm)wm.innerHTML='أهلاً '+S.profile.name+'!<br>أنا أبو سلامة';}
   el('notes-count-lbl',ar(S.notes.length)+' ملاحظة');
   el('sv-xp',ar(S.xp));el('sv-correct',ar(S.correctTotal));el('sv-streak',ar(S.streak));
+  updateReadiness();
   renderPlanProgress();renderKWStats();renderBadges();
+}
+// Exam readiness: blend of accuracy (50%), practice volume (25%), plan coverage (25%)
+function updateReadiness(){
+  const fill=document.getElementById('rdy-fill');if(!fill)return;
+  const totalQ=S.correctTotal+S.wrongTotal;
+  const acc=totalQ>0?S.correctTotal/totalQ:0;
+  const volume=Math.min(1,totalQ/200);
+  const plan=Math.min(1,Object.keys(S.completedDays||{}).length/40);
+  let score=Math.round((acc*0.5+volume*0.25+plan*0.25)*100);
+  score=Math.max(0,Math.min(100,score));
+  el('rdy-pct',ar(score)+'٪');
+  fill.style.width=score+'%';
+  const pctEl=document.getElementById('rdy-pct');
+  let msg,color;
+  if(totalQ<10){msg='تدرّب أكثر على كوادر لقياس جاهزيتك بدقة';color='var(--muted)';}
+  else if(score>=80){msg='🎯 ممتاز — أنت جاهز للاختبار!';color='var(--green)';}
+  else if(score>=60){msg='👍 جيد — واصل لتثبيت مستواك';color='var(--gold)';}
+  else if(score>=40){msg='📚 في الطريق — ركّز على نقاط ضعفك';color='var(--orange)';}
+  else{msg='💪 البداية — درّب أكثر على أسئلة كوادر';color='var(--red)';}
+  const weak=Object.entries(S.weaknesses||{}).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]).filter(Boolean);
+  if(weak.length&&totalQ>=10)msg+=' · ضعفك: '+weak.join('، ');
+  el('rdy-sub',msg);
+  if(pctEl)pctEl.style.color=color;
 }
 
 // NAVIGATION
