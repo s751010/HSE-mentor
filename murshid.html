@@ -1149,11 +1149,13 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   <section class="lp-section reveal">
     <h2 class="lp-section-title">ماذا يقول المتدربون</h2>
     <p class="lp-section-sub">انضم لمجتمع متخصصي السلامة في السعودية</p>
-    <div class="lp-testimonials">
-      <div class="lp-test"><div class="lp-test-stars">★★★★★</div><div class="lp-test-text">«محاكي كوادر ساعدني أجتاز الاختبار من أول محاولة. الأسئلة قريبة جداً من الواقع والشرح ممتاز.»</div><div class="lp-test-author"><div class="lp-test-avatar">ع</div><div><div class="lp-test-name">عبدالله الشمري</div><div class="lp-test-role">أخصائي سلامة · ينبع</div></div></div></div>
-      <div class="lp-test"><div class="lp-test-stars">★★★★★</div><div class="lp-test-text">«محلل الصور وفّر علي ساعات في تقارير الجولات الميدانية. أرفع صورة ويطلع لي تقرير مخالفات جاهز.»</div><div class="lp-test-author"><div class="lp-test-avatar">ن</div><div><div class="lp-test-name">نوف القحطاني</div><div class="lp-test-role">مهندسة HSE · الجبيل</div></div></div></div>
-      <div class="lp-test"><div class="lp-test-stars">★★★★★</div><div class="lp-test-text">«أبو سلامة مرجع سريع في الميدان. أسأله عن أي إجراء أو معيار ويجاوبني بالسياق السعودي مباشرة.»</div><div class="lp-test-author"><div class="lp-test-avatar">م</div><div><div class="lp-test-name">محمد العتيبي</div><div class="lp-test-role">مشرف سلامة · الرياض</div></div></div></div>
+    <div class="lp-testimonials" id="lp-testimonials-list">
+      <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);">
+        <div class="spinner" style="margin:0 auto 12px;"></div>
+        جاري تحميل الآراء...
+      </div>
     </div>
+    <div id="lp-testimonials-empty" style="display:none;text-align:center;padding:24px;color:var(--muted);font-size:14px;">لم تُضف آراء معتمدة بعد — كن أول من يشاركنا تجربته!</div>
   </section>
 
   <!-- FAQ -->
@@ -1311,6 +1313,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="ios-row" onclick="openTBT()"><div class="row-icon" style="background:rgba(245,166,35,.1);">🗣️</div><div class="row-body"><div class="row-title">توليد TBT</div><div class="row-sub">Toolbox Talk احترافي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="openNotes()"><div class="row-icon" style="background:rgba(21,101,192,.1);">📝</div><div class="row-body"><div class="row-title">ملاحظات سريعة</div><div class="row-sub" id="notes-count-lbl">٠ ملاحظة</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="switchTab('settings')"><div class="row-icon" style="background:rgba(0,0,0,.06);">⚙️</div><div class="row-body"><div class="row-title">الإعدادات</div><div class="row-sub" id="settings-name-lbl">الملف الشخصي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+    <div class="ios-row" onclick="openTestimonialModal()" style="background:linear-gradient(90deg,rgba(255,182,39,.04),transparent);"><div class="row-icon" style="background:rgba(255,182,39,.15);">⭐</div><div class="row-body"><div class="row-title">شاركنا رأيك</div><div class="row-sub">تقييمك يساعد الآخرين على الانضمام</div></div><div class="row-right"><span class="bdg bdg-gold">جديد</span><span class="chevron">‹</span></div></div>
   </div>
 </div>
 </div>
@@ -1759,6 +1762,33 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   </div>
 </div>
 
+<!-- TESTIMONIAL MODAL -->
+<div class="modal-overlay" id="testimonial-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">⭐ شاركنا رأيك</div>
+    <div style="font-size:13px;color:var(--muted);margin-top:-4px;margin-bottom:8px;">رأيك يساعد متخصصي السلامة الآخرين على معرفة المنصة · سيظهر بعد مراجعة المؤسس</div>
+    <div style="margin-bottom:10px;">
+      <div style="font-size:13px;font-weight:700;color:var(--sub);margin-bottom:6px;">تقييمك للمنصة</div>
+      <div id="testimonial-stars" style="display:flex;gap:6px;font-size:26px;cursor:pointer;">
+        <span onclick="setTestimonialRating(1)" data-star="1">★</span>
+        <span onclick="setTestimonialRating(2)" data-star="2">★</span>
+        <span onclick="setTestimonialRating(3)" data-star="3">★</span>
+        <span onclick="setTestimonialRating(4)" data-star="4">★</span>
+        <span onclick="setTestimonialRating(5)" data-star="5">★</span>
+      </div>
+    </div>
+    <div style="margin-bottom:10px;">
+      <div style="font-size:13px;font-weight:700;color:var(--sub);margin-bottom:6px;">مسمّاك الوظيفي / جهة عملك (اختياري)</div>
+      <input class="modal-inp" id="testimonial-role" placeholder="مثال: مهندس سلامة · أرامكو" maxlength="80">
+    </div>
+    <textarea class="modal-inp" id="testimonial-text" rows="4" placeholder="اكتب رأيك بحرية... ماذا استفدت من المنصة؟" maxlength="400" style="resize:none;"></textarea>
+    <div id="testimonial-err" style="display:none;color:var(--red);font-size:13px;"></div>
+    <button class="modal-ok" onclick="submitTestimonial()">✅ إرسال الرأي</button>
+    <button class="modal-cancel" onclick="closeTestimonialModal()">إلغاء</button>
+  </div>
+</div>
+
 <!-- CERT -->
 <div class="cert-overlay" id="cert-overlay">
   <div class="cert-box">
@@ -1853,6 +1883,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <button class="fp-tab" data-fp="legal" onclick="fpSwitch('legal',this)"><span class="ic">📄</span> الصفحات القانونية</button>
       <button class="fp-tab" data-fp="settings" onclick="fpSwitch('settings',this)"><span class="ic">⚙️</span> الإعدادات العامة</button>
       <button class="fp-tab" data-fp="users" onclick="fpSwitch('users',this)"><span class="ic">👥</span> المستخدمون</button>
+      <button class="fp-tab" data-fp="testimonials" onclick="fpSwitch('testimonials',this)"><span class="ic">⭐</span> آراء المستخدمين</button>
     </div>
     <div class="fp-content">
       <!-- DASHBOARD -->
@@ -1914,6 +1945,18 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
           <div class="fp-field"><label class="fp-label">الموضوع</label><input class="fp-input" id="fpq-topic" placeholder="إدارة المخاطر..."></div>
           <div class="fp-field"><label class="fp-label">الشرح</label><input class="fp-input" id="fpq-ex"></div>
           <button class="fp-save-btn" onclick="fpAddQuestion()">➕ إضافة السؤال</button>
+        </div>
+        <div class="fp-card">
+          <div class="fp-card-title">📤 استيراد / تصدير الأسئلة</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+            <button class="fp-save-btn" onclick="fpExportQuestions()" style="background:rgba(0,122,255,.1);color:var(--blue);border:1.5px solid rgba(0,122,255,.25);">⬇️ تصدير JSON</button>
+            <button class="fp-save-btn" onclick="fpExportQuestionsCSV()" style="background:rgba(52,199,89,.08);color:var(--green);border:1.5px solid rgba(52,199,89,.25);">⬇️ تصدير CSV</button>
+            <label class="fp-save-btn" style="cursor:pointer;background:rgba(255,109,0,.08);color:var(--orange);border:1.5px solid rgba(255,109,0,.25);">
+              ⬆️ استيراد ملف
+              <input type="file" id="fpq-import-file" accept=".json,.csv" style="display:none;" onchange="fpImportQuestions(this.files[0])">
+            </label>
+          </div>
+          <div id="fpq-import-preview" style="display:none;background:var(--bg3);border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px;"></div>
         </div>
         <div class="fp-card"><div class="fp-card-title">📋 الأسئلة الحالية (<span id="fpq-count">٠</span>)</div><div id="fpq-list" style="max-height:400px;overflow-y:auto;"></div></div>
       </div>
@@ -1989,9 +2032,36 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
         </div>
         <div class="fp-card">
           <div class="fp-card-title">📋 قائمة المستخدمين</div>
+          <div style="display:flex;gap:9px;margin-bottom:12px;flex-wrap:wrap;">
+            <input class="fp-input" id="fpu-search" placeholder="🔍 بحث بالاسم أو البريد..." style="flex:1;min-width:180px;" oninput="fpFilterUsers()">
+            <select class="fp-input" id="fpu-sort" onchange="fpFilterUsers()" style="min-width:160px;">
+              <option value="registered">ترتيب: تاريخ التسجيل</option>
+              <option value="last_login">ترتيب: آخر دخول</option>
+              <option value="xp">ترتيب: XP</option>
+              <option value="ai_calls">ترتيب: طلبات AI</option>
+            </select>
+          </div>
           <div id="fpu-list" style="overflow-x:auto;"></div>
-          <button class="fp-save-btn" onclick="fpLoadUsers()" style="margin-top:12px;">🔄 تحديث</button>
+          <button class="fp-save-btn" onclick="fpLoadUsers()" style="margin-top:12px;">🔄 تحديث القائمة</button>
         </div>
+      </div>
+      <!-- TESTIMONIALS -->
+      <div class="fp-section" id="fp-testimonials">
+        <div class="fp-h">⭐ آراء المستخدمين</div>
+        <div class="fp-hsub">راجع وأعتمد أو ارفض آراء المستخدمين قبل ظهورها للعموم</div>
+        <div class="fp-stat-grid">
+          <div class="fp-stat"><div class="fp-stat-num" id="fpt-pending">—</div><div class="fp-stat-lbl">بانتظار الموافقة</div></div>
+          <div class="fp-stat"><div class="fp-stat-num" id="fpt-approved">—</div><div class="fp-stat-lbl">معتمد وظاهر</div></div>
+        </div>
+        <div class="fp-card">
+          <div class="fp-card-title">⏳ بانتظار الموافقة</div>
+          <div id="fpt-pending-list"><p style="color:var(--muted);text-align:center;padding:16px;">جاري التحميل...</p></div>
+        </div>
+        <div class="fp-card">
+          <div class="fp-card-title">✅ معتمدة وظاهرة للعموم</div>
+          <div id="fpt-approved-list"><p style="color:var(--muted);text-align:center;padding:16px;">جاري التحميل...</p></div>
+        </div>
+        <button class="fp-save-btn" onclick="fpLoadTestimonials()" style="margin-top:4px;">🔄 تحديث</button>
       </div>
     </div>
   </div>
@@ -2078,7 +2148,7 @@ async function founderLogin(){
 }
 function founderLogout(){sessionStorage.removeItem('mrshd_founder');document.getElementById('founder-panel').classList.remove('show');}
 function openFounderLogin(){document.getElementById('founder-login').classList.add('show');setTimeout(()=>document.getElementById('fl-email').focus(),200);}
-function fpSwitch(tab,btn){document.querySelectorAll('.fp-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.fp-tab').forEach(t=>t.classList.remove('active'));document.getElementById('fp-'+tab).classList.add('active');if(btn)btn.classList.add('active');if(tab==='users')fpLoadUsers();}
+function fpSwitch(tab,btn){document.querySelectorAll('.fp-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.fp-tab').forEach(t=>t.classList.remove('active'));document.getElementById('fp-'+tab).classList.add('active');if(btn)btn.classList.add('active');if(tab==='users')fpLoadUsers();if(tab==='testimonials')fpLoadTestimonials();}
 
 function fpRenderAll(){
   const c=FCONFIG.content;
@@ -2101,41 +2171,111 @@ function fpRenderAll(){
   el('fp-st-certs',ar(parseInt(localStorage.getItem('mrshd_certnum')||'146')-146));
   el('fp-st-saved',FCONFIG.lastSaved?new Date(FCONFIG.lastSaved).toLocaleString('ar-SA'):'—');
 }
+let _fpUsersData=[]; // cached for search/sort
 async function fpLoadUsers(){
   if(!sb||!currentUser)return;
   ['fpu-total','fpu-active','fpu-calls-today','fpu-calls-week'].forEach(id=>el(id,'...'));
+  const list=document.getElementById('fpu-list');if(list)list.innerHTML='<div style="text-align:center;padding:24px;"><div class="spinner" style="margin:auto;"></div></div>';
   try{
     const today=new Date().toISOString().split('T')[0];
     const weekAgo=new Date(Date.now()-7*86400000).toISOString();
-    const[{data:allUsage,error:e1},{data:progData,error:e2}]=await Promise.all([
-      sb.from('ai_usage').select('user_id,created_at').order('created_at',{ascending:false}),
+    // Fetch auth user list via Edge Function (includes created_at, last_sign_in_at)
+    let authUsers=[];
+    try{
+      const{data:{session}}=await sb.auth.getSession();
+      if(session){
+        const r=await fetch(SUPABASE_URL+'/functions/v1/list-users',{headers:{'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json'}});
+        if(r.ok){const d=await r.json();authUsers=d.users||[];}
+      }
+    }catch(_){}
+    // profiles is the source of truth — fetch all registered users
+    const[{data:profilesData,error:pErr},{data:allUsage,error:uErr},{data:progData}]=await Promise.all([
+      sb.from('profiles').select('id,email,name,created_at'),
+      sb.from('ai_usage').select('user_id,created_at,count,date').order('created_at',{ascending:false}),
       sb.from('user_progress').select('user_id,data,updated_at')
     ]);
-    if(e1)throw e1;
-    const todayU=(allUsage||[]).filter(r=>r.created_at.startsWith(today));
-    const weekU=(allUsage||[]).filter(r=>r.created_at>=weekAgo);
-    el('fpu-total',ar(new Set((allUsage||[]).map(r=>r.user_id)).size));
-    el('fpu-active',ar(new Set(weekU.map(r=>r.user_id)).size));
-    el('fpu-calls-today',ar(todayU.length));
-    el('fpu-calls-week',ar(weekU.length));
-    const userMap={};
+    if(pErr)console.warn('profiles error:',pErr.message);
+    if(uErr)console.warn('ai_usage error:',uErr.message);
+    // Build lookup maps
+    const usageMap={};
     (allUsage||[]).forEach(r=>{
-      if(!userMap[r.user_id])userMap[r.user_id]={total:0,today:0,last:r.created_at,name:'',xp:0,streak:0};
-      userMap[r.user_id].total++;
-      if(r.created_at.startsWith(today))userMap[r.user_id].today++;
-      if(r.created_at>userMap[r.user_id].last)userMap[r.user_id].last=r.created_at;
+      if(!usageMap[r.user_id])usageMap[r.user_id]={total:0,today:0,lastActivity:null};
+      usageMap[r.user_id].total+=(r.count||1);
+      if(r.date===today)usageMap[r.user_id].today+=(r.count||1);
+      if(!usageMap[r.user_id].lastActivity||r.created_at>usageMap[r.user_id].lastActivity)usageMap[r.user_id].lastActivity=r.created_at;
     });
-    (progData||[]).forEach(r=>{
-      if(!userMap[r.user_id])userMap[r.user_id]={total:0,today:0,last:r.updated_at,name:'',xp:0,streak:0};
-      userMap[r.user_id].name=r.data?.profile?.name||'';
-      userMap[r.user_id].xp=r.data?.xp||0;
-      userMap[r.user_id].streak=r.data?.streak||0;
+    const progMap={};
+    (progData||[]).forEach(r=>{progMap[r.user_id]={xp:r.data?.xp||0,streak:r.data?.streak||0,name:r.data?.profile?.name||'',lastProg:r.updated_at};});
+    const authMap={};
+    authUsers.forEach(u=>{authMap[u.id]={lastLogin:u.last_sign_in_at,email:u.email,name:u.name,confirmed:u.confirmed};});
+    // Build unified user list from profiles (source of truth)
+    const allIds=new Set([...(profilesData||[]).map(p=>p.id),...Object.keys(usageMap),...Object.keys(progMap)]);
+    const userList=[];
+    allIds.forEach(uid=>{
+      const prof=(profilesData||[]).find(p=>p.id===uid)||{};
+      const usage=usageMap[uid]||{total:0,today:0,lastActivity:null};
+      const prog=progMap[uid]||{xp:0,streak:0,name:'',lastProg:null};
+      const auth=authMap[uid]||{lastLogin:null,email:'',name:'',confirmed:false};
+      userList.push({
+        id:uid,
+        name:prog.name||auth.name||prof.name||'',
+        email:auth.email||prof.email||'',
+        registered:prof.created_at||null,
+        lastLogin:auth.lastLogin||null,
+        lastActivity:usage.lastActivity||prog.lastProg||null,
+        xp:prog.xp,streak:prog.streak,
+        aiTotal:usage.total,aiToday:usage.today,
+        confirmed:auth.confirmed
+      });
     });
-    const rows=Object.values(userMap).sort((a,b)=>b.total-a.total);
-    const list=document.getElementById('fpu-list');if(!list)return;
-    if(!rows.length){list.innerHTML='<p style="color:var(--muted);text-align:center;padding:20px;">لا يوجد مستخدمون بعد</p>';return;}
-    list.innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr style="color:var(--muted);font-size:11px;border-bottom:1px solid var(--sep);"><th style="text-align:right;padding:7px 4px;">الاسم</th><th style="padding:7px 4px;">XP</th><th style="padding:7px 4px;">تتالي</th><th style="padding:7px 4px;">طلبات AI</th><th style="padding:7px 4px;">اليوم</th><th style="padding:7px 4px;">آخر نشاط</th></tr></thead><tbody>${rows.map(u=>`<tr style="border-bottom:1px solid var(--sep2);"><td style="padding:7px 4px;font-weight:700;">${u.name||'<span style="color:var(--muted)">—</span>'}</td><td style="padding:7px 4px;text-align:center;">${ar(u.xp)}</td><td style="padding:7px 4px;text-align:center;">${ar(u.streak)}🔥</td><td style="padding:7px 4px;text-align:center;">${ar(u.total)}</td><td style="padding:7px 4px;text-align:center;">${ar(u.today)}</td><td style="padding:7px 4px;text-align:center;font-size:11px;color:var(--muted);">${u.last?new Date(u.last).toLocaleDateString('ar-SA'):'—'}</td></tr>`).join('')}</tbody></table>`;
-  }catch(e){['fpu-total','fpu-active','fpu-calls-today','fpu-calls-week'].forEach(id=>el(id,'!'));showToast('⚠️ '+e.message);}
+    // Stats
+    const weekActive=new Set((allUsage||[]).filter(r=>r.created_at>=weekAgo).map(r=>r.user_id));
+    const todayCalls=(allUsage||[]).filter(r=>r.date===today).reduce((s,r)=>s+(r.count||1),0);
+    const weekCalls=(allUsage||[]).filter(r=>r.created_at>=weekAgo).reduce((s,r)=>s+(r.count||1),0);
+    el('fpu-total',ar(userList.length));
+    el('fpu-active',ar(weekActive.size));
+    el('fpu-calls-today',ar(todayCalls));
+    el('fpu-calls-week',ar(weekCalls));
+    _fpUsersData=userList;
+    fpFilterUsers();
+  }catch(e){['fpu-total','fpu-active','fpu-calls-today','fpu-calls-week'].forEach(id=>el(id,'!'));if(list)list.innerHTML='<p style="color:var(--red);text-align:center;padding:20px;">⚠️ خطأ في التحميل: '+esc(e.message)+'</p>';console.error('fpLoadUsers:',e);}
+}
+function fpFilterUsers(){
+  const list=document.getElementById('fpu-list');if(!list||!_fpUsersData.length)return;
+  const search=(document.getElementById('fpu-search')?.value||'').toLowerCase();
+  const sort=document.getElementById('fpu-sort')?.value||'registered';
+  let rows=_fpUsersData.filter(u=>!search||(u.name.toLowerCase().includes(search)||u.email.toLowerCase().includes(search)));
+  rows.sort((a,b)=>{
+    if(sort==='xp')return b.xp-a.xp;
+    if(sort==='ai_calls')return b.aiTotal-a.aiTotal;
+    if(sort==='last_login')return (b.lastLogin||'').localeCompare(a.lastLogin||'');
+    return (b.registered||'').localeCompare(a.registered||''); // default: registered desc
+  });
+  if(!rows.length){list.innerHTML='<p style="color:var(--muted);text-align:center;padding:20px;">لا توجد نتائج</p>';return;}
+  list.innerHTML=`<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:600px;">
+    <thead><tr style="color:var(--muted);font-size:11px;border-bottom:1px solid var(--sep);background:var(--bg3);">
+      <th style="text-align:right;padding:8px 6px;">الاسم / البريد</th>
+      <th style="padding:8px 6px;white-space:nowrap;">XP / المستوى</th>
+      <th style="padding:8px 6px;">تتالي</th>
+      <th style="padding:8px 6px;white-space:nowrap;">طلبات AI</th>
+      <th style="padding:8px 6px;white-space:nowrap;">تاريخ التسجيل</th>
+      <th style="padding:8px 6px;white-space:nowrap;">آخر دخول</th>
+      <th style="padding:8px 6px;">الحالة</th>
+    </tr></thead>
+    <tbody>${rows.map(u=>{
+      const lvl=getCurrentLevel(u.xp);
+      const regDate=u.registered?new Date(u.registered).toLocaleDateString('ar-SA',{year:'2-digit',month:'numeric',day:'numeric'}):'—';
+      const loginDate=u.lastLogin?new Date(u.lastLogin).toLocaleDateString('ar-SA',{year:'2-digit',month:'numeric',day:'numeric'}):'—';
+      return`<tr style="border-bottom:1px solid var(--sep2);">
+        <td style="padding:8px 6px;"><div style="font-weight:700;font-size:13px;">${esc(u.name)||'<span style="color:var(--muted)">—</span>'}</div><div style="color:var(--muted);font-size:11px;">${esc(u.email)}</div></td>
+        <td style="padding:8px 6px;text-align:center;"><div style="font-weight:800;color:var(--orange);">${ar(u.xp)}</div><div style="font-size:10px;color:var(--muted);">${lvl.icon} ${lvl.name}</div></td>
+        <td style="padding:8px 6px;text-align:center;">${ar(u.streak)}🔥</td>
+        <td style="padding:8px 6px;text-align:center;"><div style="font-weight:700;">${ar(u.aiTotal)}</div>${u.aiToday?`<div style="font-size:10px;color:var(--green);">+${ar(u.aiToday)} اليوم</div>`:''}</td>
+        <td style="padding:8px 6px;text-align:center;font-size:11px;color:var(--muted);">${regDate}</td>
+        <td style="padding:8px 6px;text-align:center;font-size:11px;color:var(--muted);">${loginDate}</td>
+        <td style="padding:8px 6px;text-align:center;">${u.confirmed?'<span style="color:var(--green);font-size:11px;">✅ مؤكد</span>':'<span style="color:var(--muted);font-size:11px;">⏳ غير مؤكد</span>'}</td>
+      </tr>`;
+    }).join('')}</tbody></table></div>`;
 }
 function fpSaveContent(){const g=id=>document.getElementById(id)?.value||'';FCONFIG.content={badge:g('fpc-badge'),title1:g('fpc-title1'),title2:g('fpc-title2'),sub:g('fpc-sub'),stat1:g('fpc-stat1'),stat2:g('fpc-stat2'),stat3:g('fpc-stat3'),stat4:g('fpc-stat4')};saveFConfig();showToast('✅ تم حفظ المحتوى');}
 function fpSaveTools(){Object.keys(TOOL_NAMES).forEach(k=>{const cb=document.getElementById('fpt-'+k);if(cb)FCONFIG.tools[k]=cb.checked;});saveFConfig();fpRenderAll();showToast('✅ تم حفظ الأدوات');}
@@ -2277,9 +2417,11 @@ async function submitAuth(){
     else{
       res=await sb.auth.signInWithPassword({email,password:pass});
       if(res.error)throw res.error;
+      // Reset S to defaults before loading this user's cloud data (prevents data leakage from prev session)
+      localStorage.removeItem('mrshd_v4');
+      S=S_DEFAULTS();
       S.profile.email=email;
       if(res.data.user?.user_metadata?.name)S.profile.name=res.data.user.user_metadata.name;
-      save();
     }
     currentUser=res.data.user;await loadCloudProgress();renderAll();showApp();
     if(currentUser.email===FOUNDER_EMAIL){sessionStorage.setItem('mrshd_founder','1');document.getElementById('founder-panel').classList.add('show');fpRenderAll();}
@@ -2297,7 +2439,10 @@ async function submitAuth(){
 }
 async function logoutUser(){
   if(sb){try{await sb.auth.signOut();}catch(e){}}
-  localStorage.removeItem('mrshd_session');currentUser=null;showLanding();showToast('تم تسجيل الخروج 👋');
+  localStorage.removeItem('mrshd_session');
+  localStorage.removeItem('mrshd_v4');
+  S=S_DEFAULTS();
+  currentUser=null;showLanding();showToast('تم تسجيل الخروج 👋');
 }
 async function checkAuthSession(){
   if(sb){try{const{data}=await sb.auth.getSession();if(data.session){currentUser=data.session.user;if(currentUser.user_metadata?.name)S.profile.name=currentUser.user_metadata.name;await loadCloudProgress();if(currentUser.email===FOUNDER_EMAIL){sessionStorage.setItem('mrshd_founder','1');}return true;}}catch(e){}return false;}
@@ -2321,7 +2466,8 @@ async function callAI(body,opts={}){
   if(!data.choices||!data.choices[0])throw new Error('استجابة غير متوقعة من الخادم.');
   return data;
 }
-let S={msgs:[],mode:'free',sessions:0,streak:0,bestStreak:0,correctTotal:0,wrongTotal:0,lastDate:null,weaknesses:{},strengths:{},examHistory:[],completedDays:{},dayStarted:{},weeklyTestDone:{},xp:0,dailyGoal:3,todayQs:0,lastGoalDate:null,notes:[],profile:{name:'',factory:'',speciality:'HSE'},warmupHistory:[],photoHistory:[],kwHistory:[],flashStats:{total:0,know:0,rev:0},badges:[]};
+const S_DEFAULTS=()=>({msgs:[],mode:'free',sessions:0,streak:0,bestStreak:0,correctTotal:0,wrongTotal:0,lastDate:null,weaknesses:{},strengths:{},examHistory:[],completedDays:{},dayStarted:{},weeklyTestDone:{},xp:0,dailyGoal:3,todayQs:0,lastGoalDate:null,notes:[],profile:{name:'',factory:'',speciality:'HSE'},warmupHistory:[],photoHistory:[],kwHistory:[],flashStats:{total:0,know:0,rev:0},badges:[]});
+let S=S_DEFAULTS();
 function save(){try{localStorage.setItem('mrshd_v4',JSON.stringify(S));}catch(e){}cloudSyncProgress();}
 // Debounced cloud sync of user progress (excludes photoHistory — stored in photo_history table)
 let _cloudSyncTimer=null;
@@ -2802,7 +2948,17 @@ function flashAns2(know){if(!S.flashStats)S.flashStats={total:0,know:0,rev:0};S.
 function askAboutFlash2(){if(!curFlash2)return;switchTab('chat');setTimeout(()=>quickChat(`اشرح مفهوم "${curFlash2.front}"`),100);}
 
 // CHAT
-function buildSys(){const w=Object.entries(S.weaknesses||{}).sort((a,b)=>b[1]-a[1]).slice(0,3).map(e=>e[0]).join('، ')||'لا يوجد';return`أنت أبو سلامة — مساعد HSE شخصي لجميع القطاعات السعودية (إنشاءات، صناعة، نفط، صحة، خدمات، تجزئة).\nالمستخدم: ${S.profile.name||'مهندسنا'} | جهة العمل: ${S.profile.factory||'غير محدد'} | الوضع: ${S.mode}\nXP: ${S.xp} | Streak: ${S.streak} | نقاط الضعف: ${w}\nقواعد: عربية فصحى مبسطة، مختصر وعملي، اربط بالسياق السعودي وكوادر. عند TBT أضف [TBT_END] في النهاية.`+(currentLang==='en'?' Respond in English only.':'');}
+function buildSys(){
+  const w=Object.entries(S.weaknesses||{}).sort((a,b)=>b[1]-a[1]).slice(0,3).map(e=>e[0]).join('، ')||'لا يوجد';
+  const base=`أنت أبو سلامة — خبير HSE شخصي لجميع القطاعات السعودية (إنشاءات، صناعة، نفط، صحة، خدمات، تجزئة).\nالمستخدم: ${S.profile.name||'مهندسنا'} | جهة العمل: ${S.profile.factory||'غير محدد'} | XP: ${S.xp} | Streak: ${S.streak} | نقاط الضعف: ${w}`;
+  const modeInstructions={
+    free:`\n\nالوضع: حر — أجب على أي سؤال في السلامة والصحة المهنية بأسلوب تفاعلي. كن محادثاً وودوداً، شجّع الفضول، وأضف أمثلة عملية من السياق السعودي. يمكنك الإجابة على أسئلة متعددة بحرية. عند TBT أضف [TBT_END] في النهاية.`,
+    daily:`\n\nالوضع: يومي — اليوم هو يوم تعلّم منظّم. ابدأ دائماً بسؤال افتتاحي لتقييم مستوى المستخدم في موضوع اليوم، ثم قدّم درساً منظّماً (تعريف → أهمية → نقاط عملية → ربط بكوادر → سؤال اختبار واحد في النهاية). اجعل الجلسة تدريجية ومتسلسلة. إذا طلب موضوعاً، التزم بتغطيته بشكل كامل ومنظّم.`,
+    quiz:`\n\nالوضع: اختبار — أنت ممتحن صارم. قدّم أسئلة اختيار من متعدد بنفس صيغة كوادر الرسمي (٤ خيارات أ/ب/ج/د). بعد إجابة المستخدم: صحّح فوراً، اشرح السبب، ثم انتقل للسؤال التالي بدون تعليق إضافي. احتفظ بعداد الصح/خطأ في ردودك. لا تخرج عن صيغة السؤال والتصحيح.`,
+    scenario:`\n\nالوضع: ميدان — أنت مستشار ميداني يحلل مواقف حقيقية. عندما يصف المستخدم موقفاً أو مشكلة ميدانية: (١) حدّد المخاطر الفورية (٢) اذكر المعايير المنتهكة بالرقم إن أمكن (٣) قدّم إجراءات تصحيحية عملية قابلة للتنفيذ (٤) قيّم مستوى الخطورة بمصفوفة 5×5. كن مختصراً وعملياً كأنك تتكلم في الموقع.`
+  };
+  return base+(modeInstructions[S.mode]||modeInstructions.free)+(currentLang==='en'?'\n\nRespond in English only.':'');
+}
 function setMode(m,btn){S.mode=m;save();document.querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');
   const hints={free:'اسألني أي شيء في السلامة والصحة المهنية 💬',daily:'جاهز لجلسة تعلّم اليوم؟ اطلب درس اليوم 📅',quiz:'وضع الاختبار — اطلب أسئلة وسأصححها لك 🎯',scenario:'وضع الميدان — صف موقفاً وسأحلله معك 🏭'};
   const inp=document.getElementById('chat-inp');if(inp)inp.placeholder=hints[m]||'اسأل أبو سلامة...';
@@ -3124,12 +3280,58 @@ function hseRenderResult(){
 function hseReset(){hseImgB64=hseImgType=hseImgPrev=null;const fi=document.getElementById('hse-file');if(fi)fi.value='';const ph=document.getElementById('hse-placeholder'),pv=document.getElementById('hse-preview'),ctx=document.getElementById('hse-ctx-wrap'),res=document.getElementById('hse-result');if(ph)ph.style.display='';if(pv){pv.style.display='none';pv.src='';}if(ctx)ctx.style.display='none';if(res)res.innerHTML='';}
 function hseLoadFile(f){if(!f)return;if(!['image/jpeg','image/png','image/webp'].includes(f.type)){showToast('⚠️ JPG/PNG/WEBP فقط');return;}if(f.size>10*1024*1024){showToast('⚠️ أكبر من 10MB');return;}hseImgType=f.type;const r=new FileReader();r.onload=e=>{hseImgPrev=e.target.result;hseImgB64=e.target.result.split(',')[1];const pv=document.getElementById('hse-preview'),ph=document.getElementById('hse-placeholder'),ctx=document.getElementById('hse-ctx-wrap');if(pv){pv.src=hseImgPrev;pv.style.display='block';}if(ph)ph.style.display='none';if(ctx)ctx.style.display='block';const res=document.getElementById('hse-result');if(res)res.innerHTML='';};r.readAsDataURL(f);}
 function hseCopy(){if(!hseResult)return;const r=hseResult,score=r.risk_probability*r.risk_severity,sv=HSE_SEV[r.severity]||HSE_SEV.medium;const txt=`محلل السلامة المهنية — مرشد السلامة\nرقم التقرير: ${hseReportRef}\nمستوى الخطورة: ${sv.label} — ${score}/25\n\n📋 ${r.title}\n${r.description}\n\n🔎 السبب الجذري: ${r.root_cause||'—'}\n\n📏 المعايير: ${(r.standards||[]).join(' | ')}\n\n🚨 إجراءات عاجلة:\n${(r.immediate_actions||[]).map((a,i)=>(i+1)+'. '+a).join('\n')}\n\n✅ إجراءات تصحيحية:\n${(r.corrective_actions||[]).map((a,i)=>(i+1)+'. '+a).join('\n')}\n\n📅 متابعة: ${r.follow_up_days} يوم`;navigator.clipboard?.writeText(txt).then(()=>showToast('✅ تم النسخ'));}
-function hseExportWord(){if(!hseResult)return;const r=hseResult,score=r.risk_probability*r.risk_severity,sv=HSE_SEV[r.severity]||HSE_SEV.medium;const dateStr=new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'});
+function hseExportWord(){
+  if(!hseResult)return;
+  const r=hseResult,score=r.risk_probability*r.risk_severity,sv=HSE_SEV[r.severity]||HSE_SEV.medium;
+  const dateStr=new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'});
   const esc2=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const P=(t,sz,col,b)=>`<w:p><w:pPr><w:bidi/><w:jc w:val="right"/><w:spacing w:after="120"/></w:pPr><w:r><w:rPr>${b?'<w:b/>':''}<w:color w:val="${col||'000000'}"/><w:sz w:val="${sz||'22'}"/><w:rtl/></w:rPr><w:t xml:space="preserve">${esc2(t)}</w:t></w:r></w:p>`;
-  const body=[P('تقرير تحليل السلامة المهنية','36','FF6D00',1),P('رقم التقرير: '+hseReportRef+' | '+dateStr,'18','666666'),P('مستوى الخطورة: '+sv.label+' — '+score+'/25','24',sv.color.replace('#',''),1),P('',''),P('المخالفة الرئيسية','26','0d2137',1),P(r.title,'22','000000',1),P(r.description,'20'),P('السبب الجذري: '+(r.root_cause||'—'),'20'),P('',''),P('المعايير المنتهكة','24','0d2137',1),P((r.standards||[]).join(' | '),'18'),P('',''),P('الإجراءات العاجلة','24','b91c1c',1),...(r.immediate_actions||[]).map((a,i)=>P((i+1)+'. '+a,'20')),P('',''),P('الإجراءات التصحيحية','24','1a7a3a',1),...(r.corrective_actions||[]).map((a,i)=>P((i+1)+'. '+a,'20')),P('',''),P('موعد المتابعة: '+r.follow_up_days+' يوم','20','FF6D00',1),P('',''),P('منصة مرشد السلامة | '+hseReportRef,'16','999999')].join('');
-  const xml=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>${body}<w:sectPr><w:bidi/></w:sectPr></w:body></w:document>`;
-  const blob=new Blob(['\ufeff',xml],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=hseReportRef+'.doc';a.click();URL.revokeObjectURL(url);showToast('📄 تم تصدير Word');}
+  const sevColor=sv.color||'#b91c1c';
+  const html=`<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office'
+      xmlns:w='urn:schemas-microsoft-com:office:word'
+      xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset='utf-8'>
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content='Microsoft Word'>
+<style>
+@page{margin:2cm;mso-page-orientation:portrait;}
+body{font-family:'Arial','Calibri',sans-serif;font-size:11pt;color:#1a1a1a;direction:rtl;text-align:right;}
+h1{color:#FF6D00;font-size:20pt;font-weight:bold;margin-bottom:6pt;}
+h2{color:#0d2137;font-size:14pt;font-weight:bold;border-bottom:1.5pt solid #ddd;padding-bottom:4pt;margin-top:14pt;margin-bottom:6pt;}
+.meta{color:#666;font-size:9pt;margin-bottom:4pt;}
+.severity{font-size:14pt;font-weight:bold;color:${sevColor};margin-bottom:8pt;}
+.action-item{padding:3pt 0;font-size:10.5pt;line-height:1.5;}
+.footer{color:#aaa;font-size:8pt;border-top:1pt solid #eee;padding-top:6pt;margin-top:18pt;text-align:center;}
+hr{border:none;border-top:1pt solid #ddd;margin:10pt 0;}
+p{line-height:1.6;margin:4pt 0;}
+</style>
+</head>
+<body dir="rtl" lang="ar-SA">
+<h1>تقرير تحليل السلامة المهنية</h1>
+<p class="meta">رقم التقرير: ${esc2(hseReportRef)}&nbsp;&nbsp;|&nbsp;&nbsp;${esc2(dateStr)}</p>
+<p class="severity">مستوى الخطورة: ${esc2(sv.label)} — ${score}/25</p>
+<hr>
+<h2>المخالفة الرئيسية</h2>
+<p><strong>${esc2(r.title)}</strong></p>
+<p>${esc2(r.description)}</p>
+<p><strong>السبب الجذري:</strong> ${esc2(r.root_cause||'—')}</p>
+<h2>المعايير المنتهكة</h2>
+<p>${esc2((r.standards||[]).join(' | '))}</p>
+<h2>الإجراءات العاجلة</h2>
+${(r.immediate_actions||[]).map((a,i)=>`<div class="action-item"><strong>${i+1}.</strong> ${esc2(a)}</div>`).join('')}
+<h2>الإجراءات التصحيحية</h2>
+${(r.corrective_actions||[]).map((a,i)=>`<div class="action-item"><strong>${i+1}.</strong> ${esc2(a)}</div>`).join('')}
+<h2>المتابعة</h2>
+<p>موعد المتابعة: <strong>${esc2(String(r.follow_up_days||'—'))}</strong> يوم</p>
+<div class="footer">منصة مرشد السلامة &nbsp;|&nbsp; ${esc2(hseReportRef)}</div>
+</body>
+</html>`;
+  const blob=new Blob(['﻿'+html],{type:'application/msword;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=hseReportRef+'.doc';a.click();
+  URL.revokeObjectURL(url);showToast('📄 تم تصدير Word');
+}
 
 // RISK MATRIX
 function buildRiskMatrix(){
@@ -3501,6 +3703,202 @@ function renderAdminPanel(){
 }
 
 
+// ═══════════ TESTIMONIALS ═══════════
+let _testimonialRating=5;
+function setTestimonialRating(n){
+  _testimonialRating=n;
+  document.querySelectorAll('#testimonial-stars span').forEach((s,i)=>{
+    s.style.color=i<n?'#FFB627':'var(--sep)';
+  });
+}
+function openTestimonialModal(){
+  if(!currentUser){showToast('⚠️ سجّل دخولك أولاً');openAuth('login');return;}
+  setTestimonialRating(5);
+  const t=document.getElementById('testimonial-text'),r=document.getElementById('testimonial-role'),e=document.getElementById('testimonial-err');
+  if(t)t.value='';if(r)r.value='';if(e){e.style.display='none';e.textContent='';}
+  document.getElementById('testimonial-modal').classList.add('open');
+}
+function closeTestimonialModal(){document.getElementById('testimonial-modal').classList.remove('open');}
+async function submitTestimonial(){
+  if(!sb||!currentUser){showToast('⚠️ يجب تسجيل الدخول');return;}
+  const text=document.getElementById('testimonial-text')?.value.trim();
+  const role=document.getElementById('testimonial-role')?.value.trim();
+  const errEl=document.getElementById('testimonial-err');
+  if(!text||text.length<20){if(errEl){errEl.textContent='⚠️ يرجى كتابة رأيك (٢٠ حرف على الأقل)';errEl.style.display='block';}return;}
+  const btn=document.querySelector('#testimonial-modal .modal-ok');
+  if(btn){btn.disabled=true;btn.textContent='⏳ جاري الإرسال...';}
+  try{
+    const{error}=await sb.from('testimonials').insert({
+      user_id:currentUser.id,
+      name:S.profile.name||currentUser.user_metadata?.name||currentUser.email?.split('@')[0]||'مستخدم',
+      role:role||'',
+      rating:_testimonialRating,
+      content:text,
+      approved:false
+    });
+    if(error)throw error;
+    closeTestimonialModal();
+    showToast('✅ شكراً! سيظهر رأيك بعد مراجعة المؤسس');
+  }catch(e){
+    if(errEl){errEl.textContent='⚠️ '+(e.message||'حدث خطأ');errEl.style.display='block';}
+  }
+  if(btn){btn.disabled=false;btn.textContent='✅ إرسال الرأي';}
+}
+async function loadTestimonials(){
+  if(!sb)return;
+  const list=document.getElementById('lp-testimonials-list');
+  const empty=document.getElementById('lp-testimonials-empty');
+  try{
+    const{data,error}=await sb.from('testimonials').select('name,role,rating,content').eq('approved',true).order('created_at',{ascending:false}).limit(6);
+    if(error)throw error;
+    if(!data||!data.length){
+      if(list)list.innerHTML='';
+      if(empty)empty.style.display='block';
+      return;
+    }
+    if(empty)empty.style.display='none';
+    if(list)list.innerHTML=data.map(t=>{
+      const stars='★'.repeat(Math.min(5,Math.max(1,t.rating||5)))+'☆'.repeat(Math.max(0,5-(t.rating||5)));
+      const avatar=(t.name||'م').charAt(0);
+      return`<div class="lp-test"><div class="lp-test-stars" style="color:#FFB627;">${stars}</div><div class="lp-test-text">«${esc(t.content)}»</div><div class="lp-test-author"><div class="lp-test-avatar">${esc(avatar)}</div><div><div class="lp-test-name">${esc(t.name)}</div><div class="lp-test-role">${esc(t.role||'متخصص HSE')}</div></div></div></div>`;
+    }).join('');
+  }catch(e){
+    if(list)list.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--muted);">تعذّر تحميل الآراء</div>';
+  }
+}
+
+// ═══════════ FOUNDER: TESTIMONIALS MANAGEMENT ═══════════
+async function fpLoadTestimonials(){
+  if(!sb||!currentUser)return;
+  const pend=document.getElementById('fpt-pending-list'),appr=document.getElementById('fpt-approved-list');
+  if(pend)pend.innerHTML='<p style="color:var(--muted);text-align:center;padding:12px;">جاري التحميل...</p>';
+  if(appr)appr.innerHTML='<p style="color:var(--muted);text-align:center;padding:12px;">جاري التحميل...</p>';
+  try{
+    const{data,error}=await sb.from('testimonials').select('*').order('created_at',{ascending:false});
+    if(error)throw error;
+    const pending=(data||[]).filter(t=>!t.approved);
+    const approved=(data||[]).filter(t=>t.approved);
+    el('fpt-pending',ar(pending.length));
+    el('fpt-approved',ar(approved.length));
+    const renderList=(items,container,showApprove)=>{
+      if(!container)return;
+      if(!items.length){container.innerHTML='<p style="color:var(--muted);text-align:center;padding:12px;">لا يوجد</p>';return;}
+      container.innerHTML=items.map(t=>`<div style="border:1px solid var(--sep2);border-radius:12px;padding:12px;margin-bottom:8px;background:var(--bg3);">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+          <div><strong>${esc(t.name)}</strong><span style="font-size:11px;color:var(--muted);margin-right:8px;">${esc(t.role||'')}</span></div>
+          <span style="color:#FFB627;font-size:13px;">${'★'.repeat(t.rating||5)}</span>
+        </div>
+        <p style="font-size:13px;color:var(--sub);margin:0 0 8px;line-height:1.6;">«${esc(t.content)}»</p>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">${new Date(t.created_at).toLocaleDateString('ar-SA')}</div>
+        <div style="display:flex;gap:8px;">
+          ${showApprove?`<button onclick="fpApproveTestimonial('${t.id}',true)" style="padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:rgba(52,199,89,.1);border:1.5px solid rgba(52,199,89,.3);color:var(--green);">✅ اعتماد</button>`:''}
+          ${!showApprove?`<button onclick="fpApproveTestimonial('${t.id}',false)" style="padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:rgba(255,182,39,.08);border:1.5px solid rgba(255,182,39,.25);color:#7a5000;">↩️ إلغاء اعتماد</button>`:''}
+          <button onclick="fpDeleteTestimonial('${t.id}')" style="padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:rgba(255,59,48,.07);border:1.5px solid rgba(255,59,48,.2);color:var(--red);">🗑️ حذف</button>
+        </div>
+      </div>`).join('');
+    };
+    renderList(pending,pend,true);
+    renderList(approved,appr,false);
+  }catch(e){
+    if(pend)pend.innerHTML='<p style="color:var(--red);text-align:center;padding:12px;">⚠️ خطأ: '+esc(e.message)+'</p>';
+  }
+}
+async function fpApproveTestimonial(id,approve){
+  if(!sb)return;
+  try{
+    const{error}=await sb.from('testimonials').update({approved:approve}).eq('id',id);
+    if(error)throw error;
+    showToast(approve?'✅ تم الاعتماد':'↩️ تم إلغاء الاعتماد');
+    fpLoadTestimonials();
+    loadTestimonials(); // refresh landing
+  }catch(e){showToast('⚠️ '+e.message);}
+}
+async function fpDeleteTestimonial(id){
+  if(!sb||!confirm('حذف هذا الرأي نهائياً؟'))return;
+  try{
+    const{error}=await sb.from('testimonials').delete().eq('id',id);
+    if(error)throw error;
+    showToast('🗑️ تم الحذف');
+    fpLoadTestimonials();
+    loadTestimonials();
+  }catch(e){showToast('⚠️ '+e.message);}
+}
+
+// ═══════════ QUESTIONS IMPORT / EXPORT ═══════════
+function fpExportQuestions(){
+  const data=KWB.map(q=>({q:q.q,opts:q.opts,ans:q.ans,topic:q.topic||'',std:q.std||'كوادر',ex:q.ex||''}));
+  const json=JSON.stringify(data,null,2);
+  const blob=new Blob([json],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='murshid-questions-'+Date.now()+'.json';a.click();
+  URL.revokeObjectURL(url);showToast('⬇️ تم تصدير '+ar(data.length)+' سؤال');
+}
+function fpExportQuestionsCSV(){
+  const header='نص السؤال,خيار1,خيار2,خيار3,خيار4,الإجابة الصحيحة (0=أول),الموضوع,المعيار,الشرح';
+  const rows=KWB.map(q=>[q.q,...(q.opts||[]),...Array(Math.max(0,4-(q.opts||[]).length)).fill(''),q.ans||0,q.topic||'',q.std||'كوادر',q.ex||''].map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(','));
+  const csv=header+'\n'+rows.join('\n');
+  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='murshid-questions-'+Date.now()+'.csv';a.click();
+  URL.revokeObjectURL(url);showToast('⬇️ تم تصدير CSV');
+}
+let _importPreviewQs=[];
+async function fpImportQuestions(file){
+  if(!file)return;
+  const preview=document.getElementById('fpq-import-preview');
+  if(preview){preview.style.display='block';preview.innerHTML='⏳ جاري قراءة الملف...';}
+  try{
+    const text=await file.text();
+    let questions=[];
+    if(file.name.endsWith('.json')){
+      const parsed=JSON.parse(text);
+      if(!Array.isArray(parsed))throw new Error('الملف يجب أن يحتوي مصفوفة JSON');
+      questions=parsed;
+    }else if(file.name.endsWith('.csv')){
+      const lines=text.replace(/\r/g,'').split('\n').filter(l=>l.trim());
+      const dataLines=lines.slice(1); // skip header
+      questions=dataLines.map(line=>{
+        // Simple CSV parse (handles quoted fields)
+        const cols=[];let cur='',inQ=false;
+        for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ;}else if(c===','&&!inQ){cols.push(cur);cur='';}else cur+=c;}
+        cols.push(cur);
+        return{q:cols[0]||'',opts:[cols[1],cols[2],cols[3],cols[4]].filter(Boolean),ans:parseInt(cols[5])||0,topic:cols[6]||'عام',std:cols[7]||'كوادر',ex:cols[8]||''};
+      });
+    }else throw new Error('الصيغة غير مدعومة — استخدم JSON أو CSV فقط');
+    // Validate
+    const errors=[];const valid=[];
+    questions.forEach((q,i)=>{
+      if(!q.q||typeof q.q!=='string'){errors.push('السؤال '+(i+1)+': نص السؤال مطلوب');return;}
+      if(!Array.isArray(q.opts)||q.opts.length<2){errors.push('السؤال '+(i+1)+': يجب توفير خيارين على الأقل');return;}
+      if(typeof q.ans!=='number'||q.ans<0||q.ans>=q.opts.length){errors.push('السؤال '+(i+1)+': رقم الإجابة خارج المدى');return;}
+      if(KWB.some(k=>k.q===q.q)){errors.push('السؤال '+(i+1)+': مكرر — موجود مسبقاً');return;}
+      valid.push(q);
+    });
+    _importPreviewQs=valid;
+    if(preview){
+      preview.style.display='block';
+      preview.innerHTML=`<div style="margin-bottom:8px;font-weight:700;">📋 معاينة الاستيراد</div>
+<div style="color:var(--green);margin-bottom:4px;">✅ ${valid.length} سؤال صالح للاستيراد</div>
+${errors.length?`<div style="color:var(--red);margin-bottom:8px;">⚠️ ${errors.length} خطأ:<br>${errors.slice(0,5).map(e=>`• ${esc(e)}`).join('<br>')}${errors.length>5?'<br>... و '+(errors.length-5)+' أخرى':''}</div>`:''}
+${valid.length?`<button class="fp-save-btn" onclick="fpConfirmImport()" style="margin-top:6px;">✅ تأكيد استيراد ${valid.length} سؤال</button>`:'<div style="color:var(--muted);">لا يوجد أسئلة صالحة للاستيراد</div>'}`;
+    }
+    // reset file input
+    const fi=document.getElementById('fpq-import-file');if(fi)fi.value='';
+  }catch(e){
+    if(preview){preview.style.display='block';preview.innerHTML='<div style="color:var(--red);">⚠️ خطأ في قراءة الملف: '+esc(e.message)+'</div>';}
+    const fi=document.getElementById('fpq-import-file');if(fi)fi.value='';
+  }
+}
+function fpConfirmImport(){
+  if(!_importPreviewQs.length)return;
+  _importPreviewQs.forEach(q=>{KWB.push(q);FCONFIG.customQuestions=FCONFIG.customQuestions||[];FCONFIG.customQuestions.push(q);});
+  saveFConfig();
+  fpRenderQuestions();renderKWStats();
+  showToast('✅ تم استيراد '+ar(_importPreviewQs.length)+' سؤال');
+  _importPreviewQs=[];
+  const preview=document.getElementById('fpq-import-preview');if(preview)preview.style.display='none';
+}
+
 // ═══════════ DEV BADGE + PW TOGGLE ═══════════
 function togglePwVis(){
   const inp=document.getElementById('auth-pass'),btn=document.getElementById('auth-pw-eye');
@@ -3524,7 +3922,7 @@ load();initTheme();
 renderAll();renderKWScores();renderWUHist();renderPhotoHist();renderPlan();renderLevelsPage();
 applyLang(currentLang);
 if(location.hash==='#founder'||sessionStorage.getItem('mrshd_founder')==='1'){if(sessionStorage.getItem('mrshd_founder')==='1'){document.getElementById('founder-panel').classList.add('show');setTimeout(fpRenderAll,300);}else{openFounderLogin();}}
-(async()=>{const loggedIn=await checkAuthSession();if(loggedIn){renderAll();showApp();}else{showLanding();}})();
+(async()=>{const loggedIn=await checkAuthSession();if(loggedIn){renderAll();showApp();}else{showLanding();}loadTestimonials();})();
 if(sessionStorage.getItem('mrshd_admin')==='1')setTimeout(()=>openAdminPanel(),500);
 </script>
 
