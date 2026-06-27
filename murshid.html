@@ -2070,6 +2070,16 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
           </div>
           <div id="fpq-import-preview" style="display:none;background:var(--bg3);border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px;"></div>
         </div>
+        <div class="fp-card">
+          <div class="fp-card-title">📊 تحليلات أداء الأسئلة (الأصعب أولاً)</div>
+          <div class="fp-stat-grid" style="margin-bottom:10px;">
+            <div class="fp-stat"><div class="fp-stat-num" id="fpqa-attempts">—</div><div class="fp-stat-lbl">محاولة</div></div>
+            <div class="fp-stat"><div class="fp-stat-num" id="fpqa-rate">—</div><div class="fp-stat-lbl">نسبة الصحة</div></div>
+            <div class="fp-stat"><div class="fp-stat-num" id="fpqa-uniq">—</div><div class="fp-stat-lbl">سؤال مُختبر</div></div>
+          </div>
+          <div id="fpqa-list"><p style="color:var(--muted);text-align:center;padding:12px;">اضغط «تحميل التحليلات» لعرض أصعب الأسئلة على المستخدمين.</p></div>
+          <button class="fp-save-btn" onclick="fpLoadQuestionAnalytics()" style="margin-top:8px;">🔄 تحميل التحليلات</button>
+        </div>
         <div class="fp-card" style="border:1.5px solid rgba(255,59,48,.25);">
           <div class="fp-card-title" style="color:var(--red);">⚠️ منطقة الخطر</div>
           <p style="font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.6;">حذف <strong>جميع</strong> أسئلة محاكي كوادر نهائياً (الأساسية والمستوردة). لا يمكن التراجع — يُنصح بتصدير نسخة احتياطية أولاً.</p>
@@ -3195,6 +3205,12 @@ async function logChatStat(text){
   if(!sb||!currentUser)return;
   try{await sb.from('chat_stats').insert({user_id:currentUser.id,mode:S.mode||'free',topic:detectChatTopic(text)});}catch(_){}
 }
+// Question analytics — logs each answer (question id, topic, correct) for founder insights
+function qHash(t){let h=0;const s=String(t||'');for(let i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))|0;}return 'q'+(h>>>0).toString(36);}
+async function logQuestionAttempt(q,correct){
+  if(!sb||!currentUser||!q||!q.q)return;
+  try{await sb.from('question_stats').insert({user_id:currentUser.id,qref:qHash(q.q),qtext:String(q.q).slice(0,180),topic:q.topic||'',std:q.std||'',correct:!!correct});}catch(_){}
+}
 function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
 async function sendChat(){
   const inp=document.getElementById('chat-inp');if(!inp)return;const text=inp.value.trim();if(!text)return;
@@ -3332,7 +3348,7 @@ async function startWarmup(){
   showWUQ();
 }
 function showWUQ(){const qz=document.getElementById('wu-quiz');if(!qz)return;if(wuIdx>=wuQs.length){finishWU();return;}const q=wuQs[wuIdx];qz.innerHTML=buildQHTML(q,wuIdx+1,wuQs.length,Math.round((wuIdx/wuQs.length)*100),'ansWU');}
-function ansWU(i){const q=wuQs[wuIdx];const correct=q.ans!==undefined?q.ans:q.answer;markAns(i,correct);if(i===correct){wuCorrect++;S.correctTotal++;S.todayQs++;addXP(10);if(!S.strengths)S.strengths={};S.strengths[q.topic]=(S.strengths[q.topic]||0)+1;}else{S.wrongTotal++;if(!S.weaknesses)S.weaknesses={};S.weaknesses[q.topic]=(S.weaknesses[q.topic]||0)+1;}save();renderAll();setTimeout(()=>{wuIdx++;showWUQ();},1600);}
+function ansWU(i){const q=wuQs[wuIdx];const correct=q.ans!==undefined?q.ans:q.answer;markAns(i,correct);if(i===correct){wuCorrect++;S.correctTotal++;S.todayQs++;addXP(10);if(!S.strengths)S.strengths={};S.strengths[q.topic]=(S.strengths[q.topic]||0)+1;}else{S.wrongTotal++;if(!S.weaknesses)S.weaknesses={};S.weaknesses[q.topic]=(S.weaknesses[q.topic]||0)+1;}logQuestionAttempt(q,i===correct);save();renderAll();setTimeout(()=>{wuIdx++;showWUQ();},1600);}
 function finishWU(){const pct=Math.round((wuCorrect/Math.max(wuQs.length,1))*100);hideEl('wu-quiz');const res=document.getElementById('wu-result');if(res){res.style.removeProperty('display');res.innerHTML=buildResultHTML(pct,wuCorrect,wuQs.length,'restartWU','discussWU');}if(!S.warmupHistory)S.warmupHistory=[];S.warmupHistory.unshift({date:new Date().toLocaleDateString('ar-SA'),score:wuCorrect,total:wuQs.length,pct,std:wuStd});if(S.warmupHistory.length>5)S.warmupHistory=S.warmupHistory.slice(0,5);addXP(pct>=70?25:10);save();renderWUHist();if(pct>=70)setTimeout(()=>showCertificate(pct,wuCorrect,wuQs.length,'وارم أب الصباح'),600);}
 function restartWU(){hideEl('wu-quiz');hideEl('wu-result');showEl('wu-start');}
 function discussWU(){switchTab('chat');setTimeout(()=>quickChat('حللّ أداءي في الوارم أب وأعطني توصيات: '+(Object.keys(S.weaknesses||{}).slice(0,3).join('، ')||'عام')),100);}
@@ -3384,7 +3400,7 @@ function showKWQ(){
   qz.innerHTML=`<div style="padding:4px 0 10px;">${timerH}${buildQHTML(q,kwIdx+1,kwQs.length,pct,'ansKW',true)}</div>`;
   updateKWTimer();
 }
-function ansKW(i){const q=kwQs[kwIdx];const correct=q.ans!==undefined?q.ans:q.answer;kwAns.push({q,chosen:i,correct:i===correct});markAns(i,correct);if(i===correct){S.correctTotal++;S.todayQs++;addXP(15);if(!S.strengths)S.strengths={};S.strengths[q.topic]=(S.strengths[q.topic]||0)+1;}else{S.wrongTotal++;if(!S.weaknesses)S.weaknesses={};S.weaknesses[q.topic]=(S.weaknesses[q.topic]||0)+1;}save();renderAll();
+function ansKW(i){const q=kwQs[kwIdx];const correct=q.ans!==undefined?q.ans:q.answer;kwAns.push({q,chosen:i,correct:i===correct});markAns(i,correct);if(i===correct){S.correctTotal++;S.todayQs++;addXP(15);if(!S.strengths)S.strengths={};S.strengths[q.topic]=(S.strengths[q.topic]||0)+1;}else{S.wrongTotal++;if(!S.weaknesses)S.weaknesses={};S.weaknesses[q.topic]=(S.weaknesses[q.topic]||0)+1;}logQuestionAttempt(q,i===correct);save();renderAll();
   // Review mode: show explanation inline before moving on
   if(kwReview){
     const qz=document.getElementById('kw-quiz-view');
@@ -4161,6 +4177,30 @@ async function loadTestimonials(){
     }).join('');
   }catch(e){
     if(list)list.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--muted);">تعذّر تحميل الآراء</div>';
+  }
+}
+
+// ═══════════ FOUNDER: QUESTION ANALYTICS ═══════════
+async function fpLoadQuestionAnalytics(){
+  if(!sb||!currentUser)return;
+  const list=document.getElementById('fpqa-list');if(list)list.innerHTML='<div style="text-align:center;padding:14px;"><div class="spinner" style="margin:auto;"></div></div>';
+  try{
+    const{data,error}=await sb.from('question_stats').select('qref,qtext,topic,correct').limit(20000);
+    if(error)throw error;
+    const rows=data||[];const agg={};
+    rows.forEach(r=>{const k=r.qref;if(!agg[k])agg[k]={qtext:r.qtext,topic:r.topic,att:0,cor:0};agg[k].att++;if(r.correct)agg[k].cor++;});
+    const arr=Object.values(agg);
+    el('fpqa-attempts',ar(rows.length));
+    const totalCor=rows.filter(r=>r.correct).length;
+    el('fpqa-rate',rows.length?ar(Math.round(totalCor/rows.length*100))+'٪':'—');
+    el('fpqa-uniq',ar(arr.length));
+    const ranked=arr.filter(a=>a.att>=3).sort((a,b)=>(a.cor/a.att)-(b.cor/b.att));
+    const show=(ranked.length?ranked:arr.sort((a,b)=>b.att-a.att)).slice(0,40);
+    if(list)list.innerHTML=show.map(a=>{const rate=Math.round(a.cor/a.att*100);const color=rate<40?'var(--red)':rate<70?'var(--gold)':'var(--green)';return`<div style="border:1px solid var(--sep2);border-radius:10px;padding:10px 12px;margin-bottom:7px;background:var(--bg3);"><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:5px;line-height:1.5;">${esc(a.qtext||'—')}</div><div style="display:flex;gap:12px;font-size:11.5px;color:var(--muted);flex-wrap:wrap;"><span style="color:${color};font-weight:800;">${ar(rate)}٪ صحيحة</span><span>${ar(a.att)} محاولة</span>${a.topic?'<span>📂 '+esc(a.topic)+'</span>':''}</div></div>`;}).join('')||'<p style="color:var(--muted);text-align:center;padding:12px;">لا بيانات كافية بعد</p>';
+  }catch(e){
+    const m=e.message||'';const msg=/relation|does not exist|question_stats|schema cache|not find/i.test(m)?'⚙️ التحليلات قيد التفعيل — تحتاج إنشاء جدول question_stats.':'تعذّر التحميل';
+    if(list)list.innerHTML='<p style="color:var(--muted);text-align:center;padding:14px;">'+msg+'</p>';
+    ['fpqa-attempts','fpqa-rate','fpqa-uniq'].forEach(id=>el(id,'!'));
   }
 }
 
