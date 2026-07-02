@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FF6D00">
+<meta name="description" content="منصة مرشد السلامة — تدرّب على اختبار كوادر الوطني مع بنك أسئلة موثوق، مرشد HSE بالذكاء الاصطناعي، حاسبات ميدانية، وتحليل مواقع العمل بالصور. طوّرها متخصص سلامة من الميدان.">
+<meta property="og:title" content="مرشد السلامة — اجتز اختبار كوادر من أول محاولة">
+<meta property="og:description" content="بنك أسئلة كوادر + مرشد AI + حاسبات HSE ميدانية + تحليل الصور — منصة عربية متكاملة لأخصائيي السلامة.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_SA">
 <title>مرشد السلامة — منصة HSE الذكية</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -1033,6 +1039,123 @@ body.dark .field-how-card{background:rgba(255,109,0,.06);border-color:rgba(255,1
 .sv-lbl{font-size:11px;color:var(--muted);margin-top:1px;}
 body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 
+/* ════════════════════════════════════════════════
+   DESIGN SYSTEM v4.0 — Interactive upgrade
+   ════════════════════════════════════════════════ */
+
+/* ── ACCESSIBILITY ── */
+:focus-visible{outline:2.5px solid var(--orange);outline-offset:2px;border-radius:6px;}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+  .reveal{opacity:1;transform:none;}
+}
+
+/* ── TOAST VARIANTS ── */
+#toast.success{background:rgba(20,90,50,.94);}
+#toast.err{background:rgba(140,30,25,.94);}
+#toast.warn{background:rgba(130,90,10,.94);}
+
+/* ── CONFETTI ── */
+.confetti-piece{position:fixed;top:-14px;width:10px;height:14px;z-index:2500;pointer-events:none;border-radius:2px;
+  animation:confettiFall linear forwards;}
+@keyframes confettiFall{
+  0%{transform:translateY(-10vh) rotate(0deg) rotateY(0deg);opacity:1;}
+  100%{transform:translateY(110vh) rotate(720deg) rotateY(360deg);opacity:.7;}
+}
+
+/* ── SCROLL PROGRESS (landing) ── */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0%;z-index:600;
+  background:linear-gradient(90deg,var(--orange),var(--gold));transition:width .1s linear;border-radius:0 3px 3px 0;}
+
+/* ── DAILY CHALLENGE ── */
+.daily-ch{position:relative;background:var(--bg2);border:1.5px solid rgba(255,109,0,.25);border-radius:18px;
+  padding:18px 20px;margin-bottom:14px;box-shadow:var(--sh);overflow:hidden;}
+.daily-ch::before{content:'';position:absolute;top:-40px;left:-40px;width:140px;height:140px;
+  background:radial-gradient(circle,rgba(255,182,39,.14),transparent 70%);pointer-events:none;}
+.daily-ch-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.daily-ch-title{font-size:14px;font-weight:900;color:var(--orange);display:flex;align-items:center;gap:7px;}
+.daily-ch-xp{font-size:11.5px;font-weight:800;background:rgba(255,182,39,.14);color:#7a5500;border:1px solid rgba(255,182,39,.3);padding:3px 11px;border-radius:20px;}
+body.dark .daily-ch-xp{color:var(--gold);}
+.daily-ch-q{font-size:15px;font-weight:700;color:var(--text);line-height:1.6;margin-bottom:12px;}
+.daily-ch-done{display:flex;align-items:center;gap:12px;padding:6px 0;}
+.daily-ch-done .ic{font-size:34px;}
+.daily-ch-done .t1{font-size:15px;font-weight:800;color:var(--text);}
+.daily-ch-done .t2{font-size:12.5px;color:var(--muted);margin-top:2px;}
+
+/* ── PERFORMANCE ANALYTICS ── */
+.perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+@media(max-width:700px){.perf-grid{grid-template-columns:1fr;}}
+.perf-card{background:var(--bg2);border-radius:18px;padding:18px 20px;box-shadow:var(--sh);border:1px solid var(--sep2);}
+.perf-card-title{font-size:13px;font-weight:800;color:var(--sub);margin-bottom:13px;display:flex;align-items:center;gap:7px;}
+.perf-empty{font-size:13px;color:var(--muted);text-align:center;padding:22px 8px;line-height:1.7;}
+.perf-bars{display:flex;align-items:flex-end;gap:8px;height:110px;padding-top:6px;}
+.perf-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end;}
+.perf-bar{width:100%;max-width:38px;border-radius:7px 7px 3px 3px;min-height:5px;
+  transition:height .6s cubic-bezier(.2,.8,.2,1);position:relative;}
+.perf-bar.pass{background:linear-gradient(180deg,var(--green),#1a9a45);}
+.perf-bar.fail{background:linear-gradient(180deg,#ff6b61,var(--red));}
+.perf-bar-val{font-size:10.5px;font-weight:800;color:var(--muted);font-family:var(--mono);}
+.perf-goal-line{position:absolute;left:0;right:0;border-top:1.5px dashed rgba(255,109,0,.45);z-index:1;pointer-events:none;}
+.topic-row{display:flex;align-items:center;gap:10px;padding:6px 0;}
+.topic-lbl{font-size:12.5px;color:var(--text);font-weight:600;min-width:96px;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.topic-track{flex:1;height:7px;background:var(--sep2);border-radius:4px;overflow:hidden;display:flex;}
+.topic-fill-ok{height:100%;background:var(--green);}
+.topic-fill-bad{height:100%;background:var(--red);}
+.topic-pct{font-size:11.5px;font-weight:800;min-width:36px;text-align:left;font-family:var(--mono);}
+
+/* ── HSE CALCULATORS ── */
+.calc-card{background:var(--bg2);border-radius:var(--r-lg);padding:22px;box-shadow:var(--sh);border:1px solid var(--sep2);margin-bottom:16px;}
+.calc-head{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+.calc-icon{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.calc-title{font-size:16px;font-weight:800;color:var(--text);}
+.calc-sub{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.55;}
+.calc-inputs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0 13px;}
+@media(max-width:480px){.calc-inputs{grid-template-columns:1fr;}}
+.calc-field label{display:block;font-size:12px;font-weight:700;color:var(--sub);margin-bottom:5px;}
+.calc-field input,.calc-field select{width:100%;background:var(--bg3);border:1.5px solid var(--sep);border-radius:11px;
+  padding:11px 13px;font-size:15px;font-weight:700;color:var(--text);outline:none;font-family:var(--mono);
+  transition:border-color .2s,box-shadow .2s;direction:ltr;text-align:center;}
+.calc-field select{font-family:var(--font);direction:rtl;text-align:right;font-size:13.5px;}
+.calc-field input:focus,.calc-field select:focus{border-color:rgba(255,109,0,.5);box-shadow:0 0 0 4px rgba(255,109,0,.08);}
+.calc-result{border-radius:14px;padding:15px 18px;display:none;animation:fadeIn .3s ease;border:1.5px solid transparent;}
+.calc-result.show{display:block;}
+.calc-result .cr-val{font-size:30px;font-weight:900;letter-spacing:-1px;font-family:var(--mono);direction:ltr;text-align:right;}
+.calc-result .cr-verdict{font-size:14px;font-weight:800;margin-top:2px;}
+.calc-result .cr-note{font-size:12.5px;line-height:1.7;margin-top:8px;color:var(--sub);}
+.calc-result.ok{background:rgba(52,199,89,.07);border-color:rgba(52,199,89,.3);}
+.calc-result.ok .cr-val,.calc-result.ok .cr-verdict{color:#1a7a3a;}
+body.dark .calc-result.ok .cr-val,body.dark .calc-result.ok .cr-verdict{color:var(--green);}
+.calc-result.mid{background:rgba(255,182,39,.08);border-color:rgba(255,182,39,.35);}
+.calc-result.mid .cr-val,.calc-result.mid .cr-verdict{color:#8a6000;}
+body.dark .calc-result.mid .cr-val,body.dark .calc-result.mid .cr-verdict{color:var(--gold);}
+.calc-result.bad{background:rgba(255,59,48,.07);border-color:rgba(255,59,48,.3);}
+.calc-result.bad .cr-val,.calc-result.bad .cr-verdict{color:#b91c1c;}
+body.dark .calc-result.bad .cr-val,body.dark .calc-result.bad .cr-verdict{color:#ff6b61;}
+.calc-ref{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6;}
+
+/* ── LANDING DEMO QUIZ ── */
+.lp-demo-wrap{max-width:680px;margin:0 auto;}
+.lp-demo-card{background:var(--bg2);border-radius:22px;padding:26px 28px;box-shadow:var(--sh-md);border:1.5px solid rgba(255,109,0,.18);position:relative;overflow:hidden;}
+.lp-demo-card::before{content:'';position:absolute;top:0;right:0;left:0;height:4px;background:linear-gradient(90deg,var(--orange),var(--gold));}
+.lp-demo-meta{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.lp-demo-prog{display:flex;gap:5px;margin-right:auto;}
+.lp-demo-dot{width:9px;height:9px;border-radius:50%;background:var(--sep);transition:.2s;}
+.lp-demo-dot.on{background:var(--orange);}
+.lp-demo-dot.good{background:var(--green);}
+.lp-demo-dot.bad{background:var(--red);}
+.lp-demo-q{font-size:17px;font-weight:800;color:var(--text);line-height:1.65;margin-bottom:15px;}
+.lp-demo-result{text-align:center;padding:14px 0 4px;}
+.lp-demo-score{font-size:44px;font-weight:900;letter-spacing:-2px;}
+.lp-demo-msg{font-size:15px;font-weight:700;color:var(--sub);margin:6px 0 18px;line-height:1.7;}
+body.dark .lp-demo-card{background:var(--bg2);}
+
+/* ── HERO SUB BADGES ── */
+.lp-hero-proof{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:34px;}
+.lp-proof-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:20px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:rgba(235,240,250,.85);
+  font-size:12.5px;font-weight:700;backdrop-filter:blur(8px);}
+.lp-impact-src{text-align:center;font-size:11.5px;color:rgba(255,255,255,.4);margin-top:22px;line-height:1.6;}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
@@ -1040,6 +1163,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 <body>
 <!-- ═══════════════ LANDING PAGE ═══════════════ -->
 <div class="landing" id="landing">
+  <div class="scroll-progress" id="lp-scroll-progress"></div>
   <!-- Site-wide announcement banner (controlled from founder panel) -->
   <div id="site-banner" style="display:none;background:linear-gradient(135deg,var(--orange),var(--gold));padding:11px 24px;text-align:center;font-size:14px;font-weight:700;color:#fff;position:sticky;top:0;z-index:500;"></div>
   <nav class="lp-nav">
@@ -1060,16 +1184,21 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <div class="lp-shield-core"><div class="brand-logo-img" style="background:var(--logo) center/contain no-repeat;width:62%;height:62%;"></div></div>
     </div>
     <div class="lp-hero-content">
-      <div class="lp-badge"><span class="dot"></span> خبرة ميدانية · HSE متكامل وذكي</div>
-      <h1 class="lp-hero-title">طوّر مهاراتك في<br><span class="grad">السلامة والصحة المهنية</span></h1>
-      <p class="lp-hero-sub">منصة تدريبية متكاملة طوّرها متخصص HSE من الميدان — محاكاة الكوادر الوطنية، تحليل المواقع بالذكاء الاصطناعي، وخطة تعلّم مخصصة ترتقي بك خطوة بخطوة.</p>
+      <div class="lp-badge"><span class="dot"></span> بنك أسئلة موثوق · طوّره متخصص من الميدان</div>
+      <h1 class="lp-hero-title">اجتز اختبار كوادر<br><span class="grad">من أول محاولة</span></h1>
+      <p class="lp-hero-sub">محاكاة كاملة لاختبار الكوادر الوطني — بنك أسئلة مصنّف بالوحدات، مؤقت حقيقي، شرح لكل إجابة، وتحليل نقاط ضعفك بعد كل جولة. ومعها مرشد AI وحاسبات ميدانية لعملك اليومي.</p>
+      <div class="lp-hero-proof">
+        <span class="lp-proof-chip">✅ تصحيح فوري وشرح لكل سؤال</span>
+        <span class="lp-proof-chip">📊 تحليل ضعفك حسب الوحدة</span>
+        <span class="lp-proof-chip">🆓 بدون بطاقة ائتمانية</span>
+      </div>
       <div class="lp-hero-cta">
         <button class="lp-cta-primary" onclick="openAuth('signup')">ابدأ التدريب مجاناً 🚀</button>
-        <button class="lp-cta-secondary" onclick="document.getElementById('lp-features').scrollIntoView({behavior:'smooth'})">اكتشف الأدوات</button>
+        <button class="lp-cta-secondary" onclick="document.getElementById('lp-demo').scrollIntoView({behavior:'smooth'})">🎯 جرّب سؤال كوادر الآن</button>
       </div>
       <div class="lp-hero-stats">
-        <div class="lp-stat"><div class="lp-stat-num">+٨٠</div><div class="lp-stat-lbl">سؤال كوادر</div></div>
-        <div class="lp-stat"><div class="lp-stat-num">١٠+</div><div class="lp-stat-lbl">أدوات احترافية</div></div>
+        <div class="lp-stat"><div class="lp-stat-num">+١٢٠</div><div class="lp-stat-lbl">سؤال كوادر</div></div>
+        <div class="lp-stat"><div class="lp-stat-num">١٢+</div><div class="lp-stat-lbl">أدوات احترافية</div></div>
         <div class="lp-stat"><div class="lp-stat-num">AI</div><div class="lp-stat-lbl">تحليل ذكي للمواقع</div></div>
         <div class="lp-stat"><div class="lp-stat-num">∞</div><div class="lp-stat-lbl">كل القطاعات</div></div>
       </div>
@@ -1142,17 +1271,16 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
         <div class="lp-impact-card"><div class="lp-impact-num">١:٣٠</div><div class="lp-impact-lbl">لكل إصابة خطيرة ٣٠ طفيفة (نظرية الجبل الجليدي)</div></div>
         <div class="lp-impact-card"><div class="lp-impact-num">×٤</div><div class="lp-impact-lbl">عائد كل ريال يُستثمر في الوقاية من الحوادث</div></div>
       </div>
+      <div class="lp-impact-src">المصادر: منظمة العمل الدولية (ILO) · نظرية هاينريش للحوادث · الوكالة الأوروبية للسلامة والصحة المهنية (EU-OSHA)</div>
     </div>
   </div>
 
-  <!-- TESTIMONIALS -->
-  <section class="lp-section reveal">
-    <h2 class="lp-section-title">ماذا يقول المتدربون</h2>
-    <p class="lp-section-sub">انضم لمجتمع متخصصي السلامة في السعودية</p>
-    <div class="lp-testimonials">
-      <div class="lp-test"><div class="lp-test-stars">★★★★★</div><div class="lp-test-text">«محاكي كوادر ساعدني أجتاز الاختبار من أول محاولة. الأسئلة قريبة جداً من الواقع والشرح ممتاز.»</div><div class="lp-test-author"><div class="lp-test-avatar">ع</div><div><div class="lp-test-name">عبدالله الشمري</div><div class="lp-test-role">أخصائي سلامة · ينبع</div></div></div></div>
-      <div class="lp-test"><div class="lp-test-stars">★★★★★</div><div class="lp-test-text">«محلل الصور وفّر علي ساعات في تقارير الجولات الميدانية. أرفع صورة ويطلع لي تقرير مخالفات جاهز.»</div><div class="lp-test-author"><div class="lp-test-avatar">ن</div><div><div class="lp-test-name">نوف القحطاني</div><div class="lp-test-role">مهندسة HSE · الجبيل</div></div></div></div>
-      <div class="lp-test"><div class="lp-test-stars">★★★★★</div><div class="lp-test-text">«أبو سلامة مرجع سريع في الميدان. أسأله عن أي إجراء أو معيار ويجاوبني بالسياق السعودي مباشرة.»</div><div class="lp-test-author"><div class="lp-test-avatar">م</div><div><div class="lp-test-name">محمد العتيبي</div><div class="lp-test-role">مشرف سلامة · الرياض</div></div></div></div>
+  <!-- LIVE DEMO QUIZ — try before signup -->
+  <section class="lp-section reveal" id="lp-demo">
+    <h2 class="lp-section-title">جرّب بنفسك — الآن وبدون تسجيل</h2>
+    <p class="lp-section-sub">٣ أسئلة حقيقية بنمط اختبار كوادر · تصحيح فوري وشرح لكل إجابة</p>
+    <div class="lp-demo-wrap">
+      <div class="lp-demo-card" id="lp-demo-card"></div>
     </div>
   </section>
 
@@ -1274,6 +1402,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="prog-track" style="height:8px;"><div class="prog-fill" id="goal-fill" style="width:0%;height:8px;border-radius:4px;"></div></div>
     <div style="font-size:13px;color:var(--muted);margin-top:5px;" id="goal-sub">أكمل أسئلة اليوم!</div>
   </div>
+  <div class="daily-ch" id="daily-ch"></div>
   <div class="home-qa-strip">
     <div class="qa-item" onclick="switchTab('chat')"><div class="qa-icon">💬</div><div class="qa-lbl">المرشد<br>الذكي</div></div>
     <div class="qa-item" onclick="switchTab('quiz')"><div class="qa-icon">🏆</div><div class="qa-lbl">محاكي<br>كوادر</div></div>
@@ -1282,7 +1411,19 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="qa-item" onclick="switchTab('tools')"><div class="qa-icon">⚠️</div><div class="qa-lbl">مصفوفة<br>المخاطر</div></div>
     <div class="qa-item" onclick="switchTab('incident')"><div class="qa-icon">📋</div><div class="qa-lbl">بلاغ<br>حادثة</div></div>
     <div class="qa-item" onclick="switchTab('photo')"><div class="qa-icon">📸</div><div class="qa-lbl">محلل<br>الصور</div></div>
+    <div class="qa-item" onclick="switchTab('calc')"><div class="qa-icon">🧮</div><div class="qa-lbl">حاسبات<br>الميدان</div></div>
     <div class="qa-item" onclick="switchTab('plan')"><div class="qa-icon">📅</div><div class="qa-lbl">خطة<br>التعلم</div></div>
+  </div>
+  <div class="sec-lbl" style="padding-top:4px;">📈 أدائي</div>
+  <div class="perf-grid">
+    <div class="perf-card">
+      <div class="perf-card-title">🏆 آخر نتائج كوادر <span style="margin-right:auto;font-size:11px;color:var(--muted);font-weight:600;">خط النجاح ٧٠٪</span></div>
+      <div id="perf-scores"></div>
+    </div>
+    <div class="perf-card">
+      <div class="perf-card-title">🎯 إتقانك حسب الوحدة</div>
+      <div id="perf-topics"></div>
+    </div>
   </div>
   <div class="grid-2">
     <div>
@@ -1306,6 +1447,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   <div class="sec-lbl">أدوات إضافية</div>
   <div class="ios-list">
     <div class="ios-row" onclick="switchTab('flash')"><div class="row-icon" style="background:rgba(229,57,53,.1);">🃏</div><div class="row-body"><div class="row-title">بطاقات المراجعة</div><div class="row-sub">٢٤ بطاقة + AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+    <div class="ios-row" onclick="switchTab('calc')"><div class="row-icon" style="background:rgba(0,131,143,.1);">🧮</div><div class="row-body"><div class="row-title">حاسبات الميدان</div><div class="row-sub">ضجيج TWA · إجهاد حراري · مسافة سقوط</div></div><div class="row-right"><span class="bdg bdg-teal">جديد</span><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="switchTab('field')"><div class="row-icon" style="background:rgba(21,101,192,.1);">🏭</div><div class="row-body"><div class="row-title">محلل المواقف</div><div class="row-sub">تحليل ميداني بـ AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="switchTab('report')"><div class="row-icon" style="background:rgba(0,185,107,.1);">📊</div><div class="row-body"><div class="row-title">التقرير الأسبوعي</div><div class="row-sub">تحليل أدائك</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="openTBT()"><div class="row-icon" style="background:rgba(245,166,35,.1);">🗣️</div><div class="row-body"><div class="row-title">توليد TBT</div><div class="row-sub">Toolbox Talk احترافي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
@@ -1696,6 +1838,67 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 </div>
 
 <!-- ═══════════════ SETTINGS ═══════════════ -->
+<div class="page" id="page-calc">
+<div class="container">
+  <div class="ph"><div class="ph-eyebrow">أدوات هندسية</div><div class="ph-title">حاسبات الميدان 🧮</div><div class="ph-sub">حسابات HSE فورية وفق معايير OSHA/NIOSH — النتائج تتحدث مباشرة أثناء الكتابة</div></div>
+  <div class="grid-2" style="align-items:start;">
+    <div>
+      <div class="calc-card">
+        <div class="calc-head">
+          <div class="calc-icon" style="background:rgba(0,122,255,.1);">🔊</div>
+          <div><div class="calc-title">جرعة الضجيج اليومية — TWA</div><div class="calc-sub">أدخل مستوى الضجيج ومدة التعرّض لكل مهمة (حتى ٣ مهام)</div></div>
+        </div>
+        <div class="calc-inputs">
+          <div class="calc-field"><label>المهمة ١ — المستوى dB(A)</label><input type="number" id="nz-l1" placeholder="90" oninput="calcNoise()"></div>
+          <div class="calc-field"><label>المدة (ساعات)</label><input type="number" id="nz-h1" placeholder="4" step="0.5" oninput="calcNoise()"></div>
+          <div class="calc-field"><label>المهمة ٢ — المستوى dB(A)</label><input type="number" id="nz-l2" placeholder="—" oninput="calcNoise()"></div>
+          <div class="calc-field"><label>المدة (ساعات)</label><input type="number" id="nz-h2" placeholder="—" step="0.5" oninput="calcNoise()"></div>
+          <div class="calc-field"><label>المهمة ٣ — المستوى dB(A)</label><input type="number" id="nz-l3" placeholder="—" oninput="calcNoise()"></div>
+          <div class="calc-field"><label>المدة (ساعات)</label><input type="number" id="nz-h3" placeholder="—" step="0.5" oninput="calcNoise()"></div>
+        </div>
+        <div class="calc-result" id="nz-result"></div>
+        <div class="calc-ref">وفق OSHA 1910.95: الحد المسموح PEL = ٩٠ dB(A) لـ ٨ ساعات (معدل تبادل ٥ dB) · مستوى الإجراء Action Level = ٨٥ dB(A) يوجب برنامج حماية السمع</div>
+      </div>
+      <div class="calc-card">
+        <div class="calc-head">
+          <div class="calc-icon" style="background:rgba(255,59,48,.08);">🌡️</div>
+          <div><div class="calc-title">مؤشر الإجهاد الحراري — Heat Index</div><div class="calc-sub">درجة الحرارة والرطوبة النسبية → مستوى الخطورة وإجراءات العمل</div></div>
+        </div>
+        <div class="calc-inputs">
+          <div class="calc-field"><label>درجة الحرارة (°C)</label><input type="number" id="hi-t" placeholder="42" oninput="calcHeat()"></div>
+          <div class="calc-field"><label>الرطوبة النسبية (٪)</label><input type="number" id="hi-rh" placeholder="35" min="0" max="100" oninput="calcHeat()"></div>
+        </div>
+        <div class="calc-result" id="hi-result"></div>
+        <div class="calc-ref">معادلة Rothfusz المعتمدة لدى NOAA/NWS · مرجع إداري: اشتراطات العمل تحت أشعة الشمس في السعودية (حظر العمل ١٢-١٥ صيفاً)</div>
+      </div>
+    </div>
+    <div>
+      <div class="calc-card">
+        <div class="calc-head">
+          <div class="calc-icon" style="background:rgba(255,109,0,.1);">🪢</div>
+          <div><div class="calc-title">مسافة الخلوص للسقوط — Fall Clearance</div><div class="calc-sub">هل المسافة تحت نقطة التثبيت كافية لإيقاف السقوط بأمان؟</div></div>
+        </div>
+        <div class="calc-inputs">
+          <div class="calc-field"><label>طول الحبل Lanyard (م)</label><input type="number" id="fc-ll" placeholder="1.8" step="0.1" oninput="calcFall()"></div>
+          <div class="calc-field"><label>مسافة التباطؤ (م)</label><input type="number" id="fc-dd" value="1.1" step="0.1" oninput="calcFall()"></div>
+          <div class="calc-field"><label>طول العامل (م)</label><input type="number" id="fc-ht" value="1.8" step="0.1" oninput="calcFall()"></div>
+          <div class="calc-field"><label>الارتفاع المتاح تحت التثبيت (م)</label><input type="number" id="fc-av" placeholder="6" step="0.1" oninput="calcFall()"></div>
+        </div>
+        <div class="calc-result" id="fc-result"></div>
+        <div class="calc-ref">الخلوص المطلوب = طول الحبل + مسافة التباطؤ + طول العامل + هامش أمان ٠.٩ م (ANSI Z359 / OSHA 1926.502)</div>
+      </div>
+      <div class="calc-card">
+        <div class="calc-head">
+          <div class="calc-icon" style="background:rgba(52,199,89,.1);">💬</div>
+          <div><div class="calc-title">تحتاج تفسيراً هندسياً؟</div><div class="calc-sub">أرسل نتيجتك للمرشد الذكي ليشرح لك الإجراءات الوقائية المناسبة</div></div>
+        </div>
+        <button class="btn btn-primary btn-full" style="margin-top:12px;" onclick="askCalcMentor()">💬 اسأل المرشد عن نتائجي</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
 <div class="page" id="page-settings">
 <div class="container">
   <div class="ph"><div class="ph-eyebrow">التفضيلات</div><div class="ph-title">الإعدادات</div></div>
@@ -2010,7 +2213,7 @@ let authMode='signup',currentUser=null;
 const FOUNDER_EMAIL='seeaf2013@gmail.com';
 // Founder config — saved to Supabase (or localStorage fallback)
 let FCONFIG={
-  content:{badge:'خبرة ميدانية · HSE متكامل وذكي',title1:'طوّر مهاراتك في',title2:'السلامة والصحة المهنية',sub:'منصة تدريبية متكاملة طوّرها متخصص HSE من الميدان — محاكاة الكوادر الوطنية، تحليل المواقع بالذكاء الاصطناعي، وخطة تعلّم مخصصة ترتقي بك خطوة بخطوة.',stat1:'+٨٠ · سؤال كوادر',stat2:'١٠+ · أدوات احترافية',stat3:'AI · تحليل ذكي للمواقع',stat4:'∞ · كل القطاعات'},
+  content:{badge:'بنك أسئلة موثوق · طوّره متخصص من الميدان',title1:'اجتز اختبار كوادر',title2:'من أول محاولة',sub:'محاكاة كاملة لاختبار الكوادر الوطني — بنك أسئلة مصنّف بالوحدات، مؤقت حقيقي، شرح لكل إجابة، وتحليل نقاط ضعفك بعد كل جولة. ومعها مرشد AI وحاسبات ميدانية لعملك اليومي.',stat1:'+١٢٠ · سؤال كوادر',stat2:'١٢+ · أدوات احترافية',stat3:'AI · تحليل ذكي للمواقع',stat4:'∞ · كل القطاعات'},
   tools:{chat:true,quiz:true,tools:true,incident:true,morning:true,plan:true,levels:true,flash:true,field:true,photo:true,report:true},
   settings:{name:'مرشد السلامة',tagline:'HSE Smart Platform',color:'#FF6D00',email:'seeaf2013@gmail.com',linkedin:'linkedin.com/in/sayyaf-alhothali-01787a277',ailimit:40},
   branding:{color:'#FF6D00',logoUrl:'',heroImg:'',whatsapp:'',twitter:'',announcementText:'',announcementShow:false},
@@ -2217,6 +2420,7 @@ function showApp(){
   // LinkedIn badge shown on all pages (landing + app)
   renderDevBadge();
   closeAuth();
+  if(!localStorage.getItem('mrshd_welcomed')){localStorage.setItem('mrshd_welcomed','1');setTimeout(()=>showToast('👋 أهلاً بك! ابدأ بـ«تحدي اليوم» في الرئيسية','success'),900);}
 }
 function openAuth(mode){authMode=mode;applyAuthMode();document.getElementById('auth-overlay').classList.add('show');setTimeout(()=>document.getElementById('auth-email').focus(),200);}
 function closeAuth(){document.getElementById('auth-overlay').classList.remove('show');const e=document.getElementById('auth-err');if(e)e.classList.remove('show');}
@@ -2370,7 +2574,7 @@ async function loadPhotoHistory(){
 }
 function load(){try{const d=localStorage.getItem('mrshd_v4');if(d){const p=JSON.parse(d);S={...S,...p};if(p.profile)S.profile={...S.profile,...p.profile};if(p.flashStats)S.flashStats={...S.flashStats,...p.flashStats};}}catch(e){}}
 function ar(n){return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);}
-function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+function showToast(m,type){const t=document.getElementById('toast');if(!t)return;t.textContent=m;t.className=type?type:'';void t.offsetWidth;t.classList.add('show');clearTimeout(window._toastT);window._toastT=setTimeout(()=>t.classList.remove('show'),2400);}
 function el(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
 function showEl(id){const e=document.getElementById(id);if(e)e.style.removeProperty('display');}
 function hideEl(id){const e=document.getElementById(id);if(e)e.style.display='none';}
@@ -2455,10 +2659,12 @@ function renderAll(){
   el('notes-count-lbl',ar(S.notes.length)+' ملاحظة');
   el('sv-xp',ar(S.xp));el('sv-correct',ar(S.correctTotal));el('sv-streak',ar(S.streak));
   renderPlanProgress();renderKWStats();renderBadges();
+  if(typeof renderDailyCh==='function')renderDailyCh();
+  if(typeof renderPerf==='function')renderPerf();
 }
 
 // NAVIGATION
-const ALL_PAGES=['home','chat','quiz','tools','plan','morning','levels','flash','field','photo','report','settings','incident'];
+const ALL_PAGES=['home','chat','quiz','tools','plan','morning','levels','flash','field','photo','report','settings','incident','calc'];
 function switchTab(name){
   ALL_PAGES.forEach(p=>{const pg=document.getElementById('page-'+p);if(pg)pg.classList.remove('active');});
   document.querySelectorAll('.nav-link,.mnav-item').forEach(t=>t.classList.remove('active'));
@@ -2943,8 +3149,12 @@ function finishKwadarat(){
   const reviewMode=kwReview;kwReview=false;
   const res=document.getElementById('kw-result-view');if(res)res.style.removeProperty('display');
   const mH=missed.length?`<div style="width:100%;margin-top:10px;"><div style="font-size:12.5px;font-weight:800;color:var(--muted);margin-bottom:8px;">الأسئلة الخاطئة</div>${missed.map(a=>`<div class="ios-card"><div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.5;">${a.q.q}</div><div style="font-size:12.5px;color:var(--green);font-weight:700;">✅ ${(a.q.opts||[])[a.q.ans!==undefined?a.q.ans:a.q.answer]}</div><div style="font-size:12px;color:var(--muted);margin-top:3px;">${a.q.ex||''}</div></div>`).join('')}</div>`:'';
+  // Per-topic breakdown of this attempt
+  const tstats={};kwAns.forEach(a=>{const t=a.q.topic||'عام';(tstats[t]=tstats[t]||{c:0,n:0}).n++;if(a.correct)tstats[t].c++;});
+  const tlist=Object.entries(tstats).map(([t,v])=>({t,pct:Math.round(v.c/v.n*100),n:v.n})).sort((a,b)=>a.pct-b.pct);
+  const topicH=tlist.length>1?`<div style="width:100%;margin-top:14px;text-align:right;background:var(--bg2);border:1px solid var(--sep2);border-radius:14px;padding:14px 16px;box-shadow:var(--sh);"><div style="font-size:12.5px;font-weight:800;color:var(--muted);margin-bottom:6px;">📊 أداؤك حسب الوحدة في هذه الجولة</div>${tlist.map(x=>`<div class="topic-row"><div class="topic-lbl">${esc(x.t)}</div><div class="topic-track"><div class="topic-fill-ok" style="width:${x.pct}%;"></div><div class="topic-fill-bad" style="width:${100-x.pct}%;"></div></div><div class="topic-pct" style="color:${x.pct>=70?'var(--green)':'var(--red)'};">${ar(x.pct)}٪</div></div>`).join('')}</div>`:'';
   const ttl=reviewMode?(missed.length?'انتهت المراجعة 🔁':'ممتاز! صحّحت كل أخطائك ✅'):(pass?'ناجح في كوادر ✅':'لم تنجح ❌');
-  if(res)res.innerHTML=`<div class="result-wrap"><div class="result-pct ${pass?'pass':'fail'}">${ar(pct)}٪</div><div style="font-size:19px;font-weight:800;color:${pass?'var(--green)':'var(--red)'};">${ttl}</div><div style="font-size:14px;color:var(--muted);">${ar(correct)} من ${ar(total)}${reviewMode?'':' · النجاح ٧٠٪'}</div><div class="result-actions"><button class="btn btn-secondary" onclick="resetKwadarat()">🔄 العودة</button><button class="btn btn-primary" onclick="kwDiscuss()">💬 ناقش المرشد</button></div>${mH}</div>`;
+  if(res)res.innerHTML=`<div class="result-wrap"><div class="result-pct ${pass?'pass':'fail'}">${ar(pct)}٪</div><div style="font-size:19px;font-weight:800;color:${pass?'var(--green)':'var(--red)'};">${ttl}</div><div style="font-size:14px;color:var(--muted);">${ar(correct)} من ${ar(total)}${reviewMode?'':' · النجاح ٧٠٪'}</div><div class="result-actions"><button class="btn btn-secondary" onclick="resetKwadarat()">🔄 العودة</button><button class="btn btn-primary" onclick="kwDiscuss()">💬 ناقش المرشد</button></div>${topicH}${mH}</div>`;
   // Review sessions don't count as official attempts / certificates
   if(!reviewMode){
     if(!S.kwHistory)S.kwHistory=[];S.kwHistory.unshift({date:new Date().toLocaleDateString('ar-SA'),score:correct,total,pct});if(S.kwHistory.length>10)S.kwHistory=S.kwHistory.slice(0,10);
@@ -3253,6 +3463,7 @@ let _certData=null;
 function genSerial(){const y=new Date().getFullYear();let n=parseInt(localStorage.getItem('mrshd_certnum')||'146')+1;localStorage.setItem('mrshd_certnum',n);return 'MS-'+y+'-'+String(n).padStart(5,'0');}
 function showCertificate(pct,correct,total,testType){
   if(pct<70)return;
+  burstConfetti();
   const serial=genSerial();
   _certData={pct,correct,total,testType,serial};
   const name=S.profile.name||'المتدرب',date=new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'}),cur=getCurrentLevel(S.xp);
@@ -3518,10 +3729,198 @@ function renderDevBadge(){
   badge.style.display='flex';
 }
 
+// ═══════════ v4: CONFETTI ═══════════
+function burstConfetti(n=90){
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const colors=['#FF6D00','#FFB627','#34C759','#007AFF','#5856D6','#FF3B30','#5AC8FA'];
+  for(let i=0;i<n;i++){
+    const d=document.createElement('div');d.className='confetti-piece';
+    d.style.left=Math.random()*100+'vw';d.style.background=colors[i%colors.length];
+    d.style.width=(6+Math.random()*7)+'px';d.style.height=(9+Math.random()*9)+'px';
+    d.style.animationDuration=(2.2+Math.random()*1.9)+'s';d.style.animationDelay=(Math.random()*.5)+'s';
+    document.body.appendChild(d);setTimeout(()=>d.remove(),5000);
+  }
+}
+
+// ═══════════ v4: DAILY CHALLENGE ═══════════
+function getDailyQ(){
+  if(!KWB.length)return null;
+  const key=new Date().toDateString();let h=0;
+  for(let i=0;i<key.length;i++){h=((h<<5)-h)+key.charCodeAt(i);h|=0;}
+  return KWB[Math.abs(h)%KWB.length];
+}
+function renderDailyCh(){
+  if(window._dchLock)return;
+  const c=document.getElementById('daily-ch');if(!c)return;
+  const q=getDailyQ();if(!q){c.style.display='none';return;}
+  const today=new Date().toDateString();
+  if(S.dailyCh&&S.dailyCh.date===today&&S.dailyCh.done){
+    const ok=S.dailyCh.correct;
+    c.innerHTML=`<div class="daily-ch-head"><div class="daily-ch-title">⚡ تحدي اليوم</div><span class="daily-ch-xp">${ok?'+٢٥ XP ✅':'+٥ XP'}</span></div>
+      <div class="daily-ch-done"><div class="ic">${ok?'🎯':'📚'}</div><div><div class="t1">${ok?'أصبت تحدي اليوم!':'تحدي اليوم انتهى'}</div><div class="t2">${ok?'عُد غداً لتحدٍ جديد وحافظ على السلسلة 🔥':'راجع الشرح وعُد غداً — الاستمرارية أهم من الكمال'}</div></div></div>`;
+    return;
+  }
+  c.innerHTML=`<div class="daily-ch-head"><div class="daily-ch-title">⚡ تحدي اليوم — سؤال كوادر</div><span class="daily-ch-xp">+٢٥ XP</span></div>
+    <div class="daily-ch-q">${q.q}</div>
+    ${(q.opts||[]).map((o,i)=>`<button class="quiz-opt" id="dch-opt-${i}" onclick="ansDaily(${i})" style="font-size:14px;padding:12px 16px;">${o}</button>`).join('')}
+    <div class="quiz-explain" id="dch-ex">${q.ex||''}</div>`;
+}
+function ansDaily(i){
+  if(window._dchLock)return;window._dchLock=true;
+  const q=getDailyQ();const correct=q.ans!==undefined?q.ans:q.answer;const ok=i===correct;
+  for(let k=0;k<4;k++){const o=document.getElementById('dch-opt-'+k);if(!o)continue;o.classList.add('locked');o.disabled=true;if(k===correct)o.classList.add('correct');else if(k===i)o.classList.add('wrong');}
+  const ex=document.getElementById('dch-ex');if(ex)ex.classList.add('show');
+  setTimeout(()=>{
+    window._dchLock=false;
+    S.dailyCh={date:new Date().toDateString(),done:true,correct:ok};
+    if(ok){S.correctTotal++;S.todayQs++;if(!S.strengths)S.strengths={};S.strengths[q.topic]=(S.strengths[q.topic]||0)+1;}
+    else{S.wrongTotal++;if(!S.weaknesses)S.weaknesses={};S.weaknesses[q.topic]=(S.weaknesses[q.topic]||0)+1;}
+    checkStreak();
+    addXP(ok?25:5);
+    showToast(ok?'🎯 تحدي اليوم مكتمل! +٢٥ XP':'📚 راجع الشرح — غداً فرصة جديدة',ok?'success':'warn');
+  },2300);
+}
+
+// ═══════════ v4: PERFORMANCE ANALYTICS ═══════════
+function renderPerf(){
+  const sc=document.getElementById('perf-scores'),tp=document.getElementById('perf-topics');
+  if(sc){
+    const h=(S.kwHistory||[]).slice(0,8).reverse();
+    if(!h.length){
+      sc.innerHTML=`<div class="perf-empty">لا نتائج بعد — خض أول محاكاة كوادر<br>ليبدأ رسم منحنى تقدمك 📈<br><button class="btn btn-primary" style="margin-top:12px;font-size:13px;padding:9px 20px;" onclick="switchTab('quiz')">🏆 ابدأ المحاكاة</button></div>`;
+    }else{
+      sc.innerHTML=`<div class="perf-bars" style="position:relative;">
+        <div class="perf-goal-line" style="bottom:${Math.round(70*.92)}px;"></div>
+        ${h.map(x=>`<div class="perf-bar-col"><div class="perf-bar-val">${ar(x.pct)}</div><div class="perf-bar ${x.pct>=70?'pass':'fail'}" style="height:${Math.max(5,Math.round(x.pct*.92))}px;" title="${x.date} · ${ar(x.pct)}٪"></div></div>`).join('')}
+      </div>`;
+    }
+  }
+  if(tp){
+    const m={};
+    Object.entries(S.strengths||{}).forEach(([t,c])=>{(m[t]=m[t]||{s:0,w:0}).s=c;});
+    Object.entries(S.weaknesses||{}).forEach(([t,c])=>{(m[t]=m[t]||{s:0,w:0}).w=c;});
+    const list=Object.entries(m).map(([t,v])=>({t,n:v.s+v.w,pct:Math.round(v.s/(v.s+v.w)*100)})).filter(x=>x.n>0).sort((a,b)=>b.n-a.n).slice(0,6);
+    if(!list.length){tp.innerHTML=`<div class="perf-empty">أجب على أسئلة أولاً — سنكشف لك<br>وحداتك القوية وما يحتاج تركيزاً 🎯</div>`;}
+    else{tp.innerHTML=list.map(x=>`<div class="topic-row"><div class="topic-lbl">${esc(x.t)}</div><div class="topic-track"><div class="topic-fill-ok" style="width:${x.pct}%;"></div><div class="topic-fill-bad" style="width:${100-x.pct}%;"></div></div><div class="topic-pct" style="color:${x.pct>=70?'var(--green)':'var(--red)'};">${ar(x.pct)}٪</div></div>`).join('');}
+  }
+}
+
+// ═══════════ v4: HSE FIELD CALCULATORS ═══════════
+let _calcSummary={};
+function _calcRes(id,cls,val,verdict,note){
+  const r=document.getElementById(id);if(!r)return;
+  if(!cls){r.className='calc-result';r.innerHTML='';return;}
+  r.className='calc-result show '+cls;
+  r.innerHTML=`<div class="cr-val">${val}</div><div class="cr-verdict">${verdict}</div>${note?`<div class="cr-note">${note}</div>`:''}`;
+}
+function calcNoise(){
+  const g=id=>{const v=parseFloat(document.getElementById(id)?.value);return isNaN(v)?null:v;};
+  let dose=0,any=false;
+  [['nz-l1','nz-h1'],['nz-l2','nz-h2'],['nz-l3','nz-h3']].forEach(([li,hi])=>{
+    const L=g(li),C=g(hi);
+    if(L&&C&&L>0&&C>0){any=true;const T=8/Math.pow(2,(L-90)/5);dose+=100*C/T;}
+  });
+  if(!any){_calcRes('nz-result',null);delete _calcSummary.noise;return;}
+  const twa=dose>0?16.61*Math.log10(dose/100)+90:0;
+  const doseR=Math.round(dose*10)/10,twaR=Math.round(twa*10)/10;
+  let cls,verdict,note;
+  if(dose>100){cls='bad';verdict='⛔ تجاوز الحد المسموح PEL';note='الجرعة تجاوزت ١٠٠٪ — يجب خفض التعرض فوراً: ضوابط هندسية (عزل/كواتم)، تدوير العمال، وواقيات سمع إلزامية بمعامل خفض NRR مناسب.';}
+  else if(twa>=85){cls='mid';verdict='⚠️ فوق مستوى الإجراء (٨٥ dBA)';note='يجب تفعيل برنامج حماية السمع: فحوصات سمع دورية، تدريب، وتوفير واقيات سمع مجانية.';}
+  else{cls='ok';verdict='✅ ضمن الحدود الآمنة';note='التعرض أقل من مستوى الإجراء — حافظ على المراقبة الدورية لمستويات الضجيج.';}
+  _calcRes('nz-result',cls,`Dose ${doseR}% · TWA ${twaR} dBA`,verdict,note);
+  _calcSummary.noise=`جرعة الضجيج ${doseR}٪ و TWA ${twaR} dBA`;
+}
+function calcHeat(){
+  const t=parseFloat(document.getElementById('hi-t')?.value),rh=parseFloat(document.getElementById('hi-rh')?.value);
+  if(isNaN(t)||isNaN(rh)){_calcRes('hi-result',null);delete _calcSummary.heat;return;}
+  const T=t*9/5+32,R=Math.min(100,Math.max(0,rh));
+  let HI=.5*(T+61+((T-68)*1.2)+(R*.094));
+  if(HI>=80){
+    HI=-42.379+2.04901523*T+10.14333127*R-.22475541*T*R-.00683783*T*T-.05481717*R*R+.00122874*T*T*R+.00085282*T*R*R-.00000199*T*T*R*R;
+    if(R<13&&T>=80&&T<=112)HI-=((13-R)/4)*Math.sqrt((17-Math.abs(T-95))/17);
+    else if(R>85&&T>=80&&T<=87)HI+=((R-85)/10)*((87-T)/5);
+  }
+  const hiC=Math.round((HI-32)*5/9*10)/10;
+  let cls,verdict,note;
+  if(hiC<27){cls='ok';verdict='✅ آمن نسبياً';note='ظروف اعتيادية — وفّر ماء الشرب وشجع الترطيب المنتظم.';}
+  else if(hiC<32){cls='mid';verdict='⚠️ حذر — إجهاد محتمل';note='إرهاق ممكن مع المجهود المتواصل: ماء كل ٢٠ دقيقة، وفترات راحة في الظل.';}
+  else if(hiC<41){cls='mid';verdict='🟠 حذر شديد';note='احتمال تشنجات وإنهاك حراري: نظام عمل/راحة (٤٥/١٥ دقيقة)، مراقبة الأعراض، وتظليل مناطق العمل.';}
+  else if(hiC<54){cls='bad';verdict='⛔ خطر — Danger';note='ضربة شمس محتملة: قلّص العمل الخارجي، راحة ١٥ دقيقة لكل ٤٥ عمل كحد أدنى، مراقبة لصيقة، وخطة استجابة طوارئ جاهزة.';}
+  else{cls='bad';verdict='☠️ خطر شديد — أوقف العمل';note='ضربة شمس وشيكة — أوقف الأعمال الخارجية غير الحرجة فوراً وانقل الأنشطة لساعات أبرد.';}
+  _calcRes('hi-result',cls,`HI ${hiC}°C`,verdict,note);
+  _calcSummary.heat=`مؤشر الحرارة ${hiC}°م عند ${t}°م ورطوبة ${rh}٪`;
+}
+function calcFall(){
+  const g=id=>{const v=parseFloat(document.getElementById(id)?.value);return isNaN(v)?null:v;};
+  const ll=g('fc-ll'),dd=g('fc-dd')??1.1,ht=g('fc-ht')??1.8,av=g('fc-av');
+  if(ll==null){_calcRes('fc-result',null);delete _calcSummary.fall;return;}
+  const req=Math.round((ll+dd+ht+0.9)*100)/100;
+  if(av==null){
+    _calcRes('fc-result','mid',`${req} م`,'📏 الخلوص المطلوب تحت نقطة التثبيت','أدخل الارتفاع المتاح للمقارنة والتحقق من الأمان.');
+  }else if(av>=req){
+    _calcRes('fc-result','ok',`${req} م`,`✅ الخلوص كافٍ — المتاح ${av} م`,'المسافة المتاحة تسمح بإيقاف السقوط قبل ملامسة الأرض أو أي عائق. تأكد من عدم وجود عوائق في مسار السقوط ومن ظاهرة التأرجح Swing Fall.');
+  }else{
+    _calcRes('fc-result','bad',`${req} م`,`⛔ غير كافٍ — المتاح ${av} م فقط · خطر ارتطام`,'ارفع نقطة التثبيت، استخدم حبلاً أقصر أو SRL (بكرة استرجاع ذاتي)، أو غيّر منهجية العمل. لا تسمح بالعمل بهذه التجهيزة.');
+  }
+  _calcSummary.fall=`خلوص السقوط المطلوب ${req} م والمتاح ${av??'غير محدد'} م`;
+}
+function askCalcMentor(){
+  const parts=Object.values(_calcSummary);
+  if(!parts.length){showToast('أدخل قيماً في إحدى الحاسبات أولاً','warn');return;}
+  switchTab('chat');
+  setTimeout(()=>quickChat('نتائج حساباتي الميدانية: '+parts.join(' · ')+'. اشرح دلالتها والإجراءات الوقائية المطلوبة وفق المعايير.'),150);
+}
+
+// ═══════════ v4: LANDING DEMO QUIZ ═══════════
+const DEMOQ=[
+  {q:'ما الحد الأدنى لنسبة الأكسجين المسموح بها قبل دخول الأماكن المغلقة وفق OSHA؟',opts:['أ) ١٦٪','ب) ١٩.٥٪','ج) ٢١٪','د) ٢٣٪'],ans:1,ex:'OSHA تشترط نسبة أكسجين بين ١٩.٥٪ و٢٣.٥٪ قبل السماح بالدخول — أقل من ذلك يتطلب تهوية أو معدات تنفس.'},
+  {q:'التفتيش الحكومي على المنشآت يُصنّف كتدقيق:',opts:['أ) داخلي','ب) طرف ثانٍ','ج) طرف ثالث','د) ذاتي'],ans:2,ex:'الجهات الحكومية والجهات المانحة للشهادات جهة مستقلة عن المنشأة وعملائها = تدقيق طرف ثالث.'},
+  {q:'ما أعلى وأفضل مستوى في هرم ضوابط التحكم بالمخاطر؟',opts:['أ) معدات الحماية الشخصية PPE','ب) الإجراءات الإدارية','ج) الاستبدال','د) الحذف والإزالة'],ans:3,ex:'إزالة الخطر من المصدر أفضل ضابط على الإطلاق — وPPE آخر خط دفاع وأضعفها.'},
+];
+let demoIdx=0,demoScore=0,demoDots=[];
+function renderDemo(){
+  const c=document.getElementById('lp-demo-card');if(!c)return;
+  if(demoIdx>=DEMOQ.length){
+    const pct=Math.round(demoScore/DEMOQ.length*100);
+    c.innerHTML=`<div class="lp-demo-result">
+      <div class="lp-demo-score" style="color:${pct>=67?'var(--green)':'var(--orange)'};">${ar(demoScore)}/${ar(DEMOQ.length)}</div>
+      <div class="lp-demo-msg">${pct>=67?'ممتاز! عندك أساس قوي — تخيّل مستواك بعد ١٢٠+ سؤال بشرح كامل وتحليل ضعفك 🎯':'هذا بالضبط سبب وجود المنصة — بنك أسئلة كامل بشرح وافٍ يرفع مستواك سؤالاً بسؤال 📚'}</div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button class="lp-cta-primary" style="padding:14px 34px;font-size:15px;" onclick="openAuth('signup')">أكمل التدريب مجاناً 🚀</button>
+        <button class="lp-btn-login" onclick="demoIdx=0;demoScore=0;demoDots=[];renderDemo();">🔄 أعد المحاولة</button>
+      </div></div>`;
+    return;
+  }
+  const q=DEMOQ[demoIdx];
+  c.innerHTML=`<div class="lp-demo-meta">
+      <span class="bdg bdg-gold">نمط كوادر</span><span style="font-size:12px;color:var(--muted);font-weight:700;">سؤال ${ar(demoIdx+1)} من ${ar(DEMOQ.length)}</span>
+      <div class="lp-demo-prog">${DEMOQ.map((_,i)=>`<span class="lp-demo-dot ${demoDots[i]||(i===demoIdx?'on':'')}"></span>`).join('')}</div>
+    </div>
+    <div class="lp-demo-q">${q.q}</div>
+    ${q.opts.map((o,i)=>`<button class="quiz-opt" id="demo-opt-${i}" onclick="demoAns(${i})">${o}</button>`).join('')}
+    <div class="quiz-explain" id="demo-ex">${q.ex}</div>
+    <div id="demo-next-wrap"></div>`;
+}
+function demoAns(i){
+  const q=DEMOQ[demoIdx];const ok=i===q.ans;
+  for(let k=0;k<4;k++){const o=document.getElementById('demo-opt-'+k);if(!o)continue;o.classList.add('locked');o.disabled=true;if(k===q.ans)o.classList.add('correct');else if(k===i)o.classList.add('wrong');}
+  const ex=document.getElementById('demo-ex');if(ex)ex.classList.add('show');
+  if(ok)demoScore++;demoDots[demoIdx]=ok?'good':'bad';
+  const w=document.getElementById('demo-next-wrap');
+  if(w)w.innerHTML=`<button class="btn btn-primary btn-full" style="margin-top:8px;" onclick="demoIdx++;renderDemo();">${demoIdx<DEMOQ.length-1?'السؤال التالي ←':'شاهد نتيجتك 🎯'}</button>`;
+}
+
+// ═══════════ v4: LANDING SCROLL PROGRESS ═══════════
+window.addEventListener('scroll',()=>{
+  const b=document.getElementById('lp-scroll-progress');if(!b)return;
+  const h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+  b.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+},{passive:true});
+
 // INIT
 load();initTheme();
 (async()=>{await loadFConfig();if(FCONFIG.customQuestions&&FCONFIG.customQuestions.length){FCONFIG.customQuestions.forEach(q=>{if(!KWB.some(k=>k.q===q.q))KWB.push(q);});}renderKWStats();})();
-renderAll();renderKWScores();renderWUHist();renderPhotoHist();renderPlan();renderLevelsPage();
+renderAll();renderKWScores();renderWUHist();renderPhotoHist();renderPlan();renderLevelsPage();renderDemo();
 applyLang(currentLang);
 if(location.hash==='#founder'||sessionStorage.getItem('mrshd_founder')==='1'){if(sessionStorage.getItem('mrshd_founder')==='1'){document.getElementById('founder-panel').classList.add('show');setTimeout(fpRenderAll,300);}else{openFounderLogin();}}
 (async()=>{const loggedIn=await checkAuthSession();if(loggedIn){renderAll();showApp();}else{showLanding();}})();
