@@ -56,8 +56,30 @@ Deno.serve(async (req: Request) => {
     updated_at: new Date().toISOString(),
   });
 
+  // Validate & sanitize the request before forwarding (prevents cost abuse:
+  // arbitrary expensive models / unbounded max_tokens from a crafted client).
+  const ALLOWED_MODELS = ["gpt-4o-mini", "gpt-4o"];
+  const MAX_TOKENS_CAP = 4000;
+  const raw = await req.json();
+  if (!raw || typeof raw !== "object" || !Array.isArray(raw.messages)) {
+    return new Response(JSON.stringify({ error: "طلب غير صالح" }), { status: 400, headers: { ...cors, "Content-Type": "application/json" } });
+  }
+  if (!ALLOWED_MODELS.includes(raw.model)) {
+    return new Response(
+      JSON.stringify({ error: `النموذج غير مسموح. المسموح: ${ALLOWED_MODELS.join(", ")}` }),
+      { status: 400, headers: { ...cors, "Content-Type": "application/json" } }
+    );
+  }
+  // Only forward a known set of fields; clamp token usage.
+  const body: Record<string, unknown> = {
+    model: raw.model,
+    messages: raw.messages,
+    max_tokens: Math.min(Number(raw.max_tokens) || MAX_TOKENS_CAP, MAX_TOKENS_CAP),
+  };
+  if (typeof raw.temperature === "number") body.temperature = Math.max(0, Math.min(2, raw.temperature));
+  if (raw.response_format) body.response_format = raw.response_format;
+
   // Forward to OpenAI
-  const body = await req.json();
   let oaRes: Response;
   try {
     oaRes = await fetch("https://api.openai.com/v1/chat/completions", {

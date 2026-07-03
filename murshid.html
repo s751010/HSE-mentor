@@ -53,8 +53,6 @@ body.dark .cert-detail{background:var(--bg3);}
 body.dark .cert-detail-lbl,body.dark .cert-presented,body.dark .cert-sig-title{color:var(--muted);}
 body.dark .cert-detail-val,body.dark .cert-name{color:var(--text);}
 body.dark .cert-divider,body.dark .cert-footer-sig{border-color:var(--sep2);}
-body.dark .admin-panel{background:var(--bg);}
-body.dark .login-screen{background:linear-gradient(145deg,#06101c,#0d2137);}
 body.dark .auth-box{background:var(--bg2);border:1px solid var(--sep);}
 body.dark .modal-sheet{background:var(--bg2);}
 body.dark .lp-feature{background:var(--bg2);border-color:var(--sep);}
@@ -73,11 +71,8 @@ body.dark .warmup-settings{background:var(--bg2);}
 body.dark .hist-item{background:var(--bg2);}
 body.dark .note-item{background:var(--bg3);}
 body.dark .fp-card{background:var(--bg2);}
-body.dark .astat{background:var(--bg2);}
-body.dark .admin-sec{background:var(--bg2);}
 body.dark .chip{background:var(--bg2);}
 body.dark .form-select,body.dark .form-input,body.dark .field-ta{background:var(--bg3);border-color:var(--sep);}
-body.dark .login-box{background:rgba(255,255,255,.05);}
 
 /* ── BASE HTML ─────────────────────────────────────── */
 html,body{width:100%;min-height:100vh;font-family:var(--font);-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--text);transition:background .25s,color .25s;}
@@ -458,51 +453,7 @@ body.dark ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);background-
 .gen-report-btn:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(255,109,0,.38);}
 .report-content{background:var(--bg2);border:1px solid var(--sep2);border-radius:var(--r-lg);padding:22px;font-size:14px;color:var(--text);line-height:1.85;box-shadow:var(--sh);}
 
-/* ── ADMIN / LOGIN ─────────────────────────────────── */
-.login-screen{display:none;position:fixed;inset:0;z-index:1000;background:linear-gradient(145deg,#0d2137,#1a3a5c);align-items:center;justify-content:center;padding:24px;}
-.login-screen.show{display:flex;}
-.login-box{width:100%;max-width:340px;background:rgba(255,255,255,.07);backdrop-filter:blur(22px);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:34px 26px;display:flex;flex-direction:column;gap:15px;align-items:center;}
-.login-logo{width:74px;height:74px;border-radius:20px;background:rgba(255,109,0,.15);border:2px solid rgba(255,109,0,.3);display:flex;align-items:center;justify-content:center;font-size:36px;}
-.login-title{font-size:22px;font-weight:900;color:#fff;}
-.login-sub{font-size:13px;color:rgba(255,255,255,.45);margin-top:-8px;text-align:center;}
-.login-inp{width:100%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:13px;padding:14px 16px;color:#fff;font-size:14.5px;outline:none;font-family:var(--font);transition:border-color .2s;}
-.login-inp:focus{border-color:rgba(255,109,0,.65);}
-.login-inp::placeholder{color:rgba(255,255,255,.3);}
-.login-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--orange),var(--gold));border:none;border-radius:13px;color:#fff;font-size:15px;font-weight:800;cursor:pointer;font-family:var(--font);}
-.login-err{font-size:13px;color:#ff6b6b;text-align:center;display:none;}
-.login-err.show{display:block;}
-.login-divider{width:100%;height:1px;background:rgba(255,255,255,.08);}
-.login-hint{font-size:11px;color:rgba(255,255,255,.25);text-align:center;}
-.admin-panel{display:none;position:fixed;inset:0;z-index:900;background:var(--bg);overflow-y:auto;}
-.admin-panel.show{display:block;}
-.admin-nav{background:linear-gradient(135deg,#0d2137,#1a3a5c);padding:48px 26px 18px;position:sticky;top:0;z-index:10;}
-.admin-nav-row{display:flex;align-items:center;justify-content:space-between;}
-.admin-title{font-size:20px;font-weight:900;color:#fff;}
-.admin-sub{font-size:12px;color:rgba(255,255,255,.45);margin-top:2px;}
-.admin-logout{padding:7px 15px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:9px;color:rgba(255,255,255,.7);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);}
-.admin-body{padding:18px 22px;max-width:860px;margin:0 auto;}
-.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:18px;}
-.astat{background:var(--bg2);border-radius:18px;padding:16px;box-shadow:var(--sh);border:1px solid var(--sep2);}
-.astat-icon{font-size:22px;margin-bottom:6px;}
-.astat-val{font-size:28px;font-weight:900;color:var(--text);letter-spacing:-1px;}
-.astat-lbl{font-size:11px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.4px;}
-.astat.orange .astat-val{color:var(--orange);}.astat.green .astat-val{color:var(--green);}.astat.gold .astat-val{color:var(--gold);}.astat.blue .astat-val{color:var(--blue);}
-.admin-sec{background:var(--bg2);border-radius:var(--r-lg);margin-bottom:13px;overflow:hidden;box-shadow:var(--sh);border:1px solid var(--sep2);}
-.admin-sec-hdr{padding:13px 18px;border-bottom:.5px solid var(--sep2);display:flex;align-items:center;justify-content:space-between;}
-.admin-sec-title{font-size:14.5px;font-weight:800;color:var(--text);}
-.admin-sec-badge{font-size:11.5px;font-weight:700;color:var(--muted);background:var(--bg4);padding:3px 10px;border-radius:20px;}
-.mini-bar-row{display:flex;align-items:center;gap:11px;padding:9px 18px;border-bottom:.5px solid var(--sep2);}
-.mini-bar-row:last-child{border-bottom:none;}
-.mini-bar-lbl{font-size:13px;color:var(--text);min-width:120px;}
-.mini-bar-track{flex:1;height:6px;background:var(--sep2);border-radius:3px;overflow:hidden;}
-.mini-bar-fill{height:100%;border-radius:3px;background:var(--orange);}
-.mini-bar-val{font-size:12px;font-weight:700;color:var(--muted);min-width:34px;}
-.act-row{display:flex;align-items:flex-start;gap:10px;padding:10px 18px;border-bottom:.5px solid var(--sep2);}
-.act-row:last-child{border-bottom:none;}
-.act-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:5px;}
-.act-dot.green{background:var(--green);}.act-dot.gold{background:var(--gold);}.act-dot.blue{background:var(--blue);}
-.act-text{flex:1;font-size:13px;color:var(--text);line-height:1.5;}
-.act-time{font-size:11px;color:var(--muted);}
+/* ── SETTINGS BUTTONS ──────────────────────────────── */
 .admin-open-btn{width:100%;padding:13px;background:linear-gradient(135deg,#0d2137,#1a3a5c);border:none;border-radius:13px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);margin-bottom:7px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 3px 14px rgba(0,0,0,.22);}
 .reset-btn{width:100%;padding:13px;background:rgba(255,59,48,.07);border:1.5px solid rgba(255,59,48,.2);border-radius:13px;color:var(--red);font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);}
 
@@ -831,7 +782,7 @@ body.dark .lp-creator-card{background:var(--bg2);border-color:var(--sep);}
 
 /* ── PRINT ─────────────────────────────────────────── */
 @media print{
-  .navbar,.mobile-nav,#toast,.modal-overlay,.cert-overlay,.login-screen,.admin-panel,.btn,.gen-report-btn,.chat-input-zone,.chat-chips,.seg,.nav-end{display:none !important;}
+  .navbar,.mobile-nav,#toast,.modal-overlay,.cert-overlay,.btn,.gen-report-btn,.chat-input-zone,.chat-chips,.seg,.nav-end{display:none !important;}
   .site-wrap{padding-top:0;}
   body{background:#fff;}
   .card,.ios-card,.ptw-section{box-shadow:none;border:1px solid #ddd;}
@@ -852,7 +803,6 @@ body.dark .lp-creator-card{background:var(--bg2);border-color:var(--sep);}
   .ph{padding:26px 0 18px;}
   .ph-title{font-size:27px;}
   .hero-val{font-size:50px;}
-  .admin-stats{grid-template-columns:1fr 1fr;}
   .cert-details{grid-template-columns:1fr 1fr;}
   .chat-feed{height:340px;}
   .lp-hero-stats{gap:28px;}
@@ -1381,6 +1331,8 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     </div>
     <div id="kw-review-banner" style="display:none;"></div>
     <div class="warmup-settings">
+      <div class="ws-lbl">الوحدة / الموضوع</div>
+      <div class="ws-opts" id="kw-topic-chips" style="flex-wrap:wrap;gap:8px;"></div>
       <div class="ws-lbl">عدد الأسئلة</div>
       <div class="ws-opts">
         <div class="ws-opt sel" id="kwn-20" onclick="selectKWN(20)">٢٠ سؤال</div>
@@ -1791,39 +1743,6 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   </div>
 </div>
 
-<!-- LOGIN + ADMIN -->
-<div class="login-screen" id="login-screen">
-  <div class="login-box">
-    <div class="login-logo"><div class="brand-logo-img" style="background:var(--logo) center/contain no-repeat;width:70%;height:70%;"></div></div>
-    <div style="text-align:center;"><div class="login-title">مرشد السلامة</div><div class="login-sub">لوحة تحكم المدير</div></div>
-    <div class="login-divider"></div>
-    <input class="login-inp" id="login-email" type="email" placeholder="البريد الإلكتروني">
-    <input class="login-inp" id="login-pass" type="password" placeholder="كلمة المرور" onkeydown="if(event.key==='Enter')doLogin()">
-    <div class="login-err" id="login-err">⚠️ بيانات غير صحيحة</div>
-    <button class="login-btn" onclick="doLogin()">🔐 دخول</button>
-    <div class="login-hint">هذه اللوحة للمدير فقط</div>
-  </div>
-</div>
-<div class="admin-panel" id="admin-panel">
-  <div class="admin-nav"><div class="admin-nav-row"><div><div class="admin-title">🛡️ لوحة سياف الإدارية</div><div class="admin-sub">آخر تحديث: <span id="admin-last-update">—</span></div></div><button class="admin-logout" onclick="adminLogout()">خروج 👋</button></div></div>
-  <div class="admin-body">
-    <div class="admin-stats">
-      <div class="astat orange"><div class="astat-icon">👥</div><div class="astat-val" id="a-users">—</div><div class="astat-lbl">جلسة فريدة</div></div>
-      <div class="astat green"><div class="astat-icon">✅</div><div class="astat-val" id="a-correct">—</div><div class="astat-lbl">إجابة صحيحة</div></div>
-      <div class="astat gold"><div class="astat-icon">🏆</div><div class="astat-val" id="a-certs">—</div><div class="astat-lbl">شهادة صدرت</div></div>
-      <div class="astat blue"><div class="astat-icon">⚡</div><div class="astat-val" id="a-xp">—</div><div class="astat-lbl">XP مكتسب</div></div>
-    </div>
-    <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">👤 ملف المستخدم</span><span class="admin-sec-badge" id="a-level-badge">—</span></div><div style="padding:13px 18px;display:flex;flex-direction:column;gap:7px;" id="a-profile-body"></div></div>
-    <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">📊 معدل الدقة</span><span class="admin-sec-badge" id="a-acc-badge">—</span></div><div style="padding:13px 18px;"><div class="xp-bar-track" style="height:9px;"><div class="xp-bar-fill" id="a-acc-bar" style="width:0%;height:9px;"></div></div><div style="display:flex;justify-content:space-between;margin-top:5px;font-size:12px;color:var(--muted);"><span id="a-acc-correct">—</span><span id="a-acc-wrong">—</span></div></div></div>
-    <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">⚠️ نقاط الضعف</span></div><div id="a-weakness-list"></div></div>
-    <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">💪 نقاط القوة</span></div><div id="a-strength-list"></div></div>
-    <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">🏆 سجل كوادر</span><span class="admin-sec-badge" id="a-kw-count">—</span></div><div id="a-kw-hist"></div></div>
-    <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">📅 تقدم الخطة</span><span class="admin-sec-badge" id="a-plan-badge">—</span></div><div style="padding:13px 18px;"><div class="xp-bar-track"><div class="xp-bar-fill" id="a-plan-bar" style="width:0%"></div></div><div style="font-size:12px;color:var(--muted);margin-top:5px;" id="a-plan-sub">—</div></div></div>
-    <div class="admin-sec"><div class="admin-sec-hdr"><span class="admin-sec-title">📋 سجل النشاط</span></div><div id="a-activity"></div></div>
-    <div style="height:28px;"></div>
-  </div>
-</div>
-
 <!-- ═══════════════ FOUNDER LOGIN ═══════════════ -->
 <div class="founder-login" id="founder-login">
   <div class="fl-box">
@@ -1911,7 +1830,8 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
           <div class="fp-field"><label class="fp-label">نص السؤال</label><textarea class="fp-textarea" id="fpq-text"></textarea></div>
           <div class="fp-field"><label class="fp-label">الخيارات (سطر لكل خيار)</label><textarea class="fp-textarea" id="fpq-opts" placeholder="أ) ...&#10;ب) ...&#10;ج) ...&#10;د) ..."></textarea></div>
           <div class="fp-field"><label class="fp-label">رقم الإجابة الصحيحة (٠ = الأول)</label><input class="fp-input" id="fpq-ans" type="number" min="0" max="3" value="0"></div>
-          <div class="fp-field"><label class="fp-label">الموضوع</label><input class="fp-input" id="fpq-topic" placeholder="إدارة المخاطر..."></div>
+          <div class="fp-field"><label class="fp-label">الموضوع</label><input class="fp-input" id="fpq-topic" list="fpq-topic-list" placeholder="إدارة المخاطر..."><datalist id="fpq-topic-list"></datalist></div>
+          <div class="fp-field"><label class="fp-label">المعيار</label><select class="fp-input" id="fpq-std"><option value="كوادر">كوادر</option><option value="NEBOSH">NEBOSH</option><option value="OSHA">OSHA</option><option value="ISO 45001">ISO 45001</option></select></div>
           <div class="fp-field"><label class="fp-label">الشرح</label><input class="fp-input" id="fpq-ex"></div>
           <button class="fp-save-btn" onclick="fpAddQuestion()">➕ إضافة السؤال</button>
         </div>
@@ -2154,12 +2074,15 @@ function fpSaveBranding(){
   saveFConfig();showToast('✅ تم حفظ الهوية البصرية');
 }
 function fpAddQuestion(){
-  const text=document.getElementById('fpq-text').value.trim(),optsRaw=document.getElementById('fpq-opts').value.trim(),ans=parseInt(document.getElementById('fpq-ans').value)||0,topic=document.getElementById('fpq-topic').value.trim()||'عام',ex=document.getElementById('fpq-ex').value.trim();
+  const text=document.getElementById('fpq-text').value.trim(),optsRaw=document.getElementById('fpq-opts').value.trim(),ans=parseInt(document.getElementById('fpq-ans').value)||0,topic=document.getElementById('fpq-topic').value.trim()||'عام',ex=document.getElementById('fpq-ex').value.trim(),std=document.getElementById('fpq-std')?.value||'كوادر';
   if(!text||!optsRaw){showToast('⚠️ أدخل السؤال والخيارات');return;}
   const opts=optsRaw.split('\n').map(o=>o.trim()).filter(Boolean);
   if(opts.length<2){showToast('⚠️ أضف خيارين على الأقل');return;}
-  const q={q:text,opts,ans,topic,std:'كوادر',ex};
-  KWB.push(q);FCONFIG.customQuestions=FCONFIG.customQuestions||[];FCONFIG.customQuestions.push(q);saveFConfig();
+  const q={q:text,opts,ans,topic,std,ex};
+  KWB.push(q);FCONFIG.customQuestions=FCONFIG.customQuestions||[];FCONFIG.customQuestions.push(q);
+  // if this text was previously deleted from the built-in bank, un-delete it
+  if(FCONFIG.deletedBuiltins)FCONFIG.deletedBuiltins=FCONFIG.deletedBuiltins.filter(x=>x!==text);
+  saveFConfig();
   ['fpq-text','fpq-opts','fpq-topic','fpq-ex'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
   document.getElementById('fpq-ans').value='0';
   fpRenderQuestions();renderKWStats();showToast('✅ تمت إضافة السؤال');
@@ -2167,14 +2090,22 @@ function fpAddQuestion(){
 function fpDelQuestion(idx){
   if(!confirm('حذف هذا السؤال؟'))return;
   const q=KWB[idx];KWB.splice(idx,1);
-  // remove from custom if present
-  if(FCONFIG.customQuestions){const ci=FCONFIG.customQuestions.findIndex(x=>x.q===q.q);if(ci>=0)FCONFIG.customQuestions.splice(ci,1);saveFConfig();}
+  FCONFIG.customQuestions=FCONFIG.customQuestions||[];
+  const ci=FCONFIG.customQuestions.findIndex(x=>x.q===q.q);
+  if(ci>=0){FCONFIG.customQuestions.splice(ci,1);}
+  else{ // built-in question: record deletion so it persists across reloads
+    FCONFIG.deletedBuiltins=FCONFIG.deletedBuiltins||[];
+    if(!FCONFIG.deletedBuiltins.includes(q.q))FCONFIG.deletedBuiltins.push(q.q);
+  }
+  saveFConfig();
   fpRenderQuestions();renderKWStats();showToast('🗑️ تم الحذف');
 }
 function fpRenderQuestions(){
   el('fpq-count',ar(KWB.length));
+  const dl=document.getElementById('fpq-topic-list');
+  if(dl){const topics=[...new Set(KWB.map(q=>q.topic).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar'));dl.innerHTML=topics.map(t=>`<option value="${esc(t)}"></option>`).join('');}
   const list=document.getElementById('fpq-list');if(!list)return;
-  list.innerHTML=KWB.map((q,i)=>`<div class="fp-q-item"><div class="fp-q-text">${esc(q.q)}</div><div class="fp-q-meta">📂 ${esc(q.topic||'')} · ✅ ${esc((q.opts||[])[q.ans]||'')}</div><div class="fp-q-actions"><button class="fp-q-btn fp-q-del" onclick="fpDelQuestion(${i})">🗑️ حذف</button></div></div>`).join('');
+  list.innerHTML=KWB.map((q,i)=>`<div class="fp-q-item"><div class="fp-q-text">${esc(q.q)}</div><div class="fp-q-meta">📂 ${esc(q.topic||'')} · 🏷️ ${esc(q.std||'')} · ✅ ${esc((q.opts||[])[q.ans]||'')}</div><div class="fp-q-actions"><button class="fp-q-btn fp-q-del" onclick="fpDelQuestion(${i})">🗑️ حذف</button></div></div>`).join('');
 }
 function fpLoadLegal(){
   const key=document.getElementById('fpl-select')?.value||'about';
@@ -2470,7 +2401,7 @@ function switchTab(name){
   if(name==='settings')loadProfile();
   if(name==='plan')renderPlan();
   if(name==='morning'){showEl('wu-start');hideEl('wu-quiz');hideEl('wu-result');renderWUHist();}
-  if(name==='quiz')renderKWScores();
+  if(name==='quiz'){renderKWScores();renderKWStats();}
   if(name==='photo')renderPhotoHist();
   if(name==='levels')renderLevelsPage();
   
@@ -3470,37 +3401,6 @@ body.app-active .mobile-nav{display:none !important;}
   if(btn){btn.disabled=false;btn.textContent='⬇️ تحميل PDF';}
 }
 
-// ADMIN
-const ADMIN_EMAIL='seeaf2013@gmail.com';
-function hashStr(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return Math.abs(h).toString(16);}
-function openAdminLogin(){document.getElementById('login-screen').classList.add('show');setTimeout(()=>document.getElementById('login-email').focus(),300);}
-function doLogin(){
-  const email=document.getElementById('login-email')?.value.trim(),pass=document.getElementById('login-pass')?.value,err=document.getElementById('login-err');
-  if(email===ADMIN_EMAIL&&hashStr(pass)==='79b2b44a'){err.classList.remove('show');document.getElementById('login-screen').classList.remove('show');openAdminPanel();sessionStorage.setItem('mrshd_admin','1');}
-  else{err.classList.add('show');if(document.getElementById('login-pass'))document.getElementById('login-pass').value='';}
-}
-function adminLogout(){sessionStorage.removeItem('mrshd_admin');document.getElementById('admin-panel').classList.remove('show');showToast('تم تسجيل الخروج 👋');}
-function openAdminPanel(){document.getElementById('admin-panel').classList.add('show');renderAdminPanel();}
-function renderAdminPanel(){
-  const now=new Date();el('admin-last-update',now.toLocaleString('ar-SA',{hour:'2-digit',minute:'2-digit',weekday:'short'}));
-  el('a-users',ar(Math.max(1,S.sessions||1)));el('a-correct',ar(S.correctTotal));
-  el('a-certs',ar((S.kwHistory||[]).filter(h=>h.pct>=70).length+(S.warmupHistory||[]).filter(h=>h.pct>=70).length));el('a-xp',ar(S.xp));
-  const cur=getCurrentLevel(S.xp);el('a-level-badge',cur.icon+' '+cur.name+' (مستوى '+cur.level+')');
-  const pb=document.getElementById('a-profile-body');
-  if(pb){const rows=[['👤 الاسم',S.profile.name||'—'],['🏭 جهة العمل',S.profile.factory||'—'],['🎓 التخصص',S.profile.speciality||'—'],['🔥 Streak',ar(S.streak)+' يوم | أفضل: '+ar(S.bestStreak)],['⚡ XP',ar(S.xp)+' نقطة'],['🎯 هدف يومي',ar(S.dailyGoal)+' سؤال']];pb.innerHTML=rows.map(([k,v])=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:.5px solid var(--sep2);"><span style="color:var(--muted);">${k}</span><span style="font-weight:700;">${v}</span></div>`).join('');}
-  const tot=S.correctTotal+S.wrongTotal,acc=tot>0?Math.round(S.correctTotal/tot*100):0;el('a-acc-badge',ar(acc)+'٪');el('a-acc-correct',ar(S.correctTotal)+' صحيح');el('a-acc-wrong',ar(S.wrongTotal)+' خطأ');const ab=document.getElementById('a-acc-bar');if(ab)ab.style.width=acc+'%';
-  const wk=document.getElementById('a-weakness-list');
-  if(wk){const sorted=Object.entries(S.weaknesses||{}).sort((a,b)=>b[1]-a[1]).slice(0,6);if(!sorted.length)wk.innerHTML='<div style="padding:11px 18px;font-size:13px;color:var(--muted);">لا توجد أخطاء مسجلة بعد ✅</div>';else{const max=sorted[0][1];wk.innerHTML=sorted.map(([t,c])=>`<div class="mini-bar-row"><div class="mini-bar-lbl">${t}</div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:${Math.round(c/max*100)}%;background:var(--red);"></div></div><div class="mini-bar-val" style="color:var(--red);">${ar(c)}×</div></div>`).join('');}}
-  const sk=document.getElementById('a-strength-list');
-  if(sk){const sorted=Object.entries(S.strengths||{}).sort((a,b)=>b[1]-a[1]).slice(0,6);if(!sorted.length)sk.innerHTML='<div style="padding:11px 18px;font-size:13px;color:var(--muted);">أجب على أسئلة أولاً 📚</div>';else{const max=sorted[0][1];sk.innerHTML=sorted.map(([t,c])=>`<div class="mini-bar-row"><div class="mini-bar-lbl">${t}</div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:${Math.round(c/max*100)}%;background:var(--green);"></div></div><div class="mini-bar-val" style="color:var(--green);">${ar(c)}×</div></div>`).join('');}}
-  const kwh=document.getElementById('a-kw-hist');const kwList=S.kwHistory||[];el('a-kw-count',ar(kwList.length)+' اختبار');
-  if(kwh){if(!kwList.length)kwh.innerHTML='<div style="padding:11px 18px;font-size:13px;color:var(--muted);">لا توجد اختبارات بعد</div>';else kwh.innerHTML=kwList.slice(0,6).map(h=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 18px;border-bottom:.5px solid var(--sep2);"><div><div style="font-size:13px;font-weight:600;">${h.date}</div><div style="font-size:11px;color:var(--muted);">${ar(h.total)} سؤال</div></div><div style="font-size:15px;font-weight:900;color:${h.pct>=70?'var(--green)':'var(--red)'};">${ar(h.pct)}٪</div></div>`).join('');}
-  const planDone=Object.keys(S.completedDays||{}).length,planPct=Math.round(planDone/40*100);el('a-plan-badge',ar(planPct)+'٪');el('a-plan-sub',ar(planDone)+' يوم مكتمل من ٤٠');const planBar=document.getElementById('a-plan-bar');if(planBar)planBar.style.width=planPct+'%';
-  const actEl=document.getElementById('a-activity');
-  if(actEl){const acts=[];if(S.profile.name)acts.push({dot:'blue',text:'👤 المستخدم: '+S.profile.name});if(S.xp>0)acts.push({dot:'orange',text:'⚡ إجمالي XP: '+ar(S.xp)+' نقطة'});if(S.streak>0)acts.push({dot:'gold',text:'🔥 Streak: '+ar(S.streak)+' | أفضل: '+ar(S.bestStreak)});if(S.notes?.length)acts.push({dot:'blue',text:'📝 ملاحظات محفوظة: '+ar(S.notes.length)});if(S.photoHistory?.length)acts.push({dot:'green',text:'📸 تحليلات صور: '+ar(S.photoHistory.length)});if(!acts.length)acts.push({dot:'',text:'لا يوجد نشاط مسجل بعد'});actEl.innerHTML=acts.map(a=>`<div class="act-row"><div class="act-dot ${a.dot}"></div><div class="act-text">${a.text}</div></div>`).join('');}
-}
-
-
 // ═══════════ DEV BADGE + PW TOGGLE ═══════════
 function togglePwVis(){
   const inp=document.getElementById('auth-pass'),btn=document.getElementById('auth-pw-eye');
@@ -3520,12 +3420,11 @@ function renderDevBadge(){
 
 // INIT
 load();initTheme();
-(async()=>{await loadFConfig();if(FCONFIG.customQuestions&&FCONFIG.customQuestions.length){FCONFIG.customQuestions.forEach(q=>{if(!KWB.some(k=>k.q===q.q))KWB.push(q);});}renderKWStats();})();
+(async()=>{await loadFConfig();if(FCONFIG.customQuestions&&FCONFIG.customQuestions.length){FCONFIG.customQuestions.forEach(q=>{if(!KWB.some(k=>k.q===q.q))KWB.push(q);});}if(FCONFIG.deletedBuiltins&&FCONFIG.deletedBuiltins.length){FCONFIG.deletedBuiltins.forEach(qt=>{const i=KWB.findIndex(k=>k.q===qt);if(i>=0)KWB.splice(i,1);});}renderKWStats();})();
 renderAll();renderKWScores();renderWUHist();renderPhotoHist();renderPlan();renderLevelsPage();
 applyLang(currentLang);
 if(location.hash==='#founder'||sessionStorage.getItem('mrshd_founder')==='1'){if(sessionStorage.getItem('mrshd_founder')==='1'){document.getElementById('founder-panel').classList.add('show');setTimeout(fpRenderAll,300);}else{openFounderLogin();}}
 (async()=>{const loggedIn=await checkAuthSession();if(loggedIn){renderAll();showApp();}else{showLanding();}})();
-if(sessionStorage.getItem('mrshd_admin')==='1')setTimeout(()=>openAdminPanel(),500);
 </script>
 
 <!-- Floating developer / founder badge -->
