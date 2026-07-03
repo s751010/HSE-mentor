@@ -1,0 +1,22 @@
+{
+  "supabase/functions/confirm-user/index.ts": {
+    "mtime": 1782150699.835266,
+    "ast_hash": "582e9dc7a6631df66d443b7ae9759fd8",
+    "semantic_hash": "582e9dc7a6631df66d443b7ae9759fd8"
+  },
+  "supabase/functions/openai-proxy/index.ts": {
+    "mtime": 1782150699.835266,
+    "ast_hash": "2a3f133cd1aedb9cf7b3d900d9bb64e8",
+    "semantic_hash": "2a3f133cd1aedb9cf7b3d900d9bb64e8"
+  },
+  "MARKETING_REVIEW.md": {
+    "mtime": 1782150699.8274586,
+    "ast_hash": "4f6881544b31fc5e290adc00c5d27e2f",
+    "semantic_hash": "4f6881544b31fc5e290adc00c5d27e2f"
+  },
+  "murshid.html": {
+    "mtime": 1782150699.8301022,
+    "ast_hash": "eec375658adddb394fd6e4cf771ebbad",
+    "semantic_hash": "eec375658adddb394fd6e4cf771ebbad"
+  }
+}
