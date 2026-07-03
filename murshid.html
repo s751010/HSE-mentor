@@ -1033,6 +1033,80 @@ body.dark .field-how-card{background:rgba(255,109,0,.06);border-color:rgba(255,1
 .sv-lbl{font-size:11px;color:var(--muted);margin-top:1px;}
 body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 
+/* ════════ COMING SOON (founder-hidden tools) ════════ */
+.tool-soon{position:relative;opacity:.55;filter:grayscale(.65);}
+.tool-soon::after{content:'قريباً 🔜';position:absolute;top:6px;left:6px;background:linear-gradient(135deg,var(--orange),var(--gold));color:#fff;font-size:9.5px;font-weight:800;padding:3px 9px;border-radius:20px;z-index:3;box-shadow:0 2px 8px rgba(255,109,0,.35);pointer-events:none;}
+.ios-row.tool-soon::after{top:50%;transform:translateY(-50%);left:34px;}
+.soon-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 24px;gap:14px;}
+.soon-icon{width:96px;height:96px;border-radius:28px;background:linear-gradient(135deg,rgba(255,109,0,.12),rgba(255,182,39,.12));border:2px dashed rgba(255,109,0,.35);display:flex;align-items:center;justify-content:center;font-size:44px;animation:soonFloat 3s ease-in-out infinite;}
+@keyframes soonFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.soon-title{font-size:24px;font-weight:900;color:var(--text);}
+.soon-sub{font-size:14px;color:var(--muted);max-width:380px;line-height:1.7;}
+.soon-badge{display:inline-flex;align-items:center;gap:7px;padding:8px 20px;border-radius:30px;background:rgba(255,109,0,.1);border:1.5px solid rgba(255,109,0,.3);color:var(--orange);font-size:13px;font-weight:800;}
+
+/* ════════ SCENARIO EXAM (NEBOSH-style) ════════ */
+.scn-card{background:var(--bg2);border-radius:var(--r-lg);border:1px solid var(--sep2);box-shadow:var(--sh);padding:22px;margin-bottom:14px;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden;}
+.scn-card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg);}
+.scn-card::before{content:'';position:absolute;top:0;right:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--orange),var(--gold));}
+.scn-tag{display:inline-block;font-size:10.5px;font-weight:800;padding:3px 11px;border-radius:20px;background:rgba(21,101,192,.1);color:var(--blue);margin-bottom:9px;}
+.scn-title{font-size:16.5px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.scn-desc{font-size:13px;color:var(--muted);line-height:1.65;}
+.scn-meta{display:flex;gap:14px;margin-top:12px;font-size:12px;color:var(--muted);font-weight:700;}
+.scn-narrative{background:linear-gradient(135deg,rgba(21,101,192,.06),rgba(0,131,143,.05));border:1.5px solid rgba(21,101,192,.18);border-radius:18px;padding:20px;margin-bottom:16px;}
+.scn-narrative-lbl{font-size:11px;font-weight:800;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:6px;}
+.scn-narrative-txt{font-size:14.5px;color:var(--text);line-height:1.85;}
+
+/* ════════ PHOTO HAZARD CHALLENGE ════════ */
+.pq-scene{width:100%;border-radius:18px;overflow:hidden;border:1.5px solid var(--sep2);background:#fff;margin-bottom:14px;box-shadow:var(--sh);}
+.pq-scene svg{display:block;width:100%;height:auto;}
+.pq-timer-ring{font-family:monospace;font-size:13px;font-weight:800;color:var(--gold);background:rgba(245,166,35,.09);border:1.5px solid rgba(245,166,35,.25);border-radius:9px;padding:4px 13px;display:inline-block;margin-bottom:10px;}
+
+/* ════════ LANDING v4 — INTERACTIVE & ANIMATED ════════ */
+@keyframes lpFadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+@keyframes lpFloat1{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
+@keyframes lpFloat2{0%,100%{transform:translateY(-8px) rotate(2deg)}50%{transform:translateY(8px) rotate(-2deg)}}
+@keyframes lpShine{0%{transform:translateX(120%)}100%{transform:translateX(-160%)}}
+@keyframes lpMarquee{from{transform:translateX(0)}to{transform:translateX(50%)}}
+@keyframes lpGradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.lp-hero .lp-badge{animation:lpFadeUp .7s cubic-bezier(.2,.8,.2,1) both .1s;}
+.lp-hero .lp-hero-title{animation:lpFadeUp .7s cubic-bezier(.2,.8,.2,1) both .22s;}
+.lp-hero .lp-hero-sub{animation:lpFadeUp .7s cubic-bezier(.2,.8,.2,1) both .34s;}
+.lp-hero .lp-hero-cta{animation:lpFadeUp .7s cubic-bezier(.2,.8,.2,1) both .46s;}
+.lp-hero .lp-hero-stats{animation:lpFadeUp .7s cubic-bezier(.2,.8,.2,1) both .58s;}
+.lp-hero .lp-shield{animation:lpFadeUp .8s cubic-bezier(.2,.8,.2,1) both;}
+.lp-hero-title .grad{background:linear-gradient(120deg,#FF6D00,#FFB627,#FF8F3D,#FF6D00);background-size:280% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:lpGradShift 5s ease-in-out infinite;}
+.lp-float{position:absolute;z-index:1;display:flex;align-items:center;gap:9px;padding:11px 17px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);font-size:13px;font-weight:800;color:rgba(240,245,255,.85);box-shadow:0 10px 34px rgba(0,0,0,.3);pointer-events:none;}
+.lp-float .fi{font-size:21px;}
+.lp-float small{display:block;font-size:10px;font-weight:600;color:rgba(240,245,255,.5);margin-top:1px;}
+.lp-float.f1{top:20%;right:7%;animation:lpFloat1 5.5s ease-in-out infinite;}
+.lp-float.f2{top:47%;right:3.5%;animation:lpFloat2 6.5s ease-in-out infinite;}
+.lp-float.f3{top:24%;left:7%;animation:lpFloat2 6s ease-in-out infinite;}
+.lp-float.f4{top:52%;left:4%;animation:lpFloat1 7s ease-in-out infinite;}
+@media(max-width:1000px){.lp-float{display:none;}}
+.lp-cta-primary{position:relative;overflow:hidden;}
+.lp-cta-primary::after{content:'';position:absolute;top:0;bottom:0;width:46%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.42),transparent);transform:translateX(120%);animation:lpShine 3.4s ease-in-out infinite;animation-delay:1.4s;}
+.lp-trust-logos.marquee{flex-wrap:nowrap;width:max-content;animation:lpMarquee 26s linear infinite;justify-content:flex-start;}
+.lp-trust-viewport{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+.lp-trust-viewport:hover .lp-trust-logos.marquee{animation-play-state:paused;}
+.lp-scroll-progress{position:fixed;top:0;right:0;height:3px;width:0;background:linear-gradient(90deg,var(--orange),var(--gold));z-index:900;transition:width .1s linear;border-radius:0 0 0 3px;}
+.lp-feature{position:relative;will-change:transform;}
+.lp-feature:hover .lp-feature-icon{transform:scale(1.12) rotate(-4deg);}
+.lp-feature-icon{transition:transform .25s cubic-bezier(.34,1.56,.64,1);}
+.lp-step:hover .lp-step-icon{transform:scale(1.15);}
+.lp-step-icon{transition:transform .25s cubic-bezier(.34,1.56,.64,1);display:inline-block;}
+.reveal.in.stagger-1{transition-delay:.08s;}
+.reveal.in.stagger-2{transition-delay:.16s;}
+.reveal.in.stagger-3{transition-delay:.24s;}
+@media(prefers-reduced-motion:reduce){
+  .lp-hero .lp-badge,.lp-hero .lp-hero-title,.lp-hero .lp-hero-sub,.lp-hero .lp-hero-cta,.lp-hero .lp-hero-stats,.lp-hero .lp-shield{animation:none;}
+  .lp-float,.lp-cta-primary::after{animation:none;}
+  .lp-trust-logos.marquee{animation:none;flex-wrap:wrap;width:auto;}
+  .lp-hero-title .grad{animation:none;}
+}
+/* tighter hero — kill the big empty gap on entry */
+.lp-hero{min-height:auto;padding:92px 24px 64px;}
+@media(max-width:700px){.lp-hero{padding:82px 18px 48px;}.lp-shield{margin-bottom:22px;width:82px;height:82px;}.lp-hero-cta{margin-bottom:38px;}.lp-hero-sub{margin-bottom:28px;}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
@@ -1051,9 +1125,14 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     </div>
   </nav>
 
-  <section class="lp-hero">
+  <div class="lp-scroll-progress" id="lp-scroll-progress"></div>
+  <section class="lp-hero" id="lp-hero">
     <div class="lp-hero-grid"></div>
-    <div class="lp-hero-orb"></div>
+    <div class="lp-hero-orb" id="lp-orb"></div>
+    <div class="lp-float f1"><span class="fi">🏆</span><div>محاكي كوادر<small>مؤقت + تصحيح فوري</small></div></div>
+    <div class="lp-float f2"><span class="fi">📸</span><div>تحليل الصور AI<small>تقرير مخالفات فوري</small></div></div>
+    <div class="lp-float f3"><span class="fi">🎭</span><div>سيناريوهات NEBOSH<small>مواقف ميدانية واقعية</small></div></div>
+    <div class="lp-float f4"><span class="fi">⚡</span><div>نظام XP<small>١٠ مستويات + شهادات</small></div></div>
     <div class="lp-shield">
       <div class="lp-shield-ring"></div>
       <div class="lp-shield-ring r2"></div>
@@ -1081,12 +1160,21 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   <div class="lp-trust reveal">
     <div class="lp-trust-inner">
       <div class="lp-trust-lbl">متوافق مع أبرز معايير السلامة العالمية والمحلية</div>
-      <div class="lp-trust-logos">
-        <div class="lp-trust-chip"><span class="ic">🏆</span> كوادر</div>
-        <div class="lp-trust-chip"><span class="ic">🎓</span> NEBOSH</div>
-        <div class="lp-trust-chip"><span class="ic">🇺🇸</span> OSHA</div>
-        <div class="lp-trust-chip"><span class="ic">📋</span> ISO 45001</div>
-        <div class="lp-trust-chip"><span class="ic">🇸🇦</span> SASO</div>
+      <div class="lp-trust-viewport">
+        <div class="lp-trust-logos marquee">
+          <div class="lp-trust-chip"><span class="ic">🏆</span> كوادر</div>
+          <div class="lp-trust-chip"><span class="ic">🎓</span> NEBOSH</div>
+          <div class="lp-trust-chip"><span class="ic">🇺🇸</span> OSHA</div>
+          <div class="lp-trust-chip"><span class="ic">📋</span> ISO 45001</div>
+          <div class="lp-trust-chip"><span class="ic">🇸🇦</span> SASO</div>
+          <div class="lp-trust-chip"><span class="ic">🌍</span> ILO</div>
+          <div class="lp-trust-chip"><span class="ic">🏆</span> كوادر</div>
+          <div class="lp-trust-chip"><span class="ic">🎓</span> NEBOSH</div>
+          <div class="lp-trust-chip"><span class="ic">🇺🇸</span> OSHA</div>
+          <div class="lp-trust-chip"><span class="ic">📋</span> ISO 45001</div>
+          <div class="lp-trust-chip"><span class="ic">🇸🇦</span> SASO</div>
+          <div class="lp-trust-chip"><span class="ic">🌍</span> ILO</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1128,6 +1216,8 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(255,59,48,.1);">⚠️</div><div class="lp-feature-title">تقييم المخاطر بنقرة</div><div class="lp-feature-desc">مصفوفة مخاطر تفاعلية (الاحتمالية × الشدة) مع هرم الضوابط الهندسية وتصدير PDF جاهز.</div></div>
       <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(0,122,255,.1);">📋</div><div class="lp-feature-title">بلاغ الحوادث الاحترافي</div><div class="lp-feature-desc">أنشئ تقرير حادثة كامل مع تحليل السبب الجذري RCA وتصنيف HiPo — جاهز للرفع للإدارة.</div></div>
       <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(52,199,89,.1);">📅</div><div class="lp-feature-title">خطة تعلّم ٨ أسابيع</div><div class="lp-feature-desc">مسار تدريبي متدرّج بنظام XP و١٠ مستويات — من مبتدئ إلى أسطورة مع تتبّع يومي للتقدم.</div></div>
+      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(0,131,143,.1);">🎭</div><div class="lp-feature-title">اختبار السيناريوهات</div><div class="lp-feature-desc">مواقف ميدانية واقعية بنمط NEBOSH — اقرأ السيناريو وأجب على أسئلة اختيار من متعدد مرتبطة به.</div></div>
+      <div class="lp-feature"><div class="lp-feature-icon" style="background:rgba(255,149,0,.1);">🔍</div><div class="lp-feature-title">تحدي اكتشاف المخاطر</div><div class="lp-feature-desc">انظر لمشهد من موقع العمل واكتشف المخالفة — تدريب بصري يحاكي جولات التفتيش الميدانية.</div></div>
     </div>
   </section>
 
@@ -1275,41 +1365,45 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div style="font-size:13px;color:var(--muted);margin-top:5px;" id="goal-sub">أكمل أسئلة اليوم!</div>
   </div>
   <div class="home-qa-strip">
-    <div class="qa-item" onclick="switchTab('chat')"><div class="qa-icon">💬</div><div class="qa-lbl">المرشد<br>الذكي</div></div>
-    <div class="qa-item" onclick="switchTab('quiz')"><div class="qa-icon">🏆</div><div class="qa-lbl">محاكي<br>كوادر</div></div>
-    <div class="qa-item" onclick="switchTab('morning')"><div class="qa-icon">☀️</div><div class="qa-lbl">وارم<br>أب</div></div>
-    <div class="qa-item" onclick="switchTab('flash')"><div class="qa-icon">🃏</div><div class="qa-lbl">بطاقات<br>المراجعة</div></div>
-    <div class="qa-item" onclick="switchTab('tools')"><div class="qa-icon">⚠️</div><div class="qa-lbl">مصفوفة<br>المخاطر</div></div>
-    <div class="qa-item" onclick="switchTab('incident')"><div class="qa-icon">📋</div><div class="qa-lbl">بلاغ<br>حادثة</div></div>
-    <div class="qa-item" onclick="switchTab('photo')"><div class="qa-icon">📸</div><div class="qa-lbl">محلل<br>الصور</div></div>
-    <div class="qa-item" onclick="switchTab('plan')"><div class="qa-icon">📅</div><div class="qa-lbl">خطة<br>التعلم</div></div>
+    <div class="qa-item" data-tool="chat" onclick="switchTab('chat')"><div class="qa-icon">💬</div><div class="qa-lbl">المرشد<br>الذكي</div></div>
+    <div class="qa-item" data-tool="quiz" onclick="switchTab('quiz')"><div class="qa-icon">🏆</div><div class="qa-lbl">محاكي<br>كوادر</div></div>
+    <div class="qa-item" data-tool="scenario" onclick="switchTab('scenario')"><div class="qa-icon">🎭</div><div class="qa-lbl">سيناريو<br>NEBOSH</div></div>
+    <div class="qa-item" data-tool="photoquiz" onclick="switchTab('photoquiz')"><div class="qa-icon">🔍</div><div class="qa-lbl">تحدي<br>المخاطر</div></div>
+    <div class="qa-item" data-tool="morning" onclick="switchTab('morning')"><div class="qa-icon">☀️</div><div class="qa-lbl">وارم<br>أب</div></div>
+    <div class="qa-item" data-tool="flash" onclick="switchTab('flash')"><div class="qa-icon">🃏</div><div class="qa-lbl">بطاقات<br>المراجعة</div></div>
+    <div class="qa-item" data-tool="tools" onclick="switchTab('tools')"><div class="qa-icon">⚠️</div><div class="qa-lbl">مصفوفة<br>المخاطر</div></div>
+    <div class="qa-item" data-tool="incident" onclick="switchTab('incident')"><div class="qa-icon">📋</div><div class="qa-lbl">بلاغ<br>حادثة</div></div>
+    <div class="qa-item" data-tool="photo" onclick="switchTab('photo')"><div class="qa-icon">📸</div><div class="qa-lbl">محلل<br>الصور</div></div>
+    <div class="qa-item" data-tool="plan" onclick="switchTab('plan')"><div class="qa-icon">📅</div><div class="qa-lbl">خطة<br>التعلم</div></div>
   </div>
   <div class="grid-2">
     <div>
       <div class="sec-lbl" style="padding-top:0;">ابدأ الآن</div>
       <div class="ios-list">
-        <div class="ios-row" onclick="switchTab('chat')"><div class="row-icon" style="background:rgba(255,109,0,.12);">💬</div><div class="row-body"><div class="row-title">المرشد الذكي</div><div class="row-sub">اسأل أبو سلامة</div></div><div class="row-right"><span class="bdg bdg-orange">AI</span><span class="chevron">‹</span></div></div>
-        <div class="ios-row" onclick="switchTab('quiz')"><div class="row-icon" style="background:rgba(245,166,35,.12);">🏆</div><div class="row-body"><div class="row-title">محاكي كوادر</div><div class="row-sub">الاختبار الرسمي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
-        <div class="ios-row" onclick="switchTab('morning')"><div class="row-icon" style="background:rgba(0,185,107,.12);">☀️</div><div class="row-body"><div class="row-title">وارم أب الصباح</div><div class="row-sub">٥ أسئلة سريعة</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
-        <div class="ios-row" onclick="switchTab('plan')"><div class="row-icon" style="background:rgba(21,101,192,.12);">📅</div><div class="row-body"><div class="row-title">خطة التعلم</div><div class="row-sub">٨ أسابيع · ٤٠ يوم</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="chat" onclick="switchTab('chat')"><div class="row-icon" style="background:rgba(255,109,0,.12);">💬</div><div class="row-body"><div class="row-title">المرشد الذكي</div><div class="row-sub">اسأل أبو سلامة</div></div><div class="row-right"><span class="bdg bdg-orange">AI</span><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="quiz" onclick="switchTab('quiz')"><div class="row-icon" style="background:rgba(245,166,35,.12);">🏆</div><div class="row-body"><div class="row-title">محاكي كوادر</div><div class="row-sub">الاختبار الرسمي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="scenario" onclick="switchTab('scenario')"><div class="row-icon" style="background:rgba(0,131,143,.1);">🎭</div><div class="row-body"><div class="row-title">اختبار السيناريوهات</div><div class="row-sub">مواقف واقعية بنمط NEBOSH</div></div><div class="row-right"><span class="bdg bdg-red">جديد</span><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="morning" onclick="switchTab('morning')"><div class="row-icon" style="background:rgba(0,185,107,.12);">☀️</div><div class="row-body"><div class="row-title">وارم أب الصباح</div><div class="row-sub">٥ أسئلة سريعة</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="plan" onclick="switchTab('plan')"><div class="row-icon" style="background:rgba(21,101,192,.12);">📅</div><div class="row-body"><div class="row-title">خطة التعلم</div><div class="row-sub">٨ أسابيع · ٤٠ يوم</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
       </div>
     </div>
     <div>
       <div class="sec-lbl" style="padding-top:0;">أدوات السلامة</div>
       <div class="ios-list">
-        <div class="ios-row" onclick="switchTab('tools')"><div class="row-icon" style="background:rgba(229,57,53,.1);">⚠️</div><div class="row-body"><div class="row-title">مصفوفة المخاطر</div><div class="row-sub">Risk Matrix تفاعلي</div></div><div class="row-right"><span class="bdg bdg-red">جديد</span><span class="chevron">‹</span></div></div>
-        <div class="ios-row" onclick="switchTab('incident')"><div class="row-icon" style="background:rgba(92,53,204,.1);">📋</div><div class="row-body"><div class="row-title">بلاغ الحادثة</div><div class="row-sub">Incident Report + AI</div></div><div class="row-right"><span class="bdg bdg-indigo">جديد</span><span class="chevron">‹</span></div></div>
-        <div class="ios-row" onclick="switchTab('photo')"><div class="row-icon" style="background:rgba(92,53,204,.1);">📸</div><div class="row-body"><div class="row-title">محلل صور الموقع</div><div class="row-sub">GPT-4o Vision</div></div><div class="row-right"><span class="bdg bdg-indigo">AI</span><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="tools" onclick="switchTab('tools')"><div class="row-icon" style="background:rgba(229,57,53,.1);">⚠️</div><div class="row-body"><div class="row-title">مصفوفة المخاطر</div><div class="row-sub">Risk Matrix تفاعلي</div></div><div class="row-right"><span class="bdg bdg-red">جديد</span><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="incident" onclick="switchTab('incident')"><div class="row-icon" style="background:rgba(92,53,204,.1);">📋</div><div class="row-body"><div class="row-title">بلاغ الحادثة</div><div class="row-sub">Incident Report + AI</div></div><div class="row-right"><span class="bdg bdg-indigo">جديد</span><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="photo" onclick="switchTab('photo')"><div class="row-icon" style="background:rgba(92,53,204,.1);">📸</div><div class="row-body"><div class="row-title">محلل صور الموقع</div><div class="row-sub">GPT-4o Vision</div></div><div class="row-right"><span class="bdg bdg-indigo">AI</span><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="photoquiz" onclick="switchTab('photoquiz')"><div class="row-icon" style="background:rgba(255,149,0,.1);">🔍</div><div class="row-body"><div class="row-title">تحدي اكتشاف المخاطر</div><div class="row-sub">اكتشف المخالفة في المشهد</div></div><div class="row-right"><span class="bdg bdg-red">جديد</span><span class="chevron">‹</span></div></div>
       </div>
     </div>
   </div>
   <div class="sec-lbl">أدوات إضافية</div>
   <div class="ios-list">
-    <div class="ios-row" onclick="switchTab('flash')"><div class="row-icon" style="background:rgba(229,57,53,.1);">🃏</div><div class="row-body"><div class="row-title">بطاقات المراجعة</div><div class="row-sub">٢٤ بطاقة + AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
-    <div class="ios-row" onclick="switchTab('field')"><div class="row-icon" style="background:rgba(21,101,192,.1);">🏭</div><div class="row-body"><div class="row-title">محلل المواقف</div><div class="row-sub">تحليل ميداني بـ AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
-    <div class="ios-row" onclick="switchTab('report')"><div class="row-icon" style="background:rgba(0,185,107,.1);">📊</div><div class="row-body"><div class="row-title">التقرير الأسبوعي</div><div class="row-sub">تحليل أدائك</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
-    <div class="ios-row" onclick="openTBT()"><div class="row-icon" style="background:rgba(245,166,35,.1);">🗣️</div><div class="row-body"><div class="row-title">توليد TBT</div><div class="row-sub">Toolbox Talk احترافي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
-    <div class="ios-row" onclick="openNotes()"><div class="row-icon" style="background:rgba(21,101,192,.1);">📝</div><div class="row-body"><div class="row-title">ملاحظات سريعة</div><div class="row-sub" id="notes-count-lbl">٠ ملاحظة</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+    <div class="ios-row" data-tool="flash" onclick="switchTab('flash')"><div class="row-icon" style="background:rgba(229,57,53,.1);">🃏</div><div class="row-body"><div class="row-title">بطاقات المراجعة</div><div class="row-sub">٢٤ بطاقة + AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+    <div class="ios-row" data-tool="field" onclick="switchTab('field')"><div class="row-icon" style="background:rgba(21,101,192,.1);">🏭</div><div class="row-body"><div class="row-title">محلل المواقف</div><div class="row-sub">تحليل ميداني بـ AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+    <div class="ios-row" data-tool="report" onclick="switchTab('report')"><div class="row-icon" style="background:rgba(0,185,107,.1);">📊</div><div class="row-body"><div class="row-title">التقرير الأسبوعي</div><div class="row-sub">تحليل أدائك</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+    <div class="ios-row" data-tool="tbt" onclick="openTBT()"><div class="row-icon" style="background:rgba(245,166,35,.1);">🗣️</div><div class="row-body"><div class="row-title">توليد TBT</div><div class="row-sub">Toolbox Talk احترافي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+    <div class="ios-row" data-tool="notes" onclick="openNotes()"><div class="row-icon" style="background:rgba(21,101,192,.1);">📝</div><div class="row-body"><div class="row-title">ملاحظات سريعة</div><div class="row-sub" id="notes-count-lbl">٠ ملاحظة</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="switchTab('settings')"><div class="row-icon" style="background:rgba(0,0,0,.06);">⚙️</div><div class="row-body"><div class="row-title">الإعدادات</div><div class="row-sub" id="settings-name-lbl">الملف الشخصي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
   </div>
 </div>
@@ -1400,6 +1494,62 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
   </div>
   <div id="kw-quiz-view" style="display:none;"></div>
   <div id="kw-result-view" style="display:none;"></div>
+</div>
+</div>
+
+<!-- ═══════════════ SCENARIO EXAM (NEBOSH-style) ═══════════════ -->
+<div class="page" id="page-scenario">
+<div class="container">
+  <div class="ph"><div class="ph-eyebrow">تدريب متقدم</div><div class="ph-title">اختبار السيناريوهات 🎭</div><div class="ph-sub">مواقف ميدانية واقعية بنمط NEBOSH — اقرأ السيناريو ثم أجب على الأسئلة</div></div>
+  <div id="scn-start-view">
+    <div class="grid-3" style="margin-bottom:16px;">
+      <div class="stat-card"><div class="stat-card-icon">🎭</div><div class="stat-card-val" id="scn-total-lbl">٠</div><div class="stat-card-lbl">سيناريو متاح</div></div>
+      <div class="stat-card"><div class="stat-card-icon">🏆</div><div class="stat-card-val" id="scn-best-lbl">—</div><div class="stat-card-lbl">أفضل نتيجة</div></div>
+      <div class="stat-card"><div class="stat-card-icon">🔄</div><div class="stat-card-val" id="scn-att-lbl">٠</div><div class="stat-card-lbl">محاولات</div></div>
+    </div>
+    <div class="sec-lbl" style="padding-top:0;">اختر سيناريو</div>
+    <div id="scn-list"></div>
+    <div class="sec-lbl">آخر النتائج</div>
+    <div id="scn-hist"></div>
+  </div>
+  <div id="scn-quiz-view" style="display:none;"></div>
+  <div id="scn-result-view" style="display:none;"></div>
+</div>
+</div>
+
+<!-- ═══════════════ PHOTO HAZARD CHALLENGE ═══════════════ -->
+<div class="page" id="page-photoquiz">
+<div class="container">
+  <div class="ph"><div class="ph-eyebrow">تدريب بصري</div><div class="ph-title">تحدي اكتشاف المخاطر 🔍</div><div class="ph-sub">انظر للمشهد بعين المفتش — واكتشف المخالفة قبل فوات الأوان</div></div>
+  <div id="pq-start-view">
+    <div class="grid-3" style="margin-bottom:16px;">
+      <div class="stat-card"><div class="stat-card-icon">🖼️</div><div class="stat-card-val" id="pq-total-lbl">٠</div><div class="stat-card-lbl">مشهد تدريبي</div></div>
+      <div class="stat-card"><div class="stat-card-icon">🏆</div><div class="stat-card-val" id="pq-best-lbl">—</div><div class="stat-card-lbl">أفضل نتيجة</div></div>
+      <div class="stat-card"><div class="stat-card-icon">🔄</div><div class="stat-card-val" id="pq-att-lbl">٠</div><div class="stat-card-lbl">محاولات</div></div>
+    </div>
+    <div class="ios-card" style="margin-bottom:14px;">
+      <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px;">🔍 كيف يعمل التحدي؟</div>
+      <div style="font-size:13.5px;color:var(--muted);line-height:1.8;">يعرض لك كل جولة مشهداً من موقع عمل حقيقي فيه مخالفة سلامة. مهمتك: اكتشاف المخالفة واختيار الإجابة الصحيحة — تماماً كما تفعل في جولة تفتيش ميدانية. كل إجابة صحيحة = <b style="color:var(--orange);">+٢٠ XP</b></div>
+    </div>
+    <button class="btn btn-primary btn-full" style="font-size:15px;padding:14px;" onclick="startPhotoQuiz()">🔍 ابدأ التحدي</button>
+    <div class="sec-lbl">آخر النتائج</div>
+    <div id="pq-hist"></div>
+  </div>
+  <div id="pq-quiz-view" style="display:none;"></div>
+  <div id="pq-result-view" style="display:none;"></div>
+</div>
+</div>
+
+<!-- ═══════════════ COMING SOON (hidden tool placeholder) ═══════════════ -->
+<div class="page" id="page-soon">
+<div class="container">
+  <div class="soon-wrap">
+    <div class="soon-icon" id="soon-icon">🔜</div>
+    <div class="soon-title" id="soon-title">قريباً</div>
+    <div class="soon-sub">هذه الميزة تحت التطوير حالياً وسيتم إطلاقها قريباً. تابعنا — القادم أجمل! 🚀</div>
+    <div class="soon-badge"><span>⏳</span> قيد التطوير</div>
+    <button class="btn btn-primary" style="margin-top:8px;" onclick="switchTab('home')">← العودة للرئيسية</button>
+  </div>
 </div>
 </div>
 
@@ -2011,19 +2161,24 @@ const FOUNDER_EMAIL='seeaf2013@gmail.com';
 // Founder config — saved to Supabase (or localStorage fallback)
 let FCONFIG={
   content:{badge:'خبرة ميدانية · HSE متكامل وذكي',title1:'طوّر مهاراتك في',title2:'السلامة والصحة المهنية',sub:'منصة تدريبية متكاملة طوّرها متخصص HSE من الميدان — محاكاة الكوادر الوطنية، تحليل المواقع بالذكاء الاصطناعي، وخطة تعلّم مخصصة ترتقي بك خطوة بخطوة.',stat1:'+٨٠ · سؤال كوادر',stat2:'١٠+ · أدوات احترافية',stat3:'AI · تحليل ذكي للمواقع',stat4:'∞ · كل القطاعات'},
-  tools:{chat:true,quiz:true,tools:true,incident:true,morning:true,plan:true,levels:true,flash:true,field:true,photo:true,report:true},
+  tools:{chat:true,quiz:true,scenario:true,photoquiz:true,tools:true,incident:true,morning:true,plan:true,levels:true,flash:true,field:true,photo:true,report:true,tbt:true,notes:true},
   settings:{name:'مرشد السلامة',tagline:'HSE Smart Platform',color:'#FF6D00',email:'seeaf2013@gmail.com',linkedin:'linkedin.com/in/sayyaf-alhothali-01787a277',ailimit:40},
   branding:{color:'#FF6D00',logoUrl:'',heroImg:'',whatsapp:'',twitter:'',announcementText:'',announcementShow:false},
   legal:{},
   customQuestions:[]
 };
-const TOOL_NAMES={chat:'المرشد الذكي',quiz:'محاكي كوادر',tools:'أدوات السلامة',incident:'بلاغ الحوادث',morning:'وارم أب الصباح',plan:'خطة التعلم',levels:'المستويات',flash:'بطاقات المراجعة',field:'محلل المواقف',photo:'محلل الصور',report:'التقرير الأسبوعي'};
+const TOOL_NAMES={chat:'المرشد الذكي',quiz:'محاكي كوادر',scenario:'اختبار السيناريوهات',photoquiz:'تحدي اكتشاف المخاطر',tools:'أدوات السلامة',incident:'بلاغ الحوادث',morning:'وارم أب الصباح',plan:'خطة التعلم',levels:'المستويات',flash:'بطاقات المراجعة',field:'محلل المواقف',photo:'محلل الصور',report:'التقرير الأسبوعي',tbt:'توليد TBT',notes:'الملاحظات السريعة'};
+const TOOL_ICONS={chat:'💬',quiz:'🏆',scenario:'🎭',photoquiz:'🔍',tools:'⚠️',incident:'📋',morning:'☀️',plan:'📅',levels:'🏅',flash:'🃏',field:'🏭',photo:'📸',report:'📊',tbt:'🗣️',notes:'📝'};
 
+function mergeFConfig(cfg){
+  // deep-merge tools so configs saved before new tools existed keep them visible
+  FCONFIG={...FCONFIG,...cfg,tools:{...FCONFIG.tools,...(cfg.tools||{})}};
+}
 async function loadFConfig(){
   try{
-    if(sb){const{data}=await sb.from('founder_config').select('config').eq('id','main').single();if(data?.config)FCONFIG={...FCONFIG,...data.config};}
-    else{const d=localStorage.getItem('mrshd_fconfig');if(d)FCONFIG={...FCONFIG,...JSON.parse(d)};}
-  }catch(e){const d=localStorage.getItem('mrshd_fconfig');if(d)try{FCONFIG={...FCONFIG,...JSON.parse(d)};}catch(_){}}
+    if(sb){const{data}=await sb.from('founder_config').select('config').eq('id','main').single();if(data?.config)mergeFConfig(data.config);}
+    else{const d=localStorage.getItem('mrshd_fconfig');if(d)mergeFConfig(JSON.parse(d));}
+  }catch(e){const d=localStorage.getItem('mrshd_fconfig');if(d)try{mergeFConfig(JSON.parse(d));}catch(_){}}
   applyFConfig();
 }
 async function saveFConfig(){
@@ -2045,9 +2200,13 @@ function applyFConfig(){
   const st=FCONFIG.settings;
   if(st.name){document.querySelectorAll('.nav-brand-name,.lp-nav .nav-brand-name').forEach(e=>e.textContent=st.name);}
   if(st.color){document.documentElement.style.setProperty('--orange',st.color);}
-  // Apply tool visibility
-  Object.entries(FCONFIG.tools||{}).forEach(([k,v])=>{
-    ['navtab-'+k,'mnav-'+k].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display=v?'':'none';});
+  // Apply tool visibility — hidden tools show as "قريباً" and their content disappears
+  Object.keys(TOOL_NAMES).forEach(k=>{
+    const visible=(FCONFIG.tools||{})[k]!==false;
+    ['navtab-'+k,'mnav-'+k].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display=visible?'':'none';});
+    document.querySelectorAll('[data-tool="'+k+'"]').forEach(e=>e.classList.toggle('tool-soon',!visible));
+    // if the user is currently inside a page that just got hidden, bounce to the coming-soon screen
+    if(!visible&&!isFounder()){const pg=document.getElementById('page-'+k);if(pg&&pg.classList.contains('active'))showComingSoon(k);}
   });
   // Apply legal overrides
   Object.entries(FCONFIG.legal||{}).forEach(([k,val])=>{if(LEGAL_CONTENT[k]&&val){if(val.title)LEGAL_CONTENT[k].title=val.title;if(val.html)LEGAL_CONTENT[k].html=val.html;}});
@@ -2094,7 +2253,7 @@ function fpRenderAll(){
   const bbc=document.getElementById('fpb-banner-show');if(bbc)bbc.checked=!!b.announcementShow;
   // tools
   const tl=document.getElementById('fp-tools-list');
-  if(tl)tl.innerHTML=Object.keys(TOOL_NAMES).map(k=>`<div class="fp-toggle-row"><div class="fp-toggle-lbl">${TOOL_NAMES[k]}<small>${FCONFIG.tools[k]?'ظاهرة للمستخدمين':'مخفية'}</small></div><label class="fp-switch"><input type="checkbox" id="fpt-${k}" ${FCONFIG.tools[k]?'checked':''}><span class="fp-slider"></span></label></div>`).join('');
+  if(tl)tl.innerHTML=Object.keys(TOOL_NAMES).map(k=>{const on=FCONFIG.tools[k]!==false;return`<div class="fp-toggle-row"><div class="fp-toggle-lbl">${TOOL_ICONS[k]||''} ${TOOL_NAMES[k]}<small>${on?'ظاهرة للمستخدمين':'مخفية — تظهر للمستخدمين كـ «قريباً 🔜»'}</small></div><label class="fp-switch"><input type="checkbox" id="fpt-${k}" ${on?'checked':''}><span class="fp-slider"></span></label></div>`;}).join('');
   // questions count + list
   fpRenderQuestions();fpLoadLegal();
   el('fp-st-q',ar(KWB.length));el('fp-st-tools',ar(Object.values(FCONFIG.tools).filter(Boolean).length));
@@ -2207,8 +2366,48 @@ function showLanding(){
   document.getElementById('main-navbar').style.display='none';
   renderDevBadge(); // Badge only on landing
   setTimeout(initReveal,100);
+  setTimeout(initLanding,120);
 }
 function initReveal(){const els=document.querySelectorAll('.reveal');if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in'));return;}els.forEach(e=>e.classList.add('pending'));const obs=new IntersectionObserver(entries=>{entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');obs.unobserve(en.target);}});},{threshold:.12});els.forEach(e=>obs.observe(e));}
+
+// ═══════════ LANDING INTERACTIVITY (scroll progress / parallax / count-up) ═══════════
+let _lpInited=false;
+function initLanding(){
+  if(_lpInited)return;_lpInited=true;
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // scroll progress bar
+  const prog=document.getElementById('lp-scroll-progress');
+  if(prog){window.addEventListener('scroll',()=>{
+    const landing=document.getElementById('landing');
+    if(!landing||!landing.classList.contains('show')){prog.style.width='0';return;}
+    const h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    prog.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
+  },{passive:true});}
+  // hero mouse parallax (desktop, motion allowed)
+  const hero=document.getElementById('lp-hero'),orb=document.getElementById('lp-orb'),grid=hero?hero.querySelector('.lp-hero-grid'):null;
+  if(hero&&!reduced&&window.matchMedia('(pointer:fine)').matches){
+    hero.addEventListener('mousemove',e=>{
+      const r=hero.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      if(grid)grid.style.transform=`translate(${x*16}px,${y*12}px)`;
+      if(orb){orb.style.marginLeft=(x*40)+'px';orb.style.marginTop=(y*26)+'px';}
+    });
+    hero.addEventListener('mouseleave',()=>{if(grid)grid.style.transform='';if(orb){orb.style.marginLeft='';orb.style.marginTop='';}});
+  }
+  // count-up hero stats (keeps Arabic digits + any prefix/suffix)
+  if(!reduced)document.querySelectorAll('.lp-hero-stats .lp-stat-num').forEach(elm=>{
+    const raw=elm.textContent.trim(),m=raw.match(/^(.*?)([٠-٩0-9]+)(.*)$/);
+    if(!m)return;
+    const target=parseInt(m[2].replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)));
+    if(!target||target<2)return;
+    const t0=performance.now(),dur=1300;
+    const tick=now=>{
+      const p=Math.min(1,(now-t0)/dur),eased=1-Math.pow(1-p,3);
+      elm.textContent=m[1]+ar(Math.round(target*eased))+m[3];
+      if(p<1)requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}
 function showApp(){
   document.body.classList.add('app-active');
   document.getElementById('landing').classList.remove('show');
@@ -2458,8 +2657,19 @@ function renderAll(){
 }
 
 // NAVIGATION
-const ALL_PAGES=['home','chat','quiz','tools','plan','morning','levels','flash','field','photo','report','settings','incident'];
+const ALL_PAGES=['home','chat','quiz','scenario','photoquiz','tools','plan','morning','levels','flash','field','photo','report','settings','incident','soon'];
+function isFounder(){return sessionStorage.getItem('mrshd_founder')==='1';}
+function toolHidden(k){return (FCONFIG.tools||{})[k]===false&&!isFounder();}
+function showComingSoon(k){
+  ALL_PAGES.forEach(p=>{const pg=document.getElementById('page-'+p);if(pg)pg.classList.remove('active');});
+  document.querySelectorAll('.nav-link,.mnav-item').forEach(t=>t.classList.remove('active'));
+  el('soon-title',TOOL_NAMES[k]||'قريباً');
+  const ic=document.getElementById('soon-icon');if(ic)ic.textContent=TOOL_ICONS[k]||'🔜';
+  const pg=document.getElementById('page-soon');if(pg)pg.classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+}
 function switchTab(name){
+  if(TOOL_NAMES[name]&&toolHidden(name)){showComingSoon(name);return;}
   ALL_PAGES.forEach(p=>{const pg=document.getElementById('page-'+p);if(pg)pg.classList.remove('active');});
   document.querySelectorAll('.nav-link,.mnav-item').forEach(t=>t.classList.remove('active'));
   const pg=document.getElementById('page-'+name);if(pg)pg.classList.add('active');
@@ -2471,9 +2681,11 @@ function switchTab(name){
   if(name==='plan')renderPlan();
   if(name==='morning'){showEl('wu-start');hideEl('wu-quiz');hideEl('wu-result');renderWUHist();}
   if(name==='quiz')renderKWScores();
+  if(name==='scenario')renderScnHome();
+  if(name==='photoquiz')renderPQHome();
   if(name==='photo')renderPhotoHist();
   if(name==='levels')renderLevelsPage();
-  
+
 }
 
 // QUESTION BANKS
@@ -2837,12 +3049,12 @@ function copyTBT(btn){const t=btn.closest('.bbl').innerText.replace(/📋 نسخ
 function waTBT(btn){window.open('https://wa.me/?text='+encodeURIComponent(btn.closest('.bbl').innerText.replace(/📋 نسخ|💬 واتساب/g,'').trim()),'_blank');}
 
 // TBT & NOTES
-function openTBT(){document.getElementById('tbt-modal').classList.add('open');}
+function openTBT(){if(toolHidden('tbt')){showComingSoon('tbt');return;}document.getElementById('tbt-modal').classList.add('open');}
 function closeTBT(){document.getElementById('tbt-modal').classList.remove('open');}
 function setTBT(t){document.getElementById('tbt-inp').value=t;}
 function generateTBT(){const topic=document.getElementById('tbt-inp')?.value.trim();if(!topic){showToast('أدخل موضوع TBT');return;}closeTBT();switchTab('chat');setTimeout(()=>{const inp=document.getElementById('chat-inp');if(inp){inp.value=`اصنع Toolbox Talk احترافي عن: ${topic}\nللعاملين في القطاعات السعودية. اشمل: المقدمة، المخاطر، الإجراءات، نقطة نقاش. أضف [TBT_END] في النهاية.`;sendChat();}},100);}
 function generateTBT2(){const topic=document.getElementById('tbt-quick')?.value.trim();if(!topic){showToast('أدخل موضوع TBT');return;}switchTab('chat');setTimeout(()=>{const inp=document.getElementById('chat-inp');if(inp){inp.value=`اصنع Toolbox Talk احترافي عن: ${topic}\nأضف [TBT_END] في النهاية.`;sendChat();}},100);}
-function openNotes(){document.getElementById('notes-modal').classList.add('open');renderNotes();}
+function openNotes(){if(toolHidden('notes')){showComingSoon('notes');return;}document.getElementById('notes-modal').classList.add('open');renderNotes();}
 function closeNotes(){document.getElementById('notes-modal').classList.remove('open');}
 function addNote(){const inp=document.getElementById('note-inp');if(!inp||!inp.value.trim()){showToast('اكتب ملاحظة أولاً');return;}S.notes.unshift({text:inp.value.trim(),date:new Date().toLocaleDateString('ar-SA')});inp.value='';save();renderNotes();renderAll();showToast('تم الحفظ ✅');}
 function delNote(i){S.notes.splice(i,1);save();renderNotes();renderAll();}
@@ -2957,6 +3169,186 @@ function resetKwadarat(){if(kwTimer){clearInterval(kwTimer);kwTimer=null;}kwRevi
 function kwDiscuss(){switchTab('chat');const m=[...new Set(kwAns.filter(a=>!a.correct).map(a=>a.q.topic))].join('، ')||'عام';setTimeout(()=>quickChat(`حللّ أداءي في كوادر: الأخطاء في: ${m}. أعطني توصيات للاختبار الفعلي.`),100);}
 function renderKWStats(){el('kw-total-lbl',ar(kwTopic==='all'?KWB.length:KWB.filter(q=>q.topic===kwTopic).length));el('kw-att-lbl',ar((S.kwHistory||[]).length));const h=S.kwHistory||[];if(h.length)el('kw-best-lbl',ar(Math.max(...h.map(x=>x.pct)))+'٪');renderKWTopics();renderKWReviewBanner();}
 function renderKWScores(){const e=document.getElementById('kw-hist');if(!e)return;const h=S.kwHistory||[];if(!h.length){e.innerHTML='<p style="color:var(--muted);font-size:13px;text-align:center;padding:8px;">لا توجد نتائج بعد</p>';return;}e.innerHTML=h.slice(0,5).map(x=>`<div class="hist-item"><span class="hist-date">${x.date} · ${ar(x.total)} سؤال</span><span class="hist-score ${x.pct>=70?'pass':'fail'}">${ar(x.pct)}٪</span></div>`).join('');}
+
+// ═══════════ SCENARIO EXAM (NEBOSH-style) ═══════════
+const SCENARIOS=[
+{icon:'🔥',tag:'أعمال ساخنة · PTW',title:'لحام طارئ في مصنع بتروكيماويات',brief:'مقاول يبدأ أعمال قطع ولحام قرب منطقة عمليات — والمشرف يكتشف سلسلة ثغرات.',
+narrative:'وصل فريق مقاول لتنفيذ لحام طارئ على خط أنابيب في مصنع بتروكيماويات أثناء التشغيل. بدأ اللحّام العمل فوراً لضيق الوقت، دون تصريح عمل ساخن، وعلى بعد ٨ أمتار توجد فتحة صرف مكشوفة تنبعث منها أبخرة هيدروكربونية. لا يوجد مراقب حريق، وأقرب طفاية على بعد ٥٠ متراً. عند سؤال اللحّام عن قياس الغازات أجاب: «قاسوها الصباح وكانت سليمة».',
+qs:[
+ {q:'ما الخلل الجوهري الأول الذي يجب إيقاف العمل بسببه فوراً؟',opts:['أ) بُعد الطفاية عن الموقع','ب) بدء عمل ساخن دون تصريح PTW ساري','ج) عدم وجود سياج حول الموقع','د) عمل المقاول أثناء التشغيل'],ans:1,ex:'العمل الساخن في منشأة تشغيلية دون PTW ساري = مخالفة توقف العمل فوراً؛ التصريح هو الضابط الذي يفعّل بقية الاحتياطات.'},
+ {q:'قياس الغازات صباحاً «مرة واحدة» غير كافٍ لأن:',opts:['أ) الجهاز قد يكون غير معاير','ب) الظروف تتغير ويجب القياس قبل البدء وبشكل دوري مستمر','ج) القياس مطلوب من مشغّل المصنع فقط','د) الأبخرة الهيدروكربونية لا تُقاس'],ans:1,ex:'الأجواء تتغير خلال الوردية (رياح، عمليات، تسربات) — القياس يكون قبل البدء وبمراقبة مستمرة أثناء العمل الساخن.'},
+ {q:'ما الضابط المفقود المتعلق بالحريق في هذا المشهد؟',opts:['أ) مراقب حريق Fire Watch مع وسيلة إطفاء في متناول اليد','ب) خوذة إضافية للحّام','ج) لوحة إرشادية عن مخاطر الضوضاء','د) تدريب اللحّام على الإسعافات'],ans:0,ex:'العمل الساخن يتطلب Fire Watch متفرغاً مع طفاية جاهزة في الموقع، ويستمر عادة ٣٠-٦٠ دقيقة بعد انتهاء العمل.'},
+ {q:'فتحة الصرف المكشوفة القريبة تمثل خطراً لأنها:',opts:['أ) مصدر انبعاث أبخرة قابلة للاشتعال قرب مصدر شرر','ب) تشوه المنظر العام للموقع','ج) تعيق حركة الرافعات','د) تُلزم بعمل تصريح حفر'],ans:0,ex:'شرارة اللحام + أبخرة هيدروكربونية = مثلث اشتعال شبه مكتمل. يجب عزل/تغطية مصدر الأبخرة أو إبعاد العمل الساخن.'}
+]},
+{icon:'🏗️',tag:'عمل على ارتفاع',title:'سقالة برجية في مشروع إنشائي',brief:'عامل على سقالة بطابقها الثالث — والحماية من السقوط شبه غائبة.',
+narrative:'في مشروع إنشائي، يعمل عاملان على سقالة برجية بارتفاع ٩ أمتار لتركيب واجهات. لاحظ مفتش السلامة أن الطابق الثالث بلا درابزين علوي في جهتين، وأحد العاملين يرتدي حزام أمان لكنه غير مربوط بأي نقطة تثبيت. تُرفع العدد اليدوية بدلو مربوط بحبل، وأسفل السقالة ممر مشاة غير محدد بحواجز، ولا توجد بطاقة فحص (Scafftag) على السقالة.',
+qs:[
+ {q:'أخطر ملاحظة تستوجب إيقاف العمل فوراً:',opts:['أ) غياب بطاقة الفحص','ب) درابزين ناقص + حزام غير مربوط على ارتفاع ٩ أمتار','ج) رفع العدد بدلو وحبل','د) وجود عاملين معاً على السقالة'],ans:1,ex:'السقوط من المرتفعات القاتل الأول في الإنشاءات — غياب الحماية الجماعية (درابزين) والفردية (ربط الحزام) معاً يعني خطراً داهماً.'},
+ {q:'وفق هرم الضوابط، الحماية الجماعية (درابزين/شبكات) مقدَّمة على حزام الأمان لأنها:',opts:['أ) أرخص تكلفة','ب) تحمي الجميع دون اعتماد على سلوك الفرد','ج) لا تحتاج فحصاً دورياً','د) مطلب تأميني فقط'],ans:1,ex:'الضوابط الهندسية الجماعية لا تعتمد على التزام كل عامل لحظة بلحظة — لذا تسبق PPE في هرم الضوابط.'},
+ {q:'ممر المشاة أسفل السقالة يتطلب:',opts:['أ) لافتة تحذير فقط','ب) تحويل الممر أو حواجز ومظلة حماية من سقوط المواد','ج) منع العمل وقت الذروة فقط','د) لا شيء — المشاة مسؤولون عن أنفسهم'],ans:1,ex:'سقوط المواد (Dropped Objects) يقتل — يجب عزل منطقة الخطر أو توفير مظلة Protection Fan/Debris Net.'},
+ {q:'بطاقة Scafftag على السقالة تدل على:',opts:['أ) اسم المقاول ورقم المشروع','ب) أن السقالة فُحصت من شخص مؤهل وصالحة للاستخدام بتاريخ محدد','ج) الحمولة القصوى للرافعة','د) عدد العمال المسموح'],ans:1,ex:'السقالات تُفحص قبل الاستخدام وبعد أي تعديل/طقس شديد وبشكل دوري (عادة كل ٧ أيام) من شخص مؤهل — والبطاقة توثق ذلك.'}
+]},
+{icon:'🕳️',tag:'مكان محصور',title:'إنقاذ متسرع في خزان صرف',brief:'عامل يفقد الوعي داخل خزان — وزميله يهم بالنزول خلفه فوراً.',
+narrative:'أثناء تنظيف خزان صرف بعمق ٤ أمتار، فقد عامل وعيه داخل الخزان. اندفع زميله لينزل خلفه فوراً باستخدام نفس السلم دون أي جهاز تنفس. لا يوجد مراقب مخصص على الفتحة، ولم يُجرَ قياس غازات قبل الدخول الأول، ولا توجد خطة إنقاذ مكتوبة ولا عدة استرجاع (Tripod & Winch). وصل المشرف وطلب الاتصال بالطوارئ.',
+qs:[
+ {q:'التصرف الصحيح للزميل عند سقوط العامل داخل الخزان:',opts:['أ) النزول فوراً لإنقاذه قبل فوات الأوان','ب) عدم الدخول، طلب الطوارئ، وبدء الإنقاذ من الخارج وفق الخطة','ج) إنزال مروحة تهوية ثم النزول','د) ربط قماشة على أنفه والنزول بسرعة'],ans:1,ex:'أكثر من ٦٠٪ من وفيات الأماكن المحصورة هم منقذون مندفعون. الإنقاذ يكون من الخارج (Non-entry rescue) وبفريق مجهز.'},
+ {q:'السبب الأرجح لفقدان الوعي داخل خزان الصرف:',opts:['أ) الإجهاد الحراري فقط','ب) نقص الأكسجين أو غازات سامة كـ H₂S','ج) الضوضاء العالية','د) الإضاءة الضعيفة'],ans:1,ex:'خزانات الصرف تنتج H₂S وميثان وتستهلك الأكسجين — لذا قياس الغازات (O₂, LEL, H₂S, CO) شرط قبل وأثناء الدخول.'},
+ {q:'أي مجموعة ضوابط كان يجب توفرها قبل الدخول الأول؟',opts:['أ) تصريح دخول + قياس غازات + مراقب + عدة استرجاع وخطة إنقاذ','ب) حذاء سلامة وقفازات فقط','ج) إضاءة فلورية وسلم جديد','د) وجبة خفيفة وماء بارد'],ans:0,ex:'منظومة الدخول للمكان المحصور متكاملة: تصريح، عزل الطاقة، قياس مستمر، تهوية، Attendant، ووسيلة استرجاع جاهزة.'},
+ {q:'دور المراقب (Attendant) على فتحة المكان المحصور:',opts:['أ) مساعدة العمال في التنظيف من الداخل','ب) البقاء خارجاً، متابعة الداخلين باستمرار، ومنع الدخول غير المصرح وتفعيل الطوارئ','ج) تصوير العمل للتوثيق','د) تسليم العدد فقط'],ans:1,ex:'المراقب لا يدخل أبداً — وظيفته الاتصال المستمر بالداخل، مراقبة القراءات، واستدعاء فريق الإنقاذ عند الحاجة.'}
+]},
+{icon:'🚜',tag:'معدات متحركة',title:'رافعة شوكية في مستودع مزدحم',brief:'سائق يرفع زميله على الشوك للوصول لرف علوي — والممرات مشتركة مع المشاة.',
+narrative:'في مستودع توزيع، طلب مشرف الوردية إنزال بضاعة من رف بارتفاع ٥ أمتار بسرعة. صعد عامل على شوك الرافعة ورفعه السائق للأعلى مباشرة. الممرات لا تفصل بين المشاة والمعدات، وصوت إنذار الرجوع في الرافعة معطل منذ أسبوع، وتقف الرافعة أحياناً وشوكها مرفوع محمّل قرب ممر المشاة. السائق حاصل على رخصة قيادة سيارة فقط.',
+qs:[
+ {q:'رفع العامل على الشوك مخالفة لأن:',opts:['أ) الشوك مخصص للأحمال ولا يوفر أي حماية من السقوط — يلزم قفص رفع معتمد','ب) العامل قد يتسخ من الشوك','ج) الرافعة تستهلك وقوداً أكثر','د) المسموح رفع شخصين لا واحد'],ans:0,ex:'رفع الأشخاص يتم فقط بمنصة/قفص معتمد مثبت بالشوك مع حزام — الوقوف على الشوك مباشرة سبب شائع لوفيات المستودعات.'},
+ {q:'قيادة الرافعة الشوكية تتطلب:',opts:['أ) رخصة قيادة مركبات عادية','ب) تدريباً وترخيصاً متخصصاً لمشغل معدات مع تقييم عملي','ج) خبرة سابقة في المستودعات فقط','د) موافقة شفهية من المشرف'],ans:1,ex:'الرافعة الشوكية معدة صناعية تتطلب تدريباً نظرياً وعملياً وشهادة مشغل معتمدة — رخصة السيارة لا تكفي.'},
+ {q:'أفضل ضابط هندسي لفصل المشاة عن المعدات:',opts:['أ) لافتات «انتبه للرافعات»','ب) ممرات مشاة مفصولة بحواجز فيزيائية وبوابات وعبور محدد','ج) تدريب المشاة على الجري','د) سترات عاكسة فقط'],ans:1,ex:'الفصل الفيزيائي (حواجز/ممرات مخصصة) ضابط هندسي يسبق اللافتات والسترات (إدارية وPPE) في هرم الضوابط.'},
+ {q:'إنذار الرجوع المعطل منذ أسبوع يعكس خللاً في:',opts:['أ) نظام الفحص اليومي قبل التشغيل والإبلاغ عن الأعطال وإخراج المعدة من الخدمة','ب) جودة وقود الرافعة','ج) تخطيط أرفف المستودع','د) جدول الإجازات'],ans:0,ex:'الفحص اليومي Pre-use check يكتشف الأعطال، والعطل المؤثر على السلامة يعني إيقاف المعدة (Defect = Out of service) حتى الإصلاح.'}
+]},
+{icon:'⚗️',tag:'مواد كيميائية',title:'مناولة مذيبات في ورشة طلاء',brief:'عامل ينقل مذيباً لعبوة مشروبات غازية — والتخزين والتهوية خارج السيطرة.',
+narrative:'في ورشة طلاء، لاحظ المفتش عاملاً يسكب مذيباً (ثنر) من برميل إلى قارورة مشروبات غازية فارغة دون ملصق، ويعمل بلا قفازات مقاومة للكيماويات. التهوية الموضعية معطلة والرائحة نفاذة، وتُخزن البراميل بجوار لوحة كهرباء، ولا توجد بطاقات SDS في الورشة، ومغسلة الطوارئ للعيون مغلقة بصناديق.',
+qs:[
+ {q:'أخطر ما في نقل المذيب لقارورة مشروبات:',opts:['أ) احتمال ابتلاعها بالخطأ لعدم وجود ملصق تعريف وشكلها المألوف كمشروب','ب) ضياع كمية من المذيب','ج) تغير لون القارورة','د) صعوبة إعادة التدوير'],ans:0,ex:'التسمم بالابتلاع الخاطئ من أشهر حوادث الكيماويات — يمنع استخدام عبوات الأغذية ويلزم وسم كل عبوة ثانوية (GHS label).'},
+ {q:'بطاقة SDS ضرورية في الورشة لأنها:',opts:['أ) تحدد سعر المادة وموردها','ب) مرجع المخاطر والتعامل والتخزين والإسعافات لكل مادة','ج) شهادة جودة المنتج','د) مطلوبة للجمارك فقط'],ans:1,ex:'Safety Data Sheet من ١٦ قسماً: المخاطر، PPE المطلوب، التخزين، التسرب، الإسعافات — ويجب أن تكون متاحة للعمال بلغتهم.'},
+ {q:'تخزين براميل المذيب بجوار لوحة الكهرباء خطر لأنه:',opts:['أ) يجمع أبخرة قابلة للاشتعال قرب مصدر إشعال محتمل','ب) يصعّب قراءة عداد الكهرباء','ج) يزيد استهلاك الكهرباء','د) يخالف ترتيب المستودع الجمالي'],ans:0,ex:'أبخرة المذيبات أثقل من الهواء وتنتشر — أي شرارة من اللوحة قد تشعلها. التخزين يكون في منطقة مخصصة مهوّاة بعيداً عن مصادر الإشعال.'},
+ {q:'مغسلة العيون المغلقة بصناديق تعني أنه عند تناثر مذيب في العين:',opts:['أ) سيفقد المصاب ثواني حرجة — الغسل يجب أن يبدأ خلال ثوانٍ ولمدة ١٥ دقيقة','ب) يمكنه الانتظار حتى نهاية الوردية','ج) يكفي مسح العين بمنديل','د) لا مشكلة إن كان يرتدي نظارة طبية'],ans:0,ex:'وصول حر خلال ١٠ ثوانٍ لمغسلة العيون شرط أساسي في مناطق الكيماويات — كل ثانية تأخير تزيد الضرر.'}
+]}
+];
+let scnCur=null,scnIdx=0,scnAns=[];
+function renderScnHome(){
+  el('scn-total-lbl',ar(SCENARIOS.length));
+  const h=S.scnHistory||[];
+  el('scn-att-lbl',ar(h.length));
+  el('scn-best-lbl',h.length?ar(Math.max(...h.map(x=>x.pct)))+'٪':'—');
+  const list=document.getElementById('scn-list');
+  if(list)list.innerHTML=SCENARIOS.map((s,i)=>`<div class="scn-card" onclick="startScenario(${i})"><span class="scn-tag">${s.tag}</span><div class="scn-title">${s.icon} ${s.title}</div><div class="scn-desc">${s.brief}</div><div class="scn-meta"><span>❓ ${ar(s.qs.length)} أسئلة</span><span>⚡ +١٥ XP لكل إجابة</span><span>⏱️ ~٥ دقائق</span></div></div>`).join('');
+  const he=document.getElementById('scn-hist');
+  if(he)he.innerHTML=h.length?h.slice(0,5).map(x=>`<div class="hist-item"><span class="hist-date">${x.date} · ${x.title}</span><span class="hist-score ${x.pct>=70?'pass':'fail'}">${ar(x.pct)}٪</span></div>`).join(''):'<p style="color:var(--muted);font-size:13px;text-align:center;padding:8px;">لا توجد نتائج بعد</p>';
+}
+function startScenario(i){
+  scnCur=SCENARIOS[i];scnIdx=0;scnAns=[];
+  hideEl('scn-start-view');hideEl('scn-result-view');showEl('scn-quiz-view');
+  showScnQ();
+}
+function showScnQ(){
+  const qz=document.getElementById('scn-quiz-view');if(!qz)return;
+  if(scnIdx>=scnCur.qs.length){finishScenario();return;}
+  const q=scnCur.qs[scnIdx],pct=Math.round((scnIdx/scnCur.qs.length)*100);
+  qz.innerHTML=`<div style="padding:4px 0 10px;">
+    <div class="scn-narrative"><div class="scn-narrative-lbl">${scnCur.icon} السيناريو — ${scnCur.title}</div><div class="scn-narrative-txt">${scnCur.narrative}</div></div>
+    ${buildQHTML(q,scnIdx+1,scnCur.qs.length,pct,'ansScn',true)}
+    <button class="btn btn-secondary btn-full" style="margin-top:10px;font-size:13px;" onclick="resetScenario()">✕ إنهاء السيناريو</button>
+  </div>`;
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function ansScn(i){
+  const q=scnCur.qs[scnIdx];
+  scnAns.push({q,chosen:i,correct:i===q.ans});
+  markAns(i,q.ans);
+  if(i===q.ans){S.correctTotal++;S.todayQs++;addXP(15);if(!S.strengths)S.strengths={};S.strengths['سيناريوهات']=(S.strengths['سيناريوهات']||0)+1;}
+  else{S.wrongTotal++;if(!S.weaknesses)S.weaknesses={};S.weaknesses['سيناريوهات']=(S.weaknesses['سيناريوهات']||0)+1;}
+  save();renderAll();
+  setTimeout(()=>{scnIdx++;showScnQ();},1900);
+}
+function finishScenario(){
+  hideEl('scn-quiz-view');
+  const correct=scnAns.filter(a=>a.correct).length,total=Math.max(scnAns.length,1),pct=Math.round((correct/total)*100),pass=pct>=70;
+  if(!S.scnHistory)S.scnHistory=[];
+  S.scnHistory.unshift({date:new Date().toLocaleDateString('ar-SA'),title:scnCur.title,score:correct,total,pct});
+  if(S.scnHistory.length>10)S.scnHistory=S.scnHistory.slice(0,10);
+  addXP(pass?60:20);save();renderAll();
+  const missed=scnAns.filter(a=>!a.correct);
+  const mH=missed.length?`<div style="width:100%;margin-top:10px;"><div style="font-size:12.5px;font-weight:800;color:var(--muted);margin-bottom:8px;">راجع هذه النقاط</div>${missed.map(a=>`<div class="ios-card"><div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.5;">${a.q.q}</div><div style="font-size:12.5px;color:var(--green);font-weight:700;">✅ ${a.q.opts[a.q.ans]}</div><div style="font-size:12px;color:var(--muted);margin-top:3px;">${a.q.ex||''}</div></div>`).join('')}</div>`:'';
+  const res=document.getElementById('scn-result-view');
+  if(res){res.style.removeProperty('display');res.innerHTML=`<div class="result-wrap"><div class="result-pct ${pass?'pass':'fail'}">${ar(pct)}٪</div><div style="font-size:19px;font-weight:800;color:${pass?'var(--green)':'var(--red)'};">${pass?'قرار ميداني سليم ✅':'راجع السيناريو 📚'}</div><div style="font-size:14px;color:var(--muted);">${scnCur.icon} ${scnCur.title} · ${ar(correct)} من ${ar(total)}</div><div class="result-actions"><button class="btn btn-secondary" onclick="resetScenario()">🔄 سيناريو آخر</button><button class="btn btn-primary" onclick="scnDiscuss()">💬 ناقش المرشد</button></div>${mH}</div>`;}
+  if(pass)setTimeout(()=>showCertificate(pct,correct,total,'اختبار سيناريوهات — '+scnCur.title),600);
+}
+function resetScenario(){scnCur=null;scnIdx=0;scnAns=[];hideEl('scn-quiz-view');hideEl('scn-result-view');showEl('scn-start-view');renderScnHome();}
+function scnDiscuss(){const t=scnCur?scnCur.title:'سيناريو ميداني';switchTab('chat');setTimeout(()=>quickChat(`ناقشني بعمق في سيناريو: ${t} — ما الدروس المستفادة وكيف أتصرف كأخصائي HSE؟`),100);}
+
+// ═══════════ PHOTO HAZARD CHALLENGE ═══════════
+function _pqPerson(x,y,c,helmet){return `<circle cx="${x}" cy="${y}" r="9" fill="#E8B88A"/>${helmet?`<path d="M${x-10} ${y-3} a10 10 0 0 1 20 0 z" fill="${helmet}"/>`:''}<rect x="${x-8}" y="${y+8}" width="16" height="26" rx="5" fill="${c}"/><rect x="${x-7}" y="${y+34}" width="6" height="18" rx="3" fill="#3A4A5A"/><rect x="${x+1}" y="${y+34}" width="6" height="18" rx="3" fill="#3A4A5A"/>`;}
+const PQ_SCENES=[
+{topic:'العمل على السلالم',q:'ما المخالفة الأساسية في هذا المشهد؟',
+svg:`<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="240" fill="#EAF2F8"/><rect y="200" width="400" height="40" fill="#D8CCBA"/><rect x="40" y="30" width="120" height="170" fill="#C9D6E2"/><rect x="52" y="45" width="30" height="38" fill="#9FB8CC"/><rect x="95" y="45" width="30" height="38" fill="#9FB8CC"/><path d="M230 200 L262 62 L294 200" stroke="#B8860B" stroke-width="7" fill="none"/><line x1="238" y1="170" x2="286" y2="170" stroke="#B8860B" stroke-width="5"/><line x1="243" y1="145" x2="281" y2="145" stroke="#B8860B" stroke-width="5"/><line x1="248" y1="118" x2="276" y2="118" stroke="#B8860B" stroke-width="5"/><line x1="253" y1="90" x2="271" y2="90" stroke="#B8860B" stroke-width="5"/>${'PERSON1'}<rect x="330" y="185" width="34" height="15" rx="3" fill="#8A5A2B"/><circle cx="200" cy="212" r="5" fill="#7A8A9A"/><rect x="150" y="206" width="22" height="8" rx="2" fill="#7A8A9A"/></svg>`.replace('PERSON1',_pqPerson(262,42,'#E67E22',null)),
+opts:['أ) العامل يقف على أعلى درجة في السلم وبدون خوذة','ب) السلم لونه غير مطابق للمواصفات','ج) وجود عدد يدوية على الأرض','د) قرب السلم من المبنى'],ans:0,
+ex:'الوقوف على آخر درجتين من السلم المزدوج ممنوع (فقدان اتزان)، والخوذة إلزامية في موقع العمل — القاعدة: ثلاث نقاط اتصال دائماً.'},
+{topic:'أعمال اللحام',q:'أي وضع في المشهد يشكل الخطر الأكبر؟',
+svg:`<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="240" fill="#F0EBE3"/><rect y="195" width="400" height="45" fill="#B8B0A2"/>${'PERSON1'}<rect x="128" y="150" width="60" height="10" rx="3" fill="#6A7A8A"/><g><circle cx="120" cy="150" r="3" fill="#FFB627"/><circle cx="112" cy="142" r="2.5" fill="#FF6D00"/><circle cx="126" cy="139" r="2" fill="#FFD54F"/><circle cx="106" cy="152" r="2" fill="#FF8F3D"/></g><rect x="250" y="155" width="90" height="40" rx="8" fill="#C0392B" transform="rotate(-8 295 175)"/><circle cx="255" cy="150" r="7" fill="#8E9BA8"/><text x="268" y="182" font-size="13" font-weight="800" fill="#fff" transform="rotate(-8 295 175)">GAS</text><path d="M60 100 q10 -18 22 0 q12 18 22 0" stroke="#95A5B5" stroke-width="3" fill="none" opacity=".7"/></svg>`.replace('PERSON1',_pqPerson(112,108,'#5D6D7E','#F1C40F')),
+opts:['أ) لون طاولة اللحام','ب) أسطوانة غاز ملقاة أرضاً بلا تثبيت أو غطاء قرب شرر اللحام','ج) ارتفاع سقف الورشة','د) وقوف اللحّام أثناء العمل'],ans:1,
+ex:'الأسطوانات تُخزن وتُستخدم عمودياً مثبتة بسلسلة وبغطاء حماية للصمام وبعيداً عن الشرر — أسطوانة ملقاة قرب لحام = قنبلة محتملة.'},
+{topic:'أعمال الحفر',q:'ما الذي يجعل هذا الحفر غير آمن؟',
+svg:`<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="240" fill="#EAF2F8"/><rect y="150" width="400" height="90" fill="#C9A87C"/><path d="M140 150 L155 240 L285 240 L300 150 Z" fill="#8A6A45"/><path d="M140 150 L155 240 L165 240 L152 150 Z" fill="#77552F"/><path d="M300 150 L285 240 L275 240 L288 150 Z" fill="#77552F"/><ellipse cx="120" cy="140" rx="42" ry="20" fill="#A98653"/><ellipse cx="112" cy="128" rx="30" ry="13" fill="#B69565"/>${'PERSON1'}<rect x="330" y="120" width="8" height="30" fill="#C0392B"/><rect x="322" y="112" width="24" height="12" rx="3" fill="#C0392B"/></svg>`.replace('PERSON1',_pqPerson(225,168,'#E67E22','#F1C40F')),
+opts:['أ) عمق الحفر أكبر من ١.٢م بلا تدعيم للجوانب + ناتج الحفر على حافة الخندق','ب) لون تربة الحفر','ج) وجود لافتة حمراء قرب الحفر','د) عمل شخص واحد فقط داخل الخندق'],ans:0,
+ex:'الخنادق أعمق من ١.٢م تتطلب تدعيماً (Shoring) أو ميلاً آمناً، ويُبعد ناتج الحفر ٠.٦م على الأقل عن الحافة — الانهيار يدفن في ثوانٍ.'},
+{topic:'الرافعات الشوكية',q:'حدد المخالفة القاتلة في المشهد:',
+svg:`<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="240" fill="#EEF1F4"/><rect y="200" width="400" height="40" fill="#B0B8C0"/><rect x="30" y="40" width="60" height="160" fill="#95A5B5"/><rect x="36" y="50" width="48" height="28" fill="#C9A87C"/><rect x="36" y="90" width="48" height="28" fill="#C9A87C"/><rect x="36" y="130" width="48" height="28" fill="#C9A87C"/><rect x="200" y="130" width="90" height="55" rx="10" fill="#E67E22"/><circle cx="222" cy="196" r="14" fill="#2C3E50"/><circle cx="272" cy="196" r="14" fill="#2C3E50"/><rect x="286" y="80" width="10" height="115" fill="#5D6D7E"/><rect x="296" y="96" width="42" height="7" fill="#5D6D7E"/>${'PERSON1'}<rect x="212" y="112" width="36" height="22" rx="4" fill="#34495E"/>${'PERSON2'}</svg>`.replace('PERSON1',_pqPerson(318,52,'#C0392B','#F1C40F')).replace('PERSON2',_pqPerson(228,100,'#2C6E49','#F1C40F')),
+opts:['أ) لون الرافعة برتقالي','ب) رفع عامل واقفاً على الشوك مباشرة دون قفص معتمد','ج) وجود أرفف عالية في المستودع','د) جلوس السائق داخل الكابينة'],ans:1,
+ex:'الشوك للأحمال فقط — رفع الأشخاص يتطلب منصة عمل معتمدة مثبتة + حزام أمان. السقوط من الشوك من أكثر حوادث المستودعات فتكاً.'},
+{topic:'السلامة الكهربائية',q:'ما المخالفة في هذه اللوحة الكهربائية؟',
+svg:`<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="240" fill="#F2EFE9"/><rect y="205" width="400" height="35" fill="#C4BBAD"/><rect x="150" y="35" width="100" height="130" rx="8" fill="#95A5B5"/><rect x="160" y="45" width="80" height="90" fill="#7F919F"/><path d="M188 60 L208 60 L195 85 L212 85 L185 120 L194 92 L180 92 Z" fill="#F1C40F"/><path d="M172 135 q-30 40 -60 55" stroke="#2C3E50" stroke-width="4" fill="none"/><path d="M228 135 q20 45 55 62" stroke="#C0392B" stroke-width="4" fill="none" stroke-dasharray="7 4"/><circle cx="285" cy="200" r="4" fill="#F1C40F"/><rect x="120" y="140" width="55" height="42" rx="4" fill="#B8860B"/><rect x="128" y="118" width="55" height="42" rx="4" fill="#C9A227"/><rect x="210" y="150" width="60" height="34" rx="4" fill="#8A5A2B"/></svg>`,
+opts:['أ) تكديس صناديق أمام اللوحة + كابل مكشوف متضرر ممدود على الأرض','ب) لون اللوحة رمادي','ج) وجود ملصق تحذير صاعقة على الباب','د) ارتفاع اللوحة عن الأرض'],ans:0,
+ex:'يجب إبقاء مساحة خالية أمام اللوحات (٩٠سم على الأقل) للوصول والفصل الطارئ، والكابلات المتضررة تُستبدل فوراً — لا تُترك مكشوفة.'},
+{topic:'العمل على ارتفاع',q:'ما الخطر الرئيسي على هذه السقالة؟',
+svg:`<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="240" fill="#E8F1F8"/><rect y="210" width="400" height="30" fill="#C4BBAD"/><rect x="90" y="30" width="10" height="180" fill="#B8860B"/><rect x="290" y="30" width="10" height="180" fill="#B8860B"/><rect x="85" y="150" width="220" height="10" fill="#8A6A45"/><rect x="85" y="80" width="220" height="10" fill="#8A6A45"/><line x1="90" y1="80" x2="90" y2="60" stroke="#B8860B" stroke-width="5"/><line x1="90" y1="63" x2="190" y2="63" stroke="#B8860B" stroke-width="4"/>${'PERSON1'}<path d="M262 100 l6 14 l-6 14" stroke="#95A5B5" stroke-width="3" fill="none"/><rect x="150" y="215" width="26" height="10" rx="3" fill="#7A8A9A"/><circle cx="200" cy="222" r="5" fill="#95A5B5"/></svg>`.replace('PERSON1',_pqPerson(250,48,'#E67E22','#F1C40F')),
+opts:['أ) لون منصة العمل','ب) درابزين الحماية مفقود في جهة العامل وهو غير مربوط بحزام','ج) وجود عدة على الأرض تحت السقالة','د) ارتفاع السقالة طابقين'],ans:1,
+ex:'كل حافة عمل مفتوحة فوق ٢م تتطلب درابزيناً علوياً ووسطياً ولوح قدم — وفي غيابه يلزم حزام مربوط بنقطة تثبيت معتمدة.'},
+{topic:'المواد الكيميائية',q:'ما المخالفة في منطقة تخزين الكيماويات هذه؟',
+svg:`<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="240" fill="#F0EBE3"/><rect y="200" width="400" height="40" fill="#BFB6A8"/><rect x="80" y="120" width="55" height="80" rx="6" fill="#2471A3"/><rect x="145" y="120" width="55" height="80" rx="6" fill="#B03A2E"/><rect x="210" y="120" width="55" height="80" rx="6" fill="#7D8B99"/><ellipse cx="185" cy="212" rx="55" ry="9" fill="#8FBF6B" opacity=".85"/><path d="M148 200 q4 -10 10 0" fill="#8FBF6B"/>${'PERSON1'}<rect x="60" y="60" width="70" height="26" rx="4" fill="#EAECEE" stroke="#B0B8C0"/><line x1="68" y1="70" x2="122" y2="70" stroke="#B0B8C0" stroke-width="3"/><line x1="68" y1="78" x2="108" y2="78" stroke="#B0B8C0" stroke-width="3"/></svg>`.replace('PERSON1',_pqPerson(320,120,'#5D6D7E',null)),
+opts:['أ) براميل بلا ملصقات GHS مع تسرب على الأرض وعامل بلا قفازات ولا خوذة','ب) اختلاف ألوان البراميل','ج) وجود لوحة بيضاء فارغة على الجدار','د) تخزين البراميل واقفة'],ans:0,
+ex:'كل وعاء كيميائي يجب أن يحمل ملصق GHS واضحاً، والتسرب يُحصر وينظف فوراً وفق SDS، ومناولة الكيماويات تتطلب PPE مناسباً.'},
+{topic:'مخارج الطوارئ',q:'ما المخالفة الواضحة في هذا الممر؟',
+svg:`<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="240" fill="#EEF1F4"/><rect y="205" width="400" height="35" fill="#B0B8C0"/><rect x="160" y="55" width="80" height="150" rx="4" fill="#2C6E49"/><rect x="168" y="63" width="64" height="134" rx="3" fill="#37875B"/><circle cx="222" cy="132" r="4" fill="#F1C40F"/><rect x="150" y="26" width="100" height="24" rx="5" fill="#1E8449"/><text x="200" y="43" font-size="14" font-weight="900" fill="#fff" text-anchor="middle">EXIT ➜</text><rect x="130" y="150" width="60" height="55" rx="4" fill="#B8860B"/><rect x="185" y="160" width="70" height="45" rx="4" fill="#C9A227"/><rect x="205" y="120" width="52" height="42" rx="4" fill="#8A5A2B"/><rect x="238" y="170" width="45" height="35" rx="6" fill="#7D8B99"/>${'PERSON1'}</svg>`.replace('PERSON1',_pqPerson(60,120,'#E67E22','#F1C40F')),
+opts:['أ) لون باب الطوارئ أخضر','ب) مخرج الطوارئ مسدود بالكامل بصناديق ومعدات مخزنة','ج) وجود لافتة EXIT مضيئة','د) عرض الممر المؤدي للباب'],ans:1,
+ex:'مسارات ومخارج الطوارئ تبقى خالية دائماً وبلا استثناء — في الإخلاء كل ثانية حياة، والمخرج المسدود يحوّل الحادث إلى كارثة.'}
+];
+let pqQs=[],pqIdx=0,pqAns=[];
+function renderPQHome(){
+  el('pq-total-lbl',ar(PQ_SCENES.length));
+  const h=S.pqHistory||[];
+  el('pq-att-lbl',ar(h.length));
+  el('pq-best-lbl',h.length?ar(Math.max(...h.map(x=>x.pct)))+'٪':'—');
+  const he=document.getElementById('pq-hist');
+  if(he)he.innerHTML=h.length?h.slice(0,5).map(x=>`<div class="hist-item"><span class="hist-date">${x.date} · ${ar(x.total)} مشهد</span><span class="hist-score ${x.pct>=70?'pass':'fail'}">${ar(x.pct)}٪</span></div>`).join(''):'<p style="color:var(--muted);font-size:13px;text-align:center;padding:8px;">لا توجد نتائج بعد</p>';
+}
+function startPhotoQuiz(){
+  pqQs=[...PQ_SCENES];pqIdx=0;pqAns=[];
+  for(let i=pqQs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pqQs[i],pqQs[j]]=[pqQs[j],pqQs[i]];}
+  hideEl('pq-start-view');hideEl('pq-result-view');showEl('pq-quiz-view');
+  showPQQ();
+}
+function showPQQ(){
+  const qz=document.getElementById('pq-quiz-view');if(!qz)return;
+  if(pqIdx>=pqQs.length){finishPQ();return;}
+  const q=pqQs[pqIdx],pct=Math.round((pqIdx/pqQs.length)*100);
+  qz.innerHTML=`<div style="padding:4px 0 10px;">
+    <div class="ios-card" style="margin-bottom:11px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap;"><span class="bdg bdg-gold">${q.topic}</span><span style="font-size:12px;color:var(--muted);">${ar(pqIdx+1)}/${ar(pqQs.length)}</span></div><div class="prog-track" style="margin-bottom:12px;"><div class="prog-fill" style="width:${pct}%;"></div></div><div class="pq-scene">${q.svg}</div><div style="font-size:15.5px;font-weight:700;color:var(--text);line-height:1.6;">🔍 ${q.q}</div></div>
+    ${q.opts.map((o,i)=>`<button class="quiz-opt" id="qopt-${i}" onclick="ansPQ(${i})">${o}</button>`).join('')}
+    <div class="quiz-explain" id="quiz-exp">${q.ex||''}</div>
+    <button class="btn btn-secondary btn-full" style="margin-top:10px;font-size:13px;" onclick="resetPQ()">✕ إنهاء التحدي</button>
+  </div>`;
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function ansPQ(i){
+  const q=pqQs[pqIdx];
+  pqAns.push({q,chosen:i,correct:i===q.ans});
+  markAns(i,q.ans);
+  if(i===q.ans){S.correctTotal++;S.todayQs++;addXP(20);if(!S.strengths)S.strengths={};S.strengths['اكتشاف المخاطر']=(S.strengths['اكتشاف المخاطر']||0)+1;}
+  else{S.wrongTotal++;if(!S.weaknesses)S.weaknesses={};S.weaknesses['اكتشاف المخاطر']=(S.weaknesses['اكتشاف المخاطر']||0)+1;}
+  save();renderAll();
+  setTimeout(()=>{pqIdx++;showPQQ();},2100);
+}
+function finishPQ(){
+  hideEl('pq-quiz-view');
+  const correct=pqAns.filter(a=>a.correct).length,total=Math.max(pqAns.length,1),pct=Math.round((correct/total)*100),pass=pct>=70;
+  if(!S.pqHistory)S.pqHistory=[];
+  S.pqHistory.unshift({date:new Date().toLocaleDateString('ar-SA'),score:correct,total,pct});
+  if(S.pqHistory.length>10)S.pqHistory=S.pqHistory.slice(0,10);
+  addXP(pass?50:15);save();renderAll();
+  const res=document.getElementById('pq-result-view');
+  if(res){res.style.removeProperty('display');res.innerHTML=`<div class="result-wrap"><div class="result-pct ${pass?'pass':'fail'}">${ar(pct)}٪</div><div style="font-size:19px;font-weight:800;color:${pass?'var(--green)':'var(--red)'};">${pass?'عين مفتش محترف 🔍':'درّب عينك أكثر 👀'}</div><div style="font-size:14px;color:var(--muted);">اكتشفت ${ar(correct)} من ${ar(total)} مخالفة</div><div class="result-actions"><button class="btn btn-secondary" onclick="resetPQ()">🔄 تحدٍّ جديد</button><button class="btn btn-primary" onclick="pqDiscuss()">💬 ناقش المرشد</button></div></div>`;}
+}
+function resetPQ(){pqQs=[];pqIdx=0;pqAns=[];hideEl('pq-quiz-view');hideEl('pq-result-view');showEl('pq-start-view');renderPQHome();}
+function pqDiscuss(){const m=[...new Set(pqAns.filter(a=>!a.correct).map(a=>a.q.topic))].join('، ')||'عام';switchTab('chat');setTimeout(()=>quickChat(`أخطأت في تحدي اكتشاف المخاطر بمواضيع: ${m}. اشرح لي كيف أكتشف هذه المخالفات في الجولات الميدانية.`),100);}
 
 // FIELD ANALYZER
 async function _analyzeField(inpId,resId){
