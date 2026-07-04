@@ -328,6 +328,42 @@ body.dark ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);background-
 .photo-type-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px;}
 .photo-type-opt{padding:7px 15px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid var(--sep);background:var(--bg2);color:var(--muted);transition:.16s;}
 .photo-type-opt.sel{background:rgba(255,109,0,.1);color:var(--orange);border-color:rgba(255,109,0,.38);}
+/* ── HAZARD CHALLENGE + SCENARIO ────────────────────── */
+.hz-stats{display:flex;gap:10px;margin-bottom:14px;}
+.hz-stat{flex:1;background:var(--bg2);border-radius:16px;padding:13px 8px;text-align:center;box-shadow:var(--sh);border:1px solid var(--sep2);}
+.hz-stat-val{font-size:22px;font-weight:900;color:var(--orange);letter-spacing:-.5px;}
+.hz-stat-lbl{font-size:11px;color:var(--muted);margin-top:2px;font-weight:600;}
+.hz-card{background:var(--bg2);border-radius:20px;padding:16px;box-shadow:var(--sh-md);border:1px solid var(--sep2);}
+.hz-img-wrap{position:relative;width:100%;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#0d2137,#1a3a5c);aspect-ratio:16/10;margin-bottom:16px;box-shadow:0 6px 20px rgba(0,0,0,.18);}
+.hz-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;animation:hzZoom .5s ease;}
+@keyframes hzZoom{from{transform:scale(1.05);opacity:.4;}to{transform:scale(1);opacity:1;}}
+.hz-img-badge{position:absolute;top:12px;right:12px;background:rgba(13,33,55,.82);color:#fff;font-size:12px;font-weight:800;padding:6px 14px;border-radius:20px;backdrop-filter:blur(6px);}
+.hz-q{font-size:17px;font-weight:800;color:var(--text);line-height:1.55;margin-bottom:14px;}
+.hz-opts{display:flex;flex-direction:column;gap:10px;}
+.hz-opt{text-align:right;padding:14px 16px;border-radius:14px;border:1.5px solid var(--sep2);background:var(--bg3);color:var(--text);font-size:14.5px;font-weight:600;cursor:pointer;transition:.16s;font-family:var(--font);line-height:1.5;}
+.hz-opt:hover:not(.locked){border-color:rgba(255,109,0,.5);background:rgba(255,109,0,.05);transform:translateY(-1px);}
+.hz-opt.locked{cursor:default;}
+.hz-opt.correct{border-color:var(--green);background:rgba(0,185,107,.12);color:var(--green);font-weight:800;}
+.hz-opt.wrong{border-color:var(--red);background:rgba(255,59,48,.1);color:var(--red);}
+.hz-feedback{margin-top:14px;padding:14px 16px;border-radius:14px;font-size:14px;line-height:1.7;display:none;animation:fadeIn .3s ease;}
+.hz-feedback.show{display:block;}
+.hz-feedback.ok{background:rgba(0,185,107,.1);border:1px solid rgba(0,185,107,.3);color:var(--text);}
+.hz-feedback.no{background:rgba(255,59,48,.08);border:1px solid rgba(255,59,48,.28);color:var(--text);}
+.hz-feedback b{color:var(--orange);}
+.hz-done{background:var(--bg2);border-radius:20px;padding:34px 22px;text-align:center;box-shadow:var(--sh-md);border:1px solid var(--sep2);animation:fadeIn .4s ease;}
+.hz-done-icon{font-size:52px;margin-bottom:10px;}
+.hz-done-title{font-size:22px;font-weight:900;color:var(--text);margin-bottom:8px;}
+.hz-done-score{font-size:40px;font-weight:900;color:var(--orange);letter-spacing:-1px;}
+.hz-done-sub{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.6;}
+.sc-scenario{background:var(--bg3);border-radius:14px;padding:16px 18px;font-size:15px;line-height:1.85;color:var(--sub);border-right:3px solid var(--orange);margin-bottom:12px;}
+.sc-tag{display:inline-block;font-size:11.5px;font-weight:800;color:var(--orange);background:rgba(255,109,0,.1);padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+/* ── COMING SOON ────────────────────────────────────── */
+.soon-wrap{position:relative;text-align:center;padding:70px 24px;overflow:hidden;}
+.soon-orb{position:absolute;top:0;left:50%;transform:translateX(-50%);width:360px;height:360px;background:radial-gradient(circle,rgba(255,109,0,.16),transparent 65%);filter:blur(20px);animation:orbPulse 6s ease-in-out infinite;pointer-events:none;}
+.soon-icon{font-size:60px;position:relative;animation:bounce 2.4s infinite;}
+.soon-badge{display:inline-block;margin-top:10px;font-size:12px;font-weight:900;letter-spacing:2px;color:var(--orange);background:rgba(255,109,0,.1);border:1px solid rgba(255,109,0,.3);padding:6px 18px;border-radius:20px;position:relative;}
+.soon-title{font-size:28px;font-weight:900;color:var(--text);margin-top:16px;position:relative;}
+.soon-sub{font-size:15px;color:var(--muted);max-width:420px;margin:12px auto 0;line-height:1.75;position:relative;}
 .vio-card{background:var(--bg2);border-radius:14px;padding:16px;margin-bottom:10px;border:1.5px solid var(--sep2);box-shadow:var(--sh);}
 .vio-badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:800;}
 .vio-badge.critical{background:rgba(255,59,48,.14);color:#b00;}
@@ -601,9 +637,18 @@ body.dark .dev-badge{background:var(--bg2);border-color:var(--sep);}
 .lp-btn-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,109,0,.4);}
 
 /* HERO */
-.lp-hero{position:relative;min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:130px 24px 70px;
+.lp-hero{position:relative;min-height:86vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:104px 24px 56px;
   background:radial-gradient(ellipse 120% 80% at 50% 0%,#13284A 0%,#0A1628 55%,#070F1C 100%);overflow:hidden;}
+@keyframes heroUp{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
+.lp-hero .lp-shield,.lp-hero .lp-badge,.lp-hero-title,.lp-hero-sub,.lp-hero-cta,.lp-hero-stats{opacity:0;animation:heroUp .7s cubic-bezier(.2,.8,.2,1) forwards;}
+.lp-hero .lp-shield{animation-delay:.05s;}
+.lp-hero .lp-badge{animation-delay:.18s;}
+.lp-hero-title{animation-delay:.30s;}
+.lp-hero-sub{animation-delay:.42s;}
+.lp-hero-cta{animation-delay:.54s;}
+.lp-hero-stats{animation-delay:.66s;}
+@media(prefers-reduced-motion:reduce){.lp-hero .lp-shield,.lp-hero .lp-badge,.lp-hero-title,.lp-hero-sub,.lp-hero-cta,.lp-hero-stats{opacity:1;animation:none;}}
 .lp-hero-grid{position:absolute;inset:0;
   background-image:linear-gradient(rgba(255,182,39,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,182,39,.04) 1px,transparent 1px);
   background-size:54px 54px;
@@ -639,6 +684,17 @@ body.dark .dev-badge{background:var(--bg2);border-color:var(--sep);}
 .lp-stat-num{font-size:clamp(28px,4vw,40px);font-weight:900;color:#FFB627;letter-spacing:-1px;}
 .lp-stat-lbl{font-size:13px;color:rgba(235,240,250,.55);margin-top:3px;font-weight:600;}
 .lp-scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.35);font-size:22px;animation:bounce 2s infinite;z-index:2;}
+/* Interactive hero particles */
+.lp-particles{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;}
+.lp-particle{position:absolute;bottom:-12px;border-radius:50%;background:radial-gradient(circle,rgba(255,182,39,.9),rgba(255,109,0,.2));opacity:.5;animation:floatUp linear infinite;}
+@keyframes floatUp{0%{transform:translateY(0) scale(1);opacity:0;}10%{opacity:.6;}90%{opacity:.5;}100%{transform:translateY(-96vh) scale(.4);opacity:0;}}
+/* Interactive card tilt */
+.lp-feature,.lp-step,.lp-test,.lp-impact-card,.lp-trust-chip{will-change:transform;transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s;}
+.tilt{transform-style:preserve-3d;}
+/* Counter pop when revealed */
+.lp-stat-num,.lp-impact-num{transition:transform .4s cubic-bezier(.2,1.4,.4,1);}
+.pop{animation:popIn .5s cubic-bezier(.2,1.5,.4,1);}
+@keyframes popIn{0%{transform:scale(.6);opacity:.3;}100%{transform:scale(1);opacity:1;}}
 
 /* TRUST BAR */
 .lp-trust{padding:34px 24px;border-top:.5px solid var(--sep2);border-bottom:.5px solid var(--sep2);background:var(--bg2);}
@@ -1173,6 +1229,8 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <button class="nav-link active" id="navtab-home" onclick="switchTab('home')">🏠 الرئيسية</button>
     <button class="nav-link" id="navtab-chat" onclick="switchTab('chat')">💬 المرشد</button>
     <button class="nav-link" id="navtab-quiz" onclick="switchTab('quiz')">🏆 كوادر</button>
+    <button class="nav-link" id="navtab-hazard" onclick="switchTab('hazard')">🔍 اكتشف الخطر</button>
+    <button class="nav-link" id="navtab-scenario" onclick="switchTab('scenario')">🧩 سيناريوهات</button>
     <button class="nav-link" id="navtab-tools" onclick="switchTab('tools')">🔧 أدوات السلامة</button>
     <button class="nav-link" id="navtab-plan" onclick="switchTab('plan')">📅 الخطة</button>
     <button class="nav-link" id="navtab-levels" onclick="switchTab('levels')">🏅 مستوياتي</button>
@@ -1224,40 +1282,47 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     <div class="prog-track" style="height:8px;"><div class="prog-fill" id="goal-fill" style="width:0%;height:8px;border-radius:4px;"></div></div>
     <div style="font-size:13px;color:var(--muted);margin-top:5px;" id="goal-sub">أكمل أسئلة اليوم!</div>
   </div>
-  <div class="home-qa-strip">
-    <div class="qa-item" onclick="switchTab('chat')"><div class="qa-icon">💬</div><div class="qa-lbl">المرشد<br>الذكي</div></div>
-    <div class="qa-item" onclick="switchTab('quiz')"><div class="qa-icon">🏆</div><div class="qa-lbl">محاكي<br>كوادر</div></div>
-    <div class="qa-item" onclick="switchTab('morning')"><div class="qa-icon">☀️</div><div class="qa-lbl">وارم<br>أب</div></div>
-    <div class="qa-item" onclick="switchTab('flash')"><div class="qa-icon">🃏</div><div class="qa-lbl">بطاقات<br>المراجعة</div></div>
-    <div class="qa-item" onclick="switchTab('tools')"><div class="qa-icon">⚠️</div><div class="qa-lbl">مصفوفة<br>المخاطر</div></div>
-    <div class="qa-item" onclick="switchTab('incident')"><div class="qa-icon">📋</div><div class="qa-lbl">بلاغ<br>حادثة</div></div>
-    <div class="qa-item" onclick="switchTab('photo')"><div class="qa-icon">📸</div><div class="qa-lbl">محلل<br>الصور</div></div>
-    <div class="qa-item" onclick="switchTab('plan')"><div class="qa-icon">📅</div><div class="qa-lbl">خطة<br>التعلم</div></div>
+  <div class="home-qa-strip" data-tool-group>
+    <div class="qa-item" data-tool="chat" onclick="switchTab('chat')"><div class="qa-icon">💬</div><div class="qa-lbl">المرشد<br>الذكي</div></div>
+    <div class="qa-item" data-tool="quiz" onclick="switchTab('quiz')"><div class="qa-icon">🏆</div><div class="qa-lbl">محاكي<br>كوادر</div></div>
+    <div class="qa-item" data-tool="hazard" onclick="switchTab('hazard')"><div class="qa-icon">🔍</div><div class="qa-lbl">اكتشف<br>الخطر</div></div>
+    <div class="qa-item" data-tool="scenario" onclick="switchTab('scenario')"><div class="qa-icon">🧩</div><div class="qa-lbl">سيناريو<br>هات</div></div>
+    <div class="qa-item" data-tool="morning" onclick="switchTab('morning')"><div class="qa-icon">☀️</div><div class="qa-lbl">وارم<br>أب</div></div>
+    <div class="qa-item" data-tool="flash" onclick="switchTab('flash')"><div class="qa-icon">🃏</div><div class="qa-lbl">بطاقات<br>المراجعة</div></div>
+    <div class="qa-item" data-tool="tools" onclick="switchTab('tools')"><div class="qa-icon">⚠️</div><div class="qa-lbl">مصفوفة<br>المخاطر</div></div>
+    <div class="qa-item" data-tool="incident" onclick="switchTab('incident')"><div class="qa-icon">📋</div><div class="qa-lbl">بلاغ<br>حادثة</div></div>
+    <div class="qa-item" data-tool="photo" onclick="switchTab('photo')"><div class="qa-icon">📸</div><div class="qa-lbl">محلل<br>الصور</div></div>
+    <div class="qa-item" data-tool="plan" onclick="switchTab('plan')"><div class="qa-icon">📅</div><div class="qa-lbl">خطة<br>التعلم</div></div>
+  </div>
+  <div class="sec-lbl">🎮 تحديات تفاعلية</div>
+  <div class="ios-list" data-tool-group>
+    <div class="ios-row" data-tool="hazard" onclick="switchTab('hazard')"><div class="row-icon" style="background:rgba(229,57,53,.12);">🔍</div><div class="row-body"><div class="row-title">تحدي اكتشاف المخاطر</div><div class="row-sub">صور حقيقية من المواقع والمصانع</div></div><div class="row-right"><span class="bdg bdg-red">جديد</span><span class="chevron">‹</span></div></div>
+    <div class="ios-row" data-tool="scenario" onclick="switchTab('scenario')"><div class="row-icon" style="background:rgba(88,86,214,.12);">🧩</div><div class="row-body"><div class="row-title">اختبارات السيناريوهات</div><div class="row-sub">سيناريوهات نمط NEBOSH بخيارات</div></div><div class="row-right"><span class="bdg bdg-indigo">جديد</span><span class="chevron">‹</span></div></div>
   </div>
   <div class="grid-2">
-    <div>
+    <div data-tool-group>
       <div class="sec-lbl" style="padding-top:0;">ابدأ الآن</div>
       <div class="ios-list">
-        <div class="ios-row" onclick="switchTab('chat')"><div class="row-icon" style="background:rgba(255,109,0,.12);">💬</div><div class="row-body"><div class="row-title">المرشد الذكي</div><div class="row-sub">اسأل أبو سلامة</div></div><div class="row-right"><span class="bdg bdg-orange">AI</span><span class="chevron">‹</span></div></div>
-        <div class="ios-row" onclick="switchTab('quiz')"><div class="row-icon" style="background:rgba(245,166,35,.12);">🏆</div><div class="row-body"><div class="row-title">محاكي كوادر</div><div class="row-sub">الاختبار الرسمي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
-        <div class="ios-row" onclick="switchTab('morning')"><div class="row-icon" style="background:rgba(0,185,107,.12);">☀️</div><div class="row-body"><div class="row-title">وارم أب الصباح</div><div class="row-sub">٥ أسئلة سريعة</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
-        <div class="ios-row" onclick="switchTab('plan')"><div class="row-icon" style="background:rgba(21,101,192,.12);">📅</div><div class="row-body"><div class="row-title">خطة التعلم</div><div class="row-sub">٨ أسابيع · ٤٠ يوم</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="chat" onclick="switchTab('chat')"><div class="row-icon" style="background:rgba(255,109,0,.12);">💬</div><div class="row-body"><div class="row-title">المرشد الذكي</div><div class="row-sub">اسأل أبو سلامة</div></div><div class="row-right"><span class="bdg bdg-orange">AI</span><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="quiz" onclick="switchTab('quiz')"><div class="row-icon" style="background:rgba(245,166,35,.12);">🏆</div><div class="row-body"><div class="row-title">محاكي كوادر</div><div class="row-sub">الاختبار الرسمي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="morning" onclick="switchTab('morning')"><div class="row-icon" style="background:rgba(0,185,107,.12);">☀️</div><div class="row-body"><div class="row-title">وارم أب الصباح</div><div class="row-sub">٥ أسئلة سريعة</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="plan" onclick="switchTab('plan')"><div class="row-icon" style="background:rgba(21,101,192,.12);">📅</div><div class="row-body"><div class="row-title">خطة التعلم</div><div class="row-sub">٨ أسابيع · ٤٠ يوم</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
       </div>
     </div>
-    <div>
+    <div data-tool-group>
       <div class="sec-lbl" style="padding-top:0;">أدوات السلامة</div>
       <div class="ios-list">
-        <div class="ios-row" onclick="switchTab('tools')"><div class="row-icon" style="background:rgba(229,57,53,.1);">⚠️</div><div class="row-body"><div class="row-title">مصفوفة المخاطر</div><div class="row-sub">Risk Matrix تفاعلي</div></div><div class="row-right"><span class="bdg bdg-red">جديد</span><span class="chevron">‹</span></div></div>
-        <div class="ios-row" onclick="switchTab('incident')"><div class="row-icon" style="background:rgba(92,53,204,.1);">📋</div><div class="row-body"><div class="row-title">بلاغ الحادثة</div><div class="row-sub">Incident Report + AI</div></div><div class="row-right"><span class="bdg bdg-indigo">جديد</span><span class="chevron">‹</span></div></div>
-        <div class="ios-row" onclick="switchTab('photo')"><div class="row-icon" style="background:rgba(92,53,204,.1);">📸</div><div class="row-body"><div class="row-title">محلل صور الموقع</div><div class="row-sub">GPT-4o Vision</div></div><div class="row-right"><span class="bdg bdg-indigo">AI</span><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="tools" onclick="switchTab('tools')"><div class="row-icon" style="background:rgba(229,57,53,.1);">⚠️</div><div class="row-body"><div class="row-title">مصفوفة المخاطر</div><div class="row-sub">Risk Matrix تفاعلي</div></div><div class="row-right"><span class="bdg bdg-red">جديد</span><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="incident" onclick="switchTab('incident')"><div class="row-icon" style="background:rgba(92,53,204,.1);">📋</div><div class="row-body"><div class="row-title">بلاغ الحادثة</div><div class="row-sub">Incident Report + AI</div></div><div class="row-right"><span class="bdg bdg-indigo">جديد</span><span class="chevron">‹</span></div></div>
+        <div class="ios-row" data-tool="photo" onclick="switchTab('photo')"><div class="row-icon" style="background:rgba(92,53,204,.1);">📸</div><div class="row-body"><div class="row-title">محلل صور الموقع</div><div class="row-sub">GPT-4o Vision</div></div><div class="row-right"><span class="bdg bdg-indigo">AI</span><span class="chevron">‹</span></div></div>
       </div>
     </div>
   </div>
   <div class="sec-lbl">أدوات إضافية</div>
   <div class="ios-list">
-    <div class="ios-row" onclick="switchTab('flash')"><div class="row-icon" style="background:rgba(229,57,53,.1);">🃏</div><div class="row-body"><div class="row-title">بطاقات المراجعة</div><div class="row-sub">٢٤ بطاقة + AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
-    <div class="ios-row" onclick="switchTab('field')"><div class="row-icon" style="background:rgba(21,101,192,.1);">🏭</div><div class="row-body"><div class="row-title">محلل المواقف</div><div class="row-sub">تحليل ميداني بـ AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
-    <div class="ios-row" onclick="switchTab('report')"><div class="row-icon" style="background:rgba(0,185,107,.1);">📊</div><div class="row-body"><div class="row-title">التقرير الأسبوعي</div><div class="row-sub">تحليل أدائك</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+    <div class="ios-row" data-tool="flash" onclick="switchTab('flash')"><div class="row-icon" style="background:rgba(229,57,53,.1);">🃏</div><div class="row-body"><div class="row-title">بطاقات المراجعة</div><div class="row-sub">٢٤ بطاقة + AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+    <div class="ios-row" data-tool="field" onclick="switchTab('field')"><div class="row-icon" style="background:rgba(21,101,192,.1);">🏭</div><div class="row-body"><div class="row-title">محلل المواقف</div><div class="row-sub">تحليل ميداني بـ AI</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
+    <div class="ios-row" data-tool="report" onclick="switchTab('report')"><div class="row-icon" style="background:rgba(0,185,107,.1);">📊</div><div class="row-body"><div class="row-title">التقرير الأسبوعي</div><div class="row-sub">تحليل أدائك</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="openTBT()"><div class="row-icon" style="background:rgba(245,166,35,.1);">🗣️</div><div class="row-body"><div class="row-title">توليد TBT</div><div class="row-sub">Toolbox Talk احترافي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="openNotes()"><div class="row-icon" style="background:rgba(21,101,192,.1);">📝</div><div class="row-body"><div class="row-title">ملاحظات سريعة</div><div class="row-sub" id="notes-count-lbl">٠ ملاحظة</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
     <div class="ios-row" onclick="switchTab('settings')"><div class="row-icon" style="background:rgba(0,0,0,.06);">⚙️</div><div class="row-body"><div class="row-title">الإعدادات</div><div class="row-sub" id="settings-name-lbl">الملف الشخصي</div></div><div class="row-right"><span class="chevron">‹</span></div></div>
@@ -1647,6 +1712,76 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
 </div>
 </div>
 
+<!-- ═══════════════ HAZARD CHALLENGE (تحدي اكتشاف المخاطر) ═══════════════ -->
+<div class="page" id="page-hazard">
+<div class="container">
+  <div class="ph"><div class="ph-eyebrow">تدريب بصري تفاعلي</div><div class="ph-title">🔍 تحدي اكتشاف المخاطر</div><div class="ph-sub">صور حقيقية من مواقع العمل والمصانع — اكتشف الخطر واختر الإجابة</div></div>
+  <div class="hz-stats">
+    <div class="hz-stat"><div class="hz-stat-val" id="hz-score">٠</div><div class="hz-stat-lbl">نقاط الجولة</div></div>
+    <div class="hz-stat"><div class="hz-stat-val" id="hz-progress">٠/٠</div><div class="hz-stat-lbl">التقدم</div></div>
+    <div class="hz-stat"><div class="hz-stat-val" id="hz-streak2">٠🔥</div><div class="hz-stat-lbl">متتالية صح</div></div>
+  </div>
+  <div class="hz-card" id="hz-card">
+    <div class="hz-img-wrap">
+      <img id="hz-img" alt="مشهد ميداني" onerror="hzImgFallback(this)">
+      <div class="hz-img-badge" id="hz-sector-badge">—</div>
+    </div>
+    <div class="hz-q" id="hz-q">—</div>
+    <div class="hz-opts" id="hz-opts"></div>
+    <div class="hz-feedback" id="hz-feedback"></div>
+    <button class="btn btn-primary btn-full" id="hz-next" style="display:none;margin-top:14px;" onclick="hzNext()">التالي ‹</button>
+  </div>
+  <div class="hz-done" id="hz-done" style="display:none;">
+    <div class="hz-done-icon">🏆</div>
+    <div class="hz-done-title">أنهيت الجولة!</div>
+    <div class="hz-done-score" id="hz-done-score">—</div>
+    <div class="hz-done-sub" id="hz-done-sub">—</div>
+    <button class="btn btn-primary btn-full" style="margin-top:16px;" onclick="startHazardChallenge()">🔄 جولة جديدة</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════ SCENARIO TESTS (اختبارات السيناريوهات) ═══════════════ -->
+<div class="page" id="page-scenario">
+<div class="container">
+  <div class="ph"><div class="ph-eyebrow">تحليل واتخاذ قرار</div><div class="ph-title">🧩 اختبارات السيناريوهات</div><div class="ph-sub">سيناريوهات ميدانية على نمط NEBOSH — اقرأ الموقف واختر القرار الأسلم</div></div>
+  <div class="hz-stats">
+    <div class="hz-stat"><div class="hz-stat-val" id="sc-score">٠</div><div class="hz-stat-lbl">نقاط</div></div>
+    <div class="hz-stat"><div class="hz-stat-val" id="sc-progress">٠/٠</div><div class="hz-stat-lbl">التقدم</div></div>
+    <div class="hz-stat"><div class="hz-stat-val" id="sc-correct">٠</div><div class="hz-stat-lbl">إجابات صحيحة</div></div>
+  </div>
+  <div class="hz-card" id="sc-card">
+    <div class="sc-scenario" id="sc-scenario">—</div>
+    <div class="sc-tag" id="sc-tag">—</div>
+    <div class="hz-q" id="sc-q">—</div>
+    <div class="hz-opts" id="sc-opts"></div>
+    <div class="hz-feedback" id="sc-feedback"></div>
+    <button class="btn btn-primary btn-full" id="sc-next" style="display:none;margin-top:14px;" onclick="scNext()">التالي ‹</button>
+  </div>
+  <div class="hz-done" id="sc-done" style="display:none;">
+    <div class="hz-done-icon">🎓</div>
+    <div class="hz-done-title">اكتملت السيناريوهات!</div>
+    <div class="hz-done-score" id="sc-done-score">—</div>
+    <div class="hz-done-sub" id="sc-done-sub">—</div>
+    <button class="btn btn-primary btn-full" style="margin-top:16px;" onclick="startScenario()">🔄 إعادة</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════ COMING SOON (للأدوات المخفاة من المؤسس) ═══════════════ -->
+<div class="page" id="page-soon">
+<div class="container">
+  <div class="soon-wrap">
+    <div class="soon-orb"></div>
+    <div class="soon-icon">🚧</div>
+    <div class="soon-badge">قريباً</div>
+    <div class="soon-title"><span id="soon-tool-name">هذه الميزة</span></div>
+    <div class="soon-sub">نعمل على تجهيز هذه الميزة لتصل إليك بأفضل صورة. ترقّبها قريباً على المنصة! 🛡️</div>
+    <button class="btn btn-primary" style="margin-top:20px;" onclick="switchTab('home')">← العودة للرئيسية</button>
+  </div>
+</div>
+</div>
+
 <!-- ═══════════════ SETTINGS ═══════════════ -->
 <div class="page" id="page-settings">
 <div class="container">
@@ -1768,6 +1903,9 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <button class="fp-tab" data-fp="content" onclick="fpSwitch('content',this)"><span class="ic">✏️</span> محتوى اللاندنق</button>
       <button class="fp-tab" data-fp="tools" onclick="fpSwitch('tools',this)"><span class="ic">🔧</span> الأدوات</button>
       <button class="fp-tab" data-fp="questions" onclick="fpSwitch('questions',this)"><span class="ic">📚</span> بنك الأسئلة</button>
+      <button class="fp-tab" data-fp="challenges" onclick="fpSwitch('challenges',this)"><span class="ic">🔍</span> التحديات والصور</button>
+      <button class="fp-tab" data-fp="scenarios" onclick="fpSwitch('scenarios',this)"><span class="ic">🧩</span> السيناريوهات</button>
+      <button class="fp-tab" data-fp="data" onclick="fpSwitch('data',this)"><span class="ic">💾</span> استيراد وتصدير</button>
       <button class="fp-tab" data-fp="branding" onclick="fpSwitch('branding',this)"><span class="ic">🎨</span> الهوية البصرية</button>
       <button class="fp-tab" data-fp="legal" onclick="fpSwitch('legal',this)"><span class="ic">📄</span> الصفحات القانونية</button>
       <button class="fp-tab" data-fp="settings" onclick="fpSwitch('settings',this)"><span class="ic">⚙️</span> الإعدادات العامة</button>
@@ -1836,6 +1974,67 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
           <button class="fp-save-btn" onclick="fpAddQuestion()">➕ إضافة السؤال</button>
         </div>
         <div class="fp-card"><div class="fp-card-title">📋 الأسئلة الحالية (<span id="fpq-count">٠</span>)</div><div id="fpq-list" style="max-height:400px;overflow-y:auto;"></div></div>
+      </div>
+      <!-- CHALLENGES (Hazard image bank) -->
+      <div class="fp-section" id="fp-challenges">
+        <div class="fp-h">🔍 تحدي اكتشاف المخاطر</div>
+        <div class="fp-hsub">أضف صوراً حقيقية وأسئلة خيارات عن مخاطر المواقع والمصانع</div>
+        <div class="fp-card">
+          <div class="fp-card-title">➕ إضافة تحدٍّ بصورة</div>
+          <div class="fp-field"><label class="fp-label">رابط الصورة (URL)</label><input class="fp-input" id="fph-img" placeholder="https://..." dir="ltr"></div>
+          <div class="fp-field"><label class="fp-label">القطاع</label><input class="fp-input" id="fph-sector" placeholder="إنشاءات / صناعة / مستودعات..."></div>
+          <div class="fp-field"><label class="fp-label">نص السؤال</label><textarea class="fp-textarea" id="fph-q"></textarea></div>
+          <div class="fp-field"><label class="fp-label">الخيارات (سطر لكل خيار)</label><textarea class="fp-textarea" id="fph-opts" placeholder="الخيار الأول&#10;الخيار الثاني&#10;الخيار الثالث&#10;الخيار الرابع"></textarea></div>
+          <div class="fp-field"><label class="fp-label">رقم الإجابة الصحيحة (٠ = الأول)</label><input class="fp-input" id="fph-ans" type="number" min="0" value="0"></div>
+          <div class="fp-field"><label class="fp-label">الشرح</label><textarea class="fp-textarea" id="fph-ex"></textarea></div>
+          <button class="fp-save-btn" onclick="fpAddHazard()">➕ إضافة التحدي</button>
+        </div>
+        <div class="fp-card"><div class="fp-card-title">🖼️ التحديات المخصّصة (<span id="fph-count">٠</span>)</div><div id="fph-list" style="max-height:420px;overflow-y:auto;"></div><div class="fp-hsub" style="margin-top:8px;">+ يوجد ٨ تحديات أساسية مدمجة بصور حقيقية من ويكيميديا كومنز.</div></div>
+      </div>
+      <!-- SCENARIOS -->
+      <div class="fp-section" id="fp-scenarios">
+        <div class="fp-h">🧩 اختبارات السيناريوهات</div>
+        <div class="fp-hsub">أضف سيناريوهات على نمط NEBOSH بخيارات متعددة</div>
+        <div class="fp-card">
+          <div class="fp-card-title">➕ إضافة سيناريو</div>
+          <div class="fp-field"><label class="fp-label">التصنيف</label><input class="fp-input" id="fps2-tag" placeholder="العمل على الساخن / الأماكن المغلقة..."></div>
+          <div class="fp-field"><label class="fp-label">نص السيناريو</label><textarea class="fp-textarea" id="fps2-scenario" style="min-height:110px;"></textarea></div>
+          <div class="fp-field"><label class="fp-label">السؤال</label><textarea class="fp-textarea" id="fps2-q"></textarea></div>
+          <div class="fp-field"><label class="fp-label">الخيارات (سطر لكل خيار)</label><textarea class="fp-textarea" id="fps2-opts" placeholder="الخيار الأول&#10;الخيار الثاني&#10;الخيار الثالث&#10;الخيار الرابع"></textarea></div>
+          <div class="fp-field"><label class="fp-label">رقم الإجابة الصحيحة (٠ = الأول)</label><input class="fp-input" id="fps2-ans" type="number" min="0" value="0"></div>
+          <div class="fp-field"><label class="fp-label">الشرح</label><textarea class="fp-textarea" id="fps2-ex"></textarea></div>
+          <button class="fp-save-btn" onclick="fpAddScenario()">➕ إضافة السيناريو</button>
+        </div>
+        <div class="fp-card"><div class="fp-card-title">📄 السيناريوهات المخصّصة (<span id="fps2-count">٠</span>)</div><div id="fps2-list" style="max-height:420px;overflow-y:auto;"></div><div class="fp-hsub" style="margin-top:8px;">+ يوجد ٨ سيناريوهات أساسية مدمجة.</div></div>
+      </div>
+      <!-- DATA IMPORT / EXPORT -->
+      <div class="fp-section" id="fp-data">
+        <div class="fp-h">💾 الاستيراد والتصدير</div>
+        <div class="fp-hsub">احفظ نسخة كاملة من إعدادات المنصة (الأدوات، الأسئلة، التحديات، السيناريوهات، الهوية) أو استعدها</div>
+        <div class="fp-card">
+          <div class="fp-card-title">📤 تصدير</div>
+          <div class="fp-hsub">يشمل: إعدادات الأدوات، محتوى اللاندنق، بنك الأسئلة المخصص، تحديات الصور، السيناريوهات، الهوية، والصفحات القانونية.</div>
+          <div class="fp-actions-row">
+            <button class="fp-quick-btn" onclick="fpExportAll()">⬇️ تصدير الكل (JSON)</button>
+            <button class="fp-quick-btn" onclick="fpExportSection('hazards')">🖼️ تصدير التحديات فقط</button>
+            <button class="fp-quick-btn" onclick="fpExportSection('scenarios')">🧩 تصدير السيناريوهات فقط</button>
+          </div>
+        </div>
+        <div class="fp-card">
+          <div class="fp-card-title">📥 استيراد</div>
+          <div class="fp-hsub">اختر ملف JSON مُصدَّراً مسبقاً. سيتم دمج/استبدال الإعدادات ثم الحفظ في السحابة.</div>
+          <input type="file" id="fp-import-file" accept="application/json,.json" style="display:none;" onchange="fpImportFile(event)">
+          <div class="fp-actions-row">
+            <button class="fp-quick-btn" onclick="document.getElementById('fp-import-file').click()">📂 اختيار ملف واستيراد</button>
+          </div>
+          <div class="fp-field" style="margin-top:12px;"><label class="fp-label">أو الصق JSON هنا</label><textarea class="fp-textarea" id="fp-import-text" style="min-height:120px;font-family:monospace;font-size:12px;direction:ltr;" placeholder='{"tools":{...},"hazards":[...]}'></textarea></div>
+          <button class="fp-save-btn" onclick="fpImportText()">📥 استيراد من النص</button>
+        </div>
+        <div class="fp-card">
+          <div class="fp-card-title">⚠️ إعادة تعيين</div>
+          <div class="fp-hsub">يعيد جميع الإعدادات المخصّصة إلى وضع المصنع (لا يمكن التراجع).</div>
+          <button class="fp-save-btn" style="background:linear-gradient(135deg,#e53935,#b71c1c);" onclick="fpResetAll()">🗑️ إعادة تعيين كل الإعدادات</button>
+        </div>
       </div>
       <!-- LEGAL -->
       <div class="fp-section" id="fp-legal">
@@ -1931,13 +2130,17 @@ const FOUNDER_EMAIL='seeaf2013@gmail.com';
 // Founder config — saved to Supabase (or localStorage fallback)
 let FCONFIG={
   content:{badge:'خبرة ميدانية · HSE متكامل وذكي',title1:'طوّر مهاراتك في',title2:'السلامة والصحة المهنية',sub:'منصة تدريبية متكاملة طوّرها متخصص HSE من الميدان — محاكاة الكوادر الوطنية، تحليل المواقع بالذكاء الاصطناعي، وخطة تعلّم مخصصة ترتقي بك خطوة بخطوة.',stat1:'+٨٠ · سؤال كوادر',stat2:'١٠+ · أدوات احترافية',stat3:'AI · تحليل ذكي للمواقع',stat4:'∞ · كل القطاعات'},
-  tools:{chat:true,quiz:true,tools:true,incident:true,morning:true,plan:true,levels:true,flash:true,field:true,photo:true,report:true},
+  tools:{chat:true,quiz:true,tools:true,incident:true,morning:true,plan:true,levels:true,flash:true,field:true,photo:true,report:true,hazard:true,scenario:true},
   settings:{name:'مرشد السلامة',tagline:'HSE Smart Platform',color:'#FF6D00',email:'seeaf2013@gmail.com',linkedin:'linkedin.com/in/sayyaf-alhothali-01787a277',ailimit:40},
   branding:{color:'#FF6D00',logoUrl:'',heroImg:'',whatsapp:'',twitter:'',announcementText:'',announcementShow:false},
   legal:{},
-  customQuestions:[]
+  customQuestions:[],
+  hazards:[],
+  scenarios:[]
 };
-const TOOL_NAMES={chat:'المرشد الذكي',quiz:'محاكي كوادر',tools:'أدوات السلامة',incident:'بلاغ الحوادث',morning:'وارم أب الصباح',plan:'خطة التعلم',levels:'المستويات',flash:'بطاقات المراجعة',field:'محلل المواقف',photo:'محلل الصور',report:'التقرير الأسبوعي'};
+const TOOL_NAMES={chat:'المرشد الذكي',quiz:'محاكي كوادر',tools:'أدوات السلامة',incident:'بلاغ الحوادث',morning:'وارم أب الصباح',plan:'خطة التعلم',levels:'المستويات',flash:'بطاقات المراجعة',field:'محلل المواقف',photo:'محلل الصور',report:'التقرير الأسبوعي',hazard:'تحدي اكتشاف المخاطر',scenario:'اختبارات السيناريوهات'};
+// tool key → page id (identical here, but kept explicit for clarity)
+const TOOL_PAGES=['chat','quiz','tools','incident','morning','plan','levels','flash','field','photo','report','hazard','scenario'];
 
 async function loadFConfig(){
   try{
@@ -1965,9 +2168,16 @@ function applyFConfig(){
   const st=FCONFIG.settings;
   if(st.name){document.querySelectorAll('.nav-brand-name,.lp-nav .nav-brand-name').forEach(e=>e.textContent=st.name);}
   if(st.color){document.documentElement.style.setProperty('--orange',st.color);}
-  // Apply tool visibility
+  // Apply tool visibility — hide nav tabs AND any element tagged with data-tool
   Object.entries(FCONFIG.tools||{}).forEach(([k,v])=>{
     ['navtab-'+k,'mnav-'+k].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display=v?'':'none';});
+    document.querySelectorAll('[data-tool="'+k+'"]').forEach(e=>{e.style.display=v?'':'none';});
+  });
+  // Hide now-empty home sections whose every child is hidden (keeps layout responsive)
+  document.querySelectorAll('[data-tool-group]').forEach(grp=>{
+    const kids=[...grp.querySelectorAll('[data-tool]')];
+    const anyVisible=kids.some(e=>e.style.display!=='none');
+    grp.style.display=(kids.length&&!anyVisible)?'none':'';
   });
   // Apply legal overrides
   Object.entries(FCONFIG.legal||{}).forEach(([k,val])=>{if(LEGAL_CONTENT[k]&&val){if(val.title)LEGAL_CONTENT[k].title=val.title;if(val.html)LEGAL_CONTENT[k].html=val.html;}});
@@ -1998,7 +2208,7 @@ async function founderLogin(){
 }
 function founderLogout(){sessionStorage.removeItem('mrshd_founder');document.getElementById('founder-panel').classList.remove('show');}
 function openFounderLogin(){document.getElementById('founder-login').classList.add('show');setTimeout(()=>document.getElementById('fl-email').focus(),200);}
-function fpSwitch(tab,btn){document.querySelectorAll('.fp-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.fp-tab').forEach(t=>t.classList.remove('active'));document.getElementById('fp-'+tab).classList.add('active');if(btn)btn.classList.add('active');if(tab==='users')fpLoadUsers();}
+function fpSwitch(tab,btn){document.querySelectorAll('.fp-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.fp-tab').forEach(t=>t.classList.remove('active'));document.getElementById('fp-'+tab).classList.add('active');if(btn)btn.classList.add('active');if(tab==='users')fpLoadUsers();if(tab==='challenges')fpRenderHazards();if(tab==='scenarios')fpRenderScenarios();}
 
 function fpRenderAll(){
   const c=FCONFIG.content;
@@ -2016,7 +2226,7 @@ function fpRenderAll(){
   const tl=document.getElementById('fp-tools-list');
   if(tl)tl.innerHTML=Object.keys(TOOL_NAMES).map(k=>`<div class="fp-toggle-row"><div class="fp-toggle-lbl">${TOOL_NAMES[k]}<small>${FCONFIG.tools[k]?'ظاهرة للمستخدمين':'مخفية'}</small></div><label class="fp-switch"><input type="checkbox" id="fpt-${k}" ${FCONFIG.tools[k]?'checked':''}><span class="fp-slider"></span></label></div>`).join('');
   // questions count + list
-  fpRenderQuestions();fpLoadLegal();
+  fpRenderQuestions();fpLoadLegal();fpRenderHazards();fpRenderScenarios();
   el('fp-st-q',ar(KWB.length));el('fp-st-tools',ar(Object.values(FCONFIG.tools).filter(Boolean).length));
   el('fp-st-certs',ar(parseInt(localStorage.getItem('mrshd_certnum')||'146')-146));
   el('fp-st-saved',FCONFIG.lastSaved?new Date(FCONFIG.lastSaved).toLocaleString('ar-SA'):'—');
@@ -2059,6 +2269,96 @@ async function fpLoadUsers(){
 }
 function fpSaveContent(){const g=id=>document.getElementById(id)?.value||'';FCONFIG.content={badge:g('fpc-badge'),title1:g('fpc-title1'),title2:g('fpc-title2'),sub:g('fpc-sub'),stat1:g('fpc-stat1'),stat2:g('fpc-stat2'),stat3:g('fpc-stat3'),stat4:g('fpc-stat4')};saveFConfig();showToast('✅ تم حفظ المحتوى');}
 function fpSaveTools(){Object.keys(TOOL_NAMES).forEach(k=>{const cb=document.getElementById('fpt-'+k);if(cb)FCONFIG.tools[k]=cb.checked;});saveFConfig();fpRenderAll();showToast('✅ تم حفظ الأدوات');}
+
+// ── Founder: Hazard challenges management ──
+function fpAddHazard(){
+  const g=id=>document.getElementById(id)?.value.trim()||'';
+  const img=g('fph-img'),q=g('fph-q'),sector=g('fph-sector')||'ميداني',ex=g('fph-ex');
+  const opts=g('fph-opts').split('\n').map(s=>s.trim()).filter(Boolean);
+  const ans=parseInt(g('fph-ans'))||0;
+  if(!img||!q||opts.length<2){showToast('⚠️ أدخل الصورة والسؤال وخيارين على الأقل');return;}
+  FCONFIG.hazards=FCONFIG.hazards||[];FCONFIG.hazards.push({img,sector,q,opts,ans:Math.min(ans,opts.length-1),ex});
+  saveFConfig();fpRenderHazards();
+  ['fph-img','fph-q','fph-sector','fph-opts','fph-ex'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  document.getElementById('fph-ans').value=0;
+  showToast('✅ تمت إضافة التحدي');
+}
+function fpDelHazard(i){FCONFIG.hazards.splice(i,1);saveFConfig();fpRenderHazards();showToast('🗑️ تم الحذف');}
+function fpRenderHazards(){
+  const list=document.getElementById('fph-list');if(!list)return;
+  const h=FCONFIG.hazards||[];const cnt=document.getElementById('fph-count');if(cnt)cnt.textContent=ar(h.length);
+  if(!h.length){list.innerHTML='<p style="color:var(--muted);text-align:center;padding:14px;font-size:13px;">لا توجد تحديات مخصّصة بعد — أضف واحداً بالأعلى.</p>';return;}
+  list.innerHTML=h.map((x,i)=>`<div style="display:flex;gap:10px;align-items:center;background:var(--bg3);border-radius:12px;padding:10px;margin-bottom:8px;"><img src="${x.img}" onerror="this.style.visibility='hidden'" style="width:52px;height:52px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#0d2137;"><div style="flex:1;min-width:0;"><div style="font-size:11px;color:var(--orange);font-weight:800;">${x.sector||''}</div><div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${x.q}</div></div><button onclick="fpDelHazard(${i})" style="background:rgba(229,57,53,.12);color:#e53935;border:none;border-radius:8px;padding:8px 11px;cursor:pointer;font-size:13px;flex-shrink:0;">🗑️</button></div>`).join('');
+}
+
+// ── Founder: Scenario management ──
+function fpAddScenario(){
+  const g=id=>document.getElementById(id)?.value.trim()||'';
+  const tag=g('fps2-tag')||'سيناريو',scenario=g('fps2-scenario'),q=g('fps2-q'),ex=g('fps2-ex');
+  const opts=g('fps2-opts').split('\n').map(s=>s.trim()).filter(Boolean);
+  const ans=parseInt(g('fps2-ans'))||0;
+  if(!scenario||!q||opts.length<2){showToast('⚠️ أدخل السيناريو والسؤال وخيارين على الأقل');return;}
+  FCONFIG.scenarios=FCONFIG.scenarios||[];FCONFIG.scenarios.push({tag,scenario,q,opts,ans:Math.min(ans,opts.length-1),ex});
+  saveFConfig();fpRenderScenarios();
+  ['fps2-tag','fps2-scenario','fps2-q','fps2-opts','fps2-ex'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  document.getElementById('fps2-ans').value=0;
+  showToast('✅ تمت إضافة السيناريو');
+}
+function fpDelScenario(i){FCONFIG.scenarios.splice(i,1);saveFConfig();fpRenderScenarios();showToast('🗑️ تم الحذف');}
+function fpRenderScenarios(){
+  const list=document.getElementById('fps2-list');if(!list)return;
+  const s=FCONFIG.scenarios||[];const cnt=document.getElementById('fps2-count');if(cnt)cnt.textContent=ar(s.length);
+  if(!s.length){list.innerHTML='<p style="color:var(--muted);text-align:center;padding:14px;font-size:13px;">لا توجد سيناريوهات مخصّصة بعد.</p>';return;}
+  list.innerHTML=s.map((x,i)=>`<div style="background:var(--bg3);border-radius:12px;padding:11px;margin-bottom:8px;"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start;"><div style="flex:1;min-width:0;"><div style="font-size:11px;color:var(--orange);font-weight:800;">🏷️ ${x.tag||''}</div><div style="font-size:13px;color:var(--sub);line-height:1.6;margin-top:4px;">${(x.scenario||'').slice(0,120)}${(x.scenario||'').length>120?'…':''}</div><div style="font-size:12.5px;font-weight:700;margin-top:5px;">❓ ${x.q}</div></div><button onclick="fpDelScenario(${i})" style="background:rgba(229,57,53,.12);color:#e53935;border:none;border-radius:8px;padding:8px 11px;cursor:pointer;font-size:13px;flex-shrink:0;">🗑️</button></div></div>`).join('');
+}
+
+// ── Founder: Import / Export ──
+function fpDownloadJSON(obj,name){
+  const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function fpExportAll(){
+  const exp={_type:'murshid_config',_version:1,_date:new Date().toISOString(),
+    tools:FCONFIG.tools,content:FCONFIG.content,settings:FCONFIG.settings,branding:FCONFIG.branding,
+    legal:FCONFIG.legal,customQuestions:FCONFIG.customQuestions,deletedBuiltins:FCONFIG.deletedBuiltins,
+    hazards:FCONFIG.hazards,scenarios:FCONFIG.scenarios};
+  fpDownloadJSON(exp,'murshid-backup-'+new Date().toISOString().slice(0,10)+'.json');
+  showToast('⬇️ تم تصدير كل الإعدادات');
+}
+function fpExportSection(key){
+  fpDownloadJSON({_type:'murshid_'+key,_version:1,[key]:FCONFIG[key]||[]},'murshid-'+key+'-'+new Date().toISOString().slice(0,10)+'.json');
+  showToast('⬇️ تم التصدير');
+}
+function fpApplyImport(data){
+  if(!data||typeof data!=='object')throw new Error('صيغة غير صحيحة');
+  const keys=['tools','content','settings','branding','legal','customQuestions','deletedBuiltins','hazards','scenarios'];
+  let n=0;
+  keys.forEach(k=>{if(data[k]!==undefined){if(k==='tools'||k==='content'||k==='settings'||k==='branding'||k==='legal'){FCONFIG[k]={...(FCONFIG[k]||{}),...data[k]};}else{FCONFIG[k]=data[k];}n++;}});
+  if(!n)throw new Error('لا توجد بيانات معروفة في الملف');
+  // sync imported custom questions into the live bank (mutate in place — KWB is const)
+  if(data.customQuestions){(FCONFIG.customQuestions||[]).forEach(cq=>{if(!KWB.some(q=>q.q===cq.q))KWB.push(cq);});}
+  saveFConfig();fpRenderAll();applyFConfig();
+  showToast('✅ تم الاستيراد بنجاح ('+ar(n)+' قسم)');
+}
+function fpImportFile(ev){
+  const f=ev.target.files&&ev.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{try{fpApplyImport(JSON.parse(r.result));}catch(e){showToast('⚠️ '+(e.message||'ملف غير صالح'));}ev.target.value='';};
+  r.readAsText(f);
+}
+function fpImportText(){
+  const t=document.getElementById('fp-import-text').value.trim();if(!t){showToast('⚠️ الصق JSON أولاً');return;}
+  try{fpApplyImport(JSON.parse(t));document.getElementById('fp-import-text').value='';}catch(e){showToast('⚠️ '+(e.message||'JSON غير صالح'));}
+}
+function fpResetAll(){
+  if(!confirm('هل أنت متأكد؟ سيتم مسح جميع الإعدادات المخصّصة والعودة لوضع المصنع.'))return;
+  FCONFIG={tools:{},settings:{},branding:{},content:{},legal:{},customQuestions:[],deletedBuiltins:[],hazards:[],scenarios:[]};
+  Object.keys(TOOL_NAMES).forEach(k=>FCONFIG.tools[k]=true);
+  localStorage.removeItem('mrshd_fconfig');
+  saveFConfig();fpRenderAll();applyFConfig();showToast('🔄 تمت إعادة التعيين لوضع المصنع');
+}
 function fpSaveSettings(){const g=id=>document.getElementById(id)?.value||'';FCONFIG.settings={name:g('fps-name'),tagline:g('fps-tagline'),color:g('fps-color'),email:g('fps-email'),linkedin:g('fps-linkedin'),ailimit:parseInt(g('fps-ailimit'))||40};saveFConfig();renderDevBadge();showToast('✅ تم حفظ الإعدادات · الزر العائم تحدّث');}
 function fpSaveBranding(){
   const g=id=>document.getElementById(id)?.value||'';
@@ -2138,6 +2438,67 @@ function showLanding(){
   document.getElementById('main-navbar').style.display='none';
   renderDevBadge(); // Badge only on landing
   setTimeout(initReveal,100);
+  setTimeout(initLandingFX,120);
+}
+let _fxDone=false;
+function initLandingFX(){
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  const hero=document.querySelector('.lp-hero');
+  // 1) Floating particles (build once)
+  if(hero&&!hero.querySelector('.lp-particles')){
+    const box=document.createElement('div');box.className='lp-particles';
+    for(let i=0;i<18;i++){const p=document.createElement('div');p.className='lp-particle';
+      const s=3+Math.random()*7;p.style.width=p.style.height=s+'px';
+      p.style.left=(Math.random()*100)+'%';
+      p.style.animationDuration=(9+Math.random()*10)+'s';
+      p.style.animationDelay=(-Math.random()*12)+'s';
+      box.appendChild(p);}
+    hero.insertBefore(box,hero.firstChild);
+  }
+  // 2) Mouse parallax on orb + shield
+  if(hero&&!hero._parallax){
+    hero._parallax=true;
+    hero.addEventListener('mousemove',e=>{
+      const r=hero.getBoundingClientRect();
+      const dx=(e.clientX-r.left)/r.width-.5,dy=(e.clientY-r.top)/r.height-.5;
+      const grid=hero.querySelector('.lp-hero-grid'),sh=hero.querySelector('.lp-shield');
+      if(grid)grid.style.transform=`translate(${dx*22}px,${dy*16}px)`;
+      if(sh)sh.style.transform=`translate(${dx*18}px,${dy*14}px)`;
+    });
+    hero.addEventListener('mouseleave',()=>{const sh=hero.querySelector('.lp-shield');if(sh)sh.style.transform='';});
+  }
+  // 3) 3D tilt on interactive cards
+  if(!_fxDone){
+    document.querySelectorAll('.lp-feature,.lp-step,.lp-test').forEach(card=>{
+      card.addEventListener('mousemove',e=>{
+        const r=card.getBoundingClientRect();
+        const px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
+        card.style.transform=`perspective(700px) rotateX(${-py*6}deg) rotateY(${px*6}deg) translateY(-5px)`;
+      });
+      card.addEventListener('mouseleave',()=>{card.style.transform='';});
+    });
+    // 4) Count-up numbers when they scroll into view
+    const nums=document.querySelectorAll('.lp-impact-num');
+    if('IntersectionObserver'in window){
+      const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){animateNum(en.target);en.target.classList.add('pop');io.unobserve(en.target);}});},{threshold:.4});
+      nums.forEach(n=>io.observe(n));
+    }
+    _fxDone=true;
+  }
+}
+function animateNum(elm){
+  const raw=elm.textContent.trim();
+  // count-up only for values that contain western/arabic digits; keep suffix like م/٪/×
+  const m=raw.match(/([٠-٩0-9\.]+)/);if(!m)return;
+  const western=m[1].replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+  const target=parseFloat(western);if(isNaN(target))return;
+  const dec=(western.split('.')[1]||'').length;
+  const prefix=raw.slice(0,m.index),suffix=raw.slice(m.index+m[1].length);
+  let t0=null;const dur=1100;
+  function step(ts){if(!t0)t0=ts;const p=Math.min((ts-t0)/dur,1);const val=(target*(0.2+0.8*p*(2-p)));
+    elm.textContent=prefix+ar(val.toFixed(dec))+suffix;
+    if(p<1)requestAnimationFrame(step);else elm.textContent=raw;}
+  requestAnimationFrame(step);
 }
 function initReveal(){const els=document.querySelectorAll('.reveal');if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in'));return;}els.forEach(e=>e.classList.add('pending'));const obs=new IntersectionObserver(entries=>{entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');obs.unobserve(en.target);}});},{threshold:.12});els.forEach(e=>obs.observe(e));}
 function showApp(){
@@ -2389,8 +2750,11 @@ function renderAll(){
 }
 
 // NAVIGATION
-const ALL_PAGES=['home','chat','quiz','tools','plan','morning','levels','flash','field','photo','report','settings','incident'];
+const ALL_PAGES=['home','chat','quiz','tools','plan','morning','levels','flash','field','photo','report','settings','incident','hazard','scenario','soon'];
+function isToolHidden(name){return FCONFIG.tools&&Object.prototype.hasOwnProperty.call(FCONFIG.tools,name)&&FCONFIG.tools[name]===false;}
 function switchTab(name){
+  // Founder can hide any tool → show a polished "coming soon" screen instead of its content
+  if(isToolHidden(name)){showSoon(name);return;}
   ALL_PAGES.forEach(p=>{const pg=document.getElementById('page-'+p);if(pg)pg.classList.remove('active');});
   document.querySelectorAll('.nav-link,.mnav-item').forEach(t=>t.classList.remove('active'));
   const pg=document.getElementById('page-'+name);if(pg)pg.classList.add('active');
@@ -2404,7 +2768,130 @@ function switchTab(name){
   if(name==='quiz'){renderKWScores();renderKWStats();}
   if(name==='photo')renderPhotoHist();
   if(name==='levels')renderLevelsPage();
-  
+  if(name==='hazard')startHazardChallenge();
+  if(name==='scenario')startScenario();
+}
+function showSoon(name){
+  ALL_PAGES.forEach(p=>{const pg=document.getElementById('page-'+p);if(pg)pg.classList.remove('active');});
+  document.querySelectorAll('.nav-link,.mnav-item').forEach(t=>t.classList.remove('active'));
+  const pg=document.getElementById('page-soon');if(pg)pg.classList.add('active');
+  const t=document.getElementById('soon-tool-name');if(t)t.textContent=TOOL_NAMES[name]||'هذه الميزة';
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+// ═══════════ HAZARD CHALLENGE — real open-source images (Wikimedia Commons) ═══════════
+const HAZARD_BANK=[
+  {img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Construction_Worker_with_Scaffolding_-_Gjirokastra_-_Albania_%2842411928841%29.jpg/960px-Construction_Worker_with_Scaffolding_-_Gjirokastra_-_Albania_%2842411928841%29.jpg',sector:'إنشاءات',q:'عامل يقف على سقالة في موقع بناء. ما الخطر الأبرز وأهم ضابط تحكم مطلوب؟',opts:['السقوط من علو — يجب تركيب حواجز واقية (Guardrails) وربط حزام أمان بنقطة تثبيت','لا يوجد خطر طالما العامل متزن','ضجيج عالٍ — يكفي سدادات أذن','إجهاد حراري — يكفي شرب الماء'],ans:0,ex:'العمل على علو من أكثر أسباب الوفيات في الإنشاءات. الضوابط: حواجز، حزام أمان مربوط، تفتيش السقالة ووسم Scaftag.'},
+  {img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Factory_worker_welding_mesh.jpg/960px-Factory_worker_welding_mesh.jpg',sector:'صناعة',q:'عملية لحام داخل منشأة صناعية. ما أهم مخاطر السلامة والضابط الأساسي؟',opts:['وهج اللحام والأشعة والدخان — يلزم قناع لحام، تهوية/شفط، وإطفائية قريبة','لا حاجة لأي معدات وقاية','خطر كهربائي فقط لا علاقة له بالعين','يكفي نظارة شمسية عادية'],ans:0,ex:'اللحام (Hot Work) يسبب حروق العين (Arc Eye)، استنشاق أدخنة، وحرائق. يتطلب تصريح عمل ساخن، شاشة لحام، شفط، ومراقب حريق.'},
+  {img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Working_at_height_01.jpg/960px-Working_at_height_01.jpg',sector:'إنشاءات',q:'عمل على ارتفاع باستخدام سلّم. ما القاعدة الصحيحة لاستخدام السلم الآمن؟',opts:['تثبيت السلم بزاوية ٧٥° (قاعدة ١:٤)، ثلاث نقاط تلامس، وعدم حمل أدوات ثقيلة باليد','إمالة السلم لأقصى درجة لتوفير الوقت','الوقوف على آخر درجتين للوصول أبعد','وضع السلم على أرض غير مستوية بلا تثبيت'],ans:0,ex:'السلم الآمن: نسبة ١:٤، مثبت من الأعلى/الأسفل، والحفاظ على ثلاث نقاط تلامس. تجنّب الوقوف على آخر درجتين.'},
+  {img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Pipeline_Trench_Excavation.jpg/960px-Pipeline_Trench_Excavation.jpg',sector:'إنشاءات',q:'أعمال حفر خندق لأنابيب. ما الخطر القاتل الأهم وضابطه؟',opts:['انهيار جوانب الحفر — يلزم دعم/تمييل الجوانب (Shoring/Sloping) وإبعاد الأتربة عن الحافة','لا خطر ما دام الخندق ضيقاً','الخطر الوحيد هو الغبار','يكفي وضع لافتة تحذير'],ans:0,ex:'انهيار الحفريات من أخطر مخاطر الإنشاءات. الضوابط: Shoring أو Sloping أو Trench Box، إبعاد المواد ١م عن الحافة، وسلّم خروج كل ٧.٥م.'},
+  {img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Container_loading_with_forklift_at_warehouse_in_Thailand.jpg/960px-Container_loading_with_forklift_at_warehouse_in_Thailand.jpg',sector:'مستودعات',q:'رافعة شوكية (Forklift) تعمل داخل مستودع. ما أهم إجراء لسلامة المشاة والحمولة؟',opts:['فصل مسارات المشاة عن الرافعات، تقييد السرعة، وعدم تجاوز حمولة/ارتفاع الرفع الآمن','السماح للمشاة بالمرور تحت الحمولة المرفوعة','رفع الحمولة لأقصى ارتفاع أثناء الحركة','عدم الحاجة لتدريب أو رخصة قيادة'],ans:0,ex:'مخاطر الرافعات: الدهس، الانقلاب، سقوط الحمولة. الضوابط: مسارات مشاة منفصلة، سائق مدرّب/مرخّص، حدود سرعة، ومنع المرور تحت الحمل.'},
+  {img:'https://upload.wikimedia.org/wikipedia/commons/6/60/132137_CHEMICAL_STORAGE_AREA.JPG',sector:'مواد كيميائية',q:'منطقة تخزين مواد كيميائية في براميل. ما أهم متطلبات التخزين الآمن؟',opts:['الفصل حسب التوافق الكيميائي، حوض احتواء ثانوي (Bund)، تهوية، ولوحات بيانات السلامة SDS','تكديس كل المواد معاً لتوفير المساحة','عدم الحاجة لأي تهوية','تخزين المؤكسدات بجانب القابل للاشتعال'],ans:0,ex:'التخزين الكيميائي الآمن يتطلب فصل المواد غير المتوافقة، احتواء ثانوي لمنع التسرب، تهوية، وتوفر SDS ولوحات GHS.'},
+  {img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Grinding_With_Angle_Grinder.jpg/960px-Grinding_With_Angle_Grinder.jpg',sector:'صناعة',q:'عامل يستخدم صاروخ جلخ (Angle Grinder). ما وقاية العين والوجه الصحيحة؟',opts:['نظارة أمان + واقي وجه (Face Shield) لصد الشرر والشظايا، مع واقي القرص في مكانه','لا حاجة لأي وقاية للعين','نظارة قراءة عادية تكفي','إزالة واقي القرص لسرعة العمل'],ans:0,ex:'الجلخ يقذف شرراً وشظايا معدنية بسرعة عالية. يلزم نظارة أمان + واقي وجه، بقاء غطاء القرص (Guard)، وتفقّد القرص قبل الاستخدام.'},
+  {img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Welding_worker_operates_equipment_in_a_factory_setting.jpg/960px-Welding_worker_operates_equipment_in_a_factory_setting.jpg',sector:'صناعة',q:'عامل يشغّل معدة لحام صناعية. أي مبدأ من هرم الضوابط هو الأعلى فعالية هنا؟',opts:['الحذف أو الاستبدال (أتمتة العملية أو استخدام طريقة أقل خطورة) قبل الاعتماد على PPE','الاعتماد الكامل على معدات الوقاية الشخصية فقط','تجاهل التهوية','الاكتفاء بلافتة تحذير'],ans:0,ex:'هرم الضوابط: الحذف ← الاستبدال ← الضوابط الهندسية (شفط/تهوية) ← الإدارية ← PPE. PPE آخر خط دفاع وليس الأول.'}
+];
+let HZ={pool:[],i:0,score:0,streak:0,locked:false};
+function hzImgFallback(img){img.onerror=null;img.src='data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d2137"/><stop offset="1" stop-color="#1a3a5c"/></linearGradient></defs><rect width="640" height="400" fill="url(#g)"/><text x="320" y="200" font-size="90" text-anchor="middle">🏗️</text><text x="320" y="270" font-size="20" fill="#ffb627" text-anchor="middle" font-family="sans-serif">مشهد ميداني</text></svg>');}
+function startHazardChallenge(){
+  const custom=(FCONFIG.hazards||[]).filter(h=>h&&h.img&&h.q&&Array.isArray(h.opts));
+  HZ.pool=[...HAZARD_BANK,...custom].map(x=>({...x})).sort(()=>Math.random()-0.5);
+  HZ.i=0;HZ.score=0;HZ.streak=0;HZ.locked=false;
+  document.getElementById('hz-done').style.display='none';
+  document.getElementById('hz-card').style.display='';
+  hzRender();
+}
+function hzRender(){
+  const q=HZ.pool[HZ.i];if(!q){hzFinish();return;}
+  HZ.locked=false;
+  el('hz-score',ar(HZ.score));el('hz-progress',ar(HZ.i+1)+'/'+ar(HZ.pool.length));el('hz-streak2',ar(HZ.streak)+'🔥');
+  const img=document.getElementById('hz-img');img.onerror=function(){hzImgFallback(img);};img.src=q.img;
+  el('hz-sector-badge',q.sector||'ميداني');
+  el('hz-q',q.q);
+  const fb=document.getElementById('hz-feedback');fb.className='hz-feedback';fb.innerHTML='';
+  document.getElementById('hz-next').style.display='none';
+  // shuffle options while tracking the correct text
+  const correctText=q.opts[q.ans];
+  const shuffled=q.opts.map((t,idx)=>({t,idx})).sort(()=>Math.random()-0.5);
+  const wrap=document.getElementById('hz-opts');wrap.innerHTML='';
+  shuffled.forEach(o=>{
+    const b=document.createElement('button');b.className='hz-opt';b.textContent=o.t;
+    b.onclick=()=>hzPick(b,o.t===correctText,q.ex);
+    wrap.appendChild(b);
+  });
+}
+function hzPick(btn,isCorrect,ex){
+  if(HZ.locked)return;HZ.locked=true;
+  const opts=document.querySelectorAll('#hz-opts .hz-opt');
+  const correctText=HZ.pool[HZ.i].opts[HZ.pool[HZ.i].ans];
+  opts.forEach(o=>{o.classList.add('locked');if(o.textContent===correctText)o.classList.add('correct');});
+  const fb=document.getElementById('hz-feedback');
+  if(isCorrect){HZ.score+=10;HZ.streak++;fb.className='hz-feedback show ok';fb.innerHTML='✅ <b>إجابة صحيحة!</b><br>'+ex;}
+  else{HZ.streak=0;btn.classList.add('wrong');fb.className='hz-feedback show no';fb.innerHTML='❌ <b>الإجابة الأدق موضّحة بالأخضر.</b><br>'+ex;}
+  el('hz-score',ar(HZ.score));el('hz-streak2',ar(HZ.streak)+'🔥');
+  document.getElementById('hz-next').style.display='';
+  document.getElementById('hz-next').textContent=(HZ.i+1>=HZ.pool.length)?'عرض النتيجة 🏁':'التالي ‹';
+}
+function hzNext(){HZ.i++;if(HZ.i>=HZ.pool.length){hzFinish();}else{hzRender();window.scrollTo({top:0,behavior:'smooth'});}}
+function hzFinish(){
+  document.getElementById('hz-card').style.display='none';
+  const done=document.getElementById('hz-done');done.style.display='';
+  const total=HZ.pool.length*10;
+  el('hz-done-score',ar(HZ.score)+' / '+ar(total));
+  const pct=total?Math.round(HZ.score/total*100):0;
+  el('hz-done-sub',pct>=80?'ممتاز! عين مفتّش حقيقية 👁️ +'+ar(Math.round(HZ.score/2))+' XP':pct>=50?'جيد، واصل التدريب 💪 +'+ar(Math.round(HZ.score/2))+' XP':'راجع الضوابط وحاول مجدداً 🔁');
+  if(HZ.score>0)addXP(Math.round(HZ.score/2));
+}
+
+// ═══════════ SCENARIO TESTS (NEBOSH-style, multiple choice) ═══════════
+const SCENARIO_BANK=[
+  {tag:'العمل على الساخن',scenario:'أثناء أعمال صيانة في مصفاة، طُلب من فني إجراء لحام بالقرب من خط أنابيب قديم. لاحظ المشرف وجود بقايا زيت وقماش زيتي على الأرض قرب موقع اللحام، ولا يوجد تصريح عمل ساخن معلّق.',q:'ما القرار الأسلم الذي يجب اتخاذه أولاً؟',opts:['إيقاف العمل، إصدار تصريح عمل ساخن، إزالة المواد القابلة للاشتعال، وتعيين مراقب حريق قبل البدء','السماح بالبدء فوراً ما دام الفني خبيراً','تغطية الزيت بقطعة قماش والاستمرار','تأجيل إصدار التصريح لما بعد انتهاء اللحام'],ans:0,ex:'العمل الساخن قرب مواد قابلة للاشتعال يتطلب تصريحاً، إزالة/عزل المواد، طفاية قريبة، ومراقب حريق (Fire Watch) أثناء العمل وبعده.'},
+  {tag:'الأماكن المغلقة',scenario:'عامل نظافة نزل إلى خزان تحت الأرض لتنظيفه دون قياس الغازات. بعد دقائق سقط فاقداً للوعي. اندفع زميله للنزول لإنقاذه بلا معدات.',q:'ما التصرف الصحيح لمنع تفاقم الحادث؟',opts:['عدم النزول، طلب فريق الطوارئ، وبدء الإنقاذ من الخارج — فأغلب وفيات الأماكن المغلقة بين المنقذين','النزول فوراً لسحب المصاب بأسرع وقت','الانتظار حتى يستعيد المصاب وعيه','فتح الغطاء فقط والمغادرة'],ans:0,ex:'الدخول لإنقاذ بلا معدات هو السبب الأول لتعدّد الضحايا في الأماكن المغلقة. يلزم تصريح دخول، قياس غازات، تهوية، ومنقذ خارجي مع خطة إنقاذ.'},
+  {tag:'الكهرباء / LOTO',scenario:'مطلوب صيانة سير ناقل في مصنع. بدأ الفني العمل والمحرك ما زال متصلاً بالكهرباء اعتماداً على أن زر التشغيل «مغلق» فقط.',q:'أي إجراء ضروري كان مفقوداً؟',opts:['عزل مصدر الطاقة وقفله ووسمه (Lockout/Tagout) والتحقق من انعدام الطاقة قبل العمل','الاكتفاء بإطفاء الزر لأنه أسرع','وضع لافتة «لا تشغّل» فقط','إبلاغ المشرف شفهياً دون عزل'],ans:0,ex:'LOTO: عزل جميع مصادر الطاقة، قفلها ووسمها، تفريغ الطاقة المخزّنة، والتحقق (Try) قبل بدء الصيانة. الزر وحده ليس عزلاً.'},
+  {tag:'الرفع والمناولة',scenario:'أثناء رفع حمولة بونش (رافعة)، وقف عدد من العمال تحت الحمل المعلّق لتوجيهه بأيديهم مباشرة، والرياح قوية.',q:'ما المخالفة الجوهرية والضابط الصحيح؟',opts:['الوقوف تحت الحمل المعلّق ممنوع — يجب استخدام حبال توجيه (Tag Lines) وإخلاء المنطقة وإيقاف الرفع في الرياح الشديدة','لا مشكلة ما دام الرافع ماهراً','زيادة سرعة الرفع لتقليل زمن الخطر','ربط الحمل بحبل واحد فقط'],ans:0,ex:'يُمنع تواجد الأشخاص تحت الأحمال المعلّقة. تُستخدم حبال التوجيه من مسافة آمنة، ويوقف الرفع عند الرياح القوية أو ضعف الرؤية.'},
+  {tag:'تقييم المخاطر',scenario:'مصنع أدخل مادة مذيبة جديدة سريعة الاشتعال في خط الإنتاج دون تحديث تقييم المخاطر أو تدريب العمال على التعامل معها.',q:'ما الخطوة الإدارية الصحيحة؟',opts:['إجراء تقييم مخاطر جديد للمادة، تحديث إجراءات العمل، وتدريب العاملين قبل الاستخدام','الاعتماد على خبرة العمال السابقة','تأجيل التقييم لنهاية العام','استخدام المادة تجريبياً بلا ضوابط'],ans:0,ex:'أي تغيير في المواد أو العمليات (Management of Change) يستوجب إعادة تقييم المخاطر، تحديث الإجراءات، وتدريب العاملين قبل التطبيق.'},
+  {tag:'معدات الوقاية',scenario:'في ورشة بها ضوضاء عالية وغبار، يرتدي العمال قفازات فقط بحجة أن السماعات وأقنعة الغبار «تعيق العمل».',q:'كيف يجب أن يتصرف مسؤول السلامة؟',opts:['فرض استخدام PPE المناسب (واقي سمع + قناع غبار) مع معالجة المصدر هندسياً (شفط/عزل) قدر الإمكان','قبول رأي العمال وترك الأمر لهم','الاكتفاء بالقفازات','تخفيض عدد ساعات العمل فقط'],ans:0,ex:'PPE إلزامي حسب المخاطر، لكنه آخر خط دفاع؛ يجب أولاً تقليل الضوضاء والغبار هندسياً (عزل/شفط) ثم استكمال الحماية بـ PPE مناسب.'},
+  {tag:'العمل على علو',scenario:'عامل يركّب لوحات على واجهة مبنى من فوق سقالة متنقلة، لاحظ أن عجلات السقالة غير مقفلة وأحد الألواح الأرضية مفقود.',q:'ما الإجراء الصحيح قبل متابعة العمل؟',opts:['النزول وإيقاف العمل حتى قفل العجلات، استكمال الألواح، وتركيب الحواجز والتفتيش ووسم Scaftag','متابعة العمل بحذر مع الانتباه للتوازن','وضع صندوق مكان اللوح المفقود','الطلب من زميل تثبيت السقالة يدوياً'],ans:0,ex:'السقالة المتنقلة يجب أن تكون عجلاتها مقفلة، أرضيتها كاملة، وبها حواجز. أي نقص يوجب إيقاف العمل حتى التصحيح والتفتيش (Scaftag).'},
+  {tag:'الطوارئ والإخلاء',scenario:'انطلق إنذار الحريق في مبنى إداري. لاحظ موظف أن أحد مخارج الطوارئ مغلق بأقفال ومكدّس أمامه صناديق.',q:'ما أهم درس/إجراء وقائي يبرزه هذا الموقف؟',opts:['مخارج الطوارئ يجب أن تبقى سالكة وغير مقفلة دائماً — وتُصحَّح المخالفة فوراً وتُبلَّغ الإدارة','استخدام المخرج الرئيسي فقط وتجاهل الباقي','فتح القفل وقت الحريق فقط','تكديس الصناديق بعيداً بعد انتهاء الدوام'],ans:0,ex:'يجب أن تظل مسارات ومخارج الطوارئ سالكة وغير مقفلة وواضحة الإشارة في كل الأوقات. إعاقتها مخالفة جسيمة تُصحَّح فوراً.'}
+];
+let SC={pool:[],i:0,score:0,correct:0,locked:false};
+function startScenario(){
+  const custom=(FCONFIG.scenarios||[]).filter(s=>s&&s.scenario&&s.q&&Array.isArray(s.opts));
+  SC.pool=[...SCENARIO_BANK,...custom].map(x=>({...x})).sort(()=>Math.random()-0.5);
+  SC.i=0;SC.score=0;SC.correct=0;SC.locked=false;
+  document.getElementById('sc-done').style.display='none';
+  document.getElementById('sc-card').style.display='';
+  scRender();
+}
+function scRender(){
+  const q=SC.pool[SC.i];if(!q){scFinish();return;}
+  SC.locked=false;
+  el('sc-score',ar(SC.score));el('sc-progress',ar(SC.i+1)+'/'+ar(SC.pool.length));el('sc-correct',ar(SC.correct));
+  el('sc-scenario',q.scenario);el('sc-tag','🏷️ '+(q.tag||'سيناريو'));el('sc-q',q.q);
+  const fb=document.getElementById('sc-feedback');fb.className='hz-feedback';fb.innerHTML='';
+  document.getElementById('sc-next').style.display='none';
+  const correctText=q.opts[q.ans];
+  const shuffled=q.opts.map((t)=>({t})).sort(()=>Math.random()-0.5);
+  const wrap=document.getElementById('sc-opts');wrap.innerHTML='';
+  shuffled.forEach(o=>{const b=document.createElement('button');b.className='hz-opt';b.textContent=o.t;b.onclick=()=>scPick(b,o.t===correctText,q.ex);wrap.appendChild(b);});
+}
+function scPick(btn,isCorrect,ex){
+  if(SC.locked)return;SC.locked=true;
+  const correctText=SC.pool[SC.i].opts[SC.pool[SC.i].ans];
+  document.querySelectorAll('#sc-opts .hz-opt').forEach(o=>{o.classList.add('locked');if(o.textContent===correctText)o.classList.add('correct');});
+  const fb=document.getElementById('sc-feedback');
+  if(isCorrect){SC.score+=15;SC.correct++;fb.className='hz-feedback show ok';fb.innerHTML='✅ <b>قرار صحيح!</b><br>'+ex;}
+  else{btn.classList.add('wrong');fb.className='hz-feedback show no';fb.innerHTML='❌ <b>القرار الأسلم موضّح بالأخضر.</b><br>'+ex;}
+  el('sc-score',ar(SC.score));el('sc-correct',ar(SC.correct));
+  const nx=document.getElementById('sc-next');nx.style.display='';nx.textContent=(SC.i+1>=SC.pool.length)?'عرض النتيجة 🏁':'التالي ‹';
+}
+function scNext(){SC.i++;if(SC.i>=SC.pool.length){scFinish();}else{scRender();window.scrollTo({top:0,behavior:'smooth'});}}
+function scFinish(){
+  document.getElementById('sc-card').style.display='none';
+  const done=document.getElementById('sc-done');done.style.display='';
+  el('sc-done-score',ar(SC.correct)+' / '+ar(SC.pool.length));
+  const pct=SC.pool.length?Math.round(SC.correct/SC.pool.length*100):0;
+  el('sc-done-sub',pct>=80?'قرارات ممتازة! تفكير مفتّش محترف 🎯 +'+ar(Math.round(SC.score/2))+' XP':pct>=50?'جيد، طوّر تحليلك للمواقف 💪 +'+ar(Math.round(SC.score/2))+' XP':'راجع مبادئ اتخاذ القرار وحاول مجدداً 🔁');
+  if(SC.score>0)addXP(Math.round(SC.score/2));
 }
 
 // QUESTION BANKS
