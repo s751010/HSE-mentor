@@ -1,0 +1,434 @@
+{
+  "communities": {
+    "0": [
+      "platform_review",
+      "platform_review_الأولويات_أثر_جهد",
+      "platform_review_الخلاصة",
+      "platform_review_بطاقة_النضج",
+      "platform_review_خارطة_التحو_ل_إلى_saas_مزيج_مرحلي",
+      "platform_review_كمنصة_و_saas_من_زاوية_التصنيفات_الأدوات_لوحات_المؤسس",
+      "platform_review_ما_الذي_أ_صلح_الآن_في_هذا_الفرع",
+      "platform_review_مراجعة_تطويرية_منصة_مرشد_السلامة",
+      "platform_review_١_التصنيفات_الأضعف_بنيويا",
+      "platform_review_٢_الأدوات_قوية_ومتنو_عة_١١_أداة",
+      "platform_review_٣_لوحات_المؤسس_قوية_أمانها_معل_ق_على_rls",
+      "platform_review_٤_الأمان_مرت_ب_بالخطورة"
+    ],
+    "1": [
+      "marketing_review",
+      "marketing_review_استراتيجية_الربع_القادم",
+      "marketing_review_كمشروع_تسويقي_شخصي_لـ_سياف_الهذلي_أخصائي_السلامة_والصحة_المهنية",
+      "marketing_review_متوسطة_المدى_هذا_الشهر",
+      "marketing_review_مراجعة_نقدية_شاملة_منصة_مرشد_السلامة",
+      "marketing_review_مكاسب_سريعة_هذا_الأسبوع",
+      "marketing_review_١_التموضع_والرسالة_positioning",
+      "marketing_review_٢_تجربة_المستخدم_ومعدل_التحويل_conversion_ux",
+      "marketing_review_٣_البراندنق_الشخصي_personal_branding",
+      "marketing_review_٤_المحتوى_والنصوص",
+      "marketing_review_٥_الجانب_التقني",
+      "marketing_review_٦_نموذج_الربح_التشغيل_المقترح",
+      "marketing_review_٧_تحليل_تنافسي_مختصر",
+      "marketing_review_٨_خطة_عمل_بأولويات",
+      "marketing_review_٩_الخلاصة"
+    ],
+    "2": [
+      "murshid_html",
+      "murshid_html_applylang",
+      "murshid_html_autoresize",
+      "murshid_html_closecert",
+      "murshid_html_closelegal",
+      "murshid_html_closenotes",
+      "murshid_html_fconfig",
+      "murshid_html_flash",
+      "murshid_html_flipcard",
+      "murshid_html_flipcard2",
+      "murshid_html_founderlogout",
+      "murshid_html_hazard_bank",
+      "murshid_html_hse_sev",
+      "murshid_html_hsereset",
+      "murshid_html_hz",
+      "murshid_html_inittheme",
+      "murshid_html_kwans",
+      "murshid_html_kwqs",
+      "murshid_html_lang",
+      "murshid_html_legal_content",
+      "murshid_html_load",
+      "murshid_html_openfounderlogin",
+      "murshid_html_openlegal",
+      "murshid_html_opentbt",
+      "murshid_html_qb",
+      "murshid_html_s",
+      "murshid_html_sc",
+      "murshid_html_scenario_bank",
+      "murshid_html_selectkwn",
+      "murshid_html_selectkwt",
+      "murshid_html_selwn",
+      "murshid_html_selwstd",
+      "murshid_html_settbt",
+      "murshid_html_showrisklevel",
+      "murshid_html_togglepwvis",
+      "murshid_html_toggletheme",
+      "murshid_html_tool_names",
+      "murshid_html_tool_pages",
+      "murshid_html_watbt",
+      "murshid_html_wuqs"
+    ],
+    "3": [
+      "supabase_functions_confirm_user_index",
+      "supabase_functions_confirm_user_index_corsheaders"
+    ],
+    "4": [
+      "supabase_functions_openai_proxy_index",
+      "supabase_functions_openai_proxy_index_cors"
+    ],
+    "5": [
+      "supabase_migrations_0001_rls_policies",
+      "supabase_migrations_0001_rls_policies_public_ai_usage",
+      "supabase_migrations_0001_rls_policies_public_founder_config",
+      "supabase_migrations_0001_rls_policies_public_is_founder",
+      "supabase_migrations_0001_rls_policies_public_photo_history",
+      "supabase_migrations_0001_rls_policies_public_platform_secrets",
+      "supabase_migrations_0001_rls_policies_public_profiles",
+      "supabase_migrations_0001_rls_policies_public_user_progress"
+    ],
+    "6": [
+      "murshid_html_addnote",
+      "murshid_html_addxp",
+      "murshid_html_analyzefield",
+      "murshid_html_analyzefield2",
+      "murshid_html_anskw",
+      "murshid_html_answu",
+      "murshid_html_appendbubble",
+      "murshid_html_badges",
+      "murshid_html_buildsys",
+      "murshid_html_callai",
+      "murshid_html_chatkey",
+      "murshid_html_checkbadges",
+      "murshid_html_checkgoal",
+      "murshid_html_checkstreak",
+      "murshid_html_cloudsyncprogress",
+      "murshid_html_confirmreset",
+      "murshid_html_delnote",
+      "murshid_html_flashans",
+      "murshid_html_flashans2",
+      "murshid_html_fmt",
+      "murshid_html_generateincidentreport",
+      "murshid_html_generatetbt2",
+      "murshid_html_getbankq",
+      "murshid_html_loadflashcard",
+      "murshid_html_loadflashcard2",
+      "murshid_html_loadprofile",
+      "murshid_html_markans",
+      "murshid_html_opennotes",
+      "murshid_html_renderall",
+      "murshid_html_renderbadges",
+      "murshid_html_rendernotes",
+      "murshid_html_save",
+      "murshid_html_saveprofile",
+      "murshid_html_scrollfeed",
+      "murshid_html_sendchat",
+      "murshid_html_startwarmup",
+      "murshid_html_updatefs"
+    ],
+    "7": [
+      "murshid_html_applyfconfig",
+      "murshid_html_copytbt",
+      "murshid_html_esc",
+      "murshid_html_fpaddhazard",
+      "murshid_html_fpaddquestion",
+      "murshid_html_fpaddscenario",
+      "murshid_html_fpapplyimport",
+      "murshid_html_fpdelhazard",
+      "murshid_html_fpdelquestion",
+      "murshid_html_fpdelscenario",
+      "murshid_html_fpdownloadjson",
+      "murshid_html_fpexportall",
+      "murshid_html_fpexportsection",
+      "murshid_html_fpimportfile",
+      "murshid_html_fpimporttext",
+      "murshid_html_fploadlegal",
+      "murshid_html_fprenderall",
+      "murshid_html_fprenderhazards",
+      "murshid_html_fprenderquestions",
+      "murshid_html_fprenderscenarios",
+      "murshid_html_fpresetall",
+      "murshid_html_fpsavebranding",
+      "murshid_html_fpsavecontent",
+      "murshid_html_fpsavelegal",
+      "murshid_html_fpsavetools",
+      "murshid_html_fpswitch",
+      "murshid_html_hsecopy",
+      "murshid_html_hseexportword",
+      "murshid_html_hseloadfile",
+      "murshid_html_kwb",
+      "murshid_html_loadfconfig",
+      "murshid_html_savefconfig",
+      "murshid_html_setmode",
+      "murshid_html_showtoast"
+    ],
+    "8": [
+      "murshid_html_ar",
+      "murshid_html_buildqhtml",
+      "murshid_html_buildresulthtml",
+      "murshid_html_el",
+      "murshid_html_finishwu",
+      "murshid_html_fploadusers",
+      "murshid_html_genserial",
+      "murshid_html_hzfinish",
+      "murshid_html_hzimgfallback",
+      "murshid_html_hznext",
+      "murshid_html_hzpick",
+      "murshid_html_hzrender",
+      "murshid_html_renderkwreviewbanner",
+      "murshid_html_renderkwstats",
+      "murshid_html_renderkwtopics",
+      "murshid_html_renderplanprogress",
+      "murshid_html_renderwuhist",
+      "murshid_html_scfinish",
+      "murshid_html_scnext",
+      "murshid_html_scpick",
+      "murshid_html_scrender",
+      "murshid_html_selectkwtopic",
+      "murshid_html_showcertificate",
+      "murshid_html_showwuq"
+    ],
+    "9": [
+      "murshid_html_all_pages",
+      "murshid_html_askaboutflash",
+      "murshid_html_askaboutflash2",
+      "murshid_html_buildriskmatrix",
+      "murshid_html_closetbt",
+      "murshid_html_discusswu",
+      "murshid_html_generatetbt",
+      "murshid_html_istoolhidden",
+      "murshid_html_kwdiscuss",
+      "murshid_html_quickchat",
+      "murshid_html_renderplan",
+      "murshid_html_showsoon",
+      "murshid_html_startday",
+      "murshid_html_starthazardchallenge",
+      "murshid_html_startscenario",
+      "murshid_html_startweektest",
+      "murshid_html_switchtab",
+      "murshid_html_weeks"
+    ],
+    "10": [
+      "murshid_html_finishkwadarat",
+      "murshid_html_hideel",
+      "murshid_html_renderkwscores",
+      "murshid_html_resetkwadarat",
+      "murshid_html_restartwu",
+      "murshid_html_showel",
+      "murshid_html_showkwq",
+      "murshid_html_startkwadarat",
+      "murshid_html_startreview",
+      "murshid_html_updatekwtimer"
+    ],
+    "11": [
+      "murshid_html_animatenum",
+      "murshid_html_closeauth",
+      "murshid_html_fpsavesettings",
+      "murshid_html_initlandingfx",
+      "murshid_html_initreveal",
+      "murshid_html_logoutuser",
+      "murshid_html_renderdevbadge",
+      "murshid_html_showapp",
+      "murshid_html_showlanding"
+    ],
+    "12": [
+      "murshid_html_hseanalyze",
+      "murshid_html_hsegenref",
+      "murshid_html_hserenderresult",
+      "murshid_html_renderphotohist",
+      "murshid_html_savephotohistorycloud",
+      "murshid_html_showphotohist",
+      "murshid_html_uploadhseimage"
+    ],
+    "13": [
+      "murshid_html_downloadcert",
+      "murshid_html_generatereport",
+      "murshid_html_getcurrentlevel",
+      "murshid_html_getlevel",
+      "murshid_html_levels",
+      "murshid_html_renderlevelspage"
+    ],
+    "14": [
+      "murshid_html_applyauthmode",
+      "murshid_html_autherr",
+      "murshid_html_openauth",
+      "murshid_html_submitauth",
+      "murshid_html_toggleauthmode"
+    ],
+    "15": [
+      "murshid_html_checkauthsession",
+      "murshid_html_founderlogin",
+      "murshid_html_gethseimageurl",
+      "murshid_html_loadcloudprogress",
+      "murshid_html_loadphotohistory"
+    ]
+  },
+  "cohesion": {
+    "0": 0.16666666666666666,
+    "1": 0.13333333333333333,
+    "2": 0.05,
+    "3": 1.0,
+    "4": 1.0,
+    "5": 0.25,
+    "6": 0.09309309309309309,
+    "7": 0.10695187165775401,
+    "8": 0.16304347826086957,
+    "9": 0.1503267973856209,
+    "10": 0.35555555555555557,
+    "11": 0.2222222222222222,
+    "12": 0.3333333333333333,
+    "13": 0.3333333333333333,
+    "14": 0.4,
+    "15": 0.4
+  },
+  "gods": [
+    {
+      "id": "murshid_html_showtoast",
+      "label": "showToast()",
+      "degree": 37
+    },
+    {
+      "id": "murshid_html_ar",
+      "label": "ar()",
+      "degree": 30
+    },
+    {
+      "id": "murshid_html_switchtab",
+      "label": "switchTab()",
+      "degree": 26
+    },
+    {
+      "id": "murshid_html_save",
+      "label": "save()",
+      "degree": 23
+    },
+    {
+      "id": "murshid_html_renderall",
+      "label": "renderAll()",
+      "degree": 19
+    },
+    {
+      "id": "murshid_html_addxp",
+      "label": "addXP()",
+      "degree": 17
+    },
+    {
+      "id": "murshid_html_el",
+      "label": "el()",
+      "degree": 16
+    },
+    {
+      "id": "murshid_html_savefconfig",
+      "label": "saveFConfig()",
+      "degree": 15
+    },
+    {
+      "id": "murshid_html_sendchat",
+      "label": "sendChat()",
+      "degree": 13
+    },
+    {
+      "id": "murshid_html_fprenderall",
+      "label": "fpRenderAll()",
+      "degree": 12
+    }
+  ],
+  "surprises": [
+    {
+      "source": "fpSaveSettings()",
+      "target": "saveFConfig()",
+      "source_files": [
+        "murshid.html",
+        "murshid.html"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "note": "Bridges community 7 → community 11"
+    },
+    {
+      "source": "founderLogin()",
+      "target": "fpRenderAll()",
+      "source_files": [
+        "murshid.html",
+        "murshid.html"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "note": "Bridges community 15 → community 7"
+    },
+    {
+      "source": "founderLogin()",
+      "target": "renderAll()",
+      "source_files": [
+        "murshid.html",
+        "murshid.html"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "note": "Bridges community 15 → community 6"
+    },
+    {
+      "source": "founderLogin()",
+      "target": "showApp()",
+      "source_files": [
+        "murshid.html",
+        "murshid.html"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "note": "Bridges community 15 → community 11"
+    },
+    {
+      "source": "fpSwitch()",
+      "target": "fpLoadUsers()",
+      "source_files": [
+        "murshid.html",
+        "murshid.html"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "note": "Bridges community 7 → community 8"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `showToast()` connect `showToast` to `٨. خطة عمل بأولويات`, `save`, `ar`, `switchTab`, `finishKwadarat`, `showApp`, `hseAnalyze`, `getCurrentLevel`?",
+      "why": "High betweenness centrality (0.011) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `ar()` connect `ar` to `٨. خطة عمل بأولويات`, `save`, `showToast`, `switchTab`, `finishKwadarat`, `getCurrentLevel`?",
+      "why": "High betweenness centrality (0.006) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `switchTab()` connect `switchTab` to `٨. خطة عمل بأولويات`, `save`, `ar`, `finishKwadarat`, `hseAnalyze`, `getCurrentLevel`?",
+      "why": "High betweenness centrality (0.005) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `FCONFIG`, `TOOL_NAMES`, `TOOL_PAGES` to the rest of the system?",
+      "why": "46 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `🔍 مراجعة نقدية شاملة — منصة «مرشد السلامة»` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `٨. خطة عمل بأولويات` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.05 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `save` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.09309309309309309 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

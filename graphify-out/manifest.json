@@ -1,0 +1,32 @@
+{
+  "supabase/functions/confirm-user/index.ts": {
+    "mtime": 1784461149.754636,
+    "ast_hash": "582e9dc7a6631df66d443b7ae9759fd8",
+    "semantic_hash": ""
+  },
+  "supabase/functions/openai-proxy/index.ts": {
+    "mtime": 1784461149.754636,
+    "ast_hash": "cffef37149550401b1aba25d1899e99e",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/0001_rls_policies.sql": {
+    "mtime": 1784461149.754636,
+    "ast_hash": "0dfe878ed049a60217051bcc1ab4d64e",
+    "semantic_hash": ""
+  },
+  "MARKETING_REVIEW.md": {
+    "mtime": 1784461149.738833,
+    "ast_hash": "4f6881544b31fc5e290adc00c5d27e2f",
+    "semantic_hash": ""
+  },
+  "PLATFORM_REVIEW.md": {
+    "mtime": 1784461149.738833,
+    "ast_hash": "416684e8dcc28c7c34f86b9654691d62",
+    "semantic_hash": ""
+  },
+  "murshid.html": {
+    "mtime": 1784461149.748016,
+    "ast_hash": "dffc3b8b8ed1e737ae4f664916e826e5",
+    "semantic_hash": ""
+  }
+}
