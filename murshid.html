@@ -1459,19 +1459,19 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
     </div>
     <div>
       <div class="sec-lbl" style="padding-top:0;">🃏 بطاقات المراجعة</div>
-      <div class="flash-card" id="flash-card-t" onclick="flipCard2()" style="margin-bottom:10px;">
+      <div class="flash-card" id="flash-card-t" onclick="flipCard('-t')" style="margin-bottom:10px;">
         <span class="flash-topic" id="fc-topic-t">إدارة المخاطر</span>
         <div class="flash-front" id="fc-front-t">ALARP</div>
         <div class="flash-back" id="fc-back-t"></div>
         <div class="flash-hint" id="fc-hint-t">اضغط للكشف 👆</div>
       </div>
       <div class="flash-acts" id="flash-acts-t">
-        <button class="f-know" onclick="flashAns2(true)">✅ أعرفها</button>
-        <button class="f-rev" onclick="flashAns2(false)">🔄 راجعها</button>
+        <button class="f-know" onclick="flashAns(true,'-t')">✅ أعرفها</button>
+        <button class="f-rev" onclick="flashAns(false,'-t')">🔄 راجعها</button>
       </div>
       <div style="display:flex;gap:8px;margin-bottom:10px;">
-        <button class="btn btn-secondary" onclick="loadFlashCard2()" style="flex:1;font-size:13px;padding:9px;">🔀 بطاقة جديدة</button>
-        <button class="btn btn-primary" onclick="askAboutFlash2()" style="flex:1;font-size:13px;padding:9px;">💬 اسأل المرشد</button>
+        <button class="btn btn-secondary" onclick="loadFlashCard('-t')" style="flex:1;font-size:13px;padding:9px;">🔀 بطاقة جديدة</button>
+        <button class="btn btn-primary" onclick="askAboutFlash('-t')" style="flex:1;font-size:13px;padding:9px;">💬 اسأل المرشد</button>
       </div>
       <div class="grid-3" style="margin-bottom:14px;">
         <div class="fst"><div class="fst-val" id="fs-total-t">٠</div><div class="fst-lbl">إجمالي</div></div>
@@ -1493,7 +1493,7 @@ body.dark .sv-card{background:var(--bg3);border-color:var(--sep);}
       <div class="sec-lbl">🏭 محلل المواقف</div>
       <div class="card card-p">
         <textarea class="field-ta" id="field-inp-t" placeholder="صف موقفاً ميدانياً واجهته..." style="min-height:90px;"></textarea>
-        <button class="btn btn-primary btn-full" onclick="analyzeField2()">🔍 حلل الموقف</button>
+        <button class="btn btn-primary btn-full" onclick="analyzeField('-t')">🔍 حلل الموقف</button>
         <div class="field-result" id="field-result-t"></div>
       </div>
     </div>
@@ -2153,7 +2153,7 @@ async function loadFConfig(){
 async function saveFConfig(){
   FCONFIG.lastSaved=Date.now();
   localStorage.setItem('mrshd_fconfig',JSON.stringify(FCONFIG));
-  try{if(sb)await sb.from('founder_config').upsert({id:'main',config:FCONFIG,updated_at:new Date().toISOString()});}catch(e){}
+  try{if(sb)await sb.from('founder_config').upsert({id:'main',config:FCONFIG,updated_at:new Date().toISOString()});}catch(e){console.warn('founder_config sync failed',e);showToast('⚠️ حُفظ محلياً فقط — تعذّرت المزامنة السحابية');}
   applyFConfig();
 }
 function applyFConfig(){
@@ -2622,7 +2622,7 @@ function cloudSyncProgress(){
   if(!sb||!currentUser||!currentUser.id)return;
   clearTimeout(_cloudSyncTimer);
   _cloudSyncTimer=setTimeout(async()=>{
-    try{const{photoHistory,...syncData}=S;await sb.from('user_progress').upsert({user_id:currentUser.id,data:syncData,updated_at:new Date().toISOString()});}catch(e){}
+    try{const{photoHistory,...syncData}=S;await sb.from('user_progress').upsert({user_id:currentUser.id,data:syncData,updated_at:new Date().toISOString()});}catch(e){console.warn('cloud sync failed',e);}
   },2000);
 }
 async function loadCloudProgress(){
@@ -2651,7 +2651,7 @@ async function getHseImageUrl(path){
 }
 async function savePhotoHistoryCloud(imagePath,p){
   if(!sb||!currentUser)return;
-  try{await sb.from('photo_history').insert({user_id:currentUser.id,image_path:imagePath,score:p.risk_probability*p.risk_severity,violations_count:(p.additional_violations?.length||0)+1,summary:p.title,hse_data:p,report_ref:hseReportRef});}catch(e){}
+  try{await sb.from('photo_history').insert({user_id:currentUser.id,image_path:imagePath,score:p.risk_probability*p.risk_severity,violations_count:(p.additional_violations?.length||0)+1,summary:p.title,hse_data:p,report_ref:hseReportRef});}catch(e){console.warn('photo_history sync failed',e);}
 }
 async function loadPhotoHistory(){
   if(!sb||!currentUser)return;
@@ -2762,7 +2762,7 @@ function switchTab(name){
   ['navtab-'+name,'mnav-'+name].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.add('active');});
   window.scrollTo({top:0,behavior:'instant'});
   if(name==='flash')loadFlashCard();
-  if(name==='tools'){loadFlashCard2();buildRiskMatrix();}
+  if(name==='tools'){loadFlashCard('-t');buildRiskMatrix();}
   if(name==='settings')loadProfile();
   if(name==='plan')renderPlan();
   if(name==='morning'){showEl('wu-start');hideEl('wu-quiz');hideEl('wu-result');renderWUHist();}
@@ -3170,7 +3170,8 @@ const FLASH=[
   {front:"Swiss Cheese Model",back:"نموذج جيمس ريزون: تراكم الثغرات في طبقات الحماية يفتح ممراً للحادثة",topic:"نظرية الحوادث"},
 ];
 
-let curFlash=null,flashFlipped=false,curFlash2=null,flashFlipped2=false;
+const curFlashBy={'':null,'-t':null},flashFlippedBy={'':false,'-t':false};
+const FLASH_IDS=sfx=>['flash-card','fc-topic','fc-front','fc-back','fc-hint','flash-acts','fs-total','fs-know','fs-rev'].map(x=>x+sfx);
 
 async function _loadFlashCard(ids,setFlip){
   const [cardId,topicId,frontId,backId,hintId,actsId,fsTotal,fsKnow,fsRev]=ids;
@@ -3195,7 +3196,7 @@ async function _loadFlashCard(ids,setFlip){
       const data=await callAI({model:'gpt-4o-mini',max_tokens:200,temperature:0.9,messages:[{role:'system',content:'أنت خبير HSE.'},{role:'user',content:`بطاقة مراجعة عن: ${topic}\nأجب بـ JSON فقط: {"front":"مصطلح","back":"تعريف (جملتان)","topic":"${topic}"}`}]});let raw=data.choices?.[0]?.message?.content||'{}';raw=raw.replace(/```json|```/g,'').trim();
       const card=JSON.parse(raw);
       if(card.front&&card.back){
-        if(cardId==='flash-card')curFlash=card;else curFlash2=card;
+        curFlashBy[cardId==='flash-card'?'':'-t']=card;
         if(ftEl)ftEl.textContent=card.topic||topic;if(ffEl)ffEl.textContent=card.front;
         if(fbEl){fbEl.textContent=card.back;fbEl.style.display='none';}if(fhEl){fhEl.textContent='اضغط للكشف 👆';fhEl.style.display='';}
         _updateFS(fsTotal,fsKnow,fsRev);return;
@@ -3203,22 +3204,17 @@ async function _loadFlashCard(ids,setFlip){
     }catch(e){}
   }
   const card=FLASH[Math.floor(Math.random()*FLASH.length)];
-  if(cardId==='flash-card')curFlash=card;else curFlash2=card;
+  curFlashBy[cardId==='flash-card'?'':'-t']=card;
   if(ftEl)ftEl.textContent=card.topic;if(ffEl)ffEl.textContent=card.front;
   if(fbEl){fbEl.textContent=card.back;fbEl.style.display='none';}if(fhEl){fhEl.textContent='اضغط للكشف 👆';fhEl.style.display='';}
   _updateFS(fsTotal,fsKnow,fsRev);
 }
 function _updateFS(a,b,c){const fs=S.flashStats||{total:0,know:0,rev:0};el(a,ar(fs.total));el(b,ar(fs.know));el(c,ar(fs.rev));}
 
-function loadFlashCard(){_loadFlashCard(['flash-card','fc-topic','fc-front','fc-back','fc-hint','flash-acts','fs-total','fs-know','fs-rev'],v=>{flashFlipped=v;});}
-function flipCard(){if(flashFlipped)return;flashFlipped=true;const fb=document.getElementById('fc-back'),fh=document.getElementById('fc-hint'),fa=document.getElementById('flash-acts');if(fb)fb.style.display='block';if(fh)fh.style.display='none';if(fa)fa.style.display='flex';}
-function flashAns(know){if(!S.flashStats)S.flashStats={total:0,know:0,rev:0};S.flashStats.total++;if(know)S.flashStats.know++;else S.flashStats.rev++;if(know)addXP(5);_updateFS('fs-total','fs-know','fs-rev');save();setTimeout(loadFlashCard,300);}
-function askAboutFlash(){if(!curFlash)return;switchTab('chat');setTimeout(()=>quickChat(`اشرح بالتفصيل مفهوم "${curFlash.front}" في ${curFlash.topic} مع أمثلة عملية`),100);}
-
-function loadFlashCard2(){_loadFlashCard(['flash-card-t','fc-topic-t','fc-front-t','fc-back-t','fc-hint-t','flash-acts-t','fs-total-t','fs-know-t','fs-rev-t'],v=>{flashFlipped2=v;});}
-function flipCard2(){if(flashFlipped2)return;flashFlipped2=true;const fb=document.getElementById('fc-back-t'),fh=document.getElementById('fc-hint-t'),fa=document.getElementById('flash-acts-t');if(fb)fb.style.display='block';if(fh)fh.style.display='none';if(fa)fa.style.display='flex';}
-function flashAns2(know){if(!S.flashStats)S.flashStats={total:0,know:0,rev:0};S.flashStats.total++;if(know)S.flashStats.know++;else S.flashStats.rev++;if(know)addXP(5);_updateFS('fs-total-t','fs-know-t','fs-rev-t');save();setTimeout(loadFlashCard2,300);}
-function askAboutFlash2(){if(!curFlash2)return;switchTab('chat');setTimeout(()=>quickChat(`اشرح مفهوم "${curFlash2.front}"`),100);}
+function loadFlashCard(sfx=''){_loadFlashCard(FLASH_IDS(sfx),v=>{flashFlippedBy[sfx]=v;});}
+function flipCard(sfx=''){if(flashFlippedBy[sfx])return;flashFlippedBy[sfx]=true;const fb=document.getElementById('fc-back'+sfx),fh=document.getElementById('fc-hint'+sfx),fa=document.getElementById('flash-acts'+sfx);if(fb)fb.style.display='block';if(fh)fh.style.display='none';if(fa)fa.style.display='flex';}
+function flashAns(know,sfx=''){if(!S.flashStats)S.flashStats={total:0,know:0,rev:0};S.flashStats.total++;if(know)S.flashStats.know++;else S.flashStats.rev++;if(know)addXP(5);_updateFS('fs-total'+sfx,'fs-know'+sfx,'fs-rev'+sfx);save();setTimeout(()=>loadFlashCard(sfx),300);}
+function askAboutFlash(sfx=''){const c=curFlashBy[sfx];if(!c)return;switchTab('chat');setTimeout(()=>quickChat(`اشرح بالتفصيل مفهوم "${c.front}" في ${c.topic} مع أمثلة عملية`),100);}
 
 // CHAT
 function buildSys(){const w=Object.entries(S.weaknesses||{}).sort((a,b)=>b[1]-a[1]).slice(0,3).map(e=>e[0]).join('، ')||'لا يوجد';return`أنت أبو سلامة — مساعد HSE شخصي لجميع القطاعات السعودية (إنشاءات، صناعة، نفط، صحة، خدمات، تجزئة).\nالمستخدم: ${S.profile.name||'مهندسنا'} | جهة العمل: ${S.profile.factory||'غير محدد'} | الوضع: ${S.mode}\nXP: ${S.xp} | Streak: ${S.streak} | نقاط الضعف: ${w}\nقواعد: عربية فصحى مبسطة، مختصر وعملي، اربط بالسياق السعودي وكوادر. عند TBT أضف [TBT_END] في النهاية.`+(currentLang==='en'?' Respond in English only.':'');}
@@ -3387,8 +3383,7 @@ async function _analyzeField(inpId,resId){
     if(res)res.innerHTML=fmt(data.choices?.[0]?.message?.content||'تعذّر التحليل');addXP(10);save();
   }catch(e){if(res)res.innerHTML='⚠️ خطأ في الاتصال.';}
 }
-function analyzeField(){_analyzeField('field-inp','field-result');}
-function analyzeField2(){_analyzeField('field-inp-t','field-result-t');}
+function analyzeField(sfx=''){_analyzeField('field-inp'+sfx,'field-result'+sfx);}
 
 function renderPhotoHist(){const e=document.getElementById('photo-hist');if(!e)return;const h=S.photoHistory||[];if(!h.length){e.innerHTML='<p style="color:var(--muted);font-size:13px;text-align:center;padding:8px;">لا توجد تحليلات بعد</p>';return;}e.innerHTML=h.slice(0,5).map((x,i)=>`<div style="display:flex;align-items:center;gap:10px;background:var(--bg2);border-radius:12px;padding:11px 13px;margin-bottom:7px;box-shadow:var(--sh);cursor:pointer;" onclick="showPhotoHist(${i})"><img src="${x.thumbFull||''}" onerror="this.style.display='none'" style="width:42px;height:42px;border-radius:8px;object-fit:cover;flex-shrink:0;"><div style="flex:1;min-width:0;"><div style="font-size:11px;color:var(--muted);">${x.date} ${x.ref?'· '+x.ref:''}</div><div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${x.summary||x.count+' مخالفة'}</div></div><div style="font-size:18px;font-weight:900;color:${(x.score||0)<=4?'var(--green)':(x.score||0)<=8?'var(--gold)':'var(--red)'};flex-shrink:0;">${x.score||0}</div></div>`).join('');}
 function showPhotoHist(i){const x=S.photoHistory?.[i];if(!x)return;switchTab('photo');setTimeout(()=>{if(x.hseData){hseResult=x.hseData;hseReportRef=x.ref||hseGenRef();hseImgB64=null;const pv=document.getElementById('hse-preview'),ph=document.getElementById('hse-placeholder'),ctx=document.getElementById('hse-ctx-wrap');if(pv&&x.thumbFull){pv.src=x.thumbFull;pv.style.display='block';}if(ph)ph.style.display='none';if(ctx)ctx.style.display='block';hseRenderResult();}},150);}
